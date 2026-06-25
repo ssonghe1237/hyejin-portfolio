@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>4.1.0</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <!-- 프로젝트 기본 식별 정보 -->
+    <!-- groupId : 프로젝트 조직/ 패키지 식별자 -->
+    <!-- artifactiId : Maven에서 이 프로젝트를 식별할 때 사용하는 이름  -->
+    <groupId>com.hyejin</groupId>
+    <artifactId>portfolio</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>backend</name>
+    <description>backend</description>
+
+    <url/>
+    <licenses>
+        <license/>
+    </licenses>
+    <developers>
+        <developer/>
+    </developers>
+    <scm>
+        <connection/>
+        <developerConnection/>
+        <tag/>
+        <url/>
+    </scm>
+    <properties>
+        <!-- java 버전 설정 : Spring Boot 프로젝트를 컴파일하고 실행할 java 버전을 지정 -->
+        <!-- 현 PC의 SDK / JDK의 버전과 일치해야 한다 -->
+        <java.version>17</java.version>
+    </properties>
+    <dependencies>
+
+        <!-- [1] Spring Data JPA -->
+        <!-- Entity 기반의 DB 테이블 매핑, Repository 인터페이스를 통해 간편하게 CRUD를 처리하기 위한 의존성  -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <!-- [2] Spring Validation -->
+        <!-- 요청 DTO의 입력값을 검증하기 위한 의존성 -->
+        <!-- 예 : @NotBlank/ @NotNull/ @Size/ @Email/ @Positive -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!-- [3] Spring web : REST API 서버를 만들기 위한 핵심 의존성 -->
+        <!-- React 프론트와 통신하는 백엔드 API 생성을 위해 필요 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- [4] Spring Boot Devtools -->
+        <!-- 개발 편의 기능을 제공하는 의존성 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- [5] PostgreSQL Driver -->
+        <!-- Spring Boot 애플리케이션이 PostgreSQL DB에 접속할 수 있게 해주는 JDBC 드라이버 -->
+        <!-- 주의: 해당 드라이버와 application.yml 또는 application.properties에 datasource 설정이 같이 있어야 DB 연결이 됨 -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- [6] lombok -->
+        <!-- 반복되는 java 코드를 간소화 하기 위한 의존성 => 어노테이션 사용으로 생성자 주입 등에 사용할 예정 -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webmvc-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- [1] Spring Boot Maven Plugin -->
+            <!-- Maven으로 Spring Boot 애플리케이션을 실행하거나 배고 가능한 jar 파일로 빌드하귀 위한 플러그인 -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <!-- [1-2] Lombok 배포 제외 설정 -->
+                <!-- Lombok은 컴파일 시점에 getter, builder, 생성자 등의 코드를 만들어주는 도구이므로  -->
+                <!-- 런타임 실행에 필요하지 않아 최종 빌드 산출물 jar에 포함하지 않도록 제외 -->
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default-compile</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <annotationProcessorPaths>
+                                <path>
+                                    <groupId>org.projectlombok</groupId>
+                                    <artifactId>lombok</artifactId>
+                                </path>
+                            </annotationProcessorPaths>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>default-testCompile</id>
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
+                        <configuration>
+                            <annotationProcessorPaths>
+                                <path>
+                                    <groupId>org.projectlombok</groupId>
+                                    <artifactId>lombok</artifactId>
+                                </path>
+                            </annotationProcessorPaths>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

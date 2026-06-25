@@ -1,0 +1,32 @@
+# packageName    : main.resources
+# fileName       : application.yml
+# author         : Song
+# date           : 2026-06-25
+# description    :
+# ===========================================================
+# DATE              AUTHOR             NOTE
+# -----------------------------------------------------------
+# 2026-06-25        Song               최초 생성
+#/
+
+server:
+  port: 8081
+
+spring:
+  application:
+    name: portfolio-backend
+
+  profiles:
+    active: local
+
+  config:
+    import: optional:classpath:application-local.yml
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
