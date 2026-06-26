@@ -11,5 +11,5 @@ package com.hyejin.portfolio.domain.project.service;
  * -----------------------------------------------------------
  * 2026-06-25        Song       최초 생성
  */
-public class ProjectService {
+public class ProjectServiceImpl {
 }
