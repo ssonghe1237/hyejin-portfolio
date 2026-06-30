@@ -5,6 +5,7 @@ import com.hyejin.portfolio.domain.project.entity.ProjectImageType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * packageName    : com.hyejin.portfolio.domain.project.repository
@@ -22,9 +23,15 @@ public interface ProjectImageRepository extends JpaRepository<ProjectImageEntity
     // 프로젝트 ID 기준 전체 이미지 목록 조회
     List<ProjectImageEntity> findByProject_ProjectIdOrderByDisplayOrderAsc(Long projectId);
 
+    // 프로젝트 ID & 이미지 유형 리스트 조회
+    List<ProjectImageEntity> findByProject_ProjectIdAndImageTypeOrderByDisplayOrderAsc(
+            Long projectId,
+            ProjectImageType imageType
+    );
+
     // 프로젝트 ID & 이미지 유형 기준 첫번째 이미지 조회
     // : work 카드 썸네일처럼 대표 이미지 1개만 필요할 때 사용
-    List<ProjectImageEntity> findFirstByProject_ProjectIdAndImageTypeOrderByDisplayOrderAsc(
+    Optional<ProjectImageEntity> findFirstByProject_ProjectIdAndImageTypeOrderByDisplayOrderAsc(
             Long projectProjectId,
             ProjectImageType imageType
     );
