@@ -19,6 +19,8 @@ import java.util.Optional;
  * 2026-06-26        Song       최초 생성
  */
 
+// JpaRepository<해당 리포지토리에서 관리할 대상 엔티티 클래스, 해당 엔티티의 PK 타입>
+    // => Insert / Update / Select / Delete 등의 CRUD를 사용하게 해주는 도구 상자
 public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
 
     // 사용자 상세 페이지용 공개 프로젝트 조회

@@ -120,8 +120,8 @@ public class ProjectEntity {
         this.published = published;
     }
 
-    // 참고) @PrePersist : Entity 최초 저장 전 실행
-    // createdAt, updatedAt을 자동 생성
+    // 참고) @PrePersist : 데이터베이스에 이 엔티티(데이터)가 '처음으로 저장(Insert)되기 직전'에 JPA가 자동으로 이 메서드를 실행
+    // 처음 데이터가 만들어질 때 createdAt, updatedAt을 동일하게 자동 생성
     @PrePersist
     public void prePersist() {
         LocalDateTime now = LocalDateTime.now();
@@ -130,7 +130,7 @@ public class ProjectEntity {
         this.updatedAt = now;
     }
 
-    // 참고) @PreUpdate : Entity 수정 전 실행
+    // 참고) @PreUpdate : 데이터베이스에 이미 존재하는 데이터가 '수정(Update)되기 직전'에 JPA가 자동으로 이 메서드를 실행
     // updatedAt을 자동으로 갱신
     @PreUpdate
     public void preUpdate() {
@@ -164,6 +164,7 @@ public class ProjectEntity {
     }
 
     // 프로젝트 공개 처리
+    // setPubliched(true)라고 하는 것보다
     public void publish() {
         this.published = true;
     }
