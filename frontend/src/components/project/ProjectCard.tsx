@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import type { ProjectListResponse } from "../../types/project";
 
 // 참고) interface
@@ -15,11 +16,15 @@ function ProjectCard({project}: PprojectCardProps) {
                 padding: '20px',
             }}
         >
-            <h3>{project.title}</h3>
+            <h3>
+                <Link to={`/work/${project.slug}`}>
+                    {project.title}
+                </Link>
+            </h3>
             <p>{project.summary}</p>
             <p>{project.periodText}</p>
-            <p>{project.teamName}</p>
-            <p>{project.role}</p>
+            {project.teamName && <p>{project.teamName}</p>}
+            {project.role && <p>{project.role}</p>}
 
             {project.thumbnailUrl && (
                 <p>
