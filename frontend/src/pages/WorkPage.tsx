@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import type { ProjectListResponse } from '../types/project';
 import { getProjects } from '../api/projectApi';
+import ProjectCard from '../components/project/ProjectCard';
 
 
 function WorkPage() {
@@ -47,79 +48,54 @@ function WorkPage() {
 
         {/* ========================================================================= */}
         {/* 팀 프로젝트 */}
-        <section style={{ margin: '40px' }}>
-            <h2>Team Project</h2>
+        <ProjectSection
+            title="Team Project"
+            emptyMessage="등록된 팀 프로젝트가 없습니다."
+            projects={teamProjects}
+        />
 
-            {teamProjects.length === 0 ? (
-                <p>등록된 팀 프로젝트가 없습니다.</p>
-            ) : (
-                <div style={{ display: 'grid', gap: '16px' }}>
-                    {teamProjects.map((project) => (
-                        <article
-                            key={project.projectId}
-                            style={{
-                                border: '1px solid #ddd',
-                                borderRadius: '12px',
-                                padding: '20px',
-                            }}
-                        >
-                            <h3>{project.title}</h3>
-                            <p>{project.summary}</p>
-                            <p>{project.periodText}</p>
-                            <p>{project.teamName}</p>
-                            <p>{project.role}</p>
 
-                            {project.thumbnailUrl && (
-                                <p>
-                                    thumbnail:
-                                    {' '}
-                                    {project.thumbnailUrl}
-                                </p>
-                            )}
-                        </article>
-                    ))}
-                </div>
-            )}
-        </section>
 
         {/* ========================================================================= */}
         {/* 개인 프로젝트 */}
-        <section style={{ marginTop: '40px' }}>
-            <h2>More stuff I made</h2>
-
-            {personalProject.length === 0 ? (
-                <p>등록된 개인 프로젝트가 없습니다.</p>
-            ) : (
-                <div style={{ display: 'grid', gap: '16px' }}>
-                    {personalProject.map((project) => (
-                        <article
-                            key={project.projectId}
-                            style={{
-                                border: '1px solid #ddd',
-                                borderRadius: '12px',
-                                padding: '20px',
-                            }}
-                        >
-                            <h3>{project.title}</h3>
-                            <p>{project.summary}</p>
-                            <p>{project.periodText}</p>
-                            <p>{project.teamName}</p>
-                            <p>{project.role}</p>
-
-                            {project.thumbnailUrl && (
-                                <p>
-                                    thumnail :
-                                    {' '}
-                                    {project.thumbnailUrl}
-                                </p>
-                            )}
-                        </article>
-                    ))}
-                </div>
-            )}
-        </section>
+        <ProjectSection
+            title="More stuff I made"
+            emptyMessage="등록된 개인 프로젝트가 없습니다."
+            projects={personalProject}
+        />
     </main>
   );
+}
+
+interface ProjectSectionProps {
+    title: string
+    emptyMessage: string
+    projects: ProjectListResponse[]
+}
+
+function ProjectSection({
+    title,
+    emptyMessage,
+    projects,
+}: ProjectSectionProps) {
+    return (
+        <section style={{ margin: '40px' }}>
+            <h2>{title}</h2>
+
+            {projects.length === 0} ? (
+                <p>{emptyMessage}</p>
+            ) : (
+                <div style={{ display: 'grid', gap: '16px' }}>
+                    {projects.map((project) => (
+                        <ProjectCard 
+                            key={project.projectId}
+                            project={project}
+                        />
+                    ))}
+                </div>
+            )
+        </section>
+    )
 }
 
 export default WorkPage
