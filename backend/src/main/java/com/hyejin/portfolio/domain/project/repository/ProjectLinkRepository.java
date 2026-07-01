@@ -21,7 +21,7 @@ import java.util.Optional;
 public interface ProjectLinkRepository extends JpaRepository<ProjectLinkEntity, Long> {
 
     // 프로젝트 id 기준 링크 리스트 조회
-    List<ProjectLinkEntity> findByProject_ProjectId(Long projectProjectId);
+    List<ProjectLinkEntity> findByProject_ProjectIdOrderByDisplayOrderAsc(Long projectProjectId);
 
     // 프로젝트 id & 링크 유형 리스트 조회
     List<ProjectLinkEntity> findByProject_ProjectIdAndLinkType(
