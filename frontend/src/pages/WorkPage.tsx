@@ -6,7 +6,7 @@ import ProjectCard from '../components/project/ProjectCard';
 
 function WorkPage() {
     const [teamProjects, setTeamProjects] = useState<ProjectListResponse[]>([])
-    const [personalProject, setPersonalProject] = useState<ProjectListResponse[]>([])
+    const [personalProjects, setPersonalProjects] = useState<ProjectListResponse[]>([])
     const [loading, setLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
@@ -21,7 +21,7 @@ function WorkPage() {
                 ])
 
                 setTeamProjects(teamResult)
-                setPersonalProject(personalResult)
+                setPersonalProjects(personalResult)
             } catch(error) {
                 console.error(error)
                 setErrorMessage(`프로젝트 데이터를 불러오지 못했습니다.`)
@@ -61,7 +61,7 @@ function WorkPage() {
         <ProjectSection
             title="More stuff I made"
             emptyMessage="등록된 개인 프로젝트가 없습니다."
-            projects={personalProject}
+            projects={personalProjects}
         />
     </main>
   );
@@ -82,7 +82,7 @@ function ProjectSection({
         <section style={{ margin: '40px' }}>
             <h2>{title}</h2>
 
-            {projects.length === 0} ? (
+            {projects.length === 0 ? (
                 <p>{emptyMessage}</p>
             ) : (
                 <div style={{ display: 'grid', gap: '16px' }}>
@@ -93,7 +93,7 @@ function ProjectSection({
                         />
                     ))}
                 </div>
-            )
+            )}
         </section>
     )
 }
