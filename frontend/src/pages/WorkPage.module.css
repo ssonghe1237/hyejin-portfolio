@@ -1,0 +1,27 @@
+/**
+ * packageName    : frontend.src.pages
+ * fileName       : WorkPage.module.css
+ * author         : Song
+ * date           : 2026-07-02
+ * description    : WorkPage 스타일
+ *                  - 프로젝트 목록 페이지 상태 영역 스타일 관리
+ *                  - loading, error, page wrapper 스타일 정의
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-07-02        Song       최초 생성
+ */
+
+.page {
+  display: block;
+}
+
+.status {
+  padding: 80px 0;
+  color: var(--color-text-muted);
+}
+
+.error {
+  padding: 80px 0;
+  color: var(--color-danger);
+}

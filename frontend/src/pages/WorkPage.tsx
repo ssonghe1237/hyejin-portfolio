@@ -14,6 +14,7 @@
  * 2026-07-02        Song       프로젝트 유형별 목록 API 연동
  * 2026-07-02        Song       ProjectCard 컴포넌트 분리 적용
  * 2026-07-02        Song       Work 페이지 소개 및 섹션 레이아웃 정리
+ * 2026-07-02        Song       CSS Module 스타일 분리
  */
 
 import { useEffect, useState } from 'react'
@@ -21,6 +22,7 @@ import { getProjects } from '../api/projectApi'
 import WorkIntroSection from '../components/work/WorkIntroSection'
 import WorkProjectSection from '../components/work/WorkProjectSection'
 import type { ProjectListResponse } from '../types/project'
+import styles from './WorkPage.module.css'
 
 function WorkPage() {
   const [teamProjects, setTeamProjects] = useState<ProjectListResponse[]>([])
@@ -54,12 +56,7 @@ function WorkPage() {
 
   if (loading) {
     return (
-      <div
-        style={{
-          padding: '80px 0',
-          color: '#777',
-        }}
-      >
+      <div className={styles.status}>
         프로젝트 목록을 불러오는 중입니다...
       </div>
     )
@@ -67,19 +64,14 @@ function WorkPage() {
 
   if (errorMessage) {
     return (
-      <div
-        style={{
-          padding: '80px 0',
-          color: '#c0392b',
-        }}
-      >
+      <div className={styles.error}>
         {errorMessage}
       </div>
     )
   }
 
   return (
-    <div>
+    <div className={styles.page}>
       <WorkIntroSection />
 
       <WorkProjectSection

@@ -1,0 +1,60 @@
+/**
+ * packageName    : frontend.src.components.work
+ * fileName       : WorkProjectSection.module.css
+ * author         : Song
+ * date           : 2026-07-02
+ * description    : WorkProjectSection 스타일
+ *                  - 프로젝트 유형별 목록 섹션 스타일 관리
+ *                  - 섹션 헤더, 프로젝트 grid, empty 영역 스타일 정의
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-07-02        Song       최초 생성
+ */
+
+.section {
+  padding: var(--spacing-section-y) 0;
+  border-top: 1px solid var(--color-border-light);
+}
+
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.title {
+  margin: 0;
+  font-size: 36px;
+  letter-spacing: -0.04em;
+}
+
+.description {
+  margin: 12px 0 0;
+  color: var(--color-text-muted);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.count {
+  flex-shrink: 0;
+  color: var(--color-text-light);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.empty {
+  border: 1px dashed #ccc;
+  border-radius: 20px;
+  padding: 40px;
+  color: var(--color-text-muted);
+  background-color: #fafafa;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
