@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { ProjectImageResponse } from '../../../types/project'
+import ImageWithFallback from '../../common/ImageWithFallback'
 
 /**
  * packageName    : frontend.src.components.project.detail
@@ -99,21 +100,11 @@ function ProjectHeroImages({ images }: ProjectHeroImagesProps) {
           </p>
         </div>
       ) : (
-        <img
+        <ImageWithFallback 
           src={currentImage.imageUrl}
           alt={currentImage.caption ?? '프로젝트 대표 이미지'}
-          onError={() => {
-            setErrorImageIds((prevIds) => [
-              ...prevIds,
-              currentImage.projectImageId,
-            ])
-          }}
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            display: 'block',
-          }}
+          fallbackText='대표 이미지를 불러올 수 없습니다.'
+          height='360px'
         />
       )}
 

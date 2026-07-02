@@ -1,4 +1,5 @@
 import type { ProjectSectionResponse } from "../../../types/project";
+import ImageWithFallback from "../../common/ImageWithFallback";
 import MermaidRenderer from "./MermaidRenderer";
 
 /**
@@ -47,14 +48,12 @@ function ProjectContentSection({ sections } : ProjectContentSectionProps) {
                                 <div style={{ display: "grid", gap: "12px" }}>
                                     {section.images.map((image) => (
                                         <figure key={image.projectImageId} style={{ margin: 0 }}>
-                                            <img
+                                            <ImageWithFallback
                                                 src={image.imageUrl}
                                                 alt={image.caption ?? section.sectionType}
-                                                style={{
-                                                    width: '100%',
-                                                    maxWidth: '720px',
-                                                    borderRadius: '12px'
-                                                }}
+                                                fallbackText={`${section.sectionType} 이미지를 불러올 수 없습니다.`}
+                                                maxWidth="720px"
+                                                objectFit="contain"
                                             />
                                             {image.caption && (
                                                 <figcaption>{image.caption}</figcaption>
