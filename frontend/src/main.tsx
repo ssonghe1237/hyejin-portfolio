@@ -1,7 +1,3 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import App from './App'
-
 /**
  * packageName    : frontend.src
  * fileName       : main.tsx
@@ -14,7 +10,13 @@ import App from './App'
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-07-02        Song       최초 생성
+ * 2026-07-02        Song       global.css 전역 스타일 추가
  */
+
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import App from './App'
+import './styles/global.css'
 
 const rootElement = document.getElementById('root')
 

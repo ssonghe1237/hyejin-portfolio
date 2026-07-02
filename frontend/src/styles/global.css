@@ -1,0 +1,95 @@
+/**
+ * packageName    : frontend.src.styles
+ * fileName       : global.css
+ * author         : Song
+ * date           : 2026-07-02
+ * description    : 프론트엔드 전역 스타일
+ *                  - CSS 변수 기반 디자인 토큰 정의
+ *                  - 기본 reset 및 body 스타일 관리
+ *                  - 포트폴리오 사이트 공통 레이아웃 기준 제공
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-07-02        Song       최초 생성
+ */
+
+:root {
+  font-family:
+    Inter, Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+
+  color: #111;
+  background-color: #fff;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --color-text-primary: #111;
+  --color-text-secondary: #555;
+  --color-text-muted: #777;
+  --color-text-light: #999;
+
+  --color-background: #fff;
+  --color-surface: #fff;
+  --color-surface-muted: #f7f7f7;
+  --color-border: #e5e5e5;
+  --color-border-light: #eee;
+
+  --color-danger: #c0392b;
+
+  --layout-max-width: 1120px;
+
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
+
+  --shadow-card: 0 12px 28px rgba(0, 0, 0, 0.04);
+  --shadow-floating: 0 18px 40px rgba(0, 0, 0, 0.12);
+
+  --spacing-page-x: 24px;
+  --spacing-section-y: 56px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  min-height: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  color: var(--color-text-primary);
+  background-color: var(--color-background);
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+}
+
+img,
+svg {
+  max-width: 100%;
+}
+
+pre {
+  font-family: inherit;
+}
