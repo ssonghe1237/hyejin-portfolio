@@ -1,0 +1,57 @@
+/**
+ * packageName    : frontend.src.components.layout
+ * fileName       : Header.module.css
+ * author         : Song
+ * date           : 2026-07-02
+ * description    : Header 컴포넌트 스타일
+ *                  - 공통 헤더 레이아웃
+ *                  - 브랜드 링크 및 네비게이션 스타일 관리
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-07-02        Song       최초 생성
+ */
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid var(--color-border-light);
+  background-color: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+}
+
+.inner {
+  max-width: var(--layout-max-width);
+  margin: 0 auto;
+  padding: 18px var(--spacing-page-x);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.brand {
+  color: var(--color-text-primary);
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  text-decoration: none;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.navLink {
+  color: var(--color-text-muted);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.navLinkActive {
+  color: var(--color-text-primary);
+  font-weight: 700;
+}

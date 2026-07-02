@@ -1,0 +1,30 @@
+/**
+ * packageName    : frontend.src.components.layout
+ * fileName       : Footer.module.css
+ * author         : Song
+ * date           : 2026-07-02
+ * description    : Footer 컴포넌트 스타일
+ *                  - 공통 푸터 레이아웃
+ *                  - 하단 저작권 문구 스타일 관리
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-07-02        Song       최초 생성
+ */
+
+.footer {
+  margin-top: 80px;
+  border-top: 1px solid var(--color-border-light);
+}
+
+.inner {
+  max-width: var(--layout-max-width);
+  margin: 0 auto;
+  padding: 32px var(--spacing-page-x);
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+.copy {
+  margin: 0;
+}
