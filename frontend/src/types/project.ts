@@ -1,3 +1,20 @@
+/**
+ * packageName    : frontend.src.types
+ * fileName       : project.ts
+ * author         : Song
+ * date           : 2026-07-02
+ * description    : 프로젝트 관련 TypeScript 타입 정의
+ *                  - 프로젝트 목록/상세 응답 타입 관리
+ *                  - 프로젝트 이미지, 섹션, 링크, 기술스택 타입 관리
+ *                  - 백엔드 DTO 응답 구조와 프론트 타입 매핑
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-07-02        Song       최초 생성
+ * 2026-07-02        Song       프로젝트 목록/상세 응답 타입 추가
+ * 2026-07-02        Song       heroImages 및 섹션 별 images 구조 반영
+ */
+
 export type ProjectType = 'TEAM' | 'PERSONAL'
 
 export type ProjectImageType =
@@ -70,6 +87,7 @@ export interface ProjectSectionResponse {
   title: string | null
   content: string | null
   displayOrder: number
+  images: ProjectImageResponse[]
 }
 
 // 프로젝트 링크 응답
@@ -95,8 +113,8 @@ export interface ProjectDetailResponse {
   teamName: string | null
   role: string | null
   displayOrder: number
+  heroImages: ProjectImageResponse[]
   techStacks: ProjectTechResponse[]
-  images: ProjectImageResponse[]
   sections: ProjectSectionResponse[]
   links: ProjectLinkResponse[]
 }
