@@ -59,29 +59,29 @@ function ProjectDetailPage() {
     }, [slug])
 
     if(loading) {
-        return <main style={{ padding: '40px' }}>Loading...</main>
+        return <div style={{ padding: '40px' }}>Loading...</div>
     }
 
     if(errorMessage) {
         return (
-            <main style={{ padding: '40px' }}>
+            <div style={{ padding: '40px' }}>
                 <p>{errorMessage}</p>
                 <Link to="/work">work 목록으로 돌아가기</Link>
-            </main>
+            </div>
         )
     }
 
     if(!project) {
         return (
-            <main style={{ padding: '40px' }}>
+            <div style={{ padding: '40px' }}>
                 <p>프로젝트 정보가 없습니다.</p>
                 <Link to='/work'>Work 목록으로 돌아가기</Link>
-            </main> 
+            </div> 
         )
     }
 
     return (
-        <main style={{ padding: '40px' }}>
+        <div style={{ padding: '40px' }}>
             <Link to="/work">← Work 목록으로 돌아가기</Link>
 
             {/* 프로젝트 기본 정보 =========================== */}
@@ -95,7 +95,7 @@ function ProjectDetailPage() {
 
             {/* 링크  =================================== */}    
             <ProjectLinkSection links={project.links} />
-        </main>
+        </div>
     )
 }
 

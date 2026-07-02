@@ -51,15 +51,15 @@ function WorkPage() {
     }, []);
 
     if(loading) {
-        return <main style={{ padding: '40px' }}>Loading...</main>
+        return <div style={{ padding: '40px' }}>Loading...</div>
     }
 
     if(errorMessage) {
-        return <main style={{ padding: '40px' }}>{errorMessage}</main>
+        return <div style={{ padding: '40px' }}>{errorMessage}</div>
     }
 
   return (
-    <main style={{ padding: '40px' }}>
+    <div style={{ padding: '40px' }}>
         <h1>Work</h1>
 
         {/* ========================================================================= */}
@@ -79,7 +79,7 @@ function WorkPage() {
             emptyMessage="등록된 개인 프로젝트가 없습니다."
             projects={personalProjects}
         />
-    </main>
+    </div>
   );
 }
 

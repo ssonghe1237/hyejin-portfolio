@@ -47,16 +47,24 @@ function ProjectContentSection({ sections } : ProjectContentSectionProps) {
                             {section.images.length > 0 && (
                                 <div style={{ display: "grid", gap: "12px" }}>
                                     {section.images.map((image) => (
-                                        <figure key={image.projectImageId} style={{ margin: 0 }}>
+                                        <figure
+                                            key={image.projectImageId}
+                                            style={{
+                                                margin: 0,
+                                                width: '100%',
+                                            }}
+                                        >
                                             <ImageWithFallback
                                                 src={image.imageUrl}
                                                 alt={image.caption ?? section.sectionType}
                                                 fallbackText={`${section.sectionType} 이미지를 불러올 수 없습니다.`}
-                                                maxWidth="720px"
+                                                maxWidth="100%"
                                                 objectFit="contain"
                                             />
                                             {image.caption && (
-                                                <figcaption>{image.caption}</figcaption>
+                                                <figcaption style={{ marginTop: '8px', color: '#666' }}>
+                                                    {image.caption}
+                                                </figcaption>
                                             )}
                                         </figure>
                                     ))}

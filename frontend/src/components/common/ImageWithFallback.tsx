@@ -55,6 +55,7 @@ function ImageWithFallback({
                     justifyContent: 'center',
                     padding: '24px',
                     textAlign: 'center',
+                    boxSizing: 'border-box',
                 }} 
             >
                 <p>{fallbackText}</p>
