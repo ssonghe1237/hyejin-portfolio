@@ -1,7 +1,3 @@
-import { Link } from "react-router-dom";
-import type { ProjectListResponse } from "../../types/project";
-import ImageWithFallback from "../common/ImageWithFallback";
-
 /**
  * packageName    : frontend.src.components.project
  * fileName       : ProjectCard.tsx
@@ -17,47 +13,149 @@ import ImageWithFallback from "../common/ImageWithFallback";
  * 2026-07-02        Song       최초 생성
  * 2026-07-02        Song       프로젝트 목록 카드 UI 분리
  * 2026-07-02        Song       상세 페이지 이동 링크 추가
+ * 2026-07-02        Song       Work 목록 grid 레이아웃에 맞춰 카드 UI 정리
  */
 
-// 참고) interface
-// : 누구든 ProjectCard라는 컴포넌트를 사용하고싶으면 무적건 project라는 이름으로 ProjectListResponse 타입의 데이터를 넘겨주어야해!
-interface PprojectCardProps {
-    project: ProjectListResponse
+import { Link } from 'react-router-dom'
+import ImageWithFallback from '../common/ImageWithFallback'
+import type { ProjectListResponse } from '../../types/project'
+
+interface ProjectCardProps {
+  project: ProjectListResponse
 }
 
-function ProjectCard({project}: PprojectCardProps) {
-    return (
-        <article
-            style={{
-                border: '1px solid #ddd',
-                borderRadius: '12px',
-                padding: '20px',
-            }}
+function ProjectCard({ project }: ProjectCardProps) {
+  return (
+    <article
+      style={{
+        height: '100%',
+        border: '1px solid #e5e5e5',
+        borderRadius: '24px',
+        overflow: 'hidden',
+        backgroundColor: '#fff',
+        boxShadow: '0 12px 28px rgba(0, 0, 0, 0.04)',
+      }}
+    >
+      {project.thumbnailUrl ? (
+        <ImageWithFallback
+          src={project.thumbnailUrl}
+          alt={`${project.title} 썸네일`}
+          fallbackText="프로젝트 썸네일을 불러올 수 없습니다."
+          height="220px"
+          objectFit="cover"
+          borderRadius="0"
+        />
+      ) : (
+        <div
+          style={{
+            height: '220px',
+            backgroundColor: '#f5f5f5',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: '#999',
+          }}
         >
-            <h3>
-                <Link to={`/work/${project.slug}`}>
-                    {project.title}
-                </Link>
-            </h3>
-            
-            <p>{project.summary}</p>
-            
-            <p>{project.periodText}</p>
-            
-            {project.teamName && <p>{project.teamName}</p>}
+          등록된 썸네일이 없습니다.
+        </div>
+      )}
 
-            {project.role && <p>{project.role}</p>}
+      <div
+        style={{
+          padding: '24px',
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            gap: '8px',
+            flexWrap: 'wrap',
+            marginBottom: '16px',
+          }}
+        >
+          {project.periodText && (
+            <span
+              style={{
+                color: '#777',
+                fontSize: '13px',
+                fontWeight: 600,
+              }}
+            >
+              {project.periodText}
+            </span>
+          )}
 
-            {project.thumbnailUrl && (
-                <ImageWithFallback
-                    src={project.thumbnailUrl}
-                    alt={`${project.title} 썸네일`}
-                    fallbackText="프로젝트 썸네일을 불러올 수 없습니다."
-                    height="180px"
-                />
-            )}
-        </article>
-    )
+          {project.teamName && (
+            <span
+              style={{
+                color: '#777',
+                fontSize: '13px',
+                fontWeight: 600,
+              }}
+            >
+              · {project.teamName}
+            </span>
+          )}
+        </div>
+
+        <h3
+          style={{
+            margin: 0,
+            fontSize: '26px',
+            letterSpacing: '-0.04em',
+          }}
+        >
+          <Link
+            to={`/work/${project.slug}`}
+            style={{
+              color: '#111',
+              textDecoration: 'none',
+            }}
+          >
+            {project.title}
+          </Link>
+        </h3>
+
+        <p
+          style={{
+            margin: '12px 0 0',
+            color: '#555',
+            fontSize: '15px',
+            lineHeight: 1.7,
+          }}
+        >
+          {project.summary}
+        </p>
+
+        {project.role && (
+          <p
+            style={{
+              margin: '20px 0 0',
+              color: '#111',
+              fontSize: '14px',
+              fontWeight: 700,
+            }}
+          >
+            {project.role}
+          </p>
+        )}
+
+        <Link
+          to={`/work/${project.slug}`}
+          style={{
+            display: 'inline-flex',
+            marginTop: '24px',
+            color: '#111',
+            fontSize: '14px',
+            fontWeight: 700,
+            textDecoration: 'none',
+          }}
+        >
+          자세히 보기 →
+        </Link>
+      </div>
+    </article>
+  )
 }
 
 export default ProjectCard
