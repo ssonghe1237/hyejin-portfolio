@@ -3,10 +3,26 @@ import type { ProjectListResponse } from '../types/project';
 import { getProjects } from '../api/projectApi';
 import ProjectCard from '../components/project/ProjectCard';
 
+/**
+ * packageName    : frontend.src.pages
+ * fileName       : WorkPage.tsx
+ * author         : Song
+ * date           : 2026-07-02
+ * description    : 프로젝트 목록 페이지
+ *                  - 팀 프로젝트 목록 조회
+ *                  - 개인 프로젝트 목록 조회
+ *                  - 프로젝트 카드 컴포넌트를 통한 목록 출력
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-07-02        Song       최초 생성
+ * 2026-07-02        Song       프로젝트 유형별 목록 API 연동
+ * 2026-07-02        Song       ProjectCard 컴포넌트 분리 적용
+ */
 
 function WorkPage() {
     const [teamProjects, setTeamProjects] = useState<ProjectListResponse[]>([])
-    const [personalProject, setPersonalProject] = useState<ProjectListResponse[]>([])
+    const [personalProjects, setPersonalProjects] = useState<ProjectListResponse[]>([])
     const [loading, setLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
@@ -21,7 +37,7 @@ function WorkPage() {
                 ])
 
                 setTeamProjects(teamResult)
-                setPersonalProject(personalResult)
+                setPersonalProjects(personalResult)
             } catch(error) {
                 console.error(error)
                 setErrorMessage(`프로젝트 데이터를 불러오지 못했습니다.`)
@@ -61,7 +77,7 @@ function WorkPage() {
         <ProjectSection
             title="More stuff I made"
             emptyMessage="등록된 개인 프로젝트가 없습니다."
-            projects={personalProject}
+            projects={personalProjects}
         />
     </main>
   );
@@ -82,7 +98,7 @@ function ProjectSection({
         <section style={{ margin: '40px' }}>
             <h2>{title}</h2>
 
-            {projects.length === 0} ? (
+            {projects.length === 0 ? (
                 <p>{emptyMessage}</p>
             ) : (
                 <div style={{ display: 'grid', gap: '16px' }}>
@@ -93,7 +109,7 @@ function ProjectSection({
                         />
                     ))}
                 </div>
-            )
+            )}
         </section>
     )
 }

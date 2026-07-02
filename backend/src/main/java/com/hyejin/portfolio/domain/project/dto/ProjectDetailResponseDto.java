@@ -16,6 +16,7 @@ import java.util.List;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-06-30        Song       최초 생성
+ * 2026-07-02        Song       섹션 별 이미지 목록 추가로 정책 변경
  */
 
 public record ProjectDetailResponseDto(
@@ -31,8 +32,8 @@ public record ProjectDetailResponseDto(
         String teamName,
         String role,
         int displayOrder,
+        List<ProjectImageResponseDto> heroImages,
         List<ProjectTechResponseDto> techStacks,
-        List<ProjectImageResponseDto> images,
         List<ProjectSectionResponseDto> sections,
         List<ProjectLinkResponseDto> links
 ) {
@@ -40,8 +41,8 @@ public record ProjectDetailResponseDto(
     public static ProjectDetailResponseDto from(
             ProjectEntity project,
             String periodText,
+            List<ProjectImageResponseDto> heroImages,
             List<ProjectTechResponseDto> techStacks,
-            List<ProjectImageResponseDto> images,
             List<ProjectSectionResponseDto> sections,
             List<ProjectLinkResponseDto> links
     ) {
@@ -58,8 +59,8 @@ public record ProjectDetailResponseDto(
                 project.getTeamName(),
                 project.getRole(),
                 project.getDisplayOrder(),
+                heroImages,
                 techStacks,
-                images,
                 sections,
                 links
         );

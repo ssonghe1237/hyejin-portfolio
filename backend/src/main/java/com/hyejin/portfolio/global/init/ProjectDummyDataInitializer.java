@@ -122,6 +122,7 @@ public class ProjectDummyDataInitializer implements CommandLineRunner {
     private void saveImages(ProjectEntity project) {
         projectImageRepository.save(ProjectImageEntity.builder()
                 .project(project)
+                .section(null)
                 .imageType(ProjectImageType.THUMBNAIL)
                 .imageUrl("/images/projects/corework/thumbnail.png")
                 .caption("COREWORK 대표 썸네일")
@@ -130,23 +131,34 @@ public class ProjectDummyDataInitializer implements CommandLineRunner {
 
         projectImageRepository.save(ProjectImageEntity.builder()
                 .project(project)
-                .imageType(ProjectImageType.ERD)
-                .imageUrl("/images/projects/corework/erd.png")
-                .caption("COREWORK ERD")
+                .section(null)
+                .imageType(ProjectImageType.MAIN)
+                .imageUrl("/images/projects/corework/main-01.png")
+                .caption("COREWORK 메인 이미지 1")
+                .displayOrder(1)
+                .build());
+
+        projectImageRepository.save(ProjectImageEntity.builder()
+                .project(project)
+                .section(null)
+                .imageType(ProjectImageType.MAIN)
+                .imageUrl("/images/projects/corework/main-02.png")
+                .caption("COREWORK 메인 이미지 2")
                 .displayOrder(2)
                 .build());
 
         projectImageRepository.save(ProjectImageEntity.builder()
                 .project(project)
-                .imageType(ProjectImageType.SCREENSHOT)
-                .imageUrl("/images/projects/corework/admin-rag.png")
-                .caption("관리자 RAG 문서 관리 화면")
+                .section(null)
+                .imageType(ProjectImageType.MAIN)
+                .imageUrl("/images/projects/corework/main-03.png")
+                .caption("COREWORK 메인 이미지 3")
                 .displayOrder(3)
                 .build());
     }
 
     private void saveSections(ProjectEntity project) {
-        projectSectionRepository.save(ProjectSectionEntity.builder()
+        ProjectSectionEntity overviewSection = projectSectionRepository.save(ProjectSectionEntity.builder()
                 .project(project)
                 .sectionType(ProjectSectionType.OVERVIEW)
                 .title("프로젝트 개요")
@@ -154,7 +166,16 @@ public class ProjectDummyDataInitializer implements CommandLineRunner {
                 .displayOrder(1)
                 .build());
 
-        projectSectionRepository.save(ProjectSectionEntity.builder()
+        projectImageRepository.save(ProjectImageEntity.builder()
+                .project(project)
+                .section(overviewSection)
+                .imageType(ProjectImageType.SCREENSHOT)
+                .imageUrl("/images/projects/corework/overview.png")
+                .caption("COREWORK 프로젝트 개요 화면")
+                .displayOrder(1)
+                .build());
+
+        ProjectSectionEntity myRoleSection = projectSectionRepository.save(ProjectSectionEntity.builder()
                 .project(project)
                 .sectionType(ProjectSectionType.MY_ROLE)
                 .title("담당 역할")
@@ -162,27 +183,54 @@ public class ProjectDummyDataInitializer implements CommandLineRunner {
                 .displayOrder(2)
                 .build());
 
-        projectSectionRepository.save(ProjectSectionEntity.builder()
+        projectImageRepository.save(ProjectImageEntity.builder()
+                .project(project)
+                .section(myRoleSection)
+                .imageType(ProjectImageType.SCREENSHOT)
+                .imageUrl("/images/projects/corework/my-role.png")
+                .caption("담당 기능 화면")
+                .displayOrder(1)
+                .build());
+
+        ProjectSectionEntity workflowSection = projectSectionRepository.save(ProjectSectionEntity.builder()
                 .project(project)
                 .sectionType(ProjectSectionType.WORKFLOW)
                 .title("RAG 검색 흐름")
                 .content("""
-                        flowchart TD
-                            A[사용자 질문 입력] --> B[사용자 권한 확인]
-                            B --> C[문서 후보 필터링]
-                            C --> D[Vector Similarity Search]
-                            D --> E[답변 생성]
-                            E --> F[참고 문서 반환]
-                        """)
+                    flowchart TD
+                        A[사용자 질문 입력] --> B[사용자 권한 확인]
+                        B --> C[문서 후보 필터링]
+                        C --> D[Vector Similarity Search]
+                        D --> E[답변 생성]
+                        E --> F[참고 문서 반환]
+                    """)
                 .displayOrder(3)
                 .build());
 
-        projectSectionRepository.save(ProjectSectionEntity.builder()
+        projectImageRepository.save(ProjectImageEntity.builder()
+                .project(project)
+                .section(workflowSection)
+                .imageType(ProjectImageType.ARCHITECTURE)
+                .imageUrl("/images/projects/corework/rag-workflow.png")
+                .caption("RAG 검색 처리 흐름")
+                .displayOrder(1)
+                .build());
+
+        ProjectSectionEntity troubleshootingSection = projectSectionRepository.save(ProjectSectionEntity.builder()
                 .project(project)
                 .sectionType(ProjectSectionType.TROUBLESHOOTING)
                 .title("문제 해결")
                 .content("PGVector 임베딩 차원 불일치, 권한 조건 필터링, RAG trace 저장 기준 문제를 해결했습니다.")
                 .displayOrder(4)
+                .build());
+
+        projectImageRepository.save(ProjectImageEntity.builder()
+                .project(project)
+                .section(troubleshootingSection)
+                .imageType(ProjectImageType.SCREENSHOT)
+                .imageUrl("/images/projects/corework/troubleshooting.png")
+                .caption("문제 해결 기록 화면")
+                .displayOrder(1)
                 .build());
     }
 

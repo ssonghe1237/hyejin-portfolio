@@ -1,10 +1,7 @@
 package com.hyejin.portfolio.domain.project.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 /**
  * packageName    : com.hyejin.portfolio.domain.project.entity
@@ -17,11 +14,12 @@ import lombok.NoArgsConstructor;
  * -----------------------------------------------------------
  * 2026-06-25        Song       최초 생성
  * 2026-06-26        Song       메서드 추가
+ * 2026-07-02        Song       섹션 별 이미지 목록 추가
  */
 
 @Entity
 @Table(name = "project_images")
-@Data
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProjectImageEntity {
 
@@ -34,6 +32,11 @@ public class ProjectImageEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id", nullable = false)
     private ProjectEntity project;
+
+    // 연결된 섹션
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "section_id")
+    private ProjectSectionEntity section;
 
     // 이미지 유형
     // THUMBNAIL, MAIN, DETAIL, ERD, ARCHITECTURE, SCREENSHOT
@@ -56,12 +59,14 @@ public class ProjectImageEntity {
     @Builder
     public ProjectImageEntity(
             ProjectEntity project,
+            ProjectSectionEntity section,
             ProjectImageType imageType,
             String imageUrl,
             String caption,
             int displayOrder
     ) {
         this.project = project;
+        this.section = section;
         this.imageType = imageType;
         this.imageUrl = imageUrl;
         this.caption = caption;
