@@ -1,0 +1,51 @@
+/**
+ * packageName    : frontend.src.components.common
+ * fileName       : ImageWithFallback.module.css
+ * author         : Song
+ * date           : 2026-07-02
+ * description    : ImageWithFallback 컴포넌트 스타일
+ *                  - 이미지 출력 스타일 관리
+ *                  - 이미지 로드 실패 시 fallback 영역 스타일 관리
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-07-02        Song       최초 생성
+ */
+
+.image {
+  width: 100%;
+  max-width: var(--image-max-width);
+  height: var(--image-height);
+  object-fit: var(--image-object-fit);
+  border-radius: var(--image-border-radius);
+  display: block;
+}
+
+.fallback {
+  width: 100%;
+  max-width: var(--image-max-width);
+  height: var(--image-height);
+  min-height: 180px;
+  border: 1px dashed #bbb;
+  border-radius: var(--image-border-radius);
+  background-color: var(--color-surface-muted);
+  color: var(--color-text-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 24px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.message {
+  margin: 0;
+}
+
+.path {
+  margin: 0;
+  font-size: 12px;
+  word-break: break-all;
+}
