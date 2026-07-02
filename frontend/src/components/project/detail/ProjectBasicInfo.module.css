@@ -1,0 +1,47 @@
+/**
+ * packageName    : frontend.src.components.project.detail
+ * fileName       : ProjectBasicInfo.module.css
+ * author         : Song
+ * date           : 2026-07-02
+ * description    : ProjectBasicInfo 스타일
+ *                  - 프로젝트 상세 기본 정보 텍스트 스타일 관리
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-07-02        Song       최초 생성
+ */
+
+.basicInfo {
+  display: block;
+}
+
+.title {
+  margin: 0;
+  font-size: 44px;
+  line-height: 1.1;
+  letter-spacing: -0.05em;
+}
+
+.summary {
+  margin: 16px 0 0;
+  color: var(--color-text-secondary);
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+  color: var(--color-text-muted);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.description {
+  margin: 24px 0 0;
+  color: var(--color-text-secondary);
+  font-size: 16px;
+  line-height: 1.8;
+}

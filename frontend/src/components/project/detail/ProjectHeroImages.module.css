@@ -1,0 +1,63 @@
+/**
+ * packageName    : frontend.src.components.project.detail
+ * fileName       : ProjectHeroImages.module.css
+ * author         : Song
+ * date           : 2026-07-02
+ * description    : ProjectHeroImages 스타일
+ *                  - 프로젝트 상세 대표 이미지 영역 및 롤링 버튼 스타일 관리
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-07-02        Song       최초 생성
+ */
+
+.hero {
+  position: relative;
+  height: 360px;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface-muted);
+}
+
+.empty {
+  height: 360px;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface-muted);
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.caption {
+  position: absolute;
+  left: 24px;
+  bottom: 24px;
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: var(--radius-pill);
+  background-color: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 14px;
+}
+
+.dots {
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  display: flex;
+  gap: 8px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.dotActive {
+  background-color: var(--color-text-primary);
+}

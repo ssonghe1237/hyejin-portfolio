@@ -1,12 +1,3 @@
-import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import type { ProjectDetailResponse } from '../types/project';
-import { getProjectDetail } from '../api/projectApi';
-import ProjectTechStackSection from '../components/project/detail/ProjectTechStackSection';
-import ProjectContentSection from '../components/project/detail/ProjectContentSection';
-import ProjectLinkSection from '../components/project/detail/ProjectLinkSection';
-import ProjectDetailHeader from '../components/project/detail/ProjectDetailHeader';
-
 /**
  * packageName    : frontend.src.pages
  * fileName       : ProjectDetailPage.tsx
@@ -23,7 +14,18 @@ import ProjectDetailHeader from '../components/project/detail/ProjectDetailHeade
  * 2026-07-02        Song       프로젝트 상세 API 연동
  * 2026-07-02        Song       상세 페이지 컴포넌트 분리 적용
  * 2026-07-02        Song       heroImages 및 섹션 별 images 구조 반영
+ * 2026-07-02        Song       CSS Module 스타일 분리
  */
+
+import { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import type { ProjectDetailResponse } from '../types/project';
+import { getProjectDetail } from '../api/projectApi';
+import ProjectTechStackSection from '../components/project/detail/ProjectTechStackSection';
+import ProjectContentSection from '../components/project/detail/ProjectContentSection';
+import ProjectLinkSection from '../components/project/detail/ProjectLinkSection';
+import ProjectDetailHeader from '../components/project/detail/ProjectDetailHeader';
+import styles from './ProjectDetailPage.module.css';
 
 function ProjectDetailPage() {
     const { slug } = useParams<{slug: string}>()
@@ -59,12 +61,12 @@ function ProjectDetailPage() {
     }, [slug])
 
     if(loading) {
-        return <div style={{ padding: '40px' }}>Loading...</div>
+        return <div className={styles.status}>Loading...</div>
     }
 
     if(errorMessage) {
         return (
-            <div style={{ padding: '40px' }}>
+            <div className={styles.error}>
                 <p>{errorMessage}</p>
                 <Link to="/work">work 목록으로 돌아가기</Link>
             </div>
@@ -73,16 +75,20 @@ function ProjectDetailPage() {
 
     if(!project) {
         return (
-            <div style={{ padding: '40px' }}>
+            <div className={styles.page}>
                 <p>프로젝트 정보가 없습니다.</p>
-                <Link to='/work'>Work 목록으로 돌아가기</Link>
+                <Link to='/work' className={styles.backLink}>
+                    Work 목록으로 돌아가기
+                </Link>
             </div> 
         )
     }
 
     return (
-        <div style={{ padding: '40px' }}>
-            <Link to="/work">← Work 목록으로 돌아가기</Link>
+        <div className={styles.page}>
+            <Link to='/work' className={styles.backLink}>
+                ← Work 목록으로 돌아가기
+            </Link>
 
             {/* 프로젝트 기본 정보 =========================== */}
             <ProjectDetailHeader project={project}/>

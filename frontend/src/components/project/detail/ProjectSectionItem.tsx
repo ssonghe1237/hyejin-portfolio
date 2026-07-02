@@ -10,11 +10,13 @@
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-07-02        Song       최초 생성
+ * 2026-07-02        Song       CSS Module 스타일 분리
  */
 
 import type { ProjectSectionResponse } from '../../../types/project'
 import ProjectSectionBody from './ProjectSectionBody'
 import ProjectSectionImages from './ProjectSectionImages'
+import styles from './ProjectSectionItem.module.css' 
 
 interface ProjectSectionItemProps {
   section: ProjectSectionResponse
@@ -22,34 +24,13 @@ interface ProjectSectionItemProps {
 
 function ProjectSectionItem({ section }: ProjectSectionItemProps) {
   return (
-    <article
-      style={{
-        border: '1px solid #e5e5e5',
-        borderRadius: '24px',
-        padding: '32px',
-        backgroundColor: '#fff',
-      }}
-    >
-      <p
-        style={{
-          margin: 0,
-          color: '#777',
-          fontSize: '14px',
-          fontWeight: 700,
-          letterSpacing: '0.08em',
-        }}
-      >
+    <article className={styles.item}>
+      <p className={styles.type}>
         {section.sectionType}
       </p>
 
       {section.title && (
-        <h3
-          style={{
-            margin: '16px 0 0',
-            fontSize: '28px',
-            letterSpacing: '-0.04em',
-          }}
-        >
+        <h3 className={styles.title}>
           {section.title}
         </h3>
       )}

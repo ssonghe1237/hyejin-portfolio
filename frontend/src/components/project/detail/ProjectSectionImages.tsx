@@ -10,6 +10,7 @@
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-07-02        Song       최초 생성
+ * 2026-07-02        Song       CSS Module 스타일 분리
  */
 
 import ImageWithFallback from '../../common/ImageWithFallback'
@@ -17,6 +18,7 @@ import type {
   ProjectImageResponse,
   ProjectSectionType,
 } from '../../../types/project'
+import styles from './ProjectSectionImages.module.css'
 
 interface ProjectSectionImagesProps {
   images: ProjectImageResponse[]
@@ -32,20 +34,11 @@ function ProjectSectionImages({
   }
 
   return (
-    <div
-      style={{
-        display: 'grid',
-        gap: '16px',
-        marginTop: '20px',
-      }}
-    >
+    <div className={styles.images}>
       {images.map((image) => (
         <figure
           key={image.projectImageId}
-          style={{
-            margin: 0,
-            width: '100%',
-          }}
+          className={styles.figure}
         >
           <ImageWithFallback
             src={image.imageUrl}
@@ -56,13 +49,7 @@ function ProjectSectionImages({
           />
 
           {image.caption && (
-            <figcaption
-              style={{
-                marginTop: '8px',
-                color: '#666',
-                fontSize: '14px',
-              }}
-            >
+            <figcaption className={styles.caption}>
               {image.caption}
             </figcaption>
           )}

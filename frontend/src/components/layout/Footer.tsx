@@ -10,6 +10,7 @@
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-07-02        Song       최초 생성
+ * 2026-07-02        Song       CSS Module 스타일 분리
  */
 
 import styles from './Footer.module.css'

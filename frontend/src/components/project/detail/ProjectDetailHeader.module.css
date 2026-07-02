@@ -1,0 +1,27 @@
+/**
+ * packageName    : frontend.src.components.project.detail
+ * fileName       : ProjectDetailHeader.module.css
+ * author         : Song
+ * date           : 2026-07-02
+ * description    : ProjectDetailHeader 스타일
+ *                  - 대표 이미지와 프로젝트 기본 정보 카드 겹침 레이아웃 관리
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-07-02        Song       최초 생성
+ */
+
+.header {
+  display: block;
+}
+
+.infoCard {
+  position: relative;
+  z-index: 1;
+  max-width: 920px;
+  margin: -72px auto 0;
+  padding: 32px;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-floating);
+}

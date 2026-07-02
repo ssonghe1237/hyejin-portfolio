@@ -13,7 +13,10 @@ import type { ProjectTechResponse } from '../../../types/project';
  * -----------------------------------------------------------
  * 2026-07-02        Song       최초 생성
  * 2026-07-02        Song       기술스택 목록 출력 추가
+ * 2026-07-02        Song       CSS Module 스타일 분리
  */
+
+import styles from './ProjectTechStackSection.module.css'
 
 interface ProjectTechStackSectionProps {
     techStacks : ProjectTechResponse[]
@@ -21,15 +24,15 @@ interface ProjectTechStackSectionProps {
 
 function ProjectTechStackSection ({ techStacks } : ProjectTechStackSectionProps) {
     return(
-        <section style={{ marginTop: '40px' }}>
-            <h2>Tech Stack</h2>
+        <section className={styles.section}>
+            <h2 className={styles.title}>Tech Stack</h2>
 
             {techStacks.length === 0 ? (
-                <p>등록된 기술스택이 없습니다.</p>
+                <p className={styles.empty}>등록된 기술스택이 없습니다.</p>
             ) : (
-                <ul>
+                <ul className={styles.list}>
                     {techStacks.map((tech) => (
-                        <li key={tech.projectTechId}>
+                        <li key={tech.projectTechId} className={styles.item}>
                             {tech.techName}
                             {tech.techCategory && ` / ${tech.techCategory}`}
                         </li>

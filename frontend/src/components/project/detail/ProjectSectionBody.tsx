@@ -10,10 +10,12 @@
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-07-02        Song       최초 생성
+ * 2026-07-02        Song       CSS Module 스타일 분리
  */
 
 import type { ProjectSectionType } from '../../../types/project'
 import MermaidRenderer from './MermaidRenderer'
+import styles from './ProjectSectionBody.module.css'
 
 interface ProjectSectionBodyProps {
   sectionType: ProjectSectionType
@@ -30,16 +32,7 @@ function ProjectSectionBody({ sectionType, content }: ProjectSectionBodyProps) {
   }
 
   return (
-    <p
-      style={{
-        margin: '20px 0 0',
-        color: '#333',
-        fontSize: '16px',
-        lineHeight: 1.8,
-        whiteSpace: 'pre-wrap',
-        wordBreak: 'break-word',
-      }}
-    >
+    <p className={styles.body}>
       {content}
     </p>
   )
