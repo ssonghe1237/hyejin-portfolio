@@ -1,4 +1,5 @@
 import type { ProjectSectionResponse } from "../../../types/project";
+import MermaidRenderer from "./MermaidRenderer";
 
 interface ProjectContentSectionProps {
     sections : ProjectSectionResponse[]
@@ -23,16 +24,22 @@ function ProjectContentSection({ sections } : ProjectContentSectionProps) {
                             }}
                         >
                             <p>{section.sectionType}</p>
+
                             {section.title && <h3>{section.title}</h3>}
+
                             {section.content && (
-                                <pre
-                                    style={{
+                                section.sectionType === 'WORKFLOW' ? (
+                                    <MermaidRenderer chart={section.content} />
+                                ) : (
+                                    <pre
+                                        style={{
                                         whiteSpace: 'pre-wrap',
                                         wordBreak: 'break-word',
-                                    }}
-                                >
-                                    {section.content}
-                                </pre>
+                                        }}
+                                    >
+                                        {section.content}
+                                    </pre>
+                                )
                             )}
                         </article>
                     ))}
