@@ -1,7 +1,3 @@
-import type { ProjectDetailResponse } from '../../../types/project'
-import ProjectBasicInfo from './ProjectBasicInfo'
-import ProjectHeroImages from './ProjectHeroImages'
-
 /**
  * packageName    : frontend.src.components.project.detail
  * fileName       : ProjectDetailHeader.tsx
@@ -14,8 +10,14 @@ import ProjectHeroImages from './ProjectHeroImages'
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-07-02        Song       최초 생성
- * 2026-07-02        Song       Hero 이미지 및 기본 정보 겹침 레이아웃 추가
+ * 2026-07-02        Song       Hero 이미지 및 기본 정보 겹침 레이아웃 추가\
+ * 2026-07-02        Song       CSS Module 스타일 분리
  */
+
+import type { ProjectDetailResponse } from '../../../types/project'
+import ProjectBasicInfo from './ProjectBasicInfo'
+import ProjectHeroImages from './ProjectHeroImages'
+import styles from './ProjectDetailHeader.module.css';
 
 interface ProjectDetailHeaderProps {
   project: ProjectDetailResponse
@@ -23,21 +25,10 @@ interface ProjectDetailHeaderProps {
 
 function ProjectDetailHeader({ project }: ProjectDetailHeaderProps) {
   return (
-    <header>
+    <header className={styles.header}>
       <ProjectHeroImages images={project.heroImages} />
 
-      <div
-        style={{
-          position: 'relative',
-          zIndex: 1,
-          maxWidth: '920px',
-          margin: '-72px auto 0', // 겹치는 디자인 담당 부분 (-00 숫자가 작아질 수록 덜 겹침)
-          padding: '32px',
-          borderRadius: '24px',
-          backgroundColor: '#fff',
-          boxShadow: '0 18px 40px rgba(0, 0, 0, 0.12)',
-        }}
-      >
+      <div className={styles.infoCard}>
         <ProjectBasicInfo project={project} />
       </div>
     </header>

@@ -14,10 +14,12 @@
  * 2026-07-02        Song       WORKFLOW 섹션 Mermaid 렌더링 추가
  * 2026-07-02        Song       섹션 별 이미지 출력 구조 반영
  * 2026-07-02        Song       섹션 단일 렌더링 컴포넌트 분리
+ * 2026-07-02        Song       CSS Module 스타일 분리
  */
 
 import type { ProjectSectionResponse } from '../../../types/project'
 import ProjectSectionItem from './ProjectSectionItem'
+import styles from './ProjectContentSection.module.css';
 
 interface ProjectContentSectionProps {
   sections: ProjectSectionResponse[]
@@ -25,36 +27,17 @@ interface ProjectContentSectionProps {
 
 function ProjectContentSection({ sections }: ProjectContentSectionProps) {
   return (
-    <section>
-      <h2
-        style={{
-          margin: '0 0 28px',
-          fontSize: '40px',
-          letterSpacing: '-0.05em',
-        }}
-      >
+    <section className={styles.section}>
+      <h2 className={styles.title}>
         Section
       </h2>
 
       {sections.length === 0 ? (
-        <div
-          style={{
-            border: '1px dashed #ccc',
-            borderRadius: '20px',
-            padding: '40px',
-            color: '#777',
-            backgroundColor: '#fafafa',
-          }}
-        >
+        <div className={styles.empty}>
           등록된 상세 섹션이 없습니다.
         </div>
       ) : (
-        <div
-          style={{
-            display: 'grid',
-            gap: '32px',
-          }}
-        >
+        <div className={styles.list}>
           {sections.map((section) => (
             <ProjectSectionItem key={section.sectionId} section={section} />
           ))}

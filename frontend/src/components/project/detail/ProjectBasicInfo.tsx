@@ -14,7 +14,9 @@ import type { ProjectDetailResponse } from '../../../types/project';
  * 2026-07-02        Song       최초 생성
  * 2026-07-02        Song       프로젝트 상세 기본 정보 출력 추가
  * 2026-07-02        Song       ProjectDetailHeader 내부 조립 구조로 변경
+ * 2026-07-02        Song       CSS Module 스타일 분리
  */
+import styles from './ProjectBasicInfo.module.css';
 
 interface projectBasicInfoProps {
     project: ProjectDetailResponse
@@ -22,14 +24,19 @@ interface projectBasicInfoProps {
 
 function ProjectBasicInfo({project} : projectBasicInfoProps) {
     return (
-        <section>
-            <h1>{project.title}</h1>
-            <p>{project.summary}</p>
+        <section className={styles.basicInfo}>
+            <h1 className={styles.title}>{project.title}</h1>
+            <p className={styles.summary}>{project.summary}</p>
 
-            {project.periodText && <p>{project.periodText}</p>}
-            {project.teamName && <p>{project.teamName}</p>}
-            {project.role && <p>{project.role}</p>}
-            {project.description && <p>{project.description}</p>}
+            <div className={styles.meta}>
+                {project.periodText && <p>{project.periodText}</p>}
+                {project.teamName && <p>{project.teamName}</p>}
+                {project.role && <p>{project.role}</p>}
+            </div>
+
+            {project.description && (
+                <p className={styles.description}>{project.description}</p>
+            )}
         </section>
     )
 }

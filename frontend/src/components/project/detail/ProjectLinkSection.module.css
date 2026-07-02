@@ -1,0 +1,46 @@
+/**
+ * packageName    : frontend.src.components.project.detail
+ * fileName       : ProjectLinkSection.module.css
+ * author         : Song
+ * date           : 2026-07-02
+ * description    : ProjectLinkSection 스타일
+ *                  - 프로젝트 관련 링크 목록 스타일 관리
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-07-02        Song       최초 생성
+ */
+
+.section {
+  display: block;
+}
+
+.title {
+  margin: 0 0 24px;
+  font-size: 40px;
+  letter-spacing: -0.05em;
+}
+
+.empty {
+  color: var(--color-text-muted);
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.link {
+  display: inline-flex;
+  padding: 10px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  color: var(--color-text-primary);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}

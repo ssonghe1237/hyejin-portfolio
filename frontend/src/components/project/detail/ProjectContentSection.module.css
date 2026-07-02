@@ -1,0 +1,35 @@
+/**
+ * packageName    : frontend.src.components.project.detail
+ * fileName       : ProjectContentSection.module.css
+ * author         : Song
+ * date           : 2026-07-02
+ * description    : ProjectContentSection 스타일
+ *                  - 프로젝트 상세 섹션 목록 스타일 관리
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-07-02        Song       최초 생성
+ */
+
+.section {
+  display: block;
+}
+
+.title {
+  margin: 0 0 28px;
+  font-size: 40px;
+  letter-spacing: -0.05em;
+}
+
+.empty {
+  border: 1px dashed #ccc;
+  border-radius: 20px;
+  padding: 40px;
+  color: var(--color-text-muted);
+  background-color: #fafafa;
+}
+
+.list {
+  display: grid;
+  gap: 32px;
+}
