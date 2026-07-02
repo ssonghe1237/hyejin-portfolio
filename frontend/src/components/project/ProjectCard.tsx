@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import type { ProjectListResponse } from "../../types/project";
+import ImageWithFallback from "../common/ImageWithFallback";
 
 /**
  * packageName    : frontend.src.components.project
@@ -38,17 +39,22 @@ function ProjectCard({project}: PprojectCardProps) {
                     {project.title}
                 </Link>
             </h3>
+            
             <p>{project.summary}</p>
+            
             <p>{project.periodText}</p>
+            
             {project.teamName && <p>{project.teamName}</p>}
+
             {project.role && <p>{project.role}</p>}
 
             {project.thumbnailUrl && (
-                <p>
-                    thumnail :
-                    {' '}
-                    {project.thumbnailUrl}
-                </p>
+                <ImageWithFallback
+                    src={project.thumbnailUrl}
+                    alt={`${project.title} 썸네일`}
+                    fallbackText="프로젝트 썸네일을 불러올 수 없습니다."
+                    height="180px"
+                />
             )}
         </article>
     )
