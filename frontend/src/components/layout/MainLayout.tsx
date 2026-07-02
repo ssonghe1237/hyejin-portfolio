@@ -10,34 +10,24 @@
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-07-02        Song       최초 생성
+ * 2026-07-02        Song       CSS Module 스타일 분리
  */
 
 import { Outlet } from 'react-router-dom'
 import Footer from './Footer'
 import Header from './Header'
+import styles from './MainLayout.module.css'
 
 function MainLayout() {
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        backgroundColor: '#fff',
-        color: '#111',
-      }}
-    >
+    <div className={styles.layout}>
       <Header />
 
-      <main
-        style={{
-          maxWidth: '1120px',
-          margin: '0 auto',
-          padding: '40px 24px 0',
-        }}
-      >
+      <main className={styles.main}>
         
         {/* 주소창(URL)에 입력 된 경로에 따라 알맞은 자식 컴포넌트를 이 자리에 끼워 넣어라 */}
         <Outlet />
-        
+
       </main>
 
       <Footer />

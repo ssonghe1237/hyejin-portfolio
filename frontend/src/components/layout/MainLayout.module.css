@@ -1,0 +1,25 @@
+/**
+ * packageName    : frontend.src.components.layout
+ * fileName       : MainLayout.module.css
+ * author         : Song
+ * date           : 2026-07-02
+ * description    : MainLayout 컴포넌트 스타일
+ *                  - 공통 페이지 레이아웃
+ *                  - Header, main, Footer 구조의 본문 영역 스타일 관리
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-07-02        Song       최초 생성
+ */
+
+.layout {
+  min-height: 100vh;
+  color: var(--color-text-primary);
+  background-color: var(--color-background);
+}
+
+.main {
+  max-width: var(--layout-max-width);
+  margin: 0 auto;
+  padding: 40px var(--spacing-page-x) 0;
+}
