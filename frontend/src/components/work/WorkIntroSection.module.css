@@ -1,0 +1,55 @@
+/**
+ * packageName    : frontend.src.components.work
+ * fileName       : WorkIntroSection.module.css
+ * author         : Song
+ * date           : 2026-07-02
+ * description    : WorkIntroSection 스타일
+ *                  - Work 페이지 상단 소개 영역 스타일 관리
+ *                  - 소개 문구, 제목, 키워드 태그 스타일 정의
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-07-02        Song       최초 생성
+ */
+
+.intro {
+  padding: 48px 0 56px;
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  color: var(--color-text-muted);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.title {
+  margin: 0;
+  font-size: 56px;
+  line-height: 1.05;
+  letter-spacing: -0.06em;
+}
+
+.description {
+  max-width: 720px;
+  margin: 24px 0 0;
+  color: var(--color-text-secondary);
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.keywordList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.keyword {
+  padding: 8px 14px;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-muted);
+  color: #333;
+  font-size: 14px;
+  font-weight: 600;
+}
