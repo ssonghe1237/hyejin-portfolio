@@ -28,6 +28,7 @@ import java.util.List;
  * -----------------------------------------------------------
  * 2026-06-25        Song       최초 생성
  * 2026-06-30        Song       목록/ 상세 조회 메서드 생성
+ * 2026-07-02        Song       섹션 별 이미지 목록 조회로 수정
  */
 
 @Service
@@ -60,7 +61,7 @@ public class ProjectServiceImpl implements ProjectService{
     // [getProjects 헬퍼 메서드] ProjectEntity -> ProjectListResponseDto 형식으로 변환
     private ProjectListResponseDto toListResponse(ProjectEntity project) {
         String thumbnailUrl = projectImageRepository
-                .findFirstByProject_ProjectIdAndImageTypeOrderByDisplayOrderAsc(
+                .findFirstByProject_ProjectIdAndSectionIsNullAndImageTypeOrderByDisplayOrderAsc(
                         project.getProjectId(),
                         ProjectImageType.THUMBNAIL
                 )
@@ -108,8 +109,11 @@ public class ProjectServiceImpl implements ProjectService{
                 .map(ProjectTechResponseDto::from)
                 .toList();
 
-        List<ProjectImageResponseDto> images = projectImageRepository
-                .findByProject_ProjectIdOrderByDisplayOrderAsc(projectId)
+        List<ProjectImageResponseDto> heroImages = projectImageRepository
+                .findByProject_ProjectIdAndSectionIsNullAndImageTypeOrderByDisplayOrderAsc(
+                        projectId,
+                        ProjectImageType.MAIN
+                )
                 .stream()
                 .map(ProjectImageResponseDto::from)
                 .toList();
@@ -117,7 +121,15 @@ public class ProjectServiceImpl implements ProjectService{
         List<ProjectSectionResponseDto> sections = projectSectionRepository
                 .findByProject_ProjectIdOrderByDisplayOrderAsc(projectId)
                 .stream()
-                .map(ProjectSectionResponseDto::from)
+                .map(section -> {
+                    List<ProjectImageResponseDto> sectionImages = projectImageRepository
+                            .findBySection_SectionIdOrderByDisplayOrderAsc(section.getSectionId())
+                            .stream()
+                            .map(ProjectImageResponseDto::from)
+                            .toList();
+
+                    return ProjectSectionResponseDto.from(section, sectionImages);
+                })
                 .toList();
 
         List<ProjectLinkResponseDto> links = projectLinkRepository
@@ -130,8 +142,8 @@ public class ProjectServiceImpl implements ProjectService{
         return ProjectDetailResponseDto.from(
                 project,
                 formatPeriodText(project.getStartDate(), project.getEndDate()),
+                heroImages,
                 techStacks,
-                images,
                 sections,
                 links
         );

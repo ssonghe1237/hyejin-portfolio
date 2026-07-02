@@ -3,6 +3,22 @@ import type { ProjectListResponse } from '../types/project';
 import { getProjects } from '../api/projectApi';
 import ProjectCard from '../components/project/ProjectCard';
 
+/**
+ * packageName    : frontend.src.pages
+ * fileName       : WorkPage.tsx
+ * author         : Song
+ * date           : 2026-07-02
+ * description    : 프로젝트 목록 페이지
+ *                  - 팀 프로젝트 목록 조회
+ *                  - 개인 프로젝트 목록 조회
+ *                  - 프로젝트 카드 컴포넌트를 통한 목록 출력
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-07-02        Song       최초 생성
+ * 2026-07-02        Song       프로젝트 유형별 목록 API 연동
+ * 2026-07-02        Song       ProjectCard 컴포넌트 분리 적용
+ */
 
 function WorkPage() {
     const [teamProjects, setTeamProjects] = useState<ProjectListResponse[]>([])

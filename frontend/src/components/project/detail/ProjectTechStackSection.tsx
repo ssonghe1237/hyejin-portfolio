@@ -1,5 +1,20 @@
 import type { ProjectTechResponse } from '../../../types/project';
 
+/**
+ * packageName    : frontend.src.components.project.detail
+ * fileName       : ProjectTechStackSection.tsx
+ * author         : Song
+ * date           : 2026-07-02
+ * description    : 프로젝트 기술스택 섹션 컴포넌트
+ *                  - 프로젝트에 사용된 기술명 출력
+ *                  - 기술 카테고리 정보 출력
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-07-02        Song       최초 생성
+ * 2026-07-02        Song       기술스택 목록 출력 추가
+ */
+
 interface ProjectTechStackSectionProps {
     techStacks : ProjectTechResponse[]
 }
