@@ -118,3 +118,43 @@ export interface ProjectDetailResponse {
   sections: ProjectSectionResponse[]
   links: ProjectLinkResponse[]
 }
+
+// ==========================================================================
+// Admin 프로젝트 관련 TypeScript 타입 정의
+// --------------------------------------------------------------------------
+export interface AdminProjectListResponse {
+  projectId: number
+  title: string
+  slug: string
+  summary: string
+  projectType: ProjectType
+  startDate: string | null
+  endDate: string | null
+  teamName: string | null
+  role: string | null
+  displayOrder: number
+  published: boolean
+  createdAt: string
+  updatedAt: string
+}
+
+export interface AdminProjectDetailResponse {
+  projectId: number
+  title: string
+  slug: string
+  summary: string
+  description: string | null
+  projectType: ProjectType
+  startDate: string | null
+  endDate: string | null
+  teamName: string | null
+  role: string | null
+  displayOrder: number
+  published: boolean
+  createdAt: string
+  updatedAt: string
+  heroImages: ProjectImageResponse[]
+  techStacks: ProjectTechResponse[]
+  sections: ProjectSectionResponse[]
+  links: ProjectLinkResponse[]
+}

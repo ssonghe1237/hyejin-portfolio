@@ -36,6 +36,17 @@ function Header() {
                     >
                         Work
                     </NavLink>
+
+                    <NavLink
+                        to="/admin/projects"
+                        className={({ isActive }) =>
+                            isActive
+                            ? `${styles.navLink} ${styles.navLinkActive}`
+                            : styles.navLink
+                        }
+                        >
+                        Admin
+                    </NavLink>
                 </nav>
             </div>
         </header>
