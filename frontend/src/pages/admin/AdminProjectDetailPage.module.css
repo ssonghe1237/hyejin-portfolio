@@ -1,0 +1,105 @@
+/**
+ * packageName    : frontend.src.pages.admin
+ * fileName       : AdminProjectDetailPage.module.css
+ * author         : Song
+ * date           : 2026-07-02
+ * description    : AdminProjectDetailPage 스타일
+ *                  - 관리자 프로젝트 상세 페이지 레이아웃
+ *                  - 프로젝트 상세 관리 정보 스타일 정의
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-07-02        Song       최초 생성
+ */
+
+.page {
+  display: grid;
+  gap: 32px;
+}
+
+.backLink {
+  color: var(--color-text-primary);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  background-color: var(--color-surface);
+}
+
+.title {
+  margin: 0;
+  font-size: 40px;
+  letter-spacing: -0.05em;
+}
+
+.summary {
+  margin: 16px 0 0;
+  color: var(--color-text-secondary);
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.metaGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.metaItem {
+  display: grid;
+  gap: 6px;
+}
+
+.label {
+  color: var(--color-text-muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.value {
+  color: var(--color-text-primary);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.section {
+  display: grid;
+  gap: 16px;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 28px;
+  letter-spacing: -0.04em;
+}
+
+.list {
+  display: grid;
+  gap: 12px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.listItem {
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  background-color: #fafafa;
+}
+
+.status {
+  padding: 80px 0;
+  color: var(--color-text-muted);
+}
+
+.error {
+  padding: 80px 0;
+  color: var(--color-danger);
+}

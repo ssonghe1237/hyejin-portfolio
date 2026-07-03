@@ -1,7 +1,3 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
-import WorkPage from './pages/WorkPage'
-import ProjectDetailPage from './pages/ProjectDetailPage'
-import MainLayout from './components/layout/MainLayout'
 
 /**
  * packageName    : frontend.src
@@ -18,7 +14,15 @@ import MainLayout from './components/layout/MainLayout'
  * 2026-07-02        Song       최초 생성
  * 2026-07-02        Song       Work 목록/상세 페이지 라우팅 추가
  * 2026-07-02        Song       공통 MainLayout 적용
+ * 2026-07-04        Song       관리자 페이지 라우팅 추가
  */
+
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import WorkPage from './pages/WorkPage'
+import ProjectDetailPage from './pages/ProjectDetailPage'
+import MainLayout from './components/layout/MainLayout'
+import AdminProjectDetailPage from './pages/admin/AdminProjectDetailPage'
+import AdminProjectListPage from './pages/admin/AdminProjectListPage'
 
 function App() {
   return (
@@ -26,10 +30,11 @@ function App() {
       <Routes>
         {/* React Router Outlet 기반 하위 페이지 렌더링 */}
         <Route element={<MainLayout />}>
-          {/* 전부 MainLayout의 <Outlet /> 자리에 치환 */}
-          <Route path='/' element={<Navigate to="/work" replace/>} />
-          <Route path='/work' element={<WorkPage/>} />
-          <Route path='/work/:slug' element={<ProjectDetailPage/>} />
+          <Route path="/" element={<Navigate to="/work" replace />} />
+          <Route path="/work" element={<WorkPage />} />
+          <Route path="/work/:slug" element={<ProjectDetailPage />} />
+          <Route path="/admin/projects" element={<AdminProjectListPage />} />
+          <Route path="/admin/projects/:projectId" element={<AdminProjectDetailPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
