@@ -1,15 +1,16 @@
 package com.hyejin.portfolio.domain.project.controller;
 
+import com.hyejin.portfolio.domain.project.dto.AdminProjectCreateRequestDto;
 import com.hyejin.portfolio.domain.project.dto.AdminProjectDetailResponseDto;
 import com.hyejin.portfolio.domain.project.dto.AdminProjectListResponseDto;
 import com.hyejin.portfolio.domain.project.service.AdminProjectService;
+import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 /**
@@ -24,6 +25,7 @@ import java.util.List;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-07-03        Song       최초 생성
+ * 2026-07-07        Song       프로젝트 등록 API 추가
  */
 
 @RestController
@@ -45,5 +47,22 @@ public class AdminProjectController {
             @PathVariable Long projectId
     ) {
         return adminProjectService.getProjectDetail(projectId);
+    }
+
+    // 프로젝트 생성
+    @PostMapping
+    public ResponseEntity<AdminProjectDetailResponseDto> createProject(
+            @Valid @RequestBody AdminProjectCreateRequestDto request
+    ){
+        AdminProjectDetailResponseDto response = adminProjectService.createProject(request);
+
+        URI location = URI.create(
+                "api/admin/projects/" + response.projectId()
+        );
+
+        return ResponseEntity
+                .created(location)
+                .body(response);
+
     }
 }

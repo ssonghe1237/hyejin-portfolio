@@ -1,0 +1,73 @@
+### 관리자 프로젝트 등록
+POST http://localhost:8081/api/admin/projects
+Content-Type: application/json
+
+{
+  "title": "개인 포트폴리오 프로젝트",
+  "slug": "personal-portfolio",
+  "summary": "Spring Boot와 React 기반 개인 포트폴리오 서비스",
+  "description": "프로젝트 정보를 관리자 화면에서 직접 관리할 수 있는 포트폴리오 서비스입니다.",
+  "projectType": "PERSONAL",
+  "startDate": "2026-06-01",
+  "endDate": null,
+  "teamName": null,
+  "role": "Backend / Frontend",
+  "displayOrder": 2,
+  "published": false,
+  "thumbnailImage": {
+    "imageType": "THUMBNAIL",
+    "imageUrl": "/images/projects/personal-portfolio/thumbnail.png",
+    "caption": "개인 포트폴리오 썸네일",
+    "displayOrder": 1
+  },
+  "heroImages": [
+    {
+      "imageType": "MAIN",
+      "imageUrl": "/images/projects/personal-portfolio/main-01.png",
+      "caption": "포트폴리오 메인 화면",
+      "displayOrder": 1
+    }
+  ],
+  "techStacks": [
+    {
+      "techName": "Spring Boot",
+      "techCategory": "Backend",
+      "displayOrder": 1
+    },
+    {
+      "techName": "React",
+      "techCategory": "Frontend",
+      "displayOrder": 2
+    }
+  ],
+  "sections": [
+    {
+      "sectionType": "OVERVIEW",
+      "title": "프로젝트 개요",
+      "content": "프로젝트 정보를 등록하고 사용자 화면에 노출하는 포트폴리오 서비스입니다.",
+      "displayOrder": 1,
+      "images": [
+        {
+          "imageType": "SCREENSHOT",
+          "imageUrl": "/images/projects/personal-portfolio/overview.png",
+          "caption": "프로젝트 개요 화면",
+          "displayOrder": 1
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "linkType": "GITHUB",
+      "linkName": "GitHub Repository",
+      "url": "https://github.com/example/personal-portfolio",
+      "displayOrder": 1
+    }
+  ]
+}
+
+### 관리자 프로젝트 전체 목록
+GET http://localhost:8081/api/admin/projects
+
+### 생성된 프로젝트 상세 조회
+GET http://localhost:8081/api/admin/projects/2
