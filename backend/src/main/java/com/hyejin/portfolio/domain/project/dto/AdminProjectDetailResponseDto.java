@@ -19,6 +19,7 @@ import java.util.List;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-07-02        Song       최초 생성
+ * 2026-07-07        Song       썸네일 이미지 응답 추가
  */
 public record AdminProjectDetailResponseDto(
         Long projectId,
@@ -35,6 +36,7 @@ public record AdminProjectDetailResponseDto(
         boolean published,
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
+        ProjectImageResponseDto thumbnailImage,
         List<ProjectImageResponseDto> heroImages,
         List<ProjectTechResponseDto> techStacks,
         List<ProjectSectionResponseDto> sections,
@@ -43,6 +45,7 @@ public record AdminProjectDetailResponseDto(
 
     public static AdminProjectDetailResponseDto from(
             ProjectEntity project,
+            ProjectImageResponseDto thumbnailImage,
             List<ProjectImageResponseDto> heroImages,
             List<ProjectTechResponseDto> techStacks,
             List<ProjectSectionResponseDto> sections,
@@ -63,6 +66,7 @@ public record AdminProjectDetailResponseDto(
                 project.isPublished(),
                 project.getCreatedAt(),
                 project.getUpdatedAt(),
+                thumbnailImage,
                 heroImages,
                 techStacks,
                 sections,

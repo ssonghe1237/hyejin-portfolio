@@ -1,5 +1,6 @@
 package com.hyejin.portfolio.domain.project.service;
 
+import com.hyejin.portfolio.domain.project.dto.AdminProjectCreateRequestDto;
 import com.hyejin.portfolio.domain.project.dto.AdminProjectDetailResponseDto;
 import com.hyejin.portfolio.domain.project.dto.AdminProjectListResponseDto;
 
@@ -16,6 +17,7 @@ import java.util.List;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-07-03        Song       최초 생성
+ * 2026-07-07        Song       프로젝트 등록 기능 추가
  */
 
 public interface AdminProjectService {
@@ -25,4 +27,10 @@ public interface AdminProjectService {
 
     // 프로젝트 ID 기준 프로젝트 상세 정보 조회
     AdminProjectDetailResponseDto getProjectDetail(Long projectId);
+
+    // 프로젝트 등록
+    AdminProjectDetailResponseDto createProject(
+        AdminProjectCreateRequestDto request
+    );
+
 }
