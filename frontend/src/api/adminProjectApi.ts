@@ -11,9 +11,15 @@
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-07-02        Song       최초 생성
+ * 
  */
 
-import type { AdminProjectDetailResponse, AdminProjectListResponse } from "../types/project";
+import type {
+    AdminProjectDetailResponse,
+    AdminProjectListResponse,
+    AdminProjectCreateRequest,
+
+} from "../types/project";
 
 // 프로젝트 리스트 전체 조회
 export async function getAdminProjects(): Promise<AdminProjectListResponse[]> {
@@ -36,3 +42,31 @@ export async function getAdminProjectDetail(projectId : number): Promise<AdminPr
 
     return response.json()
 }
+
+// 프로젝트 추가
+export async function createAdminProject(
+    request: AdminProjectCreateRequest,
+): Promise<AdminProjectDetailResponse> {
+    const response = await fetch("/api/admin/projects", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(request),
+    })
+
+    if(!response.ok){
+        const errorBody = await response
+            .json()
+            .catch(() => null) as {message?: string} | null
+
+        throw new Error(
+            errorBody?.message ??
+                `관리자 프로젝트 등록 실패: ${response.status}`,
+        )
+    }
+
+    return response.json()
+}
+
+

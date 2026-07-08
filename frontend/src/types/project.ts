@@ -153,8 +153,56 @@ export interface AdminProjectDetailResponse {
   published: boolean
   createdAt: string
   updatedAt: string
+  thumbnailImage: ProjectImageResponse | null
   heroImages: ProjectImageResponse[]
   techStacks: ProjectTechResponse[]
   sections: ProjectSectionResponse[]
   links: ProjectLinkResponse[]
+}
+
+export interface AdminProjectImageRequest {
+  imageType: ProjectImageType
+  imageUrl: string
+  caption: string | null
+  displayOrder: number
+}
+
+export interface AdminProjectTechRequest {
+  techName: string
+  techCategory: string | null
+  displayOrder: number
+}
+
+export interface AdminProjectSectionRequest {
+  sectionType: ProjectSectionType
+  title: string | null
+  content: string | null
+  displayOrder: number
+  images: AdminProjectImageRequest[]
+}
+
+export interface AdminProjectLinkRequest {
+  linkType: ProjectLinkType
+  linkName: string
+  url: string
+  displayOrder: number
+}
+
+export interface AdminProjectCreateRequest {
+  title: string
+  slug: string
+  summary: string
+  description: string | null
+  projectType: ProjectType
+  startDate: string | null
+  endDate: string | null
+  teamName: string | null
+  role: string | null
+  displayOrder: number
+  published: boolean
+  thumbnailImage: AdminProjectImageRequest | null
+  heroImages: AdminProjectImageRequest[]
+  techStacks: AdminProjectTechRequest[]
+  sections: AdminProjectSectionRequest[]
+  links: AdminProjectLinkRequest[]
 }

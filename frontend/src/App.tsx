@@ -23,6 +23,7 @@ import ProjectDetailPage from './pages/ProjectDetailPage'
 import MainLayout from './components/layout/MainLayout'
 import AdminProjectDetailPage from './pages/admin/AdminProjectDetailPage'
 import AdminProjectListPage from './pages/admin/AdminProjectListPage'
+import AdminProjectCreatePage from './pages/admin/AdminProjectCreatePage'
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           <Route path="/work/:slug" element={<ProjectDetailPage />} />
           <Route path="/admin/projects" element={<AdminProjectListPage />} />
           <Route path="/admin/projects/:projectId" element={<AdminProjectDetailPage />} />
+          <Route path="/admin/projects/new" element={<AdminProjectCreatePage />} />
         </Route>
       </Routes>
     </BrowserRouter>

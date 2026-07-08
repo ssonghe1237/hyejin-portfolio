@@ -61,6 +61,10 @@ function AdminProjectListPage() {
                         공개/비공개 상태와 관계없이 전체 프로젝트를 관리하는 화면입니다.
                     </p>
                 </div>
+
+                <Link to="/admin/projects/new" className={styles.createLink}>
+                    새 프로젝트 등록
+                </Link>
             </header>
 
             {projects.length === 0 ? (
