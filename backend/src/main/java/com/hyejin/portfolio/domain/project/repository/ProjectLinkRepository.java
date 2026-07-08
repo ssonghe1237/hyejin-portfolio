@@ -4,6 +4,7 @@ import com.hyejin.portfolio.domain.project.entity.ProjectLinkEntity;
 import com.hyejin.portfolio.domain.project.entity.ProjectLinkType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +38,20 @@ public interface ProjectLinkRepository extends JpaRepository<ProjectLinkEntity, 
     );
 
     // 프로젝트 id 기준 링크 전체 삭제
-    void deleteByProject_ProjectId(Long projectProjectId);
+    void deleteByProject_ProjectId(Long projectId);
 
+    // ===========================================================
+    // 수정용 메서드
+    // -----------------------------------------------------------
+    Optional<ProjectLinkEntity>
+    findByProjectLinkIdAndProject_ProjectId(
+            Long projectLinkId,
+            Long projectId
+    );
+
+    List<ProjectLinkEntity>
+    findAllByProject_ProjectIdAndProjectLinkIdIn(
+            Long projectId,
+            Collection<Long> projectLinkIds
+    );
 }

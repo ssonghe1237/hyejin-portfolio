@@ -1,6 +1,7 @@
 package com.hyejin.portfolio.domain.project.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -51,8 +52,9 @@ public class ProjectLinkEntity {
     private String url;
 
     // 링크 표시 순서
+    @NotNull
     @Column(name = "display_order", nullable = false)
-    private int displayOrder;
+    private Integer displayOrder;
 
     @Builder
     public ProjectLinkEntity(
@@ -60,7 +62,7 @@ public class ProjectLinkEntity {
             ProjectLinkType linkType,
             String linkName,
             String url,
-            int displayOrder
+            Integer displayOrder
     ) {
         this.project = project;
         this.linkType = linkType;
@@ -69,4 +71,18 @@ public class ProjectLinkEntity {
         this.displayOrder = displayOrder;
     }
 
+    // ======================================================
+    // 업데이트를 위한 메서드
+    // ------------------------------------------------------
+    public void updateLinkInfo(
+            ProjectLinkType linkType,
+            String linkName,
+            String url,
+            int displayOrder
+    ) {
+        this.linkType = linkType;
+        this.linkName = linkName;
+        this.url = url;
+        this.displayOrder = displayOrder;
+    }
 }

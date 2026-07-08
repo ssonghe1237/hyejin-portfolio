@@ -3,6 +3,7 @@ package com.hyejin.portfolio.domain.project.service;
 import com.hyejin.portfolio.domain.project.dto.AdminProjectCreateRequestDto;
 import com.hyejin.portfolio.domain.project.dto.AdminProjectDetailResponseDto;
 import com.hyejin.portfolio.domain.project.dto.AdminProjectListResponseDto;
+import com.hyejin.portfolio.domain.project.dto.AdminProjectUpdateRequestDto;
 
 import java.util.List;
 
@@ -31,6 +32,12 @@ public interface AdminProjectService {
     // 프로젝트 등록
     AdminProjectDetailResponseDto createProject(
         AdminProjectCreateRequestDto request
+    );
+
+    // 프로젝트 수정
+    AdminProjectDetailResponseDto updateProject(
+            Long projectId,
+            AdminProjectUpdateRequestDto request
     );
 
 }
