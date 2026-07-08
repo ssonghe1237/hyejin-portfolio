@@ -1,6 +1,7 @@
 package com.hyejin.portfolio.domain.project.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -75,12 +76,14 @@ public class ProjectEntity {
     private String role;
 
     // 관리자 지정 노출 순서
+    @NotNull
     @Column(name = "display_order", nullable = false)
-    private int displayOrder;
+    private Integer displayOrder;
 
     // 공개 여부
     // true : 사용자 화면에 노출
     // flase : 관리자에서만 확인
+    @NotNull
     @Column(name = "is_published", nullable = false)
     private boolean published;
 
@@ -104,7 +107,7 @@ public class ProjectEntity {
             LocalDate endDate,
             String teamName,
             String role,
-            int displayOrder,
+            Integer displayOrder,
             boolean published
     ) {
         this.title = title;
@@ -137,6 +140,13 @@ public class ProjectEntity {
         this.updatedAt = LocalDateTime.now();
     }
 
+    // 프로젝트 수정일 갱신
+    // 프로젝트 기본 정보가 변경되지 않고 하위 데이터만 변경된 경우에도
+    // projects 테이블의 updated_at이 갱신되도록 변경 상태를 만든다.
+    public void touch() {
+        this.updatedAt = LocalDateTime.now();
+    }
+
     // 프로젝트 기본 정보 수정
     // Entity의 필드를 외부에서 setter로 직접 열지 않고, 의미 있는 메서드를 통해 상태를 변경
     public void updateBasicInfo(
@@ -149,7 +159,7 @@ public class ProjectEntity {
             LocalDate endDate,
             String teamName,
             String role,
-            int displayOrder
+            Integer displayOrder
     ) {
         this.title = title;
         this.slug = slug;

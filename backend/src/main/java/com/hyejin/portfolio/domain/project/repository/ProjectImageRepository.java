@@ -4,6 +4,7 @@ import com.hyejin.portfolio.domain.project.entity.ProjectImageEntity;
 import com.hyejin.portfolio.domain.project.entity.ProjectImageType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,8 +22,12 @@ import java.util.Optional;
  */
 public interface ProjectImageRepository extends JpaRepository<ProjectImageEntity, Long> {
 
-    // 프로젝트 ID 기준 전체 이미지 목록 조회
-    List<ProjectImageEntity> findByProject_ProjectIdOrderByDisplayOrderAsc(Long projectId);
+    // 프로젝트 ID & 섹션 미연결 & 이미지 유형 기준 첫 번째 이미지 조회
+    // : work 카드 썸네일처럼 대표 이미지 1개만 필요할 때 사용
+    Optional<ProjectImageEntity> findFirstByProject_ProjectIdAndSectionIsNullAndImageTypeOrderByDisplayOrderAsc(
+            Long projectProjectId,
+            ProjectImageType imageType
+    );
 
     // 프로젝트 ID & 섹션 미연결 & 이미지 유형 기준 목록 조회
     // : THUMBNAIL, MAIN처럼 특정 섹션에 속하지 않는 이미지를 조회할 때 사용
@@ -37,15 +42,24 @@ public interface ProjectImageRepository extends JpaRepository<ProjectImageEntity
             Long sectionId
     );
 
-    // 프로젝트 ID & 섹션 미연결 & 이미지 유형 기준 첫 번째 이미지 조회
-    // : work 카드 썸네일처럼 대표 이미지 1개만 필요할 때 사용
-    Optional<ProjectImageEntity> findFirstByProject_ProjectIdAndSectionIsNullAndImageTypeOrderByDisplayOrderAsc(
-            Long projectProjectId,
-            ProjectImageType imageType
+    // ===========================================================
+    // 수정용 메서드
+    // -----------------------------------------------------------
+    Optional<ProjectImageEntity>
+    findByProjectImageIdAndProject_ProjectId(
+            Long projectImageId,
+            Long projectId
     );
 
-    // 프로젝트 id 기준 이미지 전체 삭제
-    // : 관리자 수정 화면에서 기존 이미지를 재구성할 때 사용
-    void deleteByProject_ProjectId(Long projectProjectId);
+    List<ProjectImageEntity>
+    findAllByProject_ProjectIdAndProjectImageIdIn(
+            Long projectId,
+            Collection<Long> projectImageIds
+    );
 
+    List<ProjectImageEntity>
+    findAllByProject_ProjectIdAndSection_SectionIdIn(
+            Long projectId,
+            Collection<Long> sectionIds
+    );
 }

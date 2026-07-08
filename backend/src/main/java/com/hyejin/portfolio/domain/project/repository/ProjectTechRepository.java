@@ -3,7 +3,9 @@ package com.hyejin.portfolio.domain.project.repository;
 import com.hyejin.portfolio.domain.project.entity.ProjectTechEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * packageName    : com.hyejin.portfolio.domain.project.repository
@@ -25,5 +27,19 @@ public interface ProjectTechRepository extends JpaRepository<ProjectTechEntity, 
     // : 관리자 수정 화면에서 기존 기술스택을 재구성할 때 사용
     void deleteByProject_ProjectId(Long projectId);
 
+    // ===========================================================
+    // 수정용 메서드
+    // -----------------------------------------------------------
+    Optional<ProjectTechEntity>
+    findByProjectTechIdAndProject_ProjectId(
+            Long projectTechId,
+            Long projectId
+    );
+
+    List<ProjectTechEntity>
+    findAllByProject_ProjectIdAndProjectTechIdIn(
+            Long projectId,
+            Collection<Long> projectTechIds
+    );
 
 }

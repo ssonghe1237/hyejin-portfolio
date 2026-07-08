@@ -3,6 +3,7 @@ package com.hyejin.portfolio.domain.project.controller;
 import com.hyejin.portfolio.domain.project.dto.AdminProjectCreateRequestDto;
 import com.hyejin.portfolio.domain.project.dto.AdminProjectDetailResponseDto;
 import com.hyejin.portfolio.domain.project.dto.AdminProjectListResponseDto;
+import com.hyejin.portfolio.domain.project.dto.AdminProjectUpdateRequestDto;
 import com.hyejin.portfolio.domain.project.service.AdminProjectService;
 import jakarta.validation.Valid;
 import lombok.Getter;
@@ -64,5 +65,20 @@ public class AdminProjectController {
                 .created(location)
                 .body(response);
 
+    }
+
+    // 관리자 프로젝트 수정
+    @PutMapping("/{projectId}")
+    public ResponseEntity<AdminProjectDetailResponseDto> updateProject(
+            @PathVariable Long projectId,
+            @Valid @RequestBody AdminProjectUpdateRequestDto request
+    ) {
+        AdminProjectDetailResponseDto response =
+                adminProjectService.updateProject(
+                        projectId,
+                        request
+                );
+
+        return ResponseEntity.ok(response);
     }
 }
