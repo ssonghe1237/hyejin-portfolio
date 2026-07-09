@@ -8,6 +8,7 @@
  *                  - React Router 기반 페이지 라우팅 관리
  *                  - 공통 MainLayout 적용
  *                  - Work 목록 페이지 및 프로젝트 상세 페이지 연결
+ *                  - 관리자 프로젝트 등록/상세/수정 페이지 연결
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
@@ -15,6 +16,7 @@
  * 2026-07-02        Song       Work 목록/상세 페이지 라우팅 추가
  * 2026-07-02        Song       공통 MainLayout 적용
  * 2026-07-04        Song       관리자 페이지 라우팅 추가
+ * 2026-07-09        Song       관리자 프로젝트 수정 페이지 라우팅 추가
  */
 
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
@@ -24,6 +26,7 @@ import MainLayout from './components/layout/MainLayout'
 import AdminProjectDetailPage from './pages/admin/AdminProjectDetailPage'
 import AdminProjectListPage from './pages/admin/AdminProjectListPage'
 import AdminProjectCreatePage from './pages/admin/AdminProjectCreatePage'
+import AdminProjectUpdatePage from './pages/admin/AdminProjectUpdatePage'
 
 function App() {
   return (
@@ -35,8 +38,10 @@ function App() {
           <Route path="/work" element={<WorkPage />} />
           <Route path="/work/:slug" element={<ProjectDetailPage />} />
           <Route path="/admin/projects" element={<AdminProjectListPage />} />
-          <Route path="/admin/projects/:projectId" element={<AdminProjectDetailPage />} />
           <Route path="/admin/projects/new" element={<AdminProjectCreatePage />} />
+          <Route path="/admin/projects/:projectId/edit" element={<AdminProjectUpdatePage />} />
+          <Route path="/admin/projects/:projectId" element={<AdminProjectDetailPage />} />
+          
         </Route>
       </Routes>
     </BrowserRouter>

@@ -6,10 +6,12 @@
  * description    : 관리자 프로젝트 상세 페이지
  *                  - projectId 기준 관리자 프로젝트 상세 조회
  *                  - 프로젝트 기본 정보, 이미지, 기술스택, 섹션, 링크 확인
+ *                  - 관리자 프로젝트 수정 페이지 이동
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-07-02        Song       최초 생성
+ * 2026-07-09        Song       관리자 프로젝트 수정 페이지 이동 버튼 추가
  */
 
 import { useEffect, useState } from 'react';
@@ -88,95 +90,104 @@ function AdminProjectDetailPage() {
 
     return (
         <div className={styles.page}>
-        <Link to="/admin/projects" className={styles.backLink}>
-            ← 관리자 프로젝트 목록으로 돌아가기
-        </Link>
+            <Link to="/admin/projects" className={styles.backLink}>
+                ← 관리자 프로젝트 목록으로 돌아가기
+            </Link>
 
-        <section className={styles.card}>
-            <h1 className={styles.title}>{project.title}</h1>
-            <p className={styles.summary}>{project.summary}</p>
-
-            <div className={styles.metaGrid}>
-            <div className={styles.metaItem}>
-                <span className={styles.label}>ID</span>
-                <span className={styles.value}>{project.projectId}</span>
+            <div className={styles.actionBar}>
+                <Link
+                    to={`/admin/projects/${project.projectId}/edit`}
+                    className={styles.editButton}
+                >
+                    프로젝트 수정
+                </Link>
             </div>
 
-            <div className={styles.metaItem}>
-                <span className={styles.label}>Slug</span>
-                <span className={styles.value}>{project.slug}</span>
-            </div>
+            <section className={styles.card}>
+                <h1 className={styles.title}>{project.title}</h1>
+                <p className={styles.summary}>{project.summary}</p>
 
-            <div className={styles.metaItem}>
-                <span className={styles.label}>유형</span>
-                <span className={styles.value}>{project.projectType}</span>
-            </div>
+                <div className={styles.metaGrid}>
+                <div className={styles.metaItem}>
+                    <span className={styles.label}>ID</span>
+                    <span className={styles.value}>{project.projectId}</span>
+                </div>
 
-            <div className={styles.metaItem}>
-                <span className={styles.label}>공개 여부</span>
-                <span className={styles.value}>
-                {project.published ? '공개' : '비공개'}
-                </span>
-            </div>
+                <div className={styles.metaItem}>
+                    <span className={styles.label}>Slug</span>
+                    <span className={styles.value}>{project.slug}</span>
+                </div>
 
-            <div className={styles.metaItem}>
-                <span className={styles.label}>정렬 순서</span>
-                <span className={styles.value}>{project.displayOrder}</span>
-            </div>
+                <div className={styles.metaItem}>
+                    <span className={styles.label}>유형</span>
+                    <span className={styles.value}>{project.projectType}</span>
+                </div>
 
-            <div className={styles.metaItem}>
-                <span className={styles.label}>생성일</span>
-                <span className={styles.value}>{project.createdAt.slice(0, 10)}</span>
-            </div>
-            </div>
-        </section>
+                <div className={styles.metaItem}>
+                    <span className={styles.label}>공개 여부</span>
+                    <span className={styles.value}>
+                    {project.published ? '공개' : '비공개'}
+                    </span>
+                </div>
 
-        <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>Hero Images</h2>
-            <ul className={styles.list}>
-            {project.heroImages.map((image) => (
-                <li key={image.projectImageId} className={styles.listItem}>
-                [{image.imageType}] {image.imageUrl}
-                </li>
-            ))}
-            </ul>
-        </section>
+                <div className={styles.metaItem}>
+                    <span className={styles.label}>정렬 순서</span>
+                    <span className={styles.value}>{project.displayOrder}</span>
+                </div>
 
-        <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>Tech Stacks</h2>
-            <ul className={styles.list}>
-            {project.techStacks.map((tech) => (
-                <li key={tech.projectTechId} className={styles.listItem}>
-                {tech.techName} / {tech.techCategory}
-                </li>
-            ))}
-            </ul>
-        </section>
+                <div className={styles.metaItem}>
+                    <span className={styles.label}>생성일</span>
+                    <span className={styles.value}>{project.createdAt.slice(0, 10)}</span>
+                </div>
+                </div>
+            </section>
 
-        <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>Sections</h2>
-            <ul className={styles.list}>
-            {project.sections.map((section) => (
-                <li key={section.sectionId} className={styles.listItem}>
-                <strong>{section.sectionType}</strong>
-                {section.title && ` - ${section.title}`}
-                <br />
-                이미지 {section.images.length}개
-                </li>
-            ))}
-            </ul>
-        </section>
+            <section className={styles.section}>
+                <h2 className={styles.sectionTitle}>Hero Images</h2>
+                <ul className={styles.list}>
+                {project.heroImages.map((image) => (
+                    <li key={image.projectImageId} className={styles.listItem}>
+                    [{image.imageType}] {image.imageUrl}
+                    </li>
+                ))}
+                </ul>
+            </section>
 
-        <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>Links</h2>
-            <ul className={styles.list}>
-            {project.links.map((link) => (
-                <li key={link.projectLinkId} className={styles.listItem}>
-                [{link.linkType}] {link.linkName} - {link.url}
-                </li>
-            ))}
-            </ul>
-        </section>
+            <section className={styles.section}>
+                <h2 className={styles.sectionTitle}>Tech Stacks</h2>
+                <ul className={styles.list}>
+                {project.techStacks.map((tech) => (
+                    <li key={tech.projectTechId} className={styles.listItem}>
+                    {tech.techName} / {tech.techCategory}
+                    </li>
+                ))}
+                </ul>
+            </section>
+
+            <section className={styles.section}>
+                <h2 className={styles.sectionTitle}>Sections</h2>
+                <ul className={styles.list}>
+                {project.sections.map((section) => (
+                    <li key={section.sectionId} className={styles.listItem}>
+                    <strong>{section.sectionType}</strong>
+                    {section.title && ` - ${section.title}`}
+                    <br />
+                    이미지 {section.images.length}개
+                    </li>
+                ))}
+                </ul>
+            </section>
+
+            <section className={styles.section}>
+                <h2 className={styles.sectionTitle}>Links</h2>
+                <ul className={styles.list}>
+                {project.links.map((link) => (
+                    <li key={link.projectLinkId} className={styles.listItem}>
+                    [{link.linkType}] {link.linkName} - {link.url}
+                    </li>
+                ))}
+                </ul>
+            </section>
         </div>
     )
 }

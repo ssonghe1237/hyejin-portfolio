@@ -103,3 +103,36 @@
   padding: 80px 0;
   color: var(--color-danger);
 }
+
+.actionBar {
+  display: flex;
+  justify-content: flex-end;
+  margin: 24px 0 16px;
+}
+
+.editButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 18px;
+  border-radius: 8px;
+  background-color: #111827;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.editButton:hover {
+  background-color: #374151;
+  transform: translateY(-1px);
+}
+
+.editButton:focus-visible {
+  outline: 3px solid rgba(17, 24, 39, 0.25);
+  outline-offset: 3px;
+}
