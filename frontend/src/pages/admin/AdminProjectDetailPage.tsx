@@ -17,7 +17,7 @@
 
 import { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { getAdminProjectDetail, deleteAdminProject } from '../../api/adminProjectApi';
+import { getAdminProjectDetail, deleteAdminProject, updateAdminProjectPublication } from '../../api/adminProjectApi';
 import type { AdminProjectDetailResponse } from '../../types/project';
 import styles from './AdminProjectDetailPage.module.css';
 
@@ -32,6 +32,9 @@ function AdminProjectDetailPage() {
 
     const [project, setProject] = useState<AdminProjectDetailResponse | null>(null)
     const [deleting, setDeleting] = useState(false)
+    const [changingPublication, setChangingPublication] = useState(false);
+    const [actionErrorMessage, setActionErrorMessage] = useState<string | null>(null)
+
     const [loading, setLoading] = useState(true)
     const [errorMessage, setErrorMessage] = useState<string | null>(null)
     
@@ -82,7 +85,7 @@ function AdminProjectDetailPage() {
     // : 삭제 전 관리자가 confirm으로 사ㅛㅇ자에게 최종 확인 받고, 관리자 프로젝트 페이지로 이동
     async function handleDeleteProject() {
         if(!project) {
-            setErrorMessage('삭제할 프로젝트 정보가 없습니다.')
+            setActionErrorMessage('삭제할 프로젝트 정보가 없습니다.')
             return
         }
 
@@ -98,20 +101,62 @@ function AdminProjectDetailPage() {
 
         try{
             setDeleting(true)
-            setErrorMessage(null)
+            setActionErrorMessage(null)
 
             await deleteAdminProject(project.projectId)
             navigate('/admin/projects')
         } catch(error) {
             console.error(error)
 
-            setErrorMessage(
+            setActionErrorMessage(
                 error instanceof Error
                     ? error.message
                     : '프로젝트를 삭제하지 못했습니다.'
             )
         } finally {
             setDeleting(false)
+        }
+    }
+
+    // 관리자 프로젝트 공개/비공개 처리
+    async function handleTogglePublication() {
+        if (!project) {
+            setActionErrorMessage('공개 상태를 변경할 프로젝트 정보가 없습니다.')
+            return
+        }
+
+        const nextPublished = !project.published
+        const actionLabel = nextPublished ? '공개' : '비공개'
+
+        const confirmed = window.confirm(
+            `이 프로젝트를 ${actionLabel} 처리하시겠습니까?`
+        )
+
+        if(!confirmed) {
+            return
+        }
+
+        try {
+            setChangingPublication(true)
+            setActionErrorMessage(null)
+
+            const updatedProject = 
+                await updateAdminProjectPublication(
+                    project.projectId,
+                    nextPublished,
+                )
+
+            setProject(updatedProject)
+        } catch(error) {
+            console.error(error)
+
+            setActionErrorMessage(
+                error instanceof Error
+                    ? error.message
+                    : '프로젝트 공개 상태를 변경하지 못했습니다.'
+            )
+        } finally {
+            setChangingPublication(false)
         }
     }
 
@@ -163,6 +208,19 @@ function AdminProjectDetailPage() {
             </Link>
 
             <div className={styles.actionBar}>
+                <button
+                    type="button"
+                    className={styles.publicationButton}
+                    onClick={handleTogglePublication}
+                    disabled={changingPublication || deleting}
+                >
+                    {changingPublication
+                    ? '변경 중...'
+                    : project.published
+                        ? '숨김 처리'
+                        : '공개 처리'}
+                </button>
+
                 <Link
                     to={`/admin/projects/${project.projectId}/edit`}
                     className={styles.editButton}
@@ -179,6 +237,12 @@ function AdminProjectDetailPage() {
                     {deleting ? '삭제 중...' : '프로젝트 삭제'}
                 </button>
             </div>
+
+            {actionErrorMessage && (
+                <div className={styles.actionError}>
+                    {actionErrorMessage}
+                </div>
+            )}
 
             <section className={styles.card}>
                 <h1 className={styles.title}>{project.title}</h1>
