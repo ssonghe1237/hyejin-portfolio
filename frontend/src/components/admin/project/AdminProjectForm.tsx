@@ -15,7 +15,8 @@
  * 2026-07-09        Song       최초 생성
  */
 
-import { FormEvent, useState } from 'react'
+import { useState } from 'react'
+import type { FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import type {
   AdminProjectFormImage,

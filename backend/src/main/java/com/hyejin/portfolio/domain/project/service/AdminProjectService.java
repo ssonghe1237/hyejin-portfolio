@@ -19,6 +19,8 @@ import java.util.List;
  * -----------------------------------------------------------
  * 2026-07-03        Song       최초 생성
  * 2026-07-07        Song       프로젝트 등록 기능 추가
+ * 2026-07-09        Song       프로젝트 수정 기능 추가
+ * 2026-07-24        Song       프로젝트 삭제 기능 추가
  */
 
 public interface AdminProjectService {
@@ -39,5 +41,9 @@ public interface AdminProjectService {
             Long projectId,
             AdminProjectUpdateRequestDto request
     );
+
+    // 프로젝트 삭제
+    void deleteProject(Long projectId);
+
 
 }

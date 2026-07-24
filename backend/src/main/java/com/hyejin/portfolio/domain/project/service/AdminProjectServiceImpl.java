@@ -150,12 +150,7 @@ public class AdminProjectServiceImpl implements AdminProjectService {
                 request
         );
 
-        /*
-         * 삭제 대상 Entity를 미리 조회한다.
-         *
-         * 존재하지 않는 ID 또는 다른 프로젝트 소속 ID가 포함되면
-         * 실제 수정과 삭제를 시작하기 전에 요청을 실패시킨다.
-         */
+        // 삭제 대상 Entity 조회
         DeleteTargets deleteTargets = loadDeleteTargets(
                 projectId,
                 request
@@ -261,6 +256,66 @@ public class AdminProjectServiceImpl implements AdminProjectService {
             project.unpublish();
         }
     }
+
+    // =====================================================================================
+    // 삭제
+    // =====================================================================================
+    @Override
+    @Transactional
+    public void deleteProject(Long projectId){
+        //) projectId로 프로젝트 1건 조회
+        ProjectEntity project = findProject(projectId);
+
+        // 2) 프로젝트 하위 데이터 삭제
+        deleteProjectChildren(projectId);
+
+        // 3) 프로젝트 삭제
+        projectRepository.delete(project);
+
+        // .flush() : 영속성 컨텍스트의 변경 내용을 즉시 데이터베이스에 반영하라는 명령문
+        // 4) 삭제 결과를 즉시 DB에 반영
+        projectRepository.flush();
+
+    }
+
+    // deleteProject 헬퍼 메서드: 프로젝트 하위 데이터 전체 삭제
+    private void deleteProjectChildren(Long projectId) {
+        // 삭제순서1) 프로젝트에 속한 모든 이미지 삭제
+        // : 섹션 이미지가 섹션의 FK를 참조 할 수 있어 선 삭제
+        // => 썸네일, Hero 이미지, 섹션 이미지 모두 포함
+        List<ProjectImageEntity> images = projectImageRepository.findAllByProject_ProjectId(
+                projectId
+        );
+
+        if (!images.isEmpty()) {
+            projectImageRepository.deleteAll(images);
+        }
+
+        // 삭제순서2) 모든 섹션 삭제
+        List<ProjectSectionEntity> sections
+                = projectSectionRepository.findByProject_ProjectIdOrderByDisplayOrderAsc(projectId);
+
+        if (!sections.isEmpty()) {
+            projectSectionRepository.deleteAll(sections);
+        }
+
+        // 삭제순서3) 프로젝트 기술스택 삭제
+        List<ProjectTechEntity> techStacks =
+                projectTechRepository.findByProject_ProjectIdOrderByDisplayOrderAsc(projectId);
+
+        if (!techStacks.isEmpty()) {
+            projectTechRepository.deleteAll(techStacks);
+        }
+
+        // 삭제순서4) 프로젝트 링크 삭제
+        List<ProjectLinkEntity> links =
+                projectLinkRepository.findByProject_ProjectIdOrderByDisplayOrderAsc(projectId);
+
+        if (!links.isEmpty()) {
+            projectLinkRepository.deleteAll(links);
+        }
+    }
+
 
     // =====================================================================================
     // 공통 조회
@@ -638,12 +693,14 @@ public class AdminProjectServiceImpl implements AdminProjectService {
             Long projectId,
             List<Long> deletedImageIds
     ) {
+        // 중복 아이디 삭제
         List<Long> imageIds = distinctIds(deletedImageIds);
 
         if (imageIds.isEmpty()) {
             return List.of();
         }
 
+        //
         List<ProjectImageEntity> images =
                 projectImageRepository
                         .findAllByProject_ProjectIdAndProjectImageIdIn(

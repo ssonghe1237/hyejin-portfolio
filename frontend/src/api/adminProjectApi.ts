@@ -15,6 +15,7 @@
  * 2026-07-02        Song       최초 생성
  * 2026-07-09        Song       관리자 프로젝트 등록 API 추가
  * 2026-07-09        Song       관리자 프로젝트 수정 API 추가
+ * 2026-07-24        Song       관리자 프로젝트 삭제 API 추가
  */
 
 
@@ -27,7 +28,7 @@ import type {
 
 // 프로젝트 목록 전체 조회
 export async function getAdminProjects() 
-: Promise<AdminProjectListResponse> {
+: Promise<AdminProjectListResponse[]> {
     const response = await fetch('/api/admin/projects')
 
     if(!response.ok) {
@@ -53,7 +54,7 @@ export async function getAdminProjectDetail (projectId: number)
     return response.json()
 }
 
-// 프로젝트 등록
+// 관리자 프로젝트 등록
 export async function createAdminProject(
     request:AdminProjectCreateRequest
 ): Promise<AdminProjectDetailResponse> {
@@ -117,4 +118,32 @@ export async function updateAdminProject(
   }
 
   return response.json()
+}
+
+// 관리자 프로젝트 삭제
+// @param projectId 삭제할 프로젝트 ID
+export async function deleteAdminProject(
+  projectId: number,
+): Promise<void> {
+  const response = await fetch(
+    `/api/admin/projects/${projectId}`,
+    {
+      method: 'DELETE',
+    },
+  )
+
+  if (!response.ok) {
+    const errorBody = (await response
+      .json()
+      .catch(() => null)) as {
+      message?: string
+      detail?: string
+    } | null
+
+    throw new Error(
+      errorBody?.message ??
+        errorBody?.detail ??
+        `관리자 프로젝트 삭제 실패: ${response.status}`,
+    )
+  }
 }

@@ -37,7 +37,7 @@ function ProjectSectionImages({
     <div className={styles.images}>
       {images.map((image) => (
         <figure
-          key={image.imageId}
+          key={image.projectImageId}
           className={styles.figure}
         >
           <ImageWithFallback

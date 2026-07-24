@@ -27,6 +27,8 @@ import java.util.List;
  * -----------------------------------------------------------
  * 2026-07-03        Song       최초 생성
  * 2026-07-07        Song       프로젝트 등록 API 추가
+ * 2026-07-09        Song       프로젝트 수정 API 추가
+ * 2026-07-24        Song       프로젝트 삭제 API 추가
  */
 
 @RestController
@@ -80,5 +82,15 @@ public class AdminProjectController {
                 );
 
         return ResponseEntity.ok(response);
+    }
+
+    // 관리자 프로젝트 삭제
+    @DeleteMapping("/{projectId}")
+    public ResponseEntity<Void> deleteProject(
+            @PathVariable Long projectId
+    ){
+        adminProjectService.deleteProject(projectId);
+
+        return ResponseEntity.noContent().build();
     }
 }
