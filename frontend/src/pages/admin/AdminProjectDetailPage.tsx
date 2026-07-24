@@ -12,21 +12,34 @@
  * -----------------------------------------------------------
  * 2026-07-02        Song       최초 생성
  * 2026-07-09        Song       관리자 프로젝트 수정 페이지 이동 버튼 추가
+ * 2026-07-24        Song       관리자 프로젝트 삭제 버튼 추가
  */
 
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { getAdminProjectDetail } from '../../api/adminProjectApi';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import { getAdminProjectDetail, deleteAdminProject } from '../../api/adminProjectApi';
 import type { AdminProjectDetailResponse } from '../../types/project';
 import styles from './AdminProjectDetailPage.module.css';
 
 function AdminProjectDetailPage() {
+
+    // ============================================================================
+    // 1) hooks
+    // ----------------------------------------------------------------------------
+    const navigate = useNavigate();
     
     const { projectId } = useParams<{ projectId : string }>()
+
     const [project, setProject] = useState<AdminProjectDetailResponse | null>(null)
+    const [deleting, setDeleting] = useState(false)
     const [loading, setLoading] = useState(true)
     const [errorMessage, setErrorMessage] = useState<string | null>(null)
+    
 
+    
+    // ============================================================================
+    // 2) useEffect (상세 조회)
+    // ----------------------------------------------------------------------------
     useEffect(() => {
         async function fetchProjectDetail() {
             
@@ -61,16 +74,67 @@ function AdminProjectDetailPage() {
 
         fetchProjectDetail()
     }, [projectId])
+    
+    // ============================================================================
+    // 3. 이벤트 함수
+    // ----------------------------------------------------------------------------
+    // 관리자 프로젝트 삭제 처리
+    // : 삭제 전 관리자가 confirm으로 사ㅛㅇ자에게 최종 확인 받고, 관리자 프로젝트 페이지로 이동
+    async function handleDeleteProject() {
+        if(!project) {
+            setErrorMessage('삭제할 프로젝트 정보가 없습니다.')
+            return
+        }
 
-    if(loading) {
-        return <div className={styles.status}>관리자 프로젝트 상세 정보를 불러오는 중입니다...</div>
+        // .confirm : 브라우저의 기본 알림창을 띄워서 사용자에게 삭제 여부를 최종 확인 받는 표준 JavaScript 코드
+        // 사용자의 선택(확인 또는 취소) 에따라 boolean 값을 반환
+        const confirmed = window.confirm(
+            '정말 이 프로젝트를 삭제하시겠습니까?'
+        )
+
+        if (!confirmed) {
+            return
+        }
+
+        try{
+            setDeleting(true)
+            setErrorMessage(null)
+
+            await deleteAdminProject(project.projectId)
+            navigate('/admin/projects')
+        } catch(error) {
+            console.error(error)
+
+            setErrorMessage(
+                error instanceof Error
+                    ? error.message
+                    : '프로젝트를 삭제하지 못했습니다.'
+            )
+        } finally {
+            setDeleting(false)
+        }
+    }
+
+    // ============================================================================
+    // 4. 화면 분기
+    // ----------------------------------------------------------------------------
+    if (loading) {
+        return (
+            <div className={styles.status}>
+                관리자 프로젝트 상세 정보를 불러오는 중입니다...
+            </div>
+        )
     }
 
     if (errorMessage) {
         return (
             <div className={styles.error}>
                 <p>{errorMessage}</p>
-                <Link to="/admin/projects" className={styles.backLink}>
+
+                <Link
+                    to="/admin/projects"
+                    className={styles.backLink}
+                >
                     관리자 프로젝트 목록으로 돌아가기
                 </Link>
             </div>
@@ -78,11 +142,15 @@ function AdminProjectDetailPage() {
     }
 
     if(!project) {
-        return (
+        return(
             <div className={styles.error}>
                 <p>프로젝트 정보가 없습니다.</p>
-                <Link to="/admin/projects" className={styles.backLink}>
-                관리자 프로젝트 목록으로 돌아가기
+
+                <Link
+                    to="/admin/projects"
+                    className={styles.backLink}
+                >
+                    관리자 프로젝트 목록으로 돌아가기
                 </Link>
             </div>
         )
@@ -101,6 +169,15 @@ function AdminProjectDetailPage() {
                 >
                     프로젝트 수정
                 </Link>
+
+                <button
+                    type='button'
+                    onClick={handleDeleteProject}
+                    disabled={deleting}
+                    className={styles.editButton}
+                >
+                    {deleting ? '삭제 중...' : '프로젝트 삭제'}
+                </button>
             </div>
 
             <section className={styles.card}>

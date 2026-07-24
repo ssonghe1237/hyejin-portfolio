@@ -79,7 +79,7 @@ function ProjectHeroImages({ images }: ProjectHeroImagesProps) {
         <div className={styles.dots}>
           {sortedImages.map((image, index) => (
             <button
-              key={image.imageId}
+              key={image.projectImageId}
               type="button"
               onClick={() => setCurrentIndex(index)}
               aria-label={`${index + 1}번째 대표 이미지 보기`}

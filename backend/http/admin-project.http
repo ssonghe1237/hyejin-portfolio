@@ -71,3 +71,13 @@ GET http://localhost:8081/api/admin/projects
 
 ### 생성된 프로젝트 상세 조회
 GET http://localhost:8081/api/admin/projects/2
+
+### 관리자 프로젝트 삭제 성공
+DELETE http://localhost:8081/api/admin/projects/6
+
+### 삭제 후 관리자 프로젝트 상세 조회 404 확인
+GET http://localhost:8081/api/admin/projects/6
+
+
+### 존재하지 않는 관리자 프로젝트 삭제 404 확인
+DELETE http://localhost:8081/api/admin/projects/999999

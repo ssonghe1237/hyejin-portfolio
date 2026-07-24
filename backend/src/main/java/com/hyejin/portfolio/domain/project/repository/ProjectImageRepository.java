@@ -42,6 +42,11 @@ public interface ProjectImageRepository extends JpaRepository<ProjectImageEntity
             Long sectionId
     );
 
+    // 프로젝트 ID 기준 모든 이미지 조회
+    List<ProjectImageEntity> findAllByProject_ProjectId(
+            Long projectId
+    );
+
     // ===========================================================
     // 수정용 메서드
     // -----------------------------------------------------------
