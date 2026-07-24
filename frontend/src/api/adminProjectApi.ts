@@ -16,6 +16,7 @@
  * 2026-07-09        Song       관리자 프로젝트 등록 API 추가
  * 2026-07-09        Song       관리자 프로젝트 수정 API 추가
  * 2026-07-24        Song       관리자 프로젝트 삭제 API 추가
+ * 2026-07-25        Song       관리자 프로젝트 공개/비공개 API 추가
  */
 
 
@@ -56,12 +57,12 @@ export async function getAdminProjectDetail (projectId: number)
 
 // 관리자 프로젝트 등록
 export async function createAdminProject(
-    request:AdminProjectCreateRequest
+    request:AdminProjectCreateRequest,
 ): Promise<AdminProjectDetailResponse> {
-    const response = await fetch('/api/admin/projects/', {
+    const response = await fetch('/api/admin/projects', {
         method: 'POST',
         headers: {
-            'Content-type' : 'aplication/json'
+            'Content-type' : 'application/json'
         },
         body: JSON.stringify(request),
     })
@@ -114,6 +115,39 @@ export async function updateAdminProject(
       errorBody?.message ??
         errorBody?.detail ??
         `관리자 프로젝트 수정 실패: ${response.status}`,
+    )
+  }
+
+  return response.json()
+}
+
+// 관리자 프로젝트 공개/비공개
+export async function updateAdminProjectPublication(
+  projectId:number,
+  published: boolean,
+): Promise<AdminProjectDetailResponse> {
+  const response = await fetch(`/api/admin/projects/${projectId}/publication`,
+      {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ published })
+      }
+    )
+
+  if (!response.ok) {
+    const errorBody = (await response
+      .json()
+      .catch(() => null)) as {
+      message?: string
+      detail?: string
+    } | null
+
+    throw new Error(
+      errorBody?.message ??
+        errorBody?.detail ??
+          `관리자 프로젝트 공개 상태 변경 실패: ${response.status}`
     )
   }
 

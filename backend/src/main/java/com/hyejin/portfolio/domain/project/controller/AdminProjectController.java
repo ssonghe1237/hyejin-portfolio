@@ -1,12 +1,8 @@
 package com.hyejin.portfolio.domain.project.controller;
 
-import com.hyejin.portfolio.domain.project.dto.AdminProjectCreateRequestDto;
-import com.hyejin.portfolio.domain.project.dto.AdminProjectDetailResponseDto;
-import com.hyejin.portfolio.domain.project.dto.AdminProjectListResponseDto;
-import com.hyejin.portfolio.domain.project.dto.AdminProjectUpdateRequestDto;
+import com.hyejin.portfolio.domain.project.dto.*;
 import com.hyejin.portfolio.domain.project.service.AdminProjectService;
 import jakarta.validation.Valid;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +25,7 @@ import java.util.List;
  * 2026-07-07        Song       프로젝트 등록 API 추가
  * 2026-07-09        Song       프로젝트 수정 API 추가
  * 2026-07-24        Song       프로젝트 삭제 API 추가
+ * 2026-07-25        Song       프로젝트 공개/비공개 API 추가
  */
 
 @RestController
@@ -77,6 +74,21 @@ public class AdminProjectController {
     ) {
         AdminProjectDetailResponseDto response =
                 adminProjectService.updateProject(
+                        projectId,
+                        request
+                );
+
+        return ResponseEntity.ok(response);
+    }
+
+    // 프로젝트 공개/비공개 처리
+    @PatchMapping("/{projectId}/publication")
+    public ResponseEntity<AdminProjectDetailResponseDto> updateProjectPublication(
+            @PathVariable Long projectId,
+            @Valid @RequestBody AdminProjectPublicationUpdateRequestDto request
+    ) {
+        AdminProjectDetailResponseDto response =
+                adminProjectService.updateProjectPublication(
                         projectId,
                         request
                 );

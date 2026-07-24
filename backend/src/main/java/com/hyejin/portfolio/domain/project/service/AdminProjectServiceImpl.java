@@ -258,6 +258,36 @@ public class AdminProjectServiceImpl implements AdminProjectService {
     }
 
     // =====================================================================================
+    // 프로젝트 공개/ 비공개 처리
+    // =====================================================================================
+    @Override
+    @Transactional
+    public AdminProjectDetailResponseDto updateProjectPublication(
+            Long projectId,
+            AdminProjectPublicationUpdateRequestDto request
+    ) {
+        ProjectEntity project = findProject(projectId);
+
+        if (request == null || request.published() == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "공개 여부 값은 필수입니다."
+            );
+        }
+
+        if (Boolean.TRUE.equals(request.published())) {
+            project.publish();
+        } else {
+            project.unpublish();
+        }
+
+        project.touch();
+        projectRepository.flush();
+
+        return buildDetailResponse(project);
+    }
+
+    // =====================================================================================
     // 삭제
     // =====================================================================================
     @Override

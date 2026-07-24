@@ -1,9 +1,6 @@
 package com.hyejin.portfolio.domain.project.service;
 
-import com.hyejin.portfolio.domain.project.dto.AdminProjectCreateRequestDto;
-import com.hyejin.portfolio.domain.project.dto.AdminProjectDetailResponseDto;
-import com.hyejin.portfolio.domain.project.dto.AdminProjectListResponseDto;
-import com.hyejin.portfolio.domain.project.dto.AdminProjectUpdateRequestDto;
+import com.hyejin.portfolio.domain.project.dto.*;
 
 import java.util.List;
 
@@ -21,6 +18,7 @@ import java.util.List;
  * 2026-07-07        Song       프로젝트 등록 기능 추가
  * 2026-07-09        Song       프로젝트 수정 기능 추가
  * 2026-07-24        Song       프로젝트 삭제 기능 추가
+ * 2026-07-25        Song       프로젝트 공개/비공개 처리 추가
  */
 
 public interface AdminProjectService {
@@ -45,5 +43,10 @@ public interface AdminProjectService {
     // 프로젝트 삭제
     void deleteProject(Long projectId);
 
+    // 프로젝트 공개/비공개 처리
+    AdminProjectDetailResponseDto updateProjectPublication(
+            Long projectId,
+            AdminProjectPublicationUpdateRequestDto requst
+    );
 
 }
