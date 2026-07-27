@@ -8,11 +8,13 @@
  *                  - 공개/비공개 상태 확인
  *                  - 프로젝트 상세 관리 페이지 이동
  *                  - 프로젝트 공개/숨김 빠른 처리
+ *                  - 프로젝트 목록 필터 처리
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-07-02        Song       최초 생성
  * 2026-07-27        Song       목록 공개/숨김 빠른 처리 버튼 추가
+ * 2026-07-27        Song       프로젝트 목록 필터 처리 추가
  */
 
 import { useEffect, useState } from 'react';
@@ -37,9 +39,15 @@ function AdminProjectListPage() {
     const [errorMessage, setErrorMessage] = useState<string | null>(null)
     const [actionErrorMessage, setActionErrorMessage] = useState<string | null>(null)
 
+    // 필터 hook
+    const [typeFilter, setTypeFilter] = useState('ALL')
+    const [publicationFilter, setPublicationFilter] = useState('ALL')
+    const [fromDate, setFromDate] = useState('') // 생성일 필터 시작 값
+    const [toDate, setToDate] = useState('')     // 수정일 필터 종료 값
+
 
     // ============================================================================
-    // 2) useEffect (프로젝트 목록 전체 조회)
+    // 2) useEffect (프로젝트 목록 전체 조회/ 필터 조회)
     // ----------------------------------------------------------------------------
     useEffect(() => {
         async function fetchProjects() {
@@ -61,8 +69,33 @@ function AdminProjectListPage() {
         fetchProjects()
     }, [])
 
+    // 필터 분기
+    const filteredProjects = projects.filter((project) => {
+        const matchesType = 
+            typeFilter === 'ALL' || project.projectType === typeFilter
+
+            const matchesPublication = 
+                publicationFilter === 'ALL' ||
+                (publicationFilter === 'PUBLISHED' && project.published) ||
+                (publicationFilter === 'UNPUBLISHED' && !project.published)
+
+            const createdDate = project.createdAt.slice(0, 10)
+            const updatedDate = project.updatedAt.slice(0, 10)
+
+            const matchesDateRange = 
+                (!fromDate || createdDate >= fromDate) &&
+                (!toDate || updatedDate <= toDate) 
+                
+
+            return (
+                matchesType &&
+                matchesPublication &&
+                matchesDateRange
+            )
+    })
+
     // ============================================================================
-    // 3. 이벤트 함수 (프로젝트 공개/ 비공개 빠른 처리)
+    // 3. 이벤트 함수 (프로젝트 공개/ 비공개 빠른 처리 | 필터 초기화 처리)
     // ----------------------------------------------------------------------------
     async function handleTogglePublication(
         project:AdminProjectListResponse
@@ -112,6 +145,15 @@ function AdminProjectListPage() {
         
     }
 
+    // 필터 초기화 함수
+    function handleResetFilters() {
+        setTypeFilter('ALL')
+        setPublicationFilter('ALL')
+        setFromDate('')
+        setToDate('')
+        
+    }
+
     // ============================================================================
     // 4. 화면 분기
     // ----------------------------------------------------------------------------
@@ -146,14 +188,83 @@ function AdminProjectListPage() {
                 </Link>
             </header>
 
+            <section className={styles.filterPanel}>
+                <div className={styles.filterGroup}>
+                    <label className={styles.filterLabel}>
+                        유형
+                    </label>
+
+                    <select
+                        className={styles.filterSelect}
+                        value={typeFilter}
+                        onChange={(event) => setTypeFilter(event.target.value)}
+                    >
+                        <option value="ALL">전체</option>
+                        <option value="PERSONAL">개인</option>
+                        <option value="TEAM">팀</option>
+                    </select>
+                </div>
+
+                <div className={styles.filterGroup}>
+                    <label className={styles.filterLabel}>
+                        공개 상태
+                    </label>
+
+                    <select
+                        className={styles.filterSelect}
+                        value={publicationFilter}
+                        onChange={(event) => setPublicationFilter(event.target.value)}
+                    >
+                        <option value="ALL">전체</option>
+                        <option value="PUBLISHED">공개</option>
+                        <option value="UNPUBLISHED">비공개</option>
+                    </select>
+                </div>
+
+                <div className={styles.filterGroup}>
+                    <label className={styles.filterLabel}>
+                    생성일
+                    </label>
+
+                    <input
+                    type="date"
+                    className={styles.filterInput}
+                    value={fromDate}
+                    onChange={(event) => setFromDate(event.target.value)}
+                    />
+                </div>
+
+                <div className={styles.filterGroup}>
+                    <label className={styles.filterLabel}>
+                    수정일
+                    </label>
+
+                    <input
+                    type="date"
+                    className={styles.filterInput}
+                    value={toDate}
+                    onChange={(event) => setToDate(event.target.value)}
+                    />
+                </div>
+
+                <button
+                    type="button"
+                    className={styles.resetButton}
+                    onClick={handleResetFilters}
+                >
+                    초기화
+                </button>
+
+            </section>
+
             {actionErrorMessage && (
                 <div className={styles.actionError}>
                     {actionErrorMessage}
                 </div>
             )}
 
-            {projects.length === 0 ? (
-                <div className={styles.empty}>등록된 프로젝트가 없습니다.</div>
+            {filteredProjects.length === 0 ? (
+                <div className={styles.empty}>조건에 맞는 프로젝트가 없습니다.</div>
             ) : (
                 <div className={styles.tableWrapper}>
                     <table className={styles.table}>
@@ -171,7 +282,7 @@ function AdminProjectListPage() {
                         </thead>
 
                         <tbody>
-                            {projects.map((project) => {
+                            {filteredProjects.map((project) => {
                                 const isChanging = changingPublicationProjectId === project.projectId
 
                                 return(

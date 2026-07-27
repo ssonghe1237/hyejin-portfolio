@@ -163,3 +163,61 @@
   font-size: 14px;
   font-weight: 600;
 }
+
+.filterPanel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+  margin: 24px 0 16px;
+  padding: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background-color: #ffffff;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filterLabel {
+  font-size: 13px;
+  font-weight: 700;
+  color: #374151;
+}
+
+.filterSelect,
+.filterInput {
+  min-width: 140px;
+  height: 38px;
+  padding: 0 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #111827;
+  font-size: 14px;
+}
+
+.filterSelect:focus,
+.filterInput:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+.resetButton {
+  height: 38px;
+  padding: 0 14px;
+  border: 1px solid #6b7280;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.resetButton:hover {
+  background-color: #f3f4f6;
+}
