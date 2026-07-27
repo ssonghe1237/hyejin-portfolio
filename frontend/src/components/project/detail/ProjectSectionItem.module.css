@@ -31,3 +31,17 @@
   font-size: 28px;
   letter-spacing: -0.04em;
 }
+
+.myRoleItem {
+  border-left: 4px solid #4f46e5;
+  background-color: #f8fafc;
+}
+
+.myRoleItem .type {
+  color: #4f46e5;
+  font-weight: 800;
+}
+
+.myRoleItem .title {
+  color: #111827;
+}

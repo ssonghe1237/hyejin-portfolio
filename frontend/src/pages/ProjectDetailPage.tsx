@@ -15,6 +15,7 @@
  * 2026-07-02        Song       상세 페이지 컴포넌트 분리 적용
  * 2026-07-02        Song       heroImages 및 섹션 별 images 구조 반영
  * 2026-07-02        Song       CSS Module 스타일 분리
+ * 2026-07-27        Song       상세페이지 UI 개선 컴포넌트 연동
  */
 
 import { useEffect, useState } from 'react';
@@ -44,6 +45,7 @@ function ProjectDetailPage() {
 
             try{
                 setLoading(true)
+                setErrorMessage(null)
 
                 const result = await getProjectDetail(slug);
 
@@ -68,7 +70,12 @@ function ProjectDetailPage() {
         return (
             <div className={styles.error}>
                 <p>{errorMessage}</p>
-                <Link to="/work">work 목록으로 돌아가기</Link>
+                <Link
+                    to="/work"
+                    className={styles.backLink}
+                >
+                    Work 목록으로 돌아가기
+                </Link>
             </div>
         )
     }

@@ -5,25 +5,30 @@
  * date           : 2026-07-02
  * description    : ProjectDetailPage 스타일
  *                  - 프로젝트 상세 페이지 상태 영역 및 콘텐츠 간격 관리
+ *                  - 상세 페이지 반응형 여백 관리
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-07-02        Song       최초 생성
+ * 2026-07-27        Song       상세 페이지 여백 및 상태 영역 스타일 개선
  */
 
 .page {
   display: grid;
   gap: 56px;
+  padding-bottom: 80px;
 }
 
 .status {
   padding: 80px 0;
   color: var(--color-text-muted);
+  text-align: center;
 }
 
 .error {
   padding: 80px 0;
   color: var(--color-danger);
+  text-align: center;
 }
 
 .backLink {
@@ -31,4 +36,16 @@
   font-size: 14px;
   font-weight: 700;
   text-decoration: none;
+}
+
+.backLink:hover {
+  color: var(--color-text);
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .page {
+    gap: 40px;
+    padding-bottom: 56px;
+  }
 }
