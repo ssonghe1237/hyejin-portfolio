@@ -14,6 +14,7 @@
  * -----------------------------------------------------------
  * 2026-07-09        Song       최초 생성
  * 2026-07-09        Song       하위 데이터 ID 필드명을 백엔드 DTO와 통일
+ * 2026-07-27        Song       관리자 프로젝트 폼 UX 개선
  */
 
 import type {
@@ -45,7 +46,9 @@ export function toAdminProjectFormState(
     projectType: detail.projectType,
     startDate: detail.startDate,
     endDate: detail.endDate,
-    teamName: detail.teamName,
+    teamName: detail.projectType === 'TEAM'
+      ? detail.teamName
+      : null,
     role: detail.role,
     displayOrder: detail.displayOrder,
     published: detail.published,
@@ -142,7 +145,9 @@ export function toAdminProjectUpdateRequest(
     projectType: form.projectType,
     startDate: form.startDate,
     endDate: form.endDate,
-    teamName: form.teamName,
+    teamName: form.projectType === 'TEAM'
+      ? form.teamName
+      : null,
     role: form.role,
     displayOrder: form.displayOrder,
     published: form.published,

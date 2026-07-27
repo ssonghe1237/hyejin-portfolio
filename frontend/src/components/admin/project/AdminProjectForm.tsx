@@ -9,10 +9,12 @@
  *                  - 상세 섹션, 섹션별 이미지, 관련 링크 입력
  *                  - 기존 하위 데이터 ID 기준 선택 삭제 상태 관리
  *                  - 등록 및 수정 페이지 공통 사용
+ *                  - 필수 입력 표시 및 동적 항목 버튼 UI 개선
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-07-09        Song       최초 생성
+ * 2026-07-27        Song       관리자 프로젝트 폼 UX 개선
  */
 
 import { useState } from 'react'
@@ -86,6 +88,15 @@ function appendUniqueId(
   return [...ids, targetId]
 }
 
+// 필수 입력사항 표시
+function RequiredMark() {
+  return (
+    <span className={styles.requiredMark}>
+        *
+    </span>
+  )
+}
+
 function AdminProjectForm({
   mode,
   initialValue,
@@ -104,6 +115,16 @@ function AdminProjectForm({
     setForm((previous) => ({
       ...previous,
       [field]: value,
+    }))
+  }
+
+  function handleProjectTypeChange(projectType: ProjectType) {
+    setForm((previous) => ({
+      ...previous,
+      projectType,
+      teamName: projectType === 'TEAM'
+        ? previous.teamName
+        : null,
     }))
   }
 
@@ -437,9 +458,7 @@ function AdminProjectForm({
     })
   }
 
-  /**
-   * 섹션 이미지 정보 변경
-   */
+  // 섹션 이미지 정보 변경
   function updateSectionImage(
     sectionIndex: number,
     imageIndex: number,
@@ -627,7 +646,10 @@ function AdminProjectForm({
 
         <div className={styles.grid}>
           <label className={styles.field}>
-            <span>프로젝트명</span>
+            <span>
+              프로젝트명
+              <RequiredMark />
+            </span>
             <input
               required
               value={form.title}
@@ -641,7 +663,10 @@ function AdminProjectForm({
           </label>
 
           <label className={styles.field}>
-            <span>Slug</span>
+            <span>
+              Slug
+              <RequiredMark />
+            </span>
             <input
               required
               value={form.slug}
@@ -656,12 +681,15 @@ function AdminProjectForm({
           </label>
 
           <label className={styles.field}>
-            <span>프로젝트 유형</span>
+            <span>
+              프로젝트 유형
+              <RequiredMark />
+            </span>
+            
             <select
               value={form.projectType}
               onChange={(event) =>
-                updateField(
-                  'projectType',
+                handleProjectTypeChange(
                   event.target.value as ProjectType,
                 )
               }
@@ -674,7 +702,11 @@ function AdminProjectForm({
           </label>
 
           <label className={styles.field}>
-            <span>표시 순서</span>
+            <span>
+              표시 순서
+              <RequiredMark />
+            </span>
+
             <input
               type="number"
               min="0"
@@ -716,18 +748,26 @@ function AdminProjectForm({
             />
           </label>
 
-          <label className={styles.field}>
-            <span>팀명</span>
-            <input
-              value={form.teamName ?? ''}
-              onChange={(event) =>
-                updateField(
-                  'teamName',
-                  event.target.value || null,
-                )
-              }
-            />
-          </label>
+          {form.projectType === 'TEAM' && (
+            <label className={styles.field}>
+              <span>
+                팀명
+                <RequiredMark />
+              </span>
+
+              <input
+                required
+                value={form.teamName ?? ''}
+                onChange={(event) =>
+                  updateField(
+                    'teamName',
+                    event.target.value || null,
+                  )
+                }
+              />
+            </label>
+          )}
+          
 
           <label className={styles.field}>
             <span>담당 역할</span>
@@ -744,7 +784,10 @@ function AdminProjectForm({
         </div>
 
         <label className={styles.field}>
-          <span>요약</span>
+          <span>
+            요약
+            <RequiredMark />
+          </span>
           <textarea
             required
             rows={3}
@@ -790,56 +833,59 @@ function AdminProjectForm({
       <fieldset className={styles.card}>
         <div className={styles.sectionHeader}>
           <legend>목록 썸네일</legend>
-
-          {!form.thumbnailImage && (
-            <button
-              type="button"
-              onClick={addThumbnail}
-            >
-              썸네일 추가
-            </button>
-          )}
         </div>
+
+        {!form.thumbnailImage && (
+          <button
+            type="button"
+            className={styles.addButton}
+            onClick={addThumbnail}
+          >
+            + 썸네일 추가
+          </button>
+        )}
 
         {form.thumbnailImage && (
           <div className={styles.arrayItem}>
-            <label className={styles.field}>
-              <span>이미지 URL</span>
-              <input
-                required
-                value={
-                  form.thumbnailImage.imageUrl
-                }
-                onChange={(event) =>
-                  updateThumbnail({
-                    imageUrl: event.target.value,
-                  })
-                }
-              />
-            </label>
+            <div className={styles.fieldWithRemove}>
+              <label className={styles.field}>
+                <span>
+                  이미지 URL
+                  <RequiredMark />
+                </span>
+
+                <input
+                  required
+                  value={form.thumbnailImage.imageUrl}
+                  onChange={(event) =>
+                    updateThumbnail({
+                      imageUrl: event.target.value,
+                    })
+                  }
+                />
+              </label>
+
+              <button
+                type="button"
+                className={styles.removeIconButton}
+                onClick={removeThumbnail}
+                aria-label="썸네일 제거"
+              >
+                ×
+              </button>
+            </div>
 
             <label className={styles.field}>
               <span>설명</span>
               <input
-                value={
-                  form.thumbnailImage.caption ?? ''
-                }
+                value={form.thumbnailImage.caption ?? ''}
                 onChange={(event) =>
                   updateThumbnail({
-                    caption:
-                      event.target.value || null,
+                    caption: event.target.value || null,
                   })
                 }
               />
             </label>
-
-            <button
-              type="button"
-              className={styles.removeButton}
-              onClick={removeThumbnail}
-            >
-              썸네일 제거
-            </button>
           </div>
         )}
       </fieldset>
@@ -847,13 +893,6 @@ function AdminProjectForm({
       <fieldset className={styles.card}>
         <div className={styles.sectionHeader}>
           <legend>Hero Images</legend>
-
-          <button
-            type="button"
-            onClick={addHeroImage}
-          >
-            이미지 추가
-          </button>
         </div>
 
         <div className={styles.arrayList}>
@@ -866,19 +905,30 @@ function AdminProjectForm({
                 }
                 className={styles.arrayItem}
               >
-                <label className={styles.field}>
-                  <span>이미지 URL</span>
-                  <input
-                    required
-                    value={image.imageUrl}
-                    onChange={(event) =>
-                      updateHeroImage(index, {
-                        imageUrl:
-                          event.target.value,
-                      })
-                    }
-                  />
-                </label>
+                <div className={styles.fieldWithRemove}>
+                  <label className={styles.field}>
+                    <span>이미지 URL</span>
+                    <input
+                      required
+                      value={image.imageUrl}
+                      onChange={(event) =>
+                        updateHeroImage(index, {
+                          imageUrl:
+                            event.target.value,
+                        })
+                      }
+                    />
+                  </label>
+
+                  <button
+                    type="button"
+                    className={styles.removeIconButton}
+                    onClick={() => removeHeroImage(index)}
+                    aria-label="Hero 이미지 제거"
+                  >
+                    ×
+                  </button>
+                </div>
 
                 <label className={styles.field}>
                   <span>설명</span>
@@ -895,7 +945,11 @@ function AdminProjectForm({
                 </label>
 
                 <label className={styles.field}>
-                  <span>표시 순서</span>
+                  <span>
+                    표시 순서
+                    <RequiredMark />
+                  </span>
+
                   <input
                     type="number"
                     min="0"
@@ -909,34 +963,23 @@ function AdminProjectForm({
                     }
                   />
                 </label>
-
-                <button
-                  type="button"
-                  className={
-                    styles.removeButton
-                  }
-                  onClick={() =>
-                    removeHeroImage(index)
-                  }
-                >
-                  제거
-                </button>
               </div>
             ),
           )}
         </div>
+
+        <button
+            type="button"
+            className={styles.addButton}
+            onClick={addHeroImage}
+        >
+          + 이미지 추가
+        </button>
       </fieldset>
 
       <fieldset className={styles.card}>
         <div className={styles.sectionHeader}>
           <legend>Tech Stacks</legend>
-
-          <button
-            type="button"
-            onClick={addTechStack}
-          >
-            기술 추가
-          </button>
         </div>
 
         <div className={styles.arrayList}>
@@ -949,19 +992,30 @@ function AdminProjectForm({
                 }
                 className={styles.arrayItem}
               >
-                <label className={styles.field}>
-                  <span>기술명</span>
-                  <input
-                    required
-                    value={tech.techName}
-                    onChange={(event) =>
-                      updateTechStack(index, {
-                        techName:
-                          event.target.value,
-                      })
-                    }
-                  />
-                </label>
+                <div className={styles.fieldWithRemove}>
+                  <label className={styles.field}>
+                    <span>기술명</span>
+                    <input
+                      required
+                      value={tech.techName}
+                      onChange={(event) =>
+                        updateTechStack(index, {
+                          techName:
+                            event.target.value,
+                        })
+                      }
+                    />
+                  </label>
+
+                  <button
+                    type="button"
+                    className={styles.removeIconButton}
+                    onClick={() => removeTechStack(index)}
+                    aria-label="기술스택 제거"
+                  >
+                    ×
+                  </button>
+                </div>
 
                 <label className={styles.field}>
                   <span>카테고리</span>
@@ -994,34 +1048,23 @@ function AdminProjectForm({
                     }
                   />
                 </label>
-
-                <button
-                  type="button"
-                  className={
-                    styles.removeButton
-                  }
-                  onClick={() =>
-                    removeTechStack(index)
-                  }
-                >
-                  제거
-                </button>
               </div>
             ),
           )}
         </div>
+
+        <button
+            type="button"
+            className={styles.addButton}
+            onClick={addTechStack}
+        >
+          + 기술 추가
+        </button>
       </fieldset>
 
       <fieldset className={styles.card}>
         <div className={styles.sectionHeader}>
           <legend>Sections</legend>
-
-          <button
-            type="button"
-            onClick={addSection}
-          >
-            섹션 추가
-          </button>
         </div>
 
         <div className={styles.arrayList}>
@@ -1034,6 +1077,21 @@ function AdminProjectForm({
                 }
                 className={styles.sectionItem}
               >
+                <div className={styles.itemTopBar}>
+                  <strong>
+                    섹션 #{sectionIndex + 1}
+                  </strong>
+
+                  <button
+                    type="button"
+                    className={styles.removeIconButton}
+                    onClick={() => removeSection(sectionIndex)}
+                    aria-label="섹션 제거"
+                  >
+                    ×
+                  </button>
+                </div>
+
                 <div className={styles.grid}>
                   <label className={styles.field}>
                     <span>섹션 유형</span>
@@ -1122,153 +1180,127 @@ function AdminProjectForm({
                   />
                 </label>
 
-                <div
-                  className={styles.sectionHeader}
-                >
+                <div className={styles.sectionHeader}>
                   <strong>섹션 이미지</strong>
-
-                  <button
-                    type="button"
-                    onClick={() =>
-                      addSectionImage(
-                        sectionIndex,
-                      )
-                    }
-                  >
-                    이미지 추가
-                  </button>
                 </div>
 
-                {section.images.map(
-                  (image, imageIndex) => (
-                    <div
-                      key={
-                        image.projectImageId ??
-                        `new-section-image-${sectionIndex}-${imageIndex}`
-                      }
-                      className={
-                        styles.nestedItem
+                {section.images.map((image, imageIndex) => (
+                  <div
+                    key={
+                      image.projectImageId ??
+                      `new-section-image-${sectionIndex}-${imageIndex}`
+                    }
+                    className={styles.nestedItem}
+                  >
+                    <select
+                      value={image.imageType}
+                      onChange={(event) =>
+                        updateSectionImage(
+                          sectionIndex,
+                          imageIndex,
+                          {
+                            imageType:
+                              event.target
+                                .value as ProjectImageType,
+                          },
+                        )
                       }
                     >
-                      <select
-                        value={image.imageType}
-                        onChange={(event) =>
-                          updateSectionImage(
-                            sectionIndex,
-                            imageIndex,
-                            {
-                              imageType:
-                                event.target
-                                  .value as ProjectImageType,
-                            },
-                          )
-                        }
-                      >
-                        {SECTION_IMAGE_TYPES.map(
-                          (type) => (
-                            <option
-                              key={type}
-                              value={type}
-                            >
-                              {type}
-                            </option>
-                          ),
-                        )}
-                      </select>
+                      {SECTION_IMAGE_TYPES.map((type) => (
+                          <option
+                            key={type}
+                            value={type}
+                          >
+                            {type}
+                          </option>
+                        ),
+                      )}
+                    </select>
 
-                      <input
-                        required
-                        placeholder="이미지 URL"
-                        value={image.imageUrl}
-                        onChange={(event) =>
-                          updateSectionImage(
-                            sectionIndex,
-                            imageIndex,
-                            {
-                              imageUrl:
-                                event.target.value,
-                            },
-                          )
-                        }
-                      />
+                    <input
+                      required
+                      placeholder="이미지 URL"
+                      value={image.imageUrl}
+                      onChange={(event) =>
+                        updateSectionImage(
+                          sectionIndex,
+                          imageIndex,
+                          {
+                            imageUrl: event.target.value,
+                          },
+                        )
+                      }
+                    />
 
-                      <input
-                        placeholder="이미지 설명"
-                        value={image.caption ?? ''}
-                        onChange={(event) =>
-                          updateSectionImage(
-                            sectionIndex,
-                            imageIndex,
-                            {
-                              caption:
-                                event.target.value ||
-                                null,
-                            },
-                          )
-                        }
-                      />
+                    <input
+                      placeholder="이미지 설명"
+                      value={image.caption ?? ''}
+                      onChange={(event) =>
+                        updateSectionImage(
+                          sectionIndex,
+                          imageIndex,
+                          {
+                            caption: event.target.value || null,
+                          },
+                        )
+                      }
+                    />
 
-                      <input
-                        type="number"
-                        min="0"
-                        value={image.displayOrder}
-                        onChange={(event) =>
-                          updateSectionImage(
-                            sectionIndex,
-                            imageIndex,
-                            {
-                              displayOrder:
-                                Number(
-                                  event.target
-                                    .value,
-                                ),
-                            },
-                          )
-                        }
-                      />
+                    <input
+                      type="number"
+                      min="0"
+                      value={image.displayOrder}
+                      onChange={(event) =>
+                        updateSectionImage(
+                          sectionIndex,
+                          imageIndex,
+                          {
+                            displayOrder: Number(event.target.value,),
+                          },
+                        )
+                      }
+                    />
 
-                      <button
-                        type="button"
-                        onClick={() =>
-                          removeSectionImage(
-                            sectionIndex,
-                            imageIndex,
-                          )
-                        }
-                      >
-                        제거
-                      </button>
-                    </div>
-                  ),
-                )}
+                    <button
+                      type="button"
+                      className={styles.removeIconButton}
+                      onClick={() =>
+                        removeSectionImage(
+                          sectionIndex,
+                          imageIndex,
+                        )
+                      }
+                      aria-label="섹션 이미지 제거"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
 
                 <button
                   type="button"
-                  className={
-                    styles.removeButton
-                  }
-                  onClick={() =>
-                    removeSection(sectionIndex)
-                  }
+                  className={styles.addButton}
+                  onClick={() => addSectionImage(sectionIndex)}
                 >
-                  섹션 제거
+                  + 섹션 이미지 추가
                 </button>
               </div>
             ),
           )}
         </div>
+
+         <button
+            type="button"
+            className={styles.addButton}
+            onClick={addSection}
+          >
+            + 섹션 추가
+          </button>
       </fieldset>
 
       <fieldset className={styles.card}>
         <div className={styles.sectionHeader}>
           <legend>Links</legend>
-
-          <button
-            type="button"
-            onClick={addLink}
-          >
-            링크 추가
-          </button>
         </div>
 
         {form.links.map((link, index) => (
@@ -1296,27 +1328,52 @@ function AdminProjectForm({
               ))}
             </select>
 
-            <input
-              required
-              placeholder="링크 이름"
-              value={link.linkName}
-              onChange={(event) =>
-                updateLink(index, {
-                  linkName: event.target.value,
-                })
-              }
-            />
+            <div className={styles.fieldWithRemove}>
+              <label className={styles.field}>
+                <span>
+                  링크 이름
+                  <RequiredMark />
+                </span>
 
-            <input
-              required
-              placeholder="URL"
-              value={link.url}
-              onChange={(event) =>
-                updateLink(index, {
-                  url: event.target.value,
-                })
-              }
-            />
+                <input
+                  required
+                  placeholder="링크 이름"
+                  value={link.linkName}
+                  onChange={(event) =>
+                    updateLink(index, {
+                      linkName: event.target.value,
+                    })
+                  }
+                />
+              </label>
+
+              <button
+                type="button"
+                className={styles.removeIconButton}
+                onClick={() => removeLink(index)}
+                aria-label="링크 제거"
+              >
+                ×
+              </button>
+            </div>
+
+            <label className={styles.field}>
+              <span>
+                URL
+                <RequiredMark />
+              </span>
+
+              <input
+                required
+                placeholder="URL"
+                value={link.url}
+                onChange={(event) =>
+                  updateLink(index, {
+                    url: event.target.value,
+                  })
+                }
+              />
+            </label>
 
             <label className={styles.field}>
               <span>표시 순서</span>
@@ -1334,16 +1391,16 @@ function AdminProjectForm({
                 }
               />
             </label>
-
-            <button
-              type="button"
-              className={styles.removeButton}
-              onClick={() => removeLink(index)}
-            >
-              제거
-            </button>
           </div>
         ))}
+
+        <button
+            type="button"
+            className={styles.addButton}
+            onClick={addLink}
+          >
+            + 링크 추가
+          </button>
       </fieldset>
 
       <div className={styles.actions}>

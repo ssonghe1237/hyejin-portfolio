@@ -174,3 +174,78 @@
     flex-direction: column;
   }
 }
+
+.requiredMark {
+  margin-left: 4px;
+  color: #dc2626;
+  font-weight: 800;
+}
+
+.fieldWithRemove {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.fieldWithRemove .field {
+  flex: 1;
+}
+
+.itemTopBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.addButton {
+  width: 100%;
+  min-height: 52px;
+  margin-top: 12px;
+  border: 1px dashed #9ca3af;
+  border-radius: 12px;
+  background-color: #f9fafb;
+  color: #111827;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.addButton:hover {
+  background-color: #f3f4f6;
+  border-color: #4b5563;
+  transform: translateY(-1px);
+}
+
+.removeIconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  margin-bottom: 2px;
+  border: 1px solid #d1d5db;
+  border-radius: 999px;
+  background-color: #ffffff;
+  color: #6b7280;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.removeIconButton:hover {
+  border-color: #dc2626;
+  background-color: #fef2f2;
+  color: #dc2626;
+}
