@@ -3,6 +3,7 @@ package com.hyejin.portfolio.domain.project.service;
 import com.hyejin.portfolio.domain.project.dto.*;
 import com.hyejin.portfolio.domain.project.entity.ProjectEntity;
 import com.hyejin.portfolio.domain.project.entity.ProjectImageType;
+import com.hyejin.portfolio.domain.project.entity.ProjectSectionType;
 import com.hyejin.portfolio.domain.project.entity.ProjectType;
 import com.hyejin.portfolio.domain.project.repository.*;
 
@@ -29,6 +30,7 @@ import java.util.List;
  * 2026-06-25        Song       최초 생성
  * 2026-06-30        Song       목록/ 상세 조회 메서드 생성
  * 2026-07-02        Song       섹션 별 이미지 목록 조회로 수정
+ * 2026-07-27        Song       기술스택 카테고리 및 MY_ROLE 섹션 제목 출력 추가
  */
 
 @Service
@@ -60,22 +62,50 @@ public class ProjectServiceImpl implements ProjectService{
 
     // [getProjects 헬퍼 메서드] ProjectEntity -> ProjectListResponseDto 형식으로 변환
     private ProjectListResponseDto toListResponse(ProjectEntity project) {
+        Long projectId = project.getProjectId();
+
         String thumbnailUrl = projectImageRepository
                 .findFirstByProject_ProjectIdAndSectionIsNullAndImageTypeOrderByDisplayOrderAsc(
-                        project.getProjectId(),
+                        projectId,
                         ProjectImageType.THUMBNAIL
                 )
                 .map(image -> image.getImageUrl())
                 .orElse(null);
 
+        List<String> techCategories = getTechCategories(projectId);
+        List<String> myRoleTitles = getMyRoleTitles(projectId);
+
         return ProjectListResponseDto.from(
                 project,
                 thumbnailUrl,
-                formatPeriodText(project.getStartDate(), project.getEndDate())
+                formatPeriodText(project.getStartDate(), project.getEndDate()),
+                techCategories,
+                myRoleTitles
         );
     }
 
-    // [toListResponse 헬퍼 메서드]
+    // [toListResponse 헬퍼 메서드] : 기술 스택 카테고리 목록 생성
+    private List<String> getTechCategories(Long projectId) {
+        return projectTechRepository.findByProject_ProjectIdOrderByDisplayOrderAsc(projectId)
+                .stream()
+                .map(tech -> tech.getTechCategory())
+                .filter(category -> category != null && !category.isBlank())
+                .distinct()
+                .toList();
+    }
+
+    // [toListResponse 헬퍼 메서드] : myRole 타이틀 목록 생성
+    private List<String> getMyRoleTitles(Long projectId) {
+        return projectSectionRepository.findByProject_ProjectIdOrderByDisplayOrderAsc(projectId)
+                .stream()
+                .filter(section -> section.getSectionType() == ProjectSectionType.MY_ROLE)
+                .map(section -> section.getTitle())
+                .filter(title -> title != null && !title.isBlank())
+                .distinct()
+                .toList();
+    }
+
+    // [toListResponse 헬퍼 메서드] : 프로젝트 제작 기간 산출
     private String formatPeriodText(LocalDate startDate, LocalDate endDate) {
         if (startDate == null && endDate == null) {
             return null;
