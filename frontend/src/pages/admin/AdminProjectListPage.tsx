@@ -46,6 +46,10 @@ function AdminProjectListPage() {
     const [publicationFilter, setPublicationFilter] = useState('ALL')
     const [fromDate, setFromDate] = useState('') // 생성일 필터 시작 값
     const [toDate, setToDate] = useState('')     // 수정일 필터 종료 값
+    const [searchKeywork, setSearchKeywork] = useState('')
+
+    // 정렬 hook
+    const [sortOption, setSortOption] = useState('DISPLAY_ORDER_ASC')
 
 
     // ============================================================================
@@ -87,13 +91,42 @@ function AdminProjectListPage() {
             const matchesDateRange = 
                 (!fromDate || createdDate >= fromDate) &&
                 (!toDate || updatedDate <= toDate) 
-                
+
+            const keywork = searchKeywork.trim().toLowerCase()
+
+            const matchKeyword =
+                !keywork || project.title.toLowerCase().includes(keywork)
 
             return (
                 matchesType &&
                 matchesPublication &&
-                matchesDateRange
+                matchesDateRange &&
+                matchKeyword
             )
+    })
+
+    // 정렬 분기
+    const sortedProject = [...filteredProjects].sort((a, b) => {
+        switch (sortOption) {
+            case 'DISPLAY_ORDER_ASC' :
+                return b.displayOrder - a.displayOrder
+
+            case 'CREATED_AT_DESC' :
+                return b.createdAt.localeCompare(a.createdAt)
+            
+            case 'CREATED_AT_ASC' :
+                return a.createdAt.localeCompare(b.createdAt)
+
+            case 'UPDATE_AT_DESC' :
+                return b.updatedAt.localeCompare(a.updatedAt)
+
+            case 'UPDATE_AT_ASC' : 
+                return a.updatedAt.localeCompare(b.updatedAt)
+
+            case 'DISPLAY_ORDER_DESC':
+                default:
+                    return a.displayOrder - b.displayOrder
+        }
     })
 
     // ============================================================================
@@ -153,7 +186,8 @@ function AdminProjectListPage() {
         setPublicationFilter('ALL')
         setFromDate('')
         setToDate('')
-        
+        setSearchKeywork('')
+        setSortOption('DISPALY_ORDER_ASC')
     }
 
     // ============================================================================
@@ -191,6 +225,22 @@ function AdminProjectListPage() {
             </header>
 
             <section className={styles.filterPanel}>
+                <div className={styles.filterGroup}>
+                    <label className={styles.filterLabel}>
+                        프로젝트명
+                    </label>
+
+                    <input
+                        type='search'
+                        value={searchKeywork}
+                        className={styles.searchInput}
+                        onChange={(event) => setSearchKeywork(event.target.value)}
+                        placeholder='프로젝트명 검색'
+                    >
+                    </input>
+
+                </div>
+
                 <div className={styles.filterGroup}>
                     <label className={styles.filterLabel}>
                         유형
@@ -249,6 +299,42 @@ function AdminProjectListPage() {
                     />
                 </div>
 
+                <div className={styles.filterGroup}>
+                    <label className={styles.filterLabel}>
+                        정렬
+                    </label>
+
+                    <select
+                        className={styles.filterSelect}
+                        value={sortOption}
+                        onChange={(event) => setSortOption(event.target.value)}
+                    >
+                        <option value='DISPLAY_ORDER_ASC'>
+                            정렬순서 낮은순
+                        </option>
+
+                        <option value='DISPLAY_ORDER_DESC'>
+                            정렬순서 높은순
+                        </option>
+
+                        <option value='CREATED_AT_ASC'>
+                            생성일 최신순
+                        </option>
+
+                        <option value='CREATED_AT_DESC'>
+                            생성일 오래된순
+                        </option>
+
+                        <option value='UPDATE_AT_ASC'>
+                            수정일 최신순
+                        </option>
+
+                        <option value='UPDATE_AT_DESC'>
+                            수정일 오래된순
+                        </option>
+                    </select>
+                </div>
+
                 <button
                     type="button"
                     className={styles.resetButton}
@@ -265,7 +351,7 @@ function AdminProjectListPage() {
                 </div>
             )}
 
-            {filteredProjects.length === 0 ? (
+            {sortedProject.length === 0 ? (
                 <div className={styles.empty}>조건에 맞는 프로젝트가 없습니다.</div>
             ) : (
                 <div className={styles.tableWrapper}>
@@ -284,7 +370,7 @@ function AdminProjectListPage() {
                         </thead>
 
                         <tbody>
-                            {filteredProjects.map((project) => {
+                            {sortedProject.map((project) => {
                                 const isChanging = changingPublicationProjectId === project.projectId
 
                                 return(
