@@ -258,3 +258,19 @@
   color: #111827;
   transform: translateY(-1px);
 }
+
+.searchInput {
+  min-width: 220px;
+  height: 38px;
+  padding: 0 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #111827;
+  font-size: 14px;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #2563eb;
+}
