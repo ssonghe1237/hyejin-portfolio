@@ -103,7 +103,7 @@ function AdminProjectForm({
   submitting,
   cancelTo,
   onSubmit,
-}: AdminProjectFormProps) {
+}: AdminProjectFormProps ) {
   const [form, setForm] =
     useState<AdminProjectFormState>(initialValue)
 
@@ -337,9 +337,7 @@ function AdminProjectForm({
   // 섹션
   // =====================================================================================
 
-  /**
-   * 신규 섹션 추가
-   */
+  // 신규 섹션 추가
   function addSection() {
     setForm((previous) => {
       const section: AdminProjectFormSection = {
@@ -361,9 +359,7 @@ function AdminProjectForm({
     })
   }
 
-  /**
-   * 섹션 정보 변경
-   */
+  // 섹션 정보 변경
   function updateSection(
     index: number,
     patch: Partial<AdminProjectFormSection>,
@@ -382,13 +378,9 @@ function AdminProjectForm({
     }))
   }
 
-  /**
-   * 섹션 선택 삭제
-   *
-   * 기존 섹션이면 deletedSectionIds에 ID를 저장한다.
-   * 섹션 내부 이미지는 백엔드에서 섹션보다 먼저 자동 삭제하므로
-   * deletedImageIds에 별도로 추가하지 않는다.
-   */
+  // 섹션 선택 삭제
+  // : 기존 섹션이면 deletedSectionIds에 ID를 저장
+  // : 섹션 내부 이미지는 백엔드에서 섹션보다 먼저 자동 삭제 => deletedImageIds에 별도로 추가x
   function removeSection(index: number) {
     setForm((previous) => {
       const target = previous.sections[index]
@@ -420,9 +412,7 @@ function AdminProjectForm({
   // 섹션 이미지
   // =====================================================================================
 
-  /**
-   * 섹션에 신규 이미지 추가
-   */
+  // 섹션에 신규 이미지 추가
   function addSectionImage(sectionIndex: number) {
     setForm((previous) => {
       const section =
@@ -489,9 +479,7 @@ function AdminProjectForm({
     }))
   }
 
-  /**
-   * 섹션 이미지 선택 삭제
-   */
+  // 섹션 이미지 선택 삭제
   function removeSectionImage(
     sectionIndex: number,
     imageIndex: number,
@@ -536,9 +524,7 @@ function AdminProjectForm({
   // 링크
   // =====================================================================================
 
-  /**
-   * 신규 링크 추가
-   */
+  // 신규 링크 추가
   function addLink() {
     setForm((previous) => {
       const link: AdminProjectFormLink = {
@@ -559,9 +545,7 @@ function AdminProjectForm({
     })
   }
 
-  /**
-   * 링크 정보 변경
-   */
+  // 링크 정보 변경
   function updateLink(
     index: number,
     patch: Partial<AdminProjectFormLink>,
@@ -580,9 +564,7 @@ function AdminProjectForm({
     }))
   }
 
-  /**
-   * 링크 선택 삭제
-   */
+  // 링크 선택 삭제
   function removeLink(index: number) {
     setForm((previous) => {
       const target = previous.links[index]

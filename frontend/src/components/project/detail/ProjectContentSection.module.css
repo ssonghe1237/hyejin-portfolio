@@ -10,9 +10,8 @@
  * -----------------------------------------------------------
  * 2026-07-02        Song       최초 생성
  */
-
 .section {
-  display: block;
+  margin-top: 80px;
 }
 
 .title {
@@ -32,4 +31,18 @@
 .list {
   display: grid;
   gap: 32px;
+}
+
+@media (max-width: 768px) {
+  .section {
+    margin-top: 56px;
+  }
+
+  .title {
+    font-size: 32px;
+  }
+
+  .empty {
+    padding: 28px;
+  }
 }
