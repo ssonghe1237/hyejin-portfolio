@@ -56,9 +56,7 @@ export type ProjectLinkType =
 // 사용자 프로젝트 응답 타입
 // ----------------------------------------------------------------------------
 
-/**
- * 사용자 프로젝트 목록 응답
- */
+// 사용자 프로젝트 목록 응답
 export interface ProjectListResponse {
   projectId: number
   title: string
@@ -72,11 +70,11 @@ export interface ProjectListResponse {
   role: string | null
   thumbnailUrl: string | null
   displayOrder: number
+  techCategories: string[]
+  myRoleTitles: string[]
 }
 
-/**
- * 프로젝트 기술스택 응답
- */
+// 프로젝트 기술스택 응답
 export interface ProjectTechResponse {
   projectTechId: number
   techName: string
@@ -84,9 +82,7 @@ export interface ProjectTechResponse {
   displayOrder: number
 }
 
-/**
- * 프로젝트 이미지 응답
- */
+// 프로젝트 이미지 응답
 export interface ProjectImageResponse {
   projectImageId: number
   imageType: ProjectImageType
@@ -95,9 +91,7 @@ export interface ProjectImageResponse {
   displayOrder: number
 }
 
-/**
- * 프로젝트 상세 섹션 응답
- */
+// 프로젝트 상세 섹션 응답
 export interface ProjectSectionResponse {
   sectionId: number
   sectionType: ProjectSectionType
@@ -107,9 +101,7 @@ export interface ProjectSectionResponse {
   images: ProjectImageResponse[]
 }
 
-/**
- * 프로젝트 링크 응답
- */
+// 프로젝트 링크 응답
 export interface ProjectLinkResponse {
   projectLinkId: number
   linkType: ProjectLinkType
@@ -118,9 +110,7 @@ export interface ProjectLinkResponse {
   displayOrder: number
 }
 
-/**
- * 사용자 프로젝트 상세 응답
- */
+// 사용자 프로젝트 상세 응답
 export interface ProjectDetailResponse {
   projectId: number
   title: string

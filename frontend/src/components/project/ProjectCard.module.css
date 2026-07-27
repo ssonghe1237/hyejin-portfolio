@@ -80,3 +80,48 @@
   font-weight: 700;
   text-decoration: none;
 }
+
+.cardInfoBlock {
+  margin-top: 16px;
+}
+
+.cardInfoTitle {
+  margin: 0 0 8px;
+  color: var(--color-text-muted);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.badgeList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.techCategoryBadge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 0 9px;
+  border-radius: 999px;
+  background-color: #eef2ff;
+  color: #3730a3;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.myRoleList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding-left: 18px;
+}
+
+.myRoleItem {
+  color: var(--color-text);
+  font-size: 14px;
+  line-height: 1.5;
+}

@@ -14,6 +14,7 @@
  * 2026-07-02        Song       프로젝트 목록 카드 UI 분리
  * 2026-07-02        Song       상세 페이지 이동 링크 추가
  * 2026-07-02        Song       Work 목록 grid 레이아웃에 맞춰 카드 UI 정리
+ * 2026-07-27        Song       기술스택 카테고리 및 MY_ROLE 섹션 제목 출력 추가
  */
 
 import { Link } from 'react-router-dom'
@@ -21,11 +22,16 @@ import ImageWithFallback from '../common/ImageWithFallback'
 import type { ProjectListResponse } from '../../types/project'
 import styles from './ProjectCard.module.css';
 
+// [설계도] 부모가 전달해 줘야 하는 데이터의 모양 규정
 interface ProjectCardProps {
   project: ProjectListResponse
 }
 
+// [자식 컴포넌트] 부모가 넘겨준 진짜 데이터(props)를 받아서 사용
 function ProjectCard({ project }: ProjectCardProps) {
+  const techCategories = project.techCategories ?? []
+  const myRoleTitles = project.myRoleTitles ?? []
+
   return (
     <article className={styles.card}>
       {project.thumbnailUrl ? (
@@ -68,10 +74,42 @@ function ProjectCard({ project }: ProjectCardProps) {
           {project.summary}
         </p>
 
-        {project.role && (
-          <p className={styles.role}>
-            {project.role}
-          </p>
+        {techCategories.length > 0 && (
+          <div className={styles.cardInfoBlock}>
+            <p className={styles.cardInfoTitle}>
+              Tech Category
+            </p>
+
+            <div className={styles.badgeList}>
+              {techCategories.map((category) => (
+                <span
+                  key={category}
+                  className={styles.techCategoryBadge}
+                >
+                  {category}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {myRoleTitles.length > 0 && (
+          <div className={styles.cardInfoBlock}>
+              <p className={styles.cardInfoTitle}>
+                MY ROLE
+              </p>
+
+              <ul className={styles.myRoleList}>
+                {myRoleTitles.map((title) => (
+                  <li
+                    key={title}
+                    className={styles.myRoleItem}
+                  >
+                    {title}
+                  </li>
+                ))}
+              </ul>
+          </div>
         )}
 
         <Link to={`/work/${project.slug}`} className={styles.detailLink}>
