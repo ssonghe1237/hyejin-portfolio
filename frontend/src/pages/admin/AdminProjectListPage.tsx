@@ -9,12 +9,14 @@
  *                  - 프로젝트 상세 관리 페이지 이동
  *                  - 프로젝트 공개/숨김 빠른 처리
  *                  - 프로젝트 목록 필터 처리
+ *                  - 목록 관리 액션 버튼 제공
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-07-02        Song       최초 생성
  * 2026-07-27        Song       목록 공개/숨김 빠른 처리 버튼 추가
  * 2026-07-27        Song       프로젝트 목록 필터 처리 추가
+ * 2026-07-27        Song       목록 관리 액션 버튼 추가
  */
 
 import { useEffect, useState } from 'react';
@@ -317,19 +319,37 @@ function AdminProjectListPage() {
                                         <td>{project.updatedAt.slice(0, 10)}</td>
 
                                         <td>
-                                            <button
-                                                type="button"
-                                                className={styles.publicationButton}
-                                                onClick={() => handleTogglePublication(project)}
-                                                disabled={isChanging}    
-                                            >
-                                                {isChanging
-                                                    ? '변경 중'
-                                                    : project.published
-                                                        ? '숨김 처리'
-                                                        : '공개 처리'
-                                                }
-                                            </button>
+                                            <div className={styles.actionButton}>
+                                                <Link
+                                                    to={`/admin/projects/${project.projectId}`}
+                                                    className={styles.detailButton}
+                                                >
+                                                    상세
+                                                </Link>
+
+                                                <Link
+                                                    to={`/admin/projects/${project.projectId}/edit`}
+                                                    className={styles.detailButton}
+                                                >
+                                                    수정
+                                                </Link>
+                                                
+                                                <button
+                                                    type="button"
+                                                    className={styles.publicationButton}
+                                                    onClick={() => handleTogglePublication(project)}
+                                                    disabled={isChanging}    
+                                                >
+                                                    {isChanging
+                                                        ? '변경 중'
+                                                        : project.published
+                                                            ? '숨김 처리'
+                                                            : '공개 처리'
+                                                    }
+                                                </button>
+
+                                            </div>
+                                            
                                         </td>
                                     </tr>
                                 )    
