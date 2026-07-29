@@ -722,7 +722,42 @@ function AdminProjectForm({
   async function handleSubmit(
     event: FormEvent<HTMLFormElement>,
   ) {
+    // 새로고침 방지
     event.preventDefault()
+
+    if(
+      form.thumbnailImage &&
+      !form.thumbnailImage.imageUrl.trim()
+    ) {
+      alert('썸네일 이미지를 업로드해 주세요.')
+      return
+    }
+
+    const hasEmptyHeroImage = 
+      form.heroImages.some(
+        (image) => !image.imageUrl.trim(),
+      )
+    
+    if (hasEmptyHeroImage) {
+      alert(
+        '파일이 업로드되지 않은 Hero 이미지 항목이 있습니다.'
+      )
+      return
+    }
+
+    const hasEmptySectionImage = 
+      form.sections.some((section) => 
+        section.images.some(
+          (image) => !image.imageUrl.trim()
+        )
+      )
+
+    if (hasEmptySectionImage) {
+      alert(
+        '파일이 업로드되지 않은 섹션 이미지 항목이 있습니다.'
+      )
+      return
+    }
 
     await onSubmit(form)
   }
@@ -954,22 +989,6 @@ function AdminProjectForm({
         {form.thumbnailImage && (
           <div className={styles.arrayItem}>
             <div className={styles.fieldWithRemove}>
-              <label className={styles.field}>
-                <span>
-                  이미지 URL
-                  <RequiredMark />
-                </span>
-
-                <input
-                  required
-                  value={form.thumbnailImage.imageUrl}
-                  onChange={(event) =>
-                    updateThumbnail({
-                      imageUrl: event.target.value,
-                    })
-                  }
-                />
-              </label>
 
               <button
                 type="button"
@@ -1047,20 +1066,6 @@ function AdminProjectForm({
                 className={styles.arrayItem}
               >
                 <div className={styles.fieldWithRemove}>
-                  <label className={styles.field}>
-                    <span>이미지 URL</span>
-                    <input
-                      required
-                      value={image.imageUrl}
-                      onChange={(event) =>
-                        updateHeroImage(index, {
-                          imageUrl:
-                            event.target.value,
-                        })
-                      }
-                    />
-                  </label>
-
                   <button
                     type="button"
                     className={styles.removeIconButton}
@@ -1408,21 +1413,6 @@ function AdminProjectForm({
                         ),
                       )}
                     </select>
-
-                    <input
-                      required
-                      placeholder="이미지 URL"
-                      value={image.imageUrl}
-                      onChange={(event) =>
-                        updateSectionImage(
-                          sectionIndex,
-                          imageIndex,
-                          {
-                            imageUrl: event.target.value,
-                          },
-                        )
-                      }
-                    />
 
                     <div className={styles.uploadField}>
                       <label className={styles.fileUploadLabel}>

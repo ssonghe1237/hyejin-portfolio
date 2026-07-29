@@ -2,21 +2,20 @@ package com.hyejin.portfolio.domain.project.service;
 
 import com.hyejin.portfolio.domain.project.dto.*;
 import com.hyejin.portfolio.domain.project.entity.*;
+import com.hyejin.portfolio.domain.project.event.ProjectImageFilesDeleteEvent;
 import com.hyejin.portfolio.domain.project.repository.*;
+import com.hyejin.portfolio.global.upload.dto.ImageUploadResponseDto;
+import com.hyejin.portfolio.global.upload.service.ImageStorageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 import static org.apache.logging.log4j.util.Strings.trimToNull;
 
@@ -48,6 +47,9 @@ public class AdminProjectServiceImpl implements AdminProjectService {
     private final ProjectImageRepository projectImageRepository;
     private final ProjectSectionRepository projectSectionRepository;
     private final ProjectLinkRepository projectLinkRepository;
+    private final ImageStorageService imageStorageService;
+    private final ApplicationEventPublisher eventPublisher;
+
 
     // =====================================================================================
     // 조회
@@ -310,40 +312,76 @@ public class AdminProjectServiceImpl implements AdminProjectService {
 
     // deleteProject 헬퍼 메서드: 프로젝트 하위 데이터 전체 삭제
     private void deleteProjectChildren(Long projectId) {
-        // 삭제순서1) 프로젝트에 속한 모든 이미지 삭제
-        // : 섹션 이미지가 섹션의 FK를 참조 할 수 있어 선 삭제
-        // => 썸네일, Hero 이미지, 섹션 이미지 모두 포함
-        List<ProjectImageEntity> images = projectImageRepository.findAllByProject_ProjectId(
-                projectId
-        );
+        /* 프로젝트 이미지 DB 데이터를 삭제하기 전에
+        * 실제 파일 삭제에 필요한 imageUrl을 수집 */
+        List<ProjectImageEntity> images =
+                projectImageRepository.findAllByProject_ProjectId(
+                        projectId
+                );
 
+        List<String> imageUrlsToDelete =
+                images.stream()
+                        .map(ProjectImageEntity::getImageUrl)
+                        .filter(Objects::nonNull)
+                        .map(String::trim)
+                        .filter(imageUrl -> !imageUrl.isEmpty())
+                        .distinct()
+                        .toList();
+
+        // 삭제 순서 1) 프로젝트에 속한 모든 이미지 삭제
+        // 섹션 이미지가 section FK를 참조하므로 섹션보다 먼저 삭제
         if (!images.isEmpty()) {
-            projectImageRepository.deleteAll(images);
+            projectImageRepository.deleteAll(
+                    images
+            );
         }
 
-        // 삭제순서2) 모든 섹션 삭제
-        List<ProjectSectionEntity> sections
-                = projectSectionRepository.findByProject_ProjectIdOrderByDisplayOrderAsc(projectId);
+        // 삭제 순서 2) 프로젝트에 속한 모든 섹션 삭제
+        List<ProjectSectionEntity> sections =
+                projectSectionRepository
+                        .findByProject_ProjectIdOrderByDisplayOrderAsc(
+                                projectId
+                        );
 
         if (!sections.isEmpty()) {
-            projectSectionRepository.deleteAll(sections);
+            projectSectionRepository.deleteAll(
+                    sections
+            );
         }
 
-        // 삭제순서3) 프로젝트 기술스택 삭제
+        // 삭제 순서 3) 프로젝트 기술스택 삭제
         List<ProjectTechEntity> techStacks =
-                projectTechRepository.findByProject_ProjectIdOrderByDisplayOrderAsc(projectId);
+                projectTechRepository
+                        .findByProject_ProjectIdOrderByDisplayOrderAsc(
+                                projectId
+                        );
 
         if (!techStacks.isEmpty()) {
-            projectTechRepository.deleteAll(techStacks);
+            projectTechRepository.deleteAll(
+                    techStacks
+            );
         }
 
-        // 삭제순서4) 프로젝트 링크 삭제
+        // 삭제 순서 4) 프로젝트 링크 삭제
         List<ProjectLinkEntity> links =
-                projectLinkRepository.findByProject_ProjectIdOrderByDisplayOrderAsc(projectId);
+                projectLinkRepository
+                        .findByProject_ProjectIdOrderByDisplayOrderAsc(
+                                projectId
+                        );
 
         if (!links.isEmpty()) {
-            projectLinkRepository.deleteAll(links);
+            projectLinkRepository.deleteAll(
+                    links
+            );
         }
+
+        /*
+         * 프로젝트와 하위 데이터 삭제 트랜잭션이 정상 커밋된 후
+         * 수집한 URL에 대응하는 실제 이미지 파일을 삭제한다.
+         */
+        publishImageFileDeleteEvent(
+                imageUrlsToDelete
+        );
     }
 
 
@@ -635,22 +673,6 @@ public class AdminProjectServiceImpl implements AdminProjectService {
         projectLinkRepository.saveAll(links);
     }
 
-    // 등록용 이미지 Entity 생성
-    private ProjectImageEntity createImageEntity(
-            ProjectEntity project,
-            ProjectSectionEntity section,
-            AdminProjectImageRequestDto request
-    ) {
-        return ProjectImageEntity.builder()
-                .project(project)
-                .section(section)
-                .imageType(request.imageType())
-                .imageUrl(request.imageUrl().trim())
-                .caption(trimToNull(request.caption()))
-                .displayOrder(request.displayOrder())
-                .build();
-    }
-
     // =====================================================================================
     // 수정용 선택 삭제 대상 조회
     // =====================================================================================
@@ -873,6 +895,20 @@ public class AdminProjectServiceImpl implements AdminProjectService {
     private void deleteSelectedChildren(
             DeleteTargets deleteTargets
     ) {
+        /* DB에서 먼저 이미지 Entity를 삭제하면 imageUrl을 다시 조회할 수 없으므로
+        *   삭제 전에 실제 파일 삭제에 필요한 URL을 수집
+        *   - 실제 deletedImageId로 직접 선택한 이미지
+        *   - 삭제 대상 섹션에 연결되어져 있는 이미지 */
+        List<String> iamgeUrlsToDelete =
+                deleteTargets.images()
+                        .stream()
+                        .map(ProjectImageEntity :: getImageUrl)
+                        .filter(Objects::nonNull)
+                        .map(String::trim)
+                        .filter(imageUrl -> !imageUrl.isEmpty())
+                        .distinct()
+                        .toList();
+
         // 섹션 FK를 참조하는 이미지가 있으므로 이미지 먼저 삭제
         if (!deleteTargets.images().isEmpty()) {
             projectImageRepository.deleteAll(
@@ -897,6 +933,12 @@ public class AdminProjectServiceImpl implements AdminProjectService {
                     deleteTargets.links()
             );
         }
+
+        /* 이벤트는 현재 트랜젝션 안에서 발행하지만
+        * 실제 파일 삭제 Listener는 AFTER_COMMIT 시점에 실행 */
+        publishImageFileDeleteEvent(
+                iamgeUrlsToDelete
+        );
     }
 
     // =====================================================================================
@@ -991,11 +1033,27 @@ public class AdminProjectServiceImpl implements AdminProjectService {
                 section
         );
 
+        String previousImageUrl = image.getImageUrl();
+        String nextImageUrl = request.imageUrl().trim();
+
+        imageStorageService.validateManagedImageUrl(nextImageUrl);
+
         image.updateImageInfo(
-                request.imageUrl().trim(),
+                nextImageUrl,
                 trimToNull(request.caption()),
                 request.displayOrder()
         );
+
+        if (!Objects.equals(
+                previousImageUrl,
+                nextImageUrl
+        )) {
+            publishImageFileDeleteEvent(
+                    previousImageUrl == null
+                    ? List.of()
+                            : List.of(previousImageUrl)
+            );
+        }
     }
 
     // 수정용 이미지 Entity 생성
@@ -1004,6 +1062,10 @@ public class AdminProjectServiceImpl implements AdminProjectService {
             ProjectSectionEntity section,
             AdminProjectImageUpdateRequestDto request
     ) {
+        String imageUrl = request.imageUrl();
+
+        imageStorageService.validateManagedImageUrl(imageUrl);
+
         return ProjectImageEntity.builder()
                 .project(project)
                 .section(section)
@@ -1063,6 +1125,35 @@ public class AdminProjectServiceImpl implements AdminProjectService {
                     "이미지가 요청한 프로젝트 섹션에 속하지 않습니다."
             );
         }
+    }
+
+    // 삭제할 실제 이미지 파일 정보를 이벤트로 발행
+    private void publishImageFileDeleteEvent(
+            Collection<String> imageUrls
+    ) {
+        if (imageUrls == null || imageUrls.isEmpty()) {
+            return;
+        }
+
+        List<String> deleteTargets =
+                imageUrls.stream()
+                        .filter(Objects::nonNull)
+                        .map(String::trim)
+                        .filter(imageUrl ->
+                                !imageUrl.isEmpty()
+                        )
+                        .distinct()
+                        .toList();
+
+        if (deleteTargets.isEmpty()) {
+            return;
+        }
+
+        eventPublisher.publishEvent(
+                new ProjectImageFilesDeleteEvent(
+                        deleteTargets
+                )
+        );
     }
 
     // =====================================================================================
@@ -1716,5 +1807,31 @@ public class AdminProjectServiceImpl implements AdminProjectService {
             List<ProjectTechEntity> techStacks,
             List<ProjectLinkEntity> links
     ) {
+    }
+
+    // =====================================================================================
+    // 이미지 저장
+    // =====================================================================================
+    // 등록용 이미지 Entity 생성
+    private ProjectImageEntity createImageEntity(
+            ProjectEntity project,
+            ProjectSectionEntity section,
+            AdminProjectImageRequestDto request
+    ) {
+        String imageUrl =
+                request.imageUrl().trim();
+
+        imageStorageService.validateManagedImageUrl(
+                imageUrl
+        );
+
+        return ProjectImageEntity.builder()
+                .project(project)
+                .section(section)
+                .imageType(request.imageType())
+                .imageUrl(imageUrl)
+                .caption(trimToNull(request.caption()))
+                .displayOrder(request.displayOrder())
+                .build();
     }
 }
