@@ -19,6 +19,10 @@ export default defineConfig({
         // 요청을 보낸 주소(Origin)를 백엔드 주소(localhost:8081)인 것처럼 속여주는 옵션
         changeOrigin: true,
       },
+      '/uploads' : {
+        target: 'http://localhost:8081',
+        changeOrigin: true,
+      }
     },
   },
 })

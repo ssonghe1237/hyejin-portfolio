@@ -18,6 +18,7 @@
  * 2026-07-09        Song       관리자 프로젝트 공통 폼 상태 타입 추가
  * 2026-07-09        Song       관리자 프로젝트 수정 요청 타입 추가
  * 2026-07-09        Song       하위 데이터 ID 필드명을 백엔드 DTO와 통일
+ * 2026-07-28        Song       관리자 이미지 등록 요청 타입 추가
  */
 
 export type ProjectType = 'TEAM' | 'PERSONAL'
@@ -134,9 +135,7 @@ export interface ProjectDetailResponse {
 // 관리자 프로젝트 응답 타입
 // ----------------------------------------------------------------------------
 
-/**
- * 관리자 프로젝트 목록 응답
- */
+// 관리자 프로젝트 목록 응답
 export interface AdminProjectListResponse {
   projectId: number
   title: string
@@ -153,9 +152,7 @@ export interface AdminProjectListResponse {
   updatedAt: string
 }
 
-/**
- * 관리자 프로젝트 상세 응답
- */
+// 관리자 프로젝트 상세 응답
 export interface AdminProjectDetailResponse {
   projectId: number
   title: string
@@ -182,9 +179,7 @@ export interface AdminProjectDetailResponse {
 // 관리자 프로젝트 등록 요청 타입
 // ----------------------------------------------------------------------------
 
-/**
- * 관리자 프로젝트 이미지 등록 요청
- */
+// 관리자 프로젝트 이미지 등록 요청
 export interface AdminProjectImageRequest {
   imageType: ProjectImageType
   imageUrl: string
@@ -192,18 +187,14 @@ export interface AdminProjectImageRequest {
   displayOrder: number
 }
 
-/**
- * 관리자 프로젝트 기술스택 등록 요청
- */
+// 관리자 프로젝트 기술스택 등록 요청
 export interface AdminProjectTechRequest {
   techName: string
   techCategory: string | null
   displayOrder: number
 }
 
-/**
- * 관리자 프로젝트 섹션 등록 요청
- */
+// 관리자 프로젝트 섹션 등록 요청
 export interface AdminProjectSectionRequest {
   sectionType: ProjectSectionType
   title: string | null
@@ -212,9 +203,7 @@ export interface AdminProjectSectionRequest {
   images: AdminProjectImageRequest[]
 }
 
-/**
- * 관리자 프로젝트 링크 등록 요청
- */
+// 관리자 프로젝트 링크 등록 요청
 export interface AdminProjectLinkRequest {
   linkType: ProjectLinkType
   linkName: string
@@ -222,9 +211,7 @@ export interface AdminProjectLinkRequest {
   displayOrder: number
 }
 
-/**
- * 관리자 프로젝트 등록 요청
- */
+// 관리자 프로젝트 등록 요청
 export interface AdminProjectCreateRequest {
   title: string
   slug: string
@@ -432,4 +419,15 @@ export interface AdminProjectFormState {
 
   links: AdminProjectFormLink[]
   deletedLinkIds: number[]
+}
+
+// ============================================================================
+// 이미지 등록
+// ----------------------------------------------------------------------------
+
+// 이미지 등록 요청
+export interface ImageUploadResponse {
+  imageUrl: string
+  originalFileName: string
+  storedFileName: string
 }

@@ -17,14 +17,15 @@
  * 2026-07-09        Song       관리자 프로젝트 수정 API 추가
  * 2026-07-24        Song       관리자 프로젝트 삭제 API 추가
  * 2026-07-25        Song       관리자 프로젝트 공개/비공개 API 추가
+ * 2026-07-28        Song       관리자 이미지 등록 요청 API 추가
  */
-
 
 import type {
   AdminProjectCreateRequest,
   AdminProjectDetailResponse,
   AdminProjectListResponse,
   AdminProjectUpdateRequest,
+  ImageUploadResponse,
 } from '../types/project'
 
 // 프로젝트 목록 전체 조회
@@ -180,4 +181,37 @@ export async function deleteAdminProject(
         `관리자 프로젝트 삭제 실패: ${response.status}`,
     )
   }
+}
+
+// 관리자 이미지 등록
+export async function uploadAdminProjectImage(
+  file: File
+): Promise<ImageUploadResponse> {
+  const formData = new FormData()
+
+  formData.append('file', file)
+
+  const response = await fetch(
+    '/api/admin/project-images/upload',
+    {
+      method: 'POST',
+      body: formData,
+    },
+  )
+
+  if (!response.ok) {
+    const errorBody = (await response.json().catch(() => null)) as {
+      message?: string
+      detail?: string
+    } | null
+
+    throw new Error(
+      errorBody?.message ??
+        errorBody?.detail ??
+          `관리자 프로젝트 이미지 업로드 실패: ${response.status}`
+    )
+  }
+
+  return response.json()
+  
 }
