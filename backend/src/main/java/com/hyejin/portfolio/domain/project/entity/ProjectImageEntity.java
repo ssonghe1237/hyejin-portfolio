@@ -46,7 +46,11 @@ public class ProjectImageEntity {
     private ProjectImageType imageType;
 
     // 이미지 URL
-    @Column(name = "image_url", nullable = false, columnDefinition = "TEXT")
+    @Column(
+            name = "image_url",
+            nullable = false,
+            columnDefinition = "TEXT"
+    )
     private String imageUrl;
 
     // 이미지 설명
@@ -75,9 +79,7 @@ public class ProjectImageEntity {
         this.displayOrder = displayOrder;
     }
 
-    // ======================================================
-    // 업데이트를 위한 메서드
-    // ------------------------------------------------------
+    // 이미지 정보 수정
     public void updateImageInfo(
             String imageUrl,
             String caption,
@@ -87,5 +89,4 @@ public class ProjectImageEntity {
         this.caption = caption;
         this.displayOrder = displayOrder;
     }
-
 }

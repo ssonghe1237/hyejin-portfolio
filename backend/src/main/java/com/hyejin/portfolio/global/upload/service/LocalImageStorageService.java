@@ -28,10 +28,12 @@ import java.util.UUID;
  *                  - UUID 기반 저장 파일명 생성
  *                  - 외부 업로드 디렉터리에 이미지 저장
  *                  - 브라우저 접근용 imageUrl 반환
+ *                  - 관리 이미지 URL 검증 및 실제 파일 삭제
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-07-28        Song       최초 생성
+ * 2026-07-29        Song       관리 이미지 URL 검증 및 파일 삭제 기능 추가
  */
 
 @Service
@@ -42,7 +44,7 @@ public class LocalImageStorageService implements ImageStorageService {
     private static final Set<String> ALLOWED_EXTENSIONS =
             Set.of("jpg", "jpeg", "png", "webp");
 
-    private static final Set<String> ALLOWED_CONTENT_TYPE =
+    private static final Set<String> ALLOWED_CONTENT_TYPES =
             Set.of("image/jpeg", "image/png", "image/webp");
 
     private static final DateTimeFormatter DIRECTORY_DATE_FORMATTER =
@@ -50,6 +52,7 @@ public class LocalImageStorageService implements ImageStorageService {
 
     private final UploadProperties uploadProperties;
 
+    // 이미지 파일 저장
     @Override
     public ImageUploadResponseDto store(MultipartFile file) {
         // 파일 검증 (파일 존재여부/ 크기/ 형식/ 확장자 검증)
@@ -59,7 +62,7 @@ public class LocalImageStorageService implements ImageStorageService {
         String extension = extractExtension(originalFileName);
         String storedFileName = UUID.randomUUID() + "." + extension;
 
-        // 폴더 내 날짜 폴더 자동 생성
+        // 업로드 시점의 연도/월 디렉터리
         String dateDirectory =
                 LocalDate.now().format(DIRECTORY_DATE_FORMATTER);
 
@@ -74,7 +77,7 @@ public class LocalImageStorageService implements ImageStorageService {
                 .normalize();
 
         // 컴퓨터 서버 절대 경로 내 날짜 폴더 포함 경로 검증
-        validateStoregePath(rootDirectory, targetDirectory);
+        validateStoragePath(rootDirectory, targetDirectory);
 
         try {
             Files.createDirectories(targetDirectory);
@@ -85,14 +88,15 @@ public class LocalImageStorageService implements ImageStorageService {
                     .normalize();
 
             // 검증
-            validateStoregePath(rootDirectory, targetPath);
+            validateStoragePath(rootDirectory, targetPath);
 
             // 실재 저장
             file.transferTo(targetPath);
-        }catch (IOException e) {
+        }catch (IOException exception) {
             throw new ResponseStatusException(
               HttpStatus.INTERNAL_SERVER_ERROR,
-              "이미지 파일 저장에 실패했습니다."
+              "이미지 파일 저장에 실패했습니다.",
+              exception
             );
         }
 
@@ -110,9 +114,57 @@ public class LocalImageStorageService implements ImageStorageService {
         );
     }
 
-    // 헬퍼 메서드 =============================================================================
-    // 파일 존재여부/ 크기/ 형식/ 확장자 검증
-    private void validateFile(MultipartFile file) {
+    // 애플리케이션이 관리하는 이미지 URL 및 실제 파일 존재 여부 검증
+    @Override
+    public void validateManagedImageUrl(String imageUrl) {
+        Path targetPath = resolveManagedImagePath(imageUrl);
+
+        if (!Files.isRegularFile(targetPath)) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "업로드된 이미지 파일을 찾을 수 없습니다."
+            );
+        }
+    }
+
+    // 이미지 URL에 대응하는 실제 저장 파일 삭제
+    @Override
+    public boolean delete(String imageUrl) {
+        Path targetPath = resolveManagedImagePath(imageUrl);
+
+        // 파일이 이미 없는 경우 전체 삭제 흐름을 실패시키지 않음
+        if (!Files.exists(targetPath)) {
+            return false;
+        }
+
+        // 디렉토리나 기타 경로를 이미지 파일로 삭제하지 않음
+        if (!Files.isRegularFile(targetPath)) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "삭제 대상이 이미지 파일이 아닙니다."
+            );
+        }
+
+        try {
+            // deleteIfExists() : 파일 또는 디렉토리 삭제 메서드
+            return Files.deleteIfExists(targetPath);
+        } catch (IOException exception) {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    "이미지 파일 삭제에 실패했습니다.",
+                    exception
+            );
+        }
+    }
+
+    // 헬퍼 메서드 ===========================================================================
+    // =====================================================================================
+    // 파일 업로드 검증
+    // =====================================================================================
+    // 파일 존재 여부, 크기, MIME 타입, 확장자 검증
+    private void validateFile(
+            MultipartFile file
+    ) {
         if (file == null || file.isEmpty()) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
@@ -120,23 +172,31 @@ public class LocalImageStorageService implements ImageStorageService {
             );
         }
 
-        if (file.getSize() > uploadProperties.getMaxImageSize()) {
+        if (file.getSize()
+                > uploadProperties.getMaxImageSize()) {
+
             throw new ResponseStatusException(
                     HttpStatus.PAYLOAD_TOO_LARGE,
                     "이미지 파일 크기가 허용 범위를 초과했습니다."
             );
         }
 
-        String contentType = file.getContentType();
+        String contentType =
+                file.getContentType();
 
-        if (contentType == null || !ALLOWED_CONTENT_TYPE.contains(contentType)) {
+        if (contentType == null
+                || !ALLOWED_CONTENT_TYPES.contains(contentType)) {
+
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
                     "지원하지 않는 이미지 형식입니다."
             );
         }
 
-        String extension = extractExtension(file.getOriginalFilename());
+        String extension =
+                extractExtension(
+                        file.getOriginalFilename()
+                );
 
         if (!ALLOWED_EXTENSIONS.contains(extension)) {
             throw new ResponseStatusException(
@@ -146,8 +206,10 @@ public class LocalImageStorageService implements ImageStorageService {
         }
     }
 
-    // 파일 확장자 확인
-    private String extractExtension(@Nullable String fileName) {
+    // 파일 확장자 추출
+    private String extractExtension(
+            @Nullable String fileName
+    ) {
         if (fileName == null || fileName.isBlank()) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
@@ -155,9 +217,12 @@ public class LocalImageStorageService implements ImageStorageService {
             );
         }
 
-        int lastDotIndex = fileName.lastIndexOf(".");
+        int lastDotIndex =
+                fileName.lastIndexOf(".");
 
-        if (lastDotIndex < 0 || lastDotIndex == fileName.length() -1) {
+        if (lastDotIndex < 0
+                || lastDotIndex == fileName.length() - 1) {
+
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
                     "파일 확장자가 없습니다."
@@ -166,35 +231,145 @@ public class LocalImageStorageService implements ImageStorageService {
 
         return fileName
                 .substring(lastDotIndex + 1)
-                .toLowerCase(Locale.ROOT); // Local.ROOT = 하상 표준 영문 기준으로 안전하게 소문자로 변환해라
+                .toLowerCase(Locale.ROOT);
     }
 
-    // 컴퓨터 서버 절대 경로 내 날짜 폴더 포함 경로 검증
-    private void validateStoregePath(
+    // =====================================================================================
+    // 저장 경로 처리
+    // =====================================================================================
+    // 설정된 이미지 저장 루트의 절대 경로 반환
+    private Path getRootDirectory() {
+        return Path.of(
+                        uploadProperties.getImageDirectory()
+                )
+                .toAbsolutePath()
+                .normalize();
+    }
+
+    // 대상 경로가 이미지 저장 루트 내부인지 검증
+    private void validateStoragePath(
             Path rootDirectory,
-            Path targetDirectory
+            Path targetPath
     ) {
-        if (!targetDirectory.startsWith(rootDirectory)) {
+        if (!targetPath.startsWith(rootDirectory)) {
             throw new ResponseStatusException(
-                HttpStatus.BAD_REQUEST,
-                "잘못된 파일 저장 경로입니다."
+                    HttpStatus.BAD_REQUEST,
+                    "허용되지 않은 이미지 파일 경로입니다."
             );
         }
     }
 
-    // 서버 폴더 경로로 정규화
+    // 브라우저 접근용 이미지 URL 생성
     private String buildImageUrl(
             String imageUrlPrefix,
             String dateDirectory,
             String storedFileName
     ) {
-        String nomalizedPrefix = imageUrlPrefix.endsWith("/")
-                ? imageUrlPrefix.substring(0, imageUrlPrefix.length()-1)
-                : imageUrlPrefix;
+        String normalizedPrefix =
+                normalizeImageUrlPrefix(
+                        imageUrlPrefix
+                );
 
-        String nomalizedDateDirectory = dateDirectory.replace("\\", "/");
+        String normalizedDateDirectory =
+                dateDirectory.replace("\\", "/");
 
-        return nomalizedPrefix + "/" + nomalizedDateDirectory + "/" + storedFileName;
+        return normalizedPrefix
+                + "/"
+                + normalizedDateDirectory
+                + "/"
+                + storedFileName;
     }
 
+    // 이미지 URL prefix 정규화
+    private String normalizeImageUrlPrefix(
+            String imageUrlPrefix
+    ) {
+        if (imageUrlPrefix == null
+                || imageUrlPrefix.isBlank()) {
+
+            throw new IllegalStateException(
+                    "이미지 URL prefix 설정이 없습니다."
+            );
+        }
+
+        String normalizedPrefix =
+                imageUrlPrefix.trim();
+
+        while (normalizedPrefix.endsWith("/")
+                && normalizedPrefix.length() > 1) {
+
+            normalizedPrefix =
+                    normalizedPrefix.substring(
+                            0,
+                            normalizedPrefix.length() - 1
+                    );
+        }
+
+        return normalizedPrefix;
+    }
+
+    // 관리 이미지 URL을 실제 로컬 파일 경로로 변환
+    private Path resolveManagedImagePath(
+            String imageUrl
+    ) {
+        if (imageUrl == null || imageUrl.isBlank()) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "이미지 URL이 없습니다."
+            );
+        }
+
+        String normalizedImageUrl =
+                imageUrl.trim();
+
+        String normalizedPrefix =
+                normalizeImageUrlPrefix(
+                        uploadProperties.getImageUrlPrefix()
+                );
+
+        String requiredPrefix =
+                normalizedPrefix + "/";
+
+        if (!normalizedImageUrl.startsWith(requiredPrefix)) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "외부 이미지 URL은 사용할 수 없습니다."
+            );
+        }
+
+        String relativePath =
+                normalizedImageUrl.substring(
+                        requiredPrefix.length()
+                );
+
+        if (relativePath.isBlank()) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "이미지 파일 경로가 없습니다."
+            );
+        }
+
+        Path rootDirectory =
+                getRootDirectory();
+
+        Path targetPath =
+                rootDirectory
+                        .resolve(relativePath)
+                        .normalize();
+
+        validateStoragePath(
+                rootDirectory,
+                targetPath
+        );
+
+        // "." 같은 값이 루트 디렉터리 자체로 해석되는 경우 방지
+        if (targetPath.equals(rootDirectory)) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "이미지 저장 루트 경로는 사용할 수 없습니다."
+            );
+        }
+
+        return targetPath;
+    }
 }
