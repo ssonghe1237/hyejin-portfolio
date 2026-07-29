@@ -249,3 +249,59 @@
   background-color: #fef2f2;
   color: #dc2626;
 }
+
+.uploadField {
+  display: grid;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.fileUploadLabel {
+  display: grid;
+  gap: 8px;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.fileUploadLabel input {
+  padding: 10px;
+  border: 1px dashed #d1d5db;
+  border-radius: 10px;
+  background-color: #f9fafb;
+  cursor: pointer;
+}
+
+.fileUploadLabel input:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.uploadStatus {
+  margin: 0;
+  color: #4f46e5;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.uploadError {
+  margin: 0;
+  color: #dc2626;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.imagePreview {
+  width: 180px;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background-color: #f9fafb;
+}
+
+.imagePreview img {
+  display: block;
+  width: 100%;
+  height: 110px;
+  object-fit: cover;
+}

@@ -15,6 +15,7 @@
  * -----------------------------------------------------------
  * 2026-07-09        Song       최초 생성
  * 2026-07-27        Song       관리자 프로젝트 폼 UX 개선
+ * 2026-07-28        Song       관리자 이미지 직접 등록 방식으로 변경
  */
 
 import { useState } from 'react'
@@ -32,6 +33,7 @@ import type {
   ProjectType,
 } from '../../../types/project'
 import styles from './AdminProjectForm.module.css'
+import { uploadAdminProjectImage } from '../../../api/adminProjectApi'
 
 const SECTION_TYPES: ProjectSectionType[] = [
   'CONTENTS',
@@ -97,6 +99,8 @@ function RequiredMark() {
   )
 }
 
+// ===================================================================================
+
 function AdminProjectForm({
   mode,
   initialValue,
@@ -104,10 +108,31 @@ function AdminProjectForm({
   cancelTo,
   onSubmit,
 }: AdminProjectFormProps ) {
-  const [form, setForm] =
-    useState<AdminProjectFormState>(initialValue)
 
-  // 프로젝트 최상위 필드 변경
+  // ============================================================================
+  // 1) hooks
+  // ----------------------------------------------------------------------------
+  const [form, setForm] = useState<AdminProjectFormState>(initialValue)
+
+  const [thumbnailUploading, setThumbnailUploading] = useState(false)
+  const [thumbnailUploadErrorMessage, setThumbnailUploadErrorMessage] = useState<string | null>(null)
+
+  const [heroUploadingIndex, setHeroUploadingIndex] = useState<number | null>(null);
+  const [heroUploadErrorMessage, setHeroUploadErrorMessage] = useState<string | null>(null)
+
+
+  type SectionUploadingTarget = {
+    sectionIndex: number
+    imageIndex: number
+  } | null
+  const [sectionUploadingTarget, setSectionUploadingTarget] = useState<SectionUploadingTarget>(null)
+  const [sectionUploadErrorMessage, setSectionUploadErrorMessage] = useState<string | null>(null)
+
+  // ============================================================================
+  // 3. 이벤트 함수 
+  // - 프로젝트 최상위 필드 변경 핸들러
+  // - 썸네일 업로드 핸들러
+  // ----------------------------------------------------------------------------
   function updateField<K extends keyof AdminProjectFormState>(
     field: K,
     value: AdminProjectFormState[K],
@@ -126,6 +151,104 @@ function AdminProjectForm({
         ? previous.teamName
         : null,
     }))
+  }
+
+  async function handleThumbnailImageUpload(
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) {
+    const file = event.target.files?.[0]
+
+    if(!file){
+      return
+    }
+
+    try {
+      setThumbnailUploading(true)
+      setThumbnailUploadErrorMessage(null)
+
+      const response = await uploadAdminProjectImage(file)
+
+      setForm((previous) => ({
+        ...previous,
+        thumbnailImage: {
+          projectImageId: previous.thumbnailImage?.projectImageId ?? null,
+          imageType: previous.thumbnailImage?.imageType ?? 'THUMBNAIL',
+          imageUrl: response.imageUrl,
+          caption: previous.thumbnailImage?.caption ?? '',
+          displayOrder: previous.thumbnailImage?.displayOrder ?? 1,
+        },
+      }))
+    } catch(error) {
+      console.error(error)
+
+      setThumbnailUploadErrorMessage(
+        error instanceof Error
+          ? error.message
+          : '썸네일 이미지 업로드에 실패했습니다.',
+      )
+    } finally {
+      setThumbnailUploading(false)
+      event.target.value = ''
+    } 
+  }
+
+  async function handleHeroImageUpload(
+    index: number,
+    file:File
+  ) {
+    try{
+      setHeroUploadingIndex(index)
+      setHeroUploadErrorMessage(null)
+
+      const response = await uploadAdminProjectImage(file)
+
+      updateHeroImage(index, {
+        imageUrl: response.imageUrl
+      })
+    } catch(error) {
+      console.error(error)
+
+      setHeroUploadErrorMessage(
+        error instanceof Error
+          ? error.message
+          : 'Hero 이미지 업로드에 실패했습니다.'
+      )
+    } finally {
+      setHeroUploadingIndex(null)
+    } 
+  }
+
+  async function handleSectionImageUpload(
+    sectionIndex: number,
+    imageIndex: number,
+    file: File
+  ) {
+    try {
+      setSectionUploadingTarget({
+        sectionIndex, imageIndex
+      })
+      setSectionUploadErrorMessage(null)
+
+      const response = await uploadAdminProjectImage(file)
+
+      updateSectionImage(
+        sectionIndex,
+        imageIndex,
+        {
+          imageUrl: response.imageUrl,
+        },
+      )
+    } catch (error) {
+      console.error(error)
+
+      setSectionUploadErrorMessage(
+        error instanceof Error
+          ? error.message
+          : '섹션 이미지 업로드에 실패했습니다.'
+      )
+    } finally {
+      setSectionUploadingTarget(null)
+    }
   }
 
   // =====================================================================================
@@ -592,14 +715,10 @@ function AdminProjectForm({
   }
 
   // =====================================================================================
-  // 제출
+  // 이벤트 함수 : 제출
   // =====================================================================================
 
-  /**
-   * 공통 폼 제출
-   *
-   * API 호출은 하지 않고 현재 폼 상태를 부모 페이지에 전달한다.
-   */
+  // 공통 폼 제출 : API 호출은 하지 않고 현재 폼 상태를 부모 페이지에 전달
   async function handleSubmit(
     event: FormEvent<HTMLFormElement>,
   ) {
@@ -617,6 +736,11 @@ function AdminProjectForm({
     mode === 'create'
       ? '등록 중...'
       : '수정 중...'
+
+  const imageUploading = 
+    thumbnailUploading ||
+    heroUploadingIndex !== null ||
+    sectionUploadingTarget !== null
 
   return (
     <form
@@ -814,7 +938,7 @@ function AdminProjectForm({
 
       <fieldset className={styles.card}>
         <div className={styles.sectionHeader}>
-          <legend>목록 썸네일</legend>
+          <legend>대표 썸네일</legend>
         </div>
 
         {!form.thumbnailImage && (
@@ -855,10 +979,45 @@ function AdminProjectForm({
               >
                 ×
               </button>
+            </div>  
+
+            <div className={styles.uploadField}>
+              <label className={styles.fileUploadLabel}>
+                <span>썸네일 이미지 파일 업로드</span>
+
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  onChange={handleThumbnailImageUpload}
+                  disabled={thumbnailUploading}
+                />
+              </label>
+
+              {thumbnailUploading && (
+                <p className={styles.uploadStatus}>
+                  썸네일 이미지를 업로드하는 중입니다...
+                </p>
+              )}
+
+              {thumbnailUploadErrorMessage && (
+                <p className={styles.uploadError}>
+                  {thumbnailUploadErrorMessage}
+                </p>
+              )}
+
+              {form.thumbnailImage.imageUrl && (
+                <div className={styles.imagePreview}>
+                  <img
+                    src={form.thumbnailImage.imageUrl}
+                    alt="썸네일 미리보기"
+                  />
+                </div>
+              )}
             </div>
 
             <label className={styles.field}>
               <span>설명</span>
+
               <input
                 value={form.thumbnailImage.caption ?? ''}
                 onChange={(event) =>
@@ -907,9 +1066,52 @@ function AdminProjectForm({
                     className={styles.removeIconButton}
                     onClick={() => removeHeroImage(index)}
                     aria-label="Hero 이미지 제거"
+                    disabled={heroUploadingIndex !== null}
                   >
                     ×
                   </button>
+                </div>
+
+                <div className={styles.uploadField}>
+                  <label className={styles.fileUploadLabel}>
+                    <span>Hero 이미지 파일 업로드</span>
+
+                    <input 
+                      type='file'
+                      accept='image/jpeg,image/png,image/webp'
+                      disabled={heroUploadingIndex !== null}
+                      onChange={(event) => {
+                        const file = event.target.files?.[0]
+
+                        if(file) {
+                          void handleHeroImageUpload(
+                            index,
+                            file,
+                          )
+                        }
+
+                        event.target.value = ''
+                      }}
+                    />
+                  </label>
+
+                  {heroUploadingIndex === index && (
+                    <p className={styles.uploadingStatus}>
+                      Hero 이미지를 업로드하는 중입니다...
+                    </p>
+                  )}
+
+                  {image.imageUrl && (
+                    <div className={styles.imagePreview}>
+                      <img 
+                        src={image.imageUrl}
+                        alt={
+                          image.caption?.trim()
+                          || `Hero 이미지 ${index + 1} 미리보기`
+                        }
+                      />
+                    </div>
+                  )}
                 </div>
 
                 <label className={styles.field}>
@@ -954,9 +1156,16 @@ function AdminProjectForm({
             type="button"
             className={styles.addButton}
             onClick={addHeroImage}
+            disabled={heroUploadingIndex !== null}
         >
           + 이미지 추가
         </button>
+
+        {heroUploadErrorMessage && (
+          <p className={styles.uploadError}>
+            {heroUploadErrorMessage}
+          </p>
+        )}
       </fieldset>
 
       <fieldset className={styles.card}>
@@ -1068,6 +1277,7 @@ function AdminProjectForm({
                     type="button"
                     className={styles.removeIconButton}
                     onClick={() => removeSection(sectionIndex)}
+                    disabled={sectionUploadingTarget !== null}
                     aria-label="섹션 제거"
                   >
                     ×
@@ -1214,6 +1424,55 @@ function AdminProjectForm({
                       }
                     />
 
+                    <div className={styles.uploadField}>
+                      <label className={styles.fileUploadLabel}>
+                        <span>섹션 이미지 파일 업로드</span>
+                        
+                        <input
+                          type="file"
+                          accept="image/jpeg,image/png,image/webp"
+                          disabled={sectionUploadingTarget !== null}
+                          onChange={(event) => {
+                            const file = event.target.files?.[0]
+
+                            if (file) {
+                              void handleSectionImageUpload(
+                                sectionIndex,
+                                imageIndex,
+                                file,
+                              )
+                            }
+
+                            event.target.value = ''
+                          }}
+                        />
+                      </label>
+
+                      {sectionUploadingTarget?.sectionIndex ===
+                        sectionIndex &&
+                        sectionUploadingTarget.imageIndex ===
+                          imageIndex && (
+                            <p className={styles.uploadStatus}>
+                              섹션 이미지를 업로드하는 중입니다...
+                            </p>
+                          )
+                      }
+
+                      {image.imageUrl && (
+                        <div className={styles.imagePreview}>
+                          <img
+                            src={image.imageUrl}
+                            alt={
+                              image.caption?.trim() ||
+                              `섹션 ${sectionIndex + 1} 이미지 ${
+                                imageIndex + 1
+                              } 미리보기`
+                            }
+                          />
+                        </div>
+                      )}
+                    </div>
+
                     <input
                       placeholder="이미지 설명"
                       value={image.caption ?? ''}
@@ -1253,6 +1512,7 @@ function AdminProjectForm({
                         )
                       }
                       aria-label="섹션 이미지 제거"
+                      disabled={sectionUploadingTarget !== null}
                     >
                       ×
                     </button>
@@ -1263,6 +1523,7 @@ function AdminProjectForm({
                   type="button"
                   className={styles.addButton}
                   onClick={() => addSectionImage(sectionIndex)}
+                  disabled={sectionUploadingTarget !== null}
                 >
                   + 섹션 이미지 추가
                 </button>
@@ -1275,9 +1536,16 @@ function AdminProjectForm({
             type="button"
             className={styles.addButton}
             onClick={addSection}
+            disabled={sectionUploadingTarget !== null}
           >
             + 섹션 추가
           </button>
+
+          {sectionUploadErrorMessage && (
+            <p className={styles.uploadError}>
+              {sectionUploadErrorMessage}
+            </p>
+          )}
       </fieldset>
 
       <fieldset className={styles.card}>
@@ -1390,11 +1658,13 @@ function AdminProjectForm({
 
         <button
           type="submit"
-          disabled={submitting}
+          disabled={submitting || imageUploading}
         >   
           {submitting
             ? submittingLabel
-            : submitLabel}
+            : imageUploading
+              ? '이미지 업로드 중...'
+              : submitLabel}
         </button>
       </div>
     </form>

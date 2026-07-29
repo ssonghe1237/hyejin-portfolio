@@ -39,7 +39,13 @@ const initialForm: AdminProjectFormState = {
   displayOrder: 0,
   published: false,
 
-  thumbnailImage: null,
+  thumbnailImage: {
+    projectImageId: null,
+    imageType: 'THUMBNAIL',
+    imageUrl: '',
+    caption: null,
+    displayOrder: 1,
+  },
   heroImages: [],
   deletedImageIds: [],
 
@@ -116,6 +122,9 @@ function toCreateRequest(
 }
 
 function AdminProjectCreatePage() {
+  // ============================================================================
+  // 1) hooks
+  // ----------------------------------------------------------------------------
   const navigate = useNavigate()
 
   const [submitting, setSubmitting] = useState(false)
@@ -123,7 +132,10 @@ function AdminProjectCreatePage() {
     null,
   )
 
-  // 관리자 프로젝트 등록 처리
+  // ============================================================================
+  // 3. 이벤트 함수 
+  // - 관리자 프로젝트 등록 처리
+  // ----------------------------------------------------------------------------
   async function handleCreate(
     form: AdminProjectFormState,
   ) {
