@@ -16,11 +16,12 @@
  * 2026-07-09        Song       최초 생성
  * 2026-07-27        Song       관리자 프로젝트 폼 UX 개선
  * 2026-07-28        Song       관리자 이미지 직접 등록 방식으로 변경
+ * 2026-07-30        Song       프로젝트 임시 이미지 정리 API 연결
  */
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import type { FormEvent } from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import type {
   AdminProjectFormImage,
   AdminProjectFormLink,
@@ -33,7 +34,10 @@ import type {
   ProjectType,
 } from '../../../types/project'
 import styles from './AdminProjectForm.module.css'
-import { uploadAdminProjectImage } from '../../../api/adminProjectApi'
+import {
+  uploadAdminProjectImage,
+  deleteTemporaryImage,
+ } from '../../../api/adminProjectApi'
 
 const SECTION_TYPES: ProjectSectionType[] = [
   'CONTENTS',
@@ -112,6 +116,9 @@ function AdminProjectForm({
   // ============================================================================
   // 1) hooks
   // ----------------------------------------------------------------------------
+  const navigate = useNavigate()
+  const [canceling, setCnaceling] = useState(false)
+
   const [form, setForm] = useState<AdminProjectFormState>(initialValue)
 
   const [thumbnailUploading, setThumbnailUploading] = useState(false)
@@ -127,6 +134,119 @@ function AdminProjectForm({
   } | null
   const [sectionUploadingTarget, setSectionUploadingTarget] = useState<SectionUploadingTarget>(null)
   const [sectionUploadErrorMessage, setSectionUploadErrorMessage] = useState<string | null>(null)
+
+  // 현재 등록,수정 화면에서 새로 업데이트 된 이미지 URL만 관리
+  const temporaryImageUrlRef = useRef<Set<string>>(new Set())
+
+  // =====================================================================================
+  // 임시 이미지 관리 함수
+  // =====================================================================================
+  // 새로 업로드한 이미지 URL을 임시 이미지 목록에 등록
+  function registerTemporaryImageUrl(
+    imageUrl: string
+  ){
+    const normalizedImageUrl = imageUrl.trim()
+
+    if(!normalizedImageUrl) {
+      return
+    }
+
+    temporaryImageUrlRef.current.add(
+      normalizedImageUrl,
+    )
+  }
+
+  // 임시 이미지 목록에 포함되는지 확인
+  // 현재 화면에서 새로 업데이트한 임시 이미지인지 확인
+  function isTemporaryImageUrl(
+    imageUrl: string | null | undefined
+  ): boolean {
+    const normalizedImageUrl = imageUrl?.trim()
+
+    if(!normalizedImageUrl) {
+      return false
+    }
+
+    return temporaryImageUrlRef.current.has(
+      normalizedImageUrl
+    )
+  }
+
+  // DB에 등록되지 않은 임시 이미지 파일 삭제
+  async function cleanupTemporaryImageUrl(
+    imageUrl : string | null | undefined
+  ): Promise<void> {
+    // imageUrl 정규화
+    const normalizedImageUrl = imageUrl?.trim()
+
+    // imageUrl이 없거나 임시 이미지 목록에 없는지 확인
+    if(
+      !normalizedImageUrl ||
+      !isTemporaryImageUrl(normalizedImageUrl)
+    ) {
+      return
+    }
+
+    try {
+      // 임시 이미지 파일 삭제
+      await deleteTemporaryImage(
+        normalizedImageUrl
+      )
+
+      // 임시 이미지 파일 목록에서도 삭제
+      temporaryImageUrlRef.current.delete(
+        normalizedImageUrl,
+      )
+    } catch(error) {
+      // 임시 파일 정리 실패 때문에 프로젝트 폼 작업 자체를 막지는 않음
+      // 삭제에 실패한 URL은 Set에 남겨 두고, 최종적으로 추후 고아 파일 스케줄러가 정리 
+      console.error(
+        '임시 이미지 파일 삭제에 실패했습니다.',
+        {
+          imageUrl: normalizedImageUrl,
+          error,
+        }
+      )
+    }
+  }
+
+  // 임시 이미지 전체 정리 함수
+  async function cleanupAllTemporaryImages():
+  Promise<void> {
+    const temporaryImageUrls = [
+      ...temporaryImageUrlRef.current,
+    ]
+
+    const results = await Promise.allSettled(
+      temporaryImageUrls.map(
+        async (imageUrl) => {
+          // 임시 이미지 목록을 돌며 전체 진행
+          await deleteTemporaryImage(
+            imageUrl
+          )
+
+          // 임시 이미지 목록 비우기
+          temporaryImageUrlRef.current.delete(
+            imageUrl
+          )
+        }
+      )
+    )
+
+    results.forEach((result, index) => {
+      if(result.status === 'rejected') {
+        console.error(
+          '취소 처리 중 임시 이미지 삭제에 실패했습니다.',
+          {
+            imageUrl:
+              temporaryImageUrls[index],
+            error: result.reason,
+          }
+        )
+      }
+    })
+  }
+
 
   // ============================================================================
   // 3. 이벤트 함수 
@@ -162,11 +282,16 @@ function AdminProjectForm({
       return
     }
 
+    // 새 파일 업로드 전 URL 수집 : 기존 DB 이미지라면 임시 목록에 없으므로 여기서 삭제되지 않음
+    const previousImageUrl = form.thumbnailImage?.imageUrl
+
     try {
       setThumbnailUploading(true)
       setThumbnailUploadErrorMessage(null)
 
       const response = await uploadAdminProjectImage(file)
+
+      registerTemporaryImageUrl(response.imageUrl)
 
       setForm((previous) => ({
         ...previous,
@@ -178,6 +303,10 @@ function AdminProjectForm({
           displayOrder: previous.thumbnailImage?.displayOrder ?? 1,
         },
       }))
+
+      await cleanupTemporaryImageUrl(
+        previousImageUrl,
+      )
     } catch(error) {
       console.error(error)
 
@@ -196,15 +325,23 @@ function AdminProjectForm({
     index: number,
     file:File
   ) {
+    const previousImageUrl = form.heroImages[index].imageUrl
+
     try{
       setHeroUploadingIndex(index)
       setHeroUploadErrorMessage(null)
 
       const response = await uploadAdminProjectImage(file)
 
+      registerTemporaryImageUrl(
+        response.imageUrl
+      )
+
       updateHeroImage(index, {
         imageUrl: response.imageUrl
       })
+
+      await cleanupTemporaryImageUrl(previousImageUrl)
     } catch(error) {
       console.error(error)
 
@@ -223,6 +360,11 @@ function AdminProjectForm({
     imageIndex: number,
     file: File
   ) {
+    const previousImageUrl =
+      form.sections[sectionIndex]
+        ?.images[imageIndex]
+          ?.imageUrl
+
     try {
       setSectionUploadingTarget({
         sectionIndex, imageIndex
@@ -231,12 +373,18 @@ function AdminProjectForm({
 
       const response = await uploadAdminProjectImage(file)
 
+      registerTemporaryImageUrl(response.imageUrl)
+
       updateSectionImage(
         sectionIndex,
         imageIndex,
         {
           imageUrl: response.imageUrl,
         },
+      )
+
+      await cleanupTemporaryImageUrl(
+        previousImageUrl
       )
     } catch (error) {
       console.error(error)
@@ -287,20 +435,26 @@ function AdminProjectForm({
    * 기존 썸네일이면 deletedImageIds에 ID를 저장하고,
    * 신규 썸네일이면 폼 상태에서만 제거한다.
    */
-  function removeThumbnail() {
+  async function removeThumbnail() {
+    const target = form.thumbnailImage
+
+    if(!target) {
+      return
+    }
+
     setForm((previous) => {
       const thumbnail = previous.thumbnailImage
 
-      if (!thumbnail) {
+      if(!thumbnail) {
         return previous
       }
 
       const deletedImageIds =
         thumbnail.projectImageId !== null
           ? appendUniqueId(
-              previous.deletedImageIds,
-              thumbnail.projectImageId,
-            )
+            previous.deletedImageIds,
+            thumbnail.projectImageId
+          )
           : previous.deletedImageIds
 
       return {
@@ -308,7 +462,13 @@ function AdminProjectForm({
         thumbnailImage: null,
         deletedImageIds,
       }
+
     })
+
+    // 신규 업로드 URL이면 즉시 실제 파일 삭제
+    await cleanupTemporaryImageUrl(
+      target.imageUrl
+    )
   }
 
   // =====================================================================================
@@ -356,19 +516,25 @@ function AdminProjectForm({
   }
 
   // Hero 이미지 선택 삭제
-  function removeHeroImage(index: number) {
-    setForm((previous) => {
-      const target = previous.heroImages[index]
+  async function removeHeroImage(index: number) {
+    const target = form.heroImages[index]
 
-      if (!target) {
+    if(!target) {
+      return
+    }
+
+    setForm((previous) => {
+      const currentTarget = previous.heroImages[index]
+
+      if(!currentTarget) {
         return previous
       }
 
       const deletedImageIds =
-        target.projectImageId !== null
+        currentTarget.projectImageId !== null
           ? appendUniqueId(
               previous.deletedImageIds,
-              target.projectImageId,
+              currentTarget.projectImageId,
             )
           : previous.deletedImageIds
 
@@ -380,6 +546,8 @@ function AdminProjectForm({
         deletedImageIds,
       }
     })
+
+    await cleanupTemporaryImageUrl(target.imageUrl)
   }
 
   // =====================================================================================
@@ -504,19 +672,30 @@ function AdminProjectForm({
   // 섹션 선택 삭제
   // : 기존 섹션이면 deletedSectionIds에 ID를 저장
   // : 섹션 내부 이미지는 백엔드에서 섹션보다 먼저 자동 삭제 => deletedImageIds에 별도로 추가x
-  function removeSection(index: number) {
-    setForm((previous) => {
-      const target = previous.sections[index]
+  async function removeSection(index: number) {
+    const target = form.sections[index]
 
-      if (!target) {
+    if(!target) {
+      return
+    }
+
+    const temporaryImageUrls =
+      target.images
+        .map((image) => image.imageUrl)
+        .filter((imageUrl) => isTemporaryImageUrl(imageUrl))
+
+    setForm((previous) => {
+      const currentTarget = previous.sections[index]
+
+      if(!currentTarget) {
         return previous
       }
 
       const deletedSectionIds =
-        target.sectionId !== null
+        currentTarget.sectionId !== null
           ? appendUniqueId(
               previous.deletedSectionIds,
-              target.sectionId,
+              currentTarget.sectionId,
             )
           : previous.deletedSectionIds
 
@@ -529,6 +708,15 @@ function AdminProjectForm({
         deletedSectionIds,
       }
     })
+
+    await Promise.all(
+      temporaryImageUrls.map(
+        (imageUrl) =>
+          cleanupTemporaryImageUrl(
+            imageUrl
+          )
+      )
+    )
   }
 
   // =====================================================================================
@@ -603,24 +791,31 @@ function AdminProjectForm({
   }
 
   // 섹션 이미지 선택 삭제
-  function removeSectionImage(
+  async function removeSectionImage(
     sectionIndex: number,
     imageIndex: number,
   ) {
+    const target = form.sections[sectionIndex]?.images[imageIndex]
+
+    if(!target) {
+      return
+    }
+
     setForm((previous) => {
       const section =
         previous.sections[sectionIndex]
-      const target = section?.images[imageIndex]
 
-      if (!section || !target) {
+      const currentTarget = section?.images[imageIndex]
+
+      if (!section || !currentTarget) {
         return previous
       }
 
       const deletedImageIds =
-        target.projectImageId !== null
+        currentTarget.projectImageId !== null
           ? appendUniqueId(
               previous.deletedImageIds,
-              target.projectImageId,
+              currentTarget.projectImageId,
             )
           : previous.deletedImageIds
 
@@ -641,6 +836,8 @@ function AdminProjectForm({
         ),
       }
     })
+
+    await cleanupTemporaryImageUrl(target.imageUrl)
   }
 
   // =====================================================================================
@@ -760,6 +957,9 @@ function AdminProjectForm({
     }
 
     await onSubmit(form)
+
+    // onSubmit이 정상 완료되었다면 현재 폼의 업로드 이미지는 정식 이미지가 된다
+    temporaryImageUrlRef.current.clear()
   }
 
   const submitLabel =
@@ -776,6 +976,29 @@ function AdminProjectForm({
     thumbnailUploading ||
     heroUploadingIndex !== null ||
     sectionUploadingTarget !== null
+
+  async function handleCancel() {
+    if(
+      submitting ||
+      imageUploading ||
+      canceling
+    ) {
+      return
+    }
+
+    setCnaceling(true)
+
+    try{
+      await cleanupAllTemporaryImages()
+    } finally {
+      // 일부 파일 삭제가 실패해도 취소 화면 이동 자체는 막지 않는다
+      // 남은 파일은 서버 고아 파일 정리 스케줄러가 최종 정리한다.
+      navigate(cancelTo)
+    }
+    
+  }
+
+  
 
   return (
     <form
@@ -993,7 +1216,9 @@ function AdminProjectForm({
               <button
                 type="button"
                 className={styles.removeIconButton}
-                onClick={removeThumbnail}
+                onClick={() => {
+                  void removeThumbnail
+                }}
                 aria-label="썸네일 제거"
               >
                 ×
@@ -1069,7 +1294,7 @@ function AdminProjectForm({
                   <button
                     type="button"
                     className={styles.removeIconButton}
-                    onClick={() => removeHeroImage(index)}
+                    onClick={() => void removeHeroImage(index)}
                     aria-label="Hero 이미지 제거"
                     disabled={heroUploadingIndex !== null}
                   >
@@ -1281,7 +1506,7 @@ function AdminProjectForm({
                   <button
                     type="button"
                     className={styles.removeIconButton}
-                    onClick={() => removeSection(sectionIndex)}
+                    onClick={() => void removeSection(sectionIndex)}
                     disabled={sectionUploadingTarget !== null}
                     aria-label="섹션 제거"
                   >
@@ -1496,7 +1721,7 @@ function AdminProjectForm({
                       type="button"
                       className={styles.removeIconButton}
                       onClick={() =>
-                        removeSectionImage(
+                        void removeSectionImage(
                           sectionIndex,
                           imageIndex,
                         )
@@ -1644,11 +1869,24 @@ function AdminProjectForm({
       </fieldset>
 
       <div className={styles.actions}>
-        <Link to={cancelTo}>취소</Link>
+        <button
+          type="button"
+          onClick={() => void handleCancel()}
+          disabled={
+            submitting ||
+            imageUploading ||
+            canceling
+          }
+        >
+          {canceling
+            ? '취소 처리 중...'
+            : '취소'
+          }
+        </button>
 
         <button
           type="submit"
-          disabled={submitting || imageUploading}
+          disabled={submitting || imageUploading || canceling}
         >   
           {submitting
             ? submittingLabel

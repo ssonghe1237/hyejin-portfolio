@@ -86,6 +86,7 @@ public class AdminProjectServiceImpl implements AdminProjectService {
     ) {
         validateCreateRequest(request);
 
+        // 프로젝트 핵심 정보 저장
         ProjectEntity project = projectRepository.save(
                 ProjectEntity.builder()
                         .title(request.title().trim())
@@ -102,16 +103,19 @@ public class AdminProjectServiceImpl implements AdminProjectService {
                         .build()
         );
 
+        // 프로젝트 기술스택 정보 저장
         saveTechStacks(
                 project,
                 request.techStacks()
         );
 
+        // 프로젝트 썸네일 이미지 저장
         saveThumbnailImage(
                 project,
                 request.thumbnailImage()
         );
 
+        // 프로젝트 히어로 이미지 저장
         saveHeroImages(
                 project,
                 request.heroImages()
