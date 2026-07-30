@@ -3,6 +3,8 @@ package com.hyejin.portfolio.domain.project.repository;
 import com.hyejin.portfolio.domain.project.entity.ProjectImageEntity;
 import com.hyejin.portfolio.domain.project.entity.ProjectImageType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Collection;
 import java.util.List;
@@ -19,6 +21,7 @@ import java.util.Optional;
  * -----------------------------------------------------------
  * 2026-06-30        Song       최초 생성
  * 2026-07-02        Song       데이터 컬럼 추가(section id)로 조회 기준 보강
+ * 2026-07-30        Song       imageUrl을 사용하는 프로젝트 이미지 DB 존재 여부 확인 추가
  */
 public interface ProjectImageRepository extends JpaRepository<ProjectImageEntity, Long> {
 
@@ -67,4 +70,26 @@ public interface ProjectImageRepository extends JpaRepository<ProjectImageEntity
             Long projectId,
             Collection<Long> sectionIds
     );
+
+    // ===========================================================
+    // 단건 임시 이미지 삭제 API에서 사용
+    // -----------------------------------------------------------
+    boolean existsByImageUrl(
+            String imageUrl
+    );
+
+    // ===========================================================
+    // 스케줄러 고아 이미지 일괄 정리에 활용
+    // -----------------------------------------------------------
+    // 전달받은 이미지 URL 중 project_images 테이블에서 실제로 참조 중인 이미지 URL을 일괄 조회
+    @Query("""
+        SELECT projectImage.imageUrl
+        FROM ProjectImageEntity projectImage
+        WHERE projectImage.imageUrl IN :imageUrls
+        """)
+    List<String> findReferencedImageUrls(
+            @Param("imageUrls")
+            Collection<String> imageUrls
+    );
+
 }

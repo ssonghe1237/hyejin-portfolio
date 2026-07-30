@@ -12,11 +12,14 @@ import org.springframework.web.server.ResponseStatusException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 /**
  * packageName    : com.hyejin.portfolio.global.upload.service
@@ -29,11 +32,13 @@ import java.util.UUID;
  *                  - 외부 업로드 디렉터리에 이미지 저장
  *                  - 브라우저 접근용 imageUrl 반환
  *                  - 관리 이미지 URL 검증 및 실제 파일 삭제
+ *                  - 기준 시각 이전 관리 이미지 파일 URL 조회
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-07-28        Song       최초 생성
  * 2026-07-29        Song       관리 이미지 URL 검증 및 파일 삭제 기능 추가
+ * 2026-07-30        Song       기준 시각 이전 이미지 파일 조회 기능 추가
  */
 
 @Service
@@ -130,6 +135,7 @@ public class LocalImageStorageService implements ImageStorageService {
     // 이미지 URL에 대응하는 실제 저장 파일 삭제
     @Override
     public boolean delete(String imageUrl) {
+        // 실제 서버 이미지 경로로 정규화
         Path targetPath = resolveManagedImagePath(imageUrl);
 
         // 파일이 이미 없는 경우 전체 삭제 흐름을 실패시키지 않음
@@ -152,6 +158,66 @@ public class LocalImageStorageService implements ImageStorageService {
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR,
                     "이미지 파일 삭제에 실패했습니다.",
+                    exception
+            );
+        }
+    }
+
+    // 기준 시각보다 마지막 수정 시각이 오래된 관리 이미지 파일의 URL 목록을 조회
+    @Override
+    public List<String> findImageUrlsModifiedBefore(Instant cutoff) {
+        if (cutoff == null) {
+            throw new IllegalArgumentException(
+                    "이미지 파일 조회 기준 시각은 필수입니다."
+            );
+        }
+
+        Path rootDirectory = getRootDirectory();
+
+        // 한 번도 이미지가 업로드 되지 않아 저장 디렉터리가 없는 경우 빈 목록 반환
+        if (!Files.exists(rootDirectory)) {
+            return List.of();
+        }
+
+        // 디렉토리 경로가 올바른지 검증
+        if (!Files.isDirectory(rootDirectory)) {
+            throw new IllegalArgumentException(
+                    "이미지 저장 경로가 디렉터리가 아닙니다. path=" + rootDirectory
+            );
+        }
+
+        try(
+                Stream<Path> imagePaths =
+                    Files.find(
+                            rootDirectory,      // 탐색을 시작할 폴더
+                            Integer.MAX_VALUE,  // 하위 폴더 탐색 길이 무제한(MAX_VALUE)
+                            (path, attributes) -> // path : 파일 위치 및 이름 | attributes : 파일 속성 및 상태 정보 (파일 크기, 생성 날짜, 수정 날짜, 폴더 여부 등)
+                                    // 조건A: 폴더나 링크가 아닌 '일반 파일'이어야 함
+                                    attributes.isRegularFile()
+
+                                            // 조건B: 파일의 마지막 수정 시각이 cutoff(기준 시각)보다 이전이어야함
+                                            && attributes
+                                            .lastModifiedTime()
+                                            .toInstant()
+                                            .isBefore(cutoff)
+
+                                            // 조건C: 허용된 이미지 확장자를 가져야함
+                                            && hasAllowedImageExtension(path)
+                    )
+        ) {
+            return imagePaths
+                    .map(path ->
+                            buildManagedImageUrl(
+                                    rootDirectory,
+                                    path
+                            )
+                    )
+                    .sorted() // 알파벳/ 가나다 순으로 정렬
+                    .toList();
+
+        } catch (IOException exception) {
+            throw new IllegalArgumentException(
+                    "오래된 이미지 파일 조회에 실패했습니다.",
                     exception
             );
         }
@@ -371,5 +437,70 @@ public class LocalImageStorageService implements ImageStorageService {
         }
 
         return targetPath;
+    }
+
+    // [findImageUrlsModifiedBefore 헬퍼메서드] : 이미지 확장자 체크
+    // 잘못된 파일은 예외 발생 시키지 않고 정리 대상에서 제외
+    private boolean hasAllowedImageExtension (
+            Path path
+    ) {
+        Path fileNamePath = path.getFileName();
+
+        if (fileNamePath == null) {
+            return false;
+        }
+
+        String fileName = fileNamePath.toString();
+
+        int lastDotIndex = fileName.lastIndexOf(".");
+
+        if (
+                lastDotIndex < 0
+                || lastDotIndex == fileName.length() -1
+        ) {
+            return false;
+        }
+
+        String extension = fileName
+                            .substring(lastDotIndex +1)
+                            .toLowerCase(Locale.ROOT);
+
+        return ALLOWED_EXTENSIONS.contains(
+                extension
+        );
+    }
+
+    // 실제 이미지 파일 경로를 브라우저 접근용 관리 이미지 URL로 변환
+    private String buildManagedImageUrl(
+            Path rootDirectory,
+            Path imagePath
+    ){
+        Path normalizedImagePath = imagePath.toAbsolutePath().normalize();
+
+        validateStoragePath(
+                rootDirectory,
+                normalizedImagePath
+        );
+
+        // relativize() : 기준 지점에서 목표 지점으로 갈 때의 안겹치는 남은 경로를 추출
+        Path relativePath = rootDirectory.relativize(normalizedImagePath);
+
+        String normalizedRelativePath =
+                relativePath.toString().replace("\\", "/");
+
+        if(normalizedRelativePath.isBlank()) {
+            throw new IllegalArgumentException(
+                    "이미지 상대 경로를 생성할 수 없습니다."
+            );
+        }
+
+        String normalizedPrefix =
+                normalizeImageUrlPrefix(
+                        uploadProperties.getImageUrlPrefix()
+                );
+
+        return normalizedPrefix
+                + "/"
+                + normalizedRelativePath;
     }
 }
