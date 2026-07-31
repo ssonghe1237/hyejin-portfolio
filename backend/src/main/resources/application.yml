@@ -8,6 +8,7 @@
 # -----------------------------------------------------------
 # 2026-06-25        Song               최초 생성
 # 2026-07-28        Song               multipart 용량 지정
+# 2026-07-31        Song               고아 이미지 정리 환경변수 오타 수정
 #/
 
 server:
@@ -44,7 +45,7 @@ app:
     max-image-size: 10485760
 
     # DB에서 참조하지 않는 오래된 이미지 파일 정리
-    orphan-cleanup-enabled: ${IMAGE_ORPHAN_CLEANIP_ENABLED:true}
+    orphan-cleanup-enabled: ${IMAGE_ORPHAN_CLEANUP_ENABLED:true}
     orphan-retention-hours: ${IMAGE_ORPHAN_RETENTION_HOURS:24}
     #orphan-retention-hours: ${IMAGE_ORPHAN_RETENTION_HOURS:1}
     orphan-cleanup-cron: "${IMAGE_ORPHAN_CLEANUP_CRON:0 30 3 * * *}"
