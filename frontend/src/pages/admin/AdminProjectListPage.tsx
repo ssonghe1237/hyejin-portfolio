@@ -47,7 +47,7 @@ function AdminProjectListPage() {
     const [publicationFilter, setPublicationFilter] = useState('ALL')
     const [fromDate, setFromDate] = useState('') // 생성일 필터 시작 값
     const [toDate, setToDate] = useState('')     // 수정일 필터 종료 값
-    const [searchKeywork, setSearchKeywork] = useState('')
+    const [searchKeyword, setSearchKeyword] = useState('')
 
     // 정렬 hook
     const [sortOption, setSortOption] = useState('DISPLAY_ORDER_ASC')
@@ -93,16 +93,16 @@ function AdminProjectListPage() {
                 (!fromDate || createdDate >= fromDate) &&
                 (!toDate || updatedDate <= toDate) 
 
-            const keywork = searchKeywork.trim().toLowerCase()
+            const keyword = searchKeyword.trim().toLowerCase()
 
-            const matchKeyword =
-                !keywork || project.title.toLowerCase().includes(keywork)
+            const matchesKeyword =
+                !keyword || project.title.toLowerCase().includes(keyword)
 
             return (
                 matchesType &&
                 matchesPublication &&
                 matchesDateRange &&
-                matchKeyword
+                matchesKeyword
             )
     })
 
@@ -110,7 +110,7 @@ function AdminProjectListPage() {
     const sortedProject = [...filteredProjects].sort((a, b) => {
         switch (sortOption) {
             case 'DISPLAY_ORDER_ASC' :
-                return b.displayOrder - a.displayOrder
+                return a.displayOrder - b.displayOrder // 최신순
 
             case 'CREATED_AT_DESC' :
                 return b.createdAt.localeCompare(a.createdAt)
@@ -126,7 +126,7 @@ function AdminProjectListPage() {
 
             case 'DISPLAY_ORDER_DESC':
                 default:
-                    return a.displayOrder - b.displayOrder
+                    return b.displayOrder - a.displayOrder // 오래된순
         }
     })
 
@@ -187,8 +187,8 @@ function AdminProjectListPage() {
         setPublicationFilter('ALL')
         setFromDate('')
         setToDate('')
-        setSearchKeywork('')
-        setSortOption('DISPALY_ORDER_ASC')
+        setSearchKeyword('')
+        setSortOption('DISPLAY_ORDER_ASC')
     }
 
     // ============================================================================
@@ -233,9 +233,9 @@ function AdminProjectListPage() {
 
                     <input
                         type='search'
-                        value={searchKeywork}
+                        value={searchKeyword}
                         className={styles.searchInput}
-                        onChange={(event) => setSearchKeywork(event.target.value)}
+                        onChange={(event) => setSearchKeyword(event.target.value)}
                         placeholder='프로젝트명 검색'
                     >
                     </input>

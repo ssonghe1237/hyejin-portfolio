@@ -6,10 +6,12 @@
  * description    : Header 컴포넌트 스타일
  *                  - 공통 헤더 레이아웃
  *                  - 브랜드 링크 및 네비게이션 스타일 관리
+ *                  - 화면 크기에 따른 반응형 네비게이션 처리
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
- * 2026-07-02        Song       최초 생성
+ * 2026-07-02        Song               최초 생성
+ * 2026-08-03        Song               사용자 메뉴 및 반응형 스타일 보강
  */
 
 .header {
@@ -32,6 +34,7 @@
 }
 
 .brand {
+  flex-shrink: 0;
   color: var(--color-text-primary);
   font-size: 20px;
   font-weight: 800;
@@ -42,16 +45,94 @@
 .nav {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 20px;
 }
 
 .navLink {
+  position: relative;
+  padding: 6px 0;
   color: var(--color-text-muted);
   font-weight: 500;
+  line-height: 1.4;
+  white-space: nowrap;
   text-decoration: none;
+  transition:
+    color 160ms ease,
+    opacity 160ms ease;
+}
+
+.navLink:hover {
+  color: var(--color-text-primary);
+}
+
+.navLink:focus-visible {
+  color: var(--color-text-primary);
+  outline: 2px solid currentColor;
+  outline-offset: 5px;
+  border-radius: 2px;
+}
+
+.navLink::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 160ms ease;
 }
 
 .navLinkActive {
   color: var(--color-text-primary);
   font-weight: 700;
+}
+
+.navLinkActive::after {
+  transform: scaleX(1);
+}
+
+@media (max-width: 760px) {
+  .inner {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 14px;
+    padding-top: 16px;
+    padding-bottom: 14px;
+  }
+
+  .nav {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 18px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+
+  .nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .navLink {
+    flex-shrink: 0;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 420px) {
+  .brand {
+    font-size: 18px;
+  }
+
+  .nav {
+    gap: 16px;
+  }
+
+  .navLink {
+    font-size: 14px;
+  }
 }
