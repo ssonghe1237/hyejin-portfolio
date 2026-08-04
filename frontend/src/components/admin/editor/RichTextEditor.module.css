@@ -1,0 +1,211 @@
+/**
+ * packageName    : frontend.src.components.admin.editor
+ * fileName       : RichTextEditor.module.css
+ * author         : Song
+ * date           : 2026-08-04
+ * description    : 관리자 공통 RichTextEditor 스타일
+ *                  - Tiptap 편집기 툴바 및 본문 입력 영역
+ *                  - 활성 서식 버튼과 비활성 상태 표시
+ *                  - 본문 HTML 요소의 기본 편집 스타일
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-08-04        Song               최초 생성
+ */
+
+.wrapper {
+  overflow: hidden;
+  border: 1px solid var(--color-border-light);
+  border-radius: 8px;
+  background-color: var(--color-background);
+}
+
+.wrapper:focus-within {
+  border-color: var(--color-text-primary);
+}
+
+.wrapperDisabled {
+  opacity: 0.65;
+}
+
+.toolbar {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  border-bottom: 1px solid var(--color-border-light);
+  background-color: rgba(0, 0, 0, 0.025);
+}
+
+.toolbarGroup {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.toolbarGroup + .toolbarGroup {
+  padding-left: 8px;
+  border-left: 1px solid var(--color-border-light);
+}
+
+.toolbarButton {
+  min-height: 34px;
+  padding: 0 10px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  color: var(--color-text-muted);
+  background-color: transparent;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.toolbarButton:hover:not(:disabled) {
+  color: var(--color-text-primary);
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+.toolbarButton:focus-visible {
+  outline: 2px solid var(--color-text-primary);
+  outline-offset: 2px;
+}
+
+.toolbarButtonActive {
+  border-color: var(--color-border-light);
+  color: var(--color-text-primary);
+  background-color: var(--color-background);
+}
+
+.toolbarButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.editor {
+  min-height: 360px;
+  padding: 24px;
+  color: var(--color-text-primary);
+  font-size: 16px;
+  line-height: 1.75;
+  outline: none;
+}
+
+.editor > *:first-child {
+  margin-top: 0;
+}
+
+.editor > *:last-child {
+  margin-bottom: 0;
+}
+
+.editor p {
+  margin: 0 0 16px;
+}
+
+.editor h2 {
+  margin: 40px 0 16px;
+  font-size: 30px;
+  line-height: 1.25;
+  letter-spacing: -0.035em;
+}
+
+.editor h3 {
+  margin: 32px 0 14px;
+  font-size: 23px;
+  line-height: 1.3;
+  letter-spacing: -0.025em;
+}
+
+.editor ul,
+.editor ol {
+  margin: 16px 0;
+  padding-left: 28px;
+}
+
+.editor li + li {
+  margin-top: 6px;
+}
+
+.editor blockquote {
+  margin: 24px 0;
+  padding: 4px 0 4px 18px;
+  border-left: 3px solid var(--color-text-primary);
+  color: var(--color-text-muted);
+}
+
+.editor pre {
+  overflow-x: auto;
+  margin: 24px 0;
+  padding: 18px;
+  border-radius: 6px;
+  background-color: #171717;
+  color: #f5f5f5;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.editor code {
+  font-family:
+    'SFMono-Regular',
+    Consolas,
+    'Liberation Mono',
+    monospace;
+}
+
+.editor a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.editor hr {
+  margin: 36px 0;
+  border: 0;
+  border-top: 1px solid var(--color-border-light);
+}
+
+/*
+ * Placeholder extension이 비어 있는 첫 문단에
+ * data-placeholder 속성과 is-editor-empty 클래스를 추가한다.
+ */
+.editor p:global(.is-editor-empty):first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  color: var(--color-text-muted);
+  pointer-events: none;
+  opacity: 0.65;
+}
+
+.loading {
+  min-height: 160px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-border-light);
+  border-radius: 8px;
+  color: var(--color-text-muted);
+}
+
+@media (max-width: 760px) {
+  .toolbar {
+    align-items: flex-start;
+  }
+
+  .toolbarGroup {
+    flex-wrap: wrap;
+  }
+
+  .toolbarGroup + .toolbarGroup {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .editor {
+    min-height: 300px;
+    padding: 18px;
+  }
+}

@@ -1,0 +1,312 @@
+/**
+ * packageName    : frontend.src.pages.admin
+ * fileName       : AdminResearchDetailPage.module.css
+ * author         : Song
+ * date           : 2026-08-04
+ * description    : 관리자 Research 상세 페이지 기본 스타일
+ *                  - Research 상세 정보와 본문 미리보기
+ *                  - 공개 상태 및 관리 액션 표시
+ *                  - 최종 디자인 적용 전 기능 확인용 스타일
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-08-04        Song               최초 생성
+ * 2026-08-04        Song               Research 수정 페이지 이동 버튼 추가
+ */
+
+.page {
+  width: 100%;
+}
+
+.header {
+  margin-bottom: 36px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--color-text-muted);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 0;
+  font-size: 36px;
+  line-height: 1.2;
+}
+
+.summary {
+  max-width: 760px;
+  margin: 14px 0 0;
+  color: var(--color-text-muted);
+  line-height: 1.7;
+}
+
+.backLink {
+  color: var(--color-text-primary);
+  font-weight: 700;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.status,
+.errorPage,
+.actionError {
+  padding: 24px;
+  border: 1px solid var(--color-border-light);
+}
+
+.errorPage p {
+  margin: 0 0 18px;
+}
+
+.actionError {
+  margin-bottom: 24px;
+  border-color: currentColor;
+}
+
+.section {
+  padding: 28px;
+  border: 1px solid var(--color-border-light);
+}
+
+.section + .section {
+  margin-top: 24px;
+}
+
+.sectionHeader {
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.sectionTitle {
+  margin: 0 0 24px;
+  font-size: 22px;
+  line-height: 1.3;
+}
+
+.sectionHeader .sectionTitle {
+  margin-bottom: 0;
+}
+
+.badge {
+  display: inline-flex;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.published {
+  border: 1px solid var(--color-text-primary);
+  color: var(--color-background);
+  background-color: var(--color-text-primary);
+}
+
+.unpublished {
+  border: 1px solid var(--color-border-light);
+  color: var(--color-text-muted);
+  background-color: transparent;
+}
+
+.infoGrid {
+  margin: 0;
+  display: grid;
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+  gap: 1px;
+  background-color: var(--color-border-light);
+}
+
+.infoItem {
+  min-width: 0;
+  padding: 18px;
+  background-color: var(--color-background);
+}
+
+.infoItem dt {
+  margin-bottom: 7px;
+  color: var(--color-text-muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.infoItem dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+  line-height: 1.5;
+}
+
+.content {
+  min-height: 260px;
+  padding: 24px;
+  border: 1px solid var(--color-border-light);
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+.content > *:first-child {
+  margin-top: 0;
+}
+
+.content > *:last-child {
+  margin-bottom: 0;
+}
+
+.content h2 {
+  margin: 40px 0 16px;
+  font-size: 30px;
+  line-height: 1.25;
+}
+
+.content h3 {
+  margin: 32px 0 14px;
+  font-size: 23px;
+  line-height: 1.3;
+}
+
+.content p {
+  margin: 0 0 16px;
+}
+
+.content ul,
+.content ol {
+  margin: 16px 0;
+  padding-left: 28px;
+}
+
+.content blockquote {
+  margin: 24px 0;
+  padding-left: 18px;
+  border-left: 3px solid var(--color-text-primary);
+  color: var(--color-text-muted);
+}
+
+.content pre {
+  overflow-x: auto;
+  margin: 24px 0;
+  padding: 18px;
+  background-color: #171717;
+  color: #f5f5f5;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.content code {
+  font-family:
+    'SFMono-Regular',
+    Consolas,
+    'Liberation Mono',
+    monospace;
+}
+
+.content a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.content hr {
+  margin: 36px 0;
+  border: 0;
+  border-top: 1px solid var(--color-border-light);
+}
+
+.actionGroup {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.editLink,
+.publicationButton,
+.previewLink,
+.deleteButton {
+  min-height: 42px;
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-text-primary);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.publicationButton {
+  color: var(--color-text-primary);
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.previewLink {
+  color: var(--color-text-primary);
+  background-color: transparent;
+  text-decoration: none;
+}
+
+.deleteButton {
+  margin-left: auto;
+  color: var(--color-text-primary);
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.publicationButton:disabled,
+.deleteButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.editLink {
+  color: var(--color-background);
+  background-color: var(--color-text-primary);
+  text-decoration: none;
+}
+
+@media (max-width: 720px) {
+  .header {
+    flex-direction: column;
+  }
+
+  .section {
+    padding: 20px;
+  }
+
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .content {
+    padding: 18px;
+  }
+
+  .actionGroup {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .editLink,
+  .publicationButton,
+  .previewLink,
+  .deleteButton {
+    width: 100%;
+  }
+
+  .deleteButton {
+    margin-left: 0;
+  }
+}

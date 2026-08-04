@@ -57,7 +57,7 @@ public class AdminProjectController {
         AdminProjectDetailResponseDto response = adminProjectService.createProject(request);
 
         URI location = URI.create(
-                "api/admin/projects/" + response.projectId()
+                "/api/admin/projects/" + response.projectId()
         );
 
         return ResponseEntity

@@ -1,0 +1,345 @@
+/**
+ * packageName    : frontend.src.pages
+ * fileName       : HomePage.module.css
+ * author         : Song
+ * date           : 2026-08-03
+ * description    : HomePage 컴포넌트 스타일
+ *                  - 홈 Hero 및 공통 섹션 레이아웃
+ *                  - 핵심 역량 카드와 성장 배경 영역
+ *                  - 연락 유도 CTA 및 반응형 스타일
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-08-03        Song               최초 생성
+ */
+
+.page {
+  width: 100%;
+}
+
+.section {
+  padding: 96px 0;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.hero {
+  min-height: calc(100vh - 150px);
+  padding-top: 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.eyebrow {
+  margin: 0 0 20px;
+  color: var(--color-text-muted);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.heroTitle {
+  max-width: 1100px;
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: clamp(48px, 7.6vw, 100px);
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: -0.065em;
+  word-break: keep-all;
+}
+
+.heroDescription {
+  max-width: 700px;
+  margin: 32px 0 0;
+  color: var(--color-text-muted);
+  font-size: clamp(17px, 1.8vw, 21px);
+  line-height: 1.75;
+  word-break: keep-all;
+}
+
+.heroActions {
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.primaryLink,
+.secondaryLink,
+.contactLink {
+  min-height: 48px;
+  padding: 0 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-text-primary);
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  transition:
+    color 160ms ease,
+    background-color 160ms ease,
+    transform 160ms ease;
+}
+
+.primaryLink {
+  color: var(--color-background);
+  background-color: var(--color-text-primary);
+}
+
+.secondaryLink {
+  color: var(--color-text-primary);
+  background-color: transparent;
+}
+
+.primaryLink:hover,
+.secondaryLink:hover,
+.contactLink:hover {
+  transform: translateY(-2px);
+}
+
+.secondaryLink:hover {
+  color: var(--color-background);
+  background-color: var(--color-text-primary);
+}
+
+.primaryLink:focus-visible,
+.secondaryLink:focus-visible,
+.textLink:focus-visible,
+.contactLink:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.sectionTitle {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.05em;
+  word-break: keep-all;
+}
+
+.sectionDescription {
+  max-width: 680px;
+  margin: 28px 0 0;
+  color: var(--color-text-muted);
+  font-size: 18px;
+  line-height: 1.75;
+  word-break: keep-all;
+}
+
+.textLink {
+  flex-shrink: 0;
+  padding-bottom: 4px;
+  border-bottom: 1px solid currentColor;
+  color: var(--color-text-primary);
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.textLink:hover {
+  opacity: 0.65;
+}
+
+.capabilityGrid {
+  margin-top: 48px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.capabilityCard {
+  min-height: 290px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-border-light);
+}
+
+.capabilityNumber {
+  color: var(--color-text-muted);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.capabilityTitle {
+  margin: auto 0 16px;
+  color: var(--color-text-primary);
+  font-size: 25px;
+  font-weight: 750;
+  line-height: 1.2;
+  letter-spacing: -0.035em;
+}
+
+.capabilityDescription {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 16px;
+  line-height: 1.7;
+  word-break: keep-all;
+}
+
+.background {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.8fr);
+  gap: 72px;
+}
+
+.backgroundContent {
+  padding-top: 32px;
+}
+
+.backgroundContent p {
+  margin: 0 0 20px;
+  color: var(--color-text-muted);
+  font-size: 18px;
+  line-height: 1.8;
+  word-break: keep-all;
+}
+
+.backgroundContent .textLink {
+  margin-top: 16px;
+  display: inline-block;
+}
+
+.contactCta {
+  margin: 96px 0;
+  padding: clamp(40px, 7vw, 84px);
+  color: var(--color-background);
+  background-color: var(--color-text-primary);
+}
+
+.contactEyebrow {
+  margin: 0 0 20px;
+  color: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.65;
+}
+
+.contactTitle {
+  max-width: 900px;
+  margin: 0;
+  color: inherit;
+  font-size: clamp(38px, 6vw, 74px);
+  font-weight: 800;
+  line-height: 1.04;
+  letter-spacing: -0.055em;
+  word-break: keep-all;
+}
+
+.contactDescription {
+  max-width: 650px;
+  margin: 28px 0 0;
+  color: inherit;
+  font-size: 18px;
+  line-height: 1.7;
+  opacity: 0.75;
+  word-break: keep-all;
+}
+
+.contactLink {
+  margin-top: 36px;
+  border-color: var(--color-background);
+  color: var(--color-text-primary);
+  background-color: var(--color-background);
+}
+
+@media (max-width: 900px) {
+  .section {
+    padding: 76px 0;
+  }
+
+  .hero {
+    min-height: auto;
+    padding-top: 56px;
+    padding-bottom: 88px;
+  }
+
+  .capabilityGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .capabilityCard {
+    min-height: 220px;
+  }
+
+  .background {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .backgroundContent {
+    max-width: 680px;
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .section {
+    padding: 64px 0;
+  }
+
+  .hero {
+    padding-top: 36px;
+    padding-bottom: 72px;
+  }
+
+  .heroTitle br,
+  .sectionTitle br,
+  .contactTitle br {
+    display: none;
+  }
+
+  .heroActions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .primaryLink,
+  .secondaryLink {
+    width: 100%;
+  }
+
+  .sectionHeader {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .capabilityGrid {
+    margin-top: 36px;
+  }
+
+  .capabilityCard {
+    min-height: 200px;
+    padding: 24px;
+  }
+
+  .contactCta {
+    margin: 64px 0;
+  }
+
+  .contactLink {
+    width: 100%;
+  }
+}

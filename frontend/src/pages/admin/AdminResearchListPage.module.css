@@ -1,0 +1,157 @@
+/**
+ * packageName    : frontend.src.pages.admin
+ * fileName       : AdminResearchListPage.module.css
+ * author         : Song
+ * date           : 2026-08-04
+ * description    : 관리자 Research 목록 페이지 기본 스타일
+ *                  - 관리자 목록 테이블 및 상태 표시
+ *                  - 공개 상태 배지와 관리 버튼 구분
+ *                  - 최종 디자인 적용 전 기능 확인용 기본 레이아웃
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-08-04        Song               최초 생성
+ * 2026-08-04        Song               Research 등록 페이지 이동 버튼 추가
+ * 2026-08-04        Song               Research 상세 페이지 링크 추가
+ */
+
+.page {
+  width: 100%;
+}
+
+.header {
+  margin-bottom: 32px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.title {
+  margin: 0;
+  font-size: 36px;
+  line-height: 1.2;
+}
+
+.description {
+  margin: 12px 0 0;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+.status,
+.error,
+.empty,
+.actionError {
+  padding: 24px;
+  border: 1px solid var(--color-border-light);
+}
+
+.error,
+.actionError {
+  margin-bottom: 20px;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  min-width: 980px;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 16px 14px;
+  border-bottom: 1px solid var(--color-border-light);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.table th {
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.slug {
+  margin-top: 5px;
+  color: var(--color-text-muted);
+  font-size: 13px;
+}
+
+.badge {
+  display: inline-flex;
+  padding: 5px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.published {
+  border: 1px solid var(--color-text-primary);
+  color: var(--color-background);
+  background-color: var(--color-text-primary);
+}
+
+.unpublished {
+  border: 1px solid var(--color-border-light);
+  color: var(--color-text-muted);
+  background-color: transparent;
+}
+
+.actionGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.actionButton,
+.deleteButton {
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--color-border-light);
+  background-color: transparent;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.deleteButton {
+  border-color: currentColor;
+}
+
+.actionButton:disabled,
+.deleteButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.createLink {
+  min-height: 42px;
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-text-primary);
+  color: var(--color-background);
+  background-color: var(--color-text-primary);
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.detailLink {
+  color: var(--color-text-primary);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.detailLink:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
