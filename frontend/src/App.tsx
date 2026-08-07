@@ -23,6 +23,7 @@
  * 2026-08-04        Song       관리자 Research 상세 페이지 라우팅 추가
  * 2026-08-04        Song       관리자 Research 수정 페이지 라우팅 추가
  * 2026-08-04        Song       사용자 Research 전체 목록 페이지 라우팅 추가
+ * 2026-08-05        Song       관리자 About 콘텐츠 편집 페이지 라우팅 추가
  */
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
@@ -39,6 +40,7 @@ import AdminResearchListPage  from './pages/admin/AdminResearchListPage'
 import AdminResearchDetailPage  from './pages/admin/AdminResearchDetailPage'
 import AdminResearchCreatePage  from './pages/admin/AdminResearchCreatePage'
 import AdminResearchUpdatePage from './pages/admin/AdminResearchUpdatePage'
+import AdminAboutPage from './pages/admin/AdminAboutPage'
 
 import HomePage from './pages/HomePage'
 import ContactPage from './pages/ContactPage'
@@ -57,10 +59,14 @@ function App() {
 
           {/* 사용자 페이지 */}
           <Route path="/work" element={<WorkPage />} />
+
           <Route path="/work/:slug" element={<ProjectDetailPage />} />
+
           <Route path="/research/:slug" element={<ResearchDetailPage />} />
           <Route path="/research" element={<ResearchListPage />}/>
+
           <Route path='/about' element={<AboutPage />}/>
+
           <Route path='/contact' element={<ContactPage />} />
           
           {/* 관리자 페이지 */}
@@ -73,6 +79,9 @@ function App() {
           <Route path="/admin/research/:researchId" element={<AdminResearchDetailPage />}/>
           <Route path="/admin/research/new" element={<AdminResearchCreatePage />}/>
           <Route path="/admin/research/:researchId/edit" element={<AdminResearchUpdatePage />}/>
+
+          <Route path="/admin/about" element={<AdminAboutPage />}
+/>
           
           
 

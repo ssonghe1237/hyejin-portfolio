@@ -20,6 +20,8 @@ import styles from './HomePage.module.css'
 import { useEffect, useState } from 'react'
 import type { ProjectListResponse } from '../types/project'
 import { getAllProjects } from '../api/projectApi'
+import type { AboutCompetencyResponse } from '../types/about'
+import { getAboutCompetencies } from '../api/aboutApi'
 import ProjectCard from '../components/project/ProjectCard'
 
 function HomePage() {
@@ -29,10 +31,17 @@ function HomePage() {
     const [projectLoading, setProjectLoading] = useState(true)
     const [projectErrorMessage, setProjectErrorMessage] = useState<string | null>(null)
 
+    const [competencies, setCompetencies] = useState<AboutCompetencyResponse[]>([])
+    const [competencyLoading, setCompetencyLoading] = useState(true)
+    const [competencyErrorMessage, setCompetencyErrorMessage] = useState<string | null>(null)
+
+    // =============================================================================================
+    // 2) useEffect
+    // 대표 프로젝트 불러오기
     useEffect((() => {
         async function fetchSelectProjects() {
             try {
-                setProjectLoading(false)
+                setProjectLoading(true)
                 setProjectErrorMessage(null)
 
                 const result = await getAllProjects()
@@ -50,6 +59,40 @@ function HomePage() {
 
         fetchSelectProjects()
     }), [])
+
+    // 핵심 역량 불러오기
+    useEffect(() => {
+        let cancelled = false
+
+        async function fetchCompetencies () {
+            try {
+                setCompetencyLoading(true)
+                setCompetencyErrorMessage(null)
+
+                const result = await getAboutCompetencies()
+                
+                if(!cancelled) {
+                    setCompetencies(result)
+                }
+            } catch(error) {
+                console.error(error)
+
+                setCompetencyErrorMessage(
+                    '핵심 역량을 불러오지 못했습니다.'
+                )
+            } finally {
+                if(!cancelled) {
+                    setCompetencyLoading(false)
+                }
+            }
+        }
+
+        fetchCompetencies()
+
+        return () => {
+            cancelled = true
+        }
+    }, [])
 
     return (
         <div className={styles.page}>
@@ -160,46 +203,55 @@ function HomePage() {
             </div>
             </div>
 
-            <div className={styles.capabilityGrid}>
-            <article className={styles.capabilityCard}>
-                <span className={styles.capabilityNumber}>01</span>
+            {competencyLoading
+                ? (
+                    <p>
+                        핵심 역량을 불러오는 중입니다...
+                    </p>
+                )
+                : competencyErrorMessage ? (
+                    <p>
+                        {competencyErrorMessage}
+                    </p>
+                )
+                : competencies.length > 0
+                    ? (
+                        <div className={styles.capabilityGrid}>
+                            {competencies.map(
+                                (competency, index) => (
+                                    <article
+                                        key={`${competency.displayOrder}-${competency.title}-${index}`}
+                                        className={styles.capabilityCard}
+                                    >
+                                        <span
+                                            className={styles.capabilityNumber}
+                                        >
+                                            {String(index + 1).padStart(
+                                            2,
+                                            '0',
+                                            )}
+                                        </span>
 
-                <h3 className={styles.capabilityTitle}>
-                Backend Engineering
-                </h3>
+                                        <h3
+                                            className={styles.capabilityTitle}
+                                        >
+                                            {competency.title}
+                                        </h3>
 
-                <p className={styles.capabilityDescription}>
-                Spring Boot, JPA, PostgreSQL을 활용해
-                API와 데이터 구조를 설계하고 구현합니다.
-                </p>
-            </article>
-
-            <article className={styles.capabilityCard}>
-                <span className={styles.capabilityNumber}>02</span>
-
-                <h3 className={styles.capabilityTitle}>
-                Product Development
-                </h3>
-
-                <p className={styles.capabilityDescription}>
-                기획과 디자인 경험을 바탕으로
-                사용자 요구사항을 실제 웹 기능으로 연결합니다.
-                </p>
-            </article>
-
-            <article className={styles.capabilityCard}>
-                <span className={styles.capabilityNumber}>03</span>
-
-                <h3 className={styles.capabilityTitle}>
-                Deployment &amp; Operations
-                </h3>
-
-                <p className={styles.capabilityDescription}>
-                파일과 데이터의 생명주기,
-                Docker 배포와 운영 환경까지 고려합니다.
-                </p>
-            </article>
-            </div>
+                                        <p
+                                            className={
+                                            styles.capabilityDescription
+                                            }
+                                        >
+                                            {competency.description}
+                                        </p>
+                                    </article>
+                                ),
+                            )}
+                        </div>
+                    )
+                    : null
+            }
         </section>
 
         {/* 성장 배경 */}
