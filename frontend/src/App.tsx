@@ -41,6 +41,7 @@ import AdminResearchDetailPage  from './pages/admin/AdminResearchDetailPage'
 import AdminResearchCreatePage  from './pages/admin/AdminResearchCreatePage'
 import AdminResearchUpdatePage from './pages/admin/AdminResearchUpdatePage'
 import AdminAboutPage from './pages/admin/AdminAboutPage'
+import AdminContactPage from './pages/admin/AdminContactPage'
 
 import HomePage from './pages/HomePage'
 import ContactPage from './pages/ContactPage'
@@ -80,8 +81,8 @@ function App() {
           <Route path="/admin/research/new" element={<AdminResearchCreatePage />}/>
           <Route path="/admin/research/:researchId/edit" element={<AdminResearchUpdatePage />}/>
 
-          <Route path="/admin/about" element={<AdminAboutPage />}
-/>
+          <Route path="/admin/about" element={<AdminAboutPage />}/>
+          <Route path="/admin/contact" element={<AdminContactPage />}/>
           
           
 

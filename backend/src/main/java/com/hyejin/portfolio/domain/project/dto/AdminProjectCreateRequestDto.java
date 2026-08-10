@@ -54,6 +54,7 @@ public record AdminProjectCreateRequestDto(
         @PositiveOrZero(message = "프로젝트 표시 순서는 0 이상이어야 합니다.")
         int displayOrder,
 
+
         boolean published,
 
         @Valid
