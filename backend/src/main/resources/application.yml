@@ -40,6 +40,7 @@ spring:
 
 app:
   upload:
+    # 실제 운영 서버/ Docker/ Kubermetes에서 특정 디렉토리를 가리켜야 할 때 환경 변수를 기준으로 등록하여 수정이 용이
     image-directory: ${IMAGE_UPLOAD_DIR:./uploads/projects}
     image-url-prefix: ${IMAGE_URL_PREFIX:/uploads/projects}
     max-image-size: 10485760
@@ -51,9 +52,16 @@ app:
     orphan-cleanup-cron: "${IMAGE_ORPHAN_CLEANUP_CRON:0 30 3 * * *}"
     #orphan-cleanup-cron: "${IMAGE_ORPHAN_CLEANUP_CRON:0/10 * * * * *}"
     orphan-cleanup-zone: ${IMAGE_ORPHAN_CLEANUP_ZONE:Asia/Seoul}
+    #요청 URL:
+    #  /uploads/projects/2026/07/uuid.png
+    #
+    #실제 파일:
+    #  /프로젝트실행경로/uploads/projects/2026/07/uuid.png
 
-#요청 URL:
-#  /uploads/projects/2026/07/uuid.png
-#
-#실제 파일:
-#  /프로젝트실행경로/uploads/projects/2026/07/uuid.png
+  resume-upload:
+    directory: ${RESUME_UPLOAD_DIR:./uploads/resumes}
+    url-prefix: ${RESUME_UPLOAD_PREFIX:/uploads/resumes}
+    max-size: 10485760
+    # 10485760 = 10MB
+    # 10485760 = 10MB // 20971520 = 20MB
+
