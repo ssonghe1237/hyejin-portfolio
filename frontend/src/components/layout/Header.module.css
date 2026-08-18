@@ -17,13 +17,189 @@
 .header {
   position: sticky;
   top: 0;
+  z-index: 20;
+  height: 72px;
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-background);
+}
+
+.inner {
+  width: 100%;
+  max-width: var(--container-standard);
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 var(--spacing-page-x);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.brand,
+.mobileBrand {
+  flex-shrink: 0;
+  color: var(--color-text-primary);
+  font-size: 18px;
+  font-weight: var(--font-weight-display);
+  letter-spacing: -0.04em;
+  text-decoration: none;
+}
+
+.desktopNav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 28px;
+}
+
+.navLink {
+  position: relative;
+  min-height: 44px;
+  padding: 0 2px;
+  display: inline-flex;
+  align-items: center;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-supporting);
+  white-space: nowrap;
+  text-decoration: none;
+  transition: color var(--motion-fast) var(--motion-easing);
+}
+
+.navLink::after {
+  content: '';
+  position: absolute;
+  right: 50%;
+  bottom: 5px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--color-accent);
+  opacity: 0;
+  transform: translateX(50%);
+  transition: opacity var(--motion-fast) var(--motion-easing);
+}
+
+.navLink:hover,
+.navLinkActive {
+  color: var(--color-text-primary);
+}
+
+.navLinkActive {
+  font-weight: var(--font-weight-heading);
+}
+
+.navLinkActive::after {
+  opacity: 1;
+}
+
+.brand:focus-visible,
+.navLink:focus-visible,
+.menuButton:focus-visible,
+.mobileBrand:focus-visible,
+.closeButton:focus-visible,
+.mobileNavLink:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.menuButton,
+.closeButton {
+  min-width: 48px;
+  min-height: 48px;
+  padding: 0;
+  border: 0;
+  color: var(--color-text-primary);
+  background: transparent;
+  font-size: 13px;
+  font-weight: var(--font-weight-heading);
+  letter-spacing: 0.08em;
+}
+
+.menuButton {
+  display: none;
+}
+
+.mobileMenu {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  min-width: 320px;
+  min-height: 100dvh;
+  padding: 0 var(--spacing-page-x) 40px;
+  overflow-y: auto;
+  color: var(--color-text-primary);
+  background-color: var(--color-background);
+  animation: menu-enter var(--motion-normal) var(--motion-easing);
+}
+
+.mobileMenuHeader {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.mobileNav {
+  padding-top: clamp(48px, 12vh, 104px);
+  display: flex;
+  flex-direction: column;
+}
+
+.mobileNavLink {
+  min-height: 72px;
+  padding: 12px 0;
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  align-items: center;
+  gap: 16px;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  font-size: clamp(32px, 10vw, 48px);
+  font-weight: var(--font-weight-heading);
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  text-decoration: none;
+}
+
+.mobileNavNumber {
+  align-self: start;
+  padding-top: 7px;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-heading);
+  letter-spacing: 0.08em;
+}
+
+.mobileNavLinkActive .mobileNavNumber {
+  color: var(--color-accent);
+}
+
+@keyframes menu-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 관리자 Route에서는 기존 Header 표현을 유지합니다. */
+.adminHeader {
+  position: sticky;
+  top: 0;
   z-index: 10;
   border-bottom: 1px solid var(--color-border-light);
   background-color: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(12px);
 }
 
-.inner {
+.adminInner {
   max-width: var(--layout-max-width);
   margin: 0 auto;
   padding: 18px var(--spacing-page-x);
@@ -33,7 +209,7 @@
   gap: 24px;
 }
 
-.brand {
+.adminBrand {
   flex-shrink: 0;
   color: var(--color-text-primary);
   font-size: 20px;
@@ -42,14 +218,14 @@
   text-decoration: none;
 }
 
-.nav {
+.adminNav {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 20px;
 }
 
-.navLink {
+.adminNavLink {
   position: relative;
   padding: 6px 0;
   color: var(--color-text-muted);
@@ -62,18 +238,19 @@
     opacity 160ms ease;
 }
 
-.navLink:hover {
+.adminNavLink:hover,
+.adminNavLinkActive {
   color: var(--color-text-primary);
 }
 
-.navLink:focus-visible {
+.adminNavLink:focus-visible {
   color: var(--color-text-primary);
   outline: 2px solid currentColor;
   outline-offset: 5px;
   border-radius: 2px;
 }
 
-.navLink::after {
+.adminNavLink::after {
   content: '';
   position: absolute;
   right: 0;
@@ -86,17 +263,34 @@
   transition: transform 160ms ease;
 }
 
-.navLinkActive {
-  color: var(--color-text-primary);
+.adminNavLinkActive {
   font-weight: 700;
 }
 
-.navLinkActive::after {
+.adminNavLinkActive::after {
   transform: scaleX(1);
 }
 
-@media (max-width: 760px) {
+@media (max-width: 767px) {
+  .header {
+    height: 64px;
+  }
+
   .inner {
+    gap: 16px;
+  }
+
+  .desktopNav {
+    display: none;
+  }
+
+  .menuButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .adminInner {
     align-items: flex-start;
     flex-direction: column;
     gap: 14px;
@@ -104,7 +298,7 @@
     padding-bottom: 14px;
   }
 
-  .nav {
+  .adminNav {
     width: 100%;
     justify-content: flex-start;
     gap: 18px;
@@ -113,26 +307,35 @@
     scrollbar-width: none;
   }
 
-  .nav::-webkit-scrollbar {
+  .adminNav::-webkit-scrollbar {
     display: none;
   }
 
-  .navLink {
+  .adminNavLink {
     flex-shrink: 0;
     font-size: 15px;
   }
 }
 
 @media (max-width: 420px) {
-  .brand {
+  .adminBrand {
     font-size: 18px;
   }
 
-  .nav {
+  .adminNav {
     gap: 16px;
   }
 
-  .navLink {
+  .adminNavLink {
     font-size: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navLink,
+  .navLink::after,
+  .mobileMenu {
+    transition: none;
+    animation: none;
   }
 }

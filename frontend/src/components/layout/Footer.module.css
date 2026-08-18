@@ -13,11 +13,67 @@
  */
 
 .footer {
+  margin-top: 96px;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  background-color: var(--color-background);
+}
+
+.inner {
+  width: 100%;
+  max-width: var(--container-standard);
+  margin: 0 auto;
+  padding: 48px var(--spacing-page-x) 40px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 48px;
+}
+
+.identity {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+}
+
+.brand {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: var(--font-weight-display);
+  letter-spacing: -0.04em;
+}
+
+.marker {
+  width: 7px;
+  height: 7px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background-color: var(--color-accent);
+}
+
+.role,
+.copy {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-small);
+  line-height: 1.6;
+}
+
+.copy {
+  text-align: right;
+}
+
+/* 관리자 Route에서는 기존 Footer 표현을 유지합니다. */
+.adminFooter {
   margin-top: 80px;
   border-top: 1px solid var(--color-border-light);
 }
 
-.inner {
+.adminInner {
   max-width: var(--layout-max-width);
   margin: 0 auto;
   padding: 32px var(--spacing-page-x);
@@ -25,6 +81,30 @@
   font-size: 14px;
 }
 
-.copy {
+.adminCopy {
   margin: 0;
+}
+
+@media (max-width: 767px) {
+  .footer {
+    margin-top: 64px;
+  }
+
+  .inner {
+    padding-top: 40px;
+    padding-bottom: 32px;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: 32px;
+  }
+
+  .identity {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .copy {
+    text-align: left;
+  }
 }
