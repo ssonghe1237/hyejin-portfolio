@@ -19,6 +19,7 @@
 }
 
 .main {
+  width: 100%;
   max-width: var(--layout-max-width);
   margin: 0 auto;
   padding: 40px var(--spacing-page-x) 0;
