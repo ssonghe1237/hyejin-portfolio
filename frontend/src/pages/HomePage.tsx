@@ -22,7 +22,7 @@ import type { ProjectListResponse } from '../types/project'
 import { getAllProjects } from '../api/projectApi'
 import type { AboutCompetencyResponse } from '../types/about'
 import { getAboutCompetencies } from '../api/aboutApi'
-import ProjectCard from '../components/project/ProjectCard'
+import ImageWithFallback from '../components/common/ImageWithFallback'
 
 function HomePage() {
     // =============================================================================================
@@ -106,11 +106,7 @@ function HomePage() {
             </p>
 
             <h1 id="home-title" className={styles.heroTitle}>
-            사용자 화면부터
-            <br />
-            백엔드와 운영 구조까지
-            <br />
-            연결하는 웹 개발자
+            사용자 화면부터 백엔드와 운영 구조까지 연결하는 웹 개발자
             </h1>
 
             <p className={styles.heroDescription}>
@@ -128,9 +124,10 @@ function HomePage() {
 
             <Link
                 to="/contact"
-                className={styles.secondaryLink}
+                className={styles.tertiaryLink}
             >
                 Get in touch
+                <span className={styles.linkArrow} aria-hidden="true">→</span>
             </Link>
             </div>
         </section>
@@ -157,6 +154,7 @@ function HomePage() {
                     className={styles.textLink}
                 >
                     View all work
+                    <span className={styles.linkArrow} aria-hidden="true">→</span>
                 </Link>
             </div>
 
@@ -166,20 +164,83 @@ function HomePage() {
             </p>
 
             {projectLoading ? (
-                <p>
+                <p className={styles.stateMessage}>
                     대표 프로젝트를 불러오는 중입니다...
                 </p>
             ) : projectErrorMessage ? (
-                <p>
+                <p className={styles.stateMessage} role="alert">
                     {projectErrorMessage}
                 </p>
+            ) : selectedProjects.length === 0 ? (
+                <p className={styles.stateMessage}>
+                    등록된 대표 프로젝트가 없습니다.
+                </p>
             ) : (
-                <div>
-                    {selectedProjects.map((project) => (
-                        <ProjectCard 
+                <div className={styles.projectList}>
+                    {selectedProjects.map((project, index) => (
+                        <article
                             key={project.projectId}
-                            project={project}
-                        />
+                            className={styles.projectPreview}
+                        >
+                            <span className={styles.projectNumber} aria-hidden="true">
+                                {String(index + 1).padStart(2, '0')}
+                            </span>
+
+                            <Link
+                                to={`/work/${project.slug}`}
+                                className={styles.projectVisualLink}
+                                aria-label={`${project.title} 프로젝트 상세 보기`}
+                            >
+                                <div className={styles.projectVisual}>
+                                    {project.thumbnailUrl ? (
+                                        <ImageWithFallback
+                                            src={project.thumbnailUrl}
+                                            alt={`${project.title} 썸네일`}
+                                            fallbackText="프로젝트 썸네일을 불러올 수 없습니다."
+                                            height="100%"
+                                            objectFit="cover"
+                                            borderRadius="0"
+                                        />
+                                    ) : (
+                                        <div className={styles.projectVisualEmpty}>
+                                            등록된 썸네일이 없습니다.
+                                        </div>
+                                    )}
+                                </div>
+                            </Link>
+
+                            <div className={styles.projectContent}>
+                                <div className={styles.projectMeta}>
+                                    {project.periodText && <span>{project.periodText}</span>}
+                                    <span>{project.projectType}</span>
+                                </div>
+
+                                <h3 className={styles.projectTitle}>
+                                    <Link to={`/work/${project.slug}`}>
+                                        {project.title}
+                                    </Link>
+                                </h3>
+
+                                <p className={styles.projectSummary}>
+                                    {project.summary}
+                                </p>
+
+                                {(project.role || project.techCategories.length > 0) && (
+                                    <p className={styles.projectSupporting}>
+                                        {project.role ?? project.techCategories.join(' · ')}
+                                    </p>
+                                )}
+
+                                <Link
+                                    to={`/work/${project.slug}`}
+                                    className={styles.projectLink}
+                                    aria-label={`${project.title} 프로젝트 자세히 보기`}
+                                >
+                                    자세히 보기
+                                    <span className={styles.linkArrow} aria-hidden="true">→</span>
+                                </Link>
+                            </div>
+                        </article>
                     ))}
                 </div>
             )}
@@ -266,9 +327,7 @@ function HomePage() {
                 id="background-title"
                 className={styles.sectionTitle}
             >
-                기획과 디자인 경험을
-                <br />
-                개발로 확장했습니다.
+                기획과 디자인 경험을 개발로 확장했습니다.
             </h2>
             </div>
 
@@ -288,6 +347,7 @@ function HomePage() {
                 className={styles.textLink}
             >
                 More about me
+                <span className={styles.linkArrow} aria-hidden="true">→</span>
             </Link>
             </div>
         </section>
@@ -303,9 +363,7 @@ function HomePage() {
             id="contact-cta-title"
             className={styles.contactTitle}
             >
-            함께할 프로젝트와
-            <br />
-            새로운 기회를 기다리고 있습니다.
+            함께할 프로젝트와 새로운 기회를 기다리고 있습니다.
             </h2>
 
             <p className={styles.contactDescription}>
@@ -317,6 +375,7 @@ function HomePage() {
             className={styles.contactLink}
             >
             Contact me
+            <span className={styles.linkArrow} aria-hidden="true">→</span>
             </Link>
         </section>
         </div>
