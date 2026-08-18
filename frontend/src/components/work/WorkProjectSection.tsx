@@ -17,7 +17,8 @@
  * 2026-08-03        Song       섹션별 프로젝트 카드 열 개수 처리
  */
 
-import ProjectCard from '../project/ProjectCard'
+import { Link } from 'react-router-dom'
+import ImageWithFallback from '../common/ImageWithFallback'
 import type { ProjectListResponse } from '../../types/project'
 import styles from './WorkProjectSection.module.css'
 
@@ -40,11 +41,17 @@ function WorkProjectSection({
     columns === 1
       ? `${styles.grid} ${styles.singleColumnGrid}`
       : `${styles.grid} ${styles.twoColumnGrid}`
+  const isSelected = columns === 1
+  const sectionNumber = isSelected ? '01' : '03'
 
   return (
     <section className={styles.section}>
       <div className={styles.header}>
         <div>
+          <p className={styles.eyebrow}>
+            {sectionNumber} / {title}
+          </p>
+
           <h2 className={styles.title}>
             {title}
           </h2>
@@ -60,16 +67,74 @@ function WorkProjectSection({
       </div>
 
       {projects.length === 0 ? (
-        <div className={styles.empty}>
+        <p className={styles.empty}>
           {emptyMessage}
-        </div>
+        </p>
       ) : (
         <div className={gridClassName}>
-          {projects.map((project) => (
-            <ProjectCard
+          {projects.map((project, index) => (
+            <article
               key={project.projectId}
-              project={project}
-            />
+              className={`${styles.project} ${isSelected ? styles.selectedProject : styles.moreProject}`}
+            >
+              <Link
+                to={`/work/${project.slug}`}
+                className={styles.visualLink}
+                aria-label={`${project.title} 프로젝트 상세 보기`}
+              >
+                <div className={styles.visual}>
+                  {project.thumbnailUrl ? (
+                    <ImageWithFallback
+                      src={project.thumbnailUrl}
+                      alt={`${project.title} 썸네일`}
+                      fallbackText="프로젝트 썸네일을 불러올 수 없습니다."
+                      height="100%"
+                      objectFit="cover"
+                      borderRadius="0"
+                    />
+                  ) : (
+                    <div className={styles.emptyThumbnail}>
+                      등록된 썸네일이 없습니다.
+                    </div>
+                  )}
+                </div>
+              </Link>
+
+              <div className={styles.projectContent}>
+                {isSelected && (
+                  <span className={styles.projectNumber} aria-hidden="true">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                )}
+
+                <div className={styles.meta}>
+                  {project.periodText && <span>{project.periodText}</span>}
+                  <span>{project.projectType}</span>
+                  {project.teamName && <span>{project.teamName}</span>}
+                </div>
+
+                <h3 className={styles.projectTitle}>
+                  <Link to={`/work/${project.slug}`}>{project.title}</Link>
+                </h3>
+
+                <p className={styles.summary}>{project.summary}</p>
+
+                {isSelected && (project.role || project.techCategories.length > 0) && (
+                  <p className={styles.supporting}>
+                    {project.role ?? project.techCategories.join(' · ')}
+                  </p>
+                )}
+
+                <Link
+                  to={`/work/${project.slug}`}
+                  className={styles.detailLink}
+                  aria-label={`${project.title} 프로젝트 자세히 보기`}
+                >
+                  자세히 보기
+                  <span className={styles.arrow} aria-hidden="true">→</span>
+                </Link>
+              </div>
+            </article>
           ))}
         </div>
       )}

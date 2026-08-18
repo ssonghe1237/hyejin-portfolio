@@ -38,7 +38,7 @@ function WorkResearchSection({
       <header className={styles.header}>
         <div>
           <p className={styles.eyebrow}>
-            Latest Research
+            02 / Research
           </p>
 
           <h2
@@ -59,6 +59,7 @@ function WorkResearchSection({
           className={styles.viewAllLink}
         >
           View all Research
+          <span className={styles.arrow} aria-hidden="true">→</span>
         </Link>
       </header>
 
@@ -79,15 +80,15 @@ function WorkResearchSection({
         </div>
       ) : (
         <div
-          className={styles.cardScroller}
+          className={styles.researchList}
           aria-label="최근 Research 목록"
         >
           {researchPosts.map((research) => (
             <article
               key={research.researchId}
-              className={styles.card}
+              className={styles.researchRow}
             >
-              <div className={styles.cardMeta}>
+              <div className={styles.researchMeta}>
                 <span className={styles.category}>
                   {research.category}
                 </span>
@@ -98,25 +99,28 @@ function WorkResearchSection({
                 </time>
               </div>
 
-              <h3 className={styles.cardTitle}>
-                <Link
-                  to={`/research/${research.slug}`}
-                  className={styles.cardLink}
-                >
-                  {research.title}
-                </Link>
-              </h3>
+              <div className={styles.researchContent}>
+                <h3 className={styles.researchTitle}>
+                  <Link
+                    to={`/research/${research.slug}`}
+                    className={styles.researchLink}
+                  >
+                    {research.title}
+                  </Link>
+                </h3>
 
-              <p className={styles.summary}>
-                {research.summary}
-              </p>
+                <p className={styles.summary}>
+                  {research.summary}
+                </p>
+              </div>
 
               <Link
                 to={`/research/${research.slug}`}
                 className={styles.readLink}
                 aria-label={`${research.title} 자세히 보기`}
               >
-                Read Research
+                <span className={styles.readLabel}>Read Research</span>
+                <span className={styles.arrow} aria-hidden="true">→</span>
               </Link>
             </article>
           ))}
