@@ -95,6 +95,26 @@
   --radius-lg: 24px;
   --radius-pill: 999px;
 
+  --button-height-default: 44px;
+  --button-height-mobile: 48px;
+  --button-padding-inline: 20px;
+  --button-radius: var(--radius-sm);
+  --button-font-weight: var(--font-weight-heading);
+  --button-primary-background: var(--color-accent);
+  --button-primary-text: var(--color-text-primary);
+  --button-secondary-background: var(--color-text-primary);
+  --button-secondary-text: var(--color-background);
+
+  --action-gap-sm: var(--spacing-atomic);
+  --action-gap-md: var(--spacing-molecule);
+  --action-text-color: var(--color-text-primary);
+  --action-arrow-color: var(--color-accent);
+  --action-arrow-distance: 4px;
+  --action-transition: var(--motion-fast) var(--motion-easing);
+
+  --interactive-target-min: 44px;
+  --interactive-target-mobile: 48px;
+
   --shadow-card: 0 12px 28px rgba(0, 0, 0, 0.04);
   --shadow-floating: 0 18px 40px rgba(0, 0, 0, 0.12);
 
