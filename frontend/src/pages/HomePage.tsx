@@ -20,12 +20,36 @@ const buildCards = [
   ['DATA & AI', '02', '데이터를 검색과\n업무 경험으로 연결합니다.', 'PostgreSQL 기반 데이터 구조와\n검색·RAG 기능을 실제 서비스에 연결합니다.', 'PostgreSQL · pgvector · RAG'],
   ['FULL SERVICE FLOW', '03', 'API에서 화면까지\n흐름을 완성합니다.', '백엔드 API부터 React 사용자 화면과\n관리자 기능까지 이어지는 흐름을 구현합니다.', 'React · TypeScript · Admin'],
 ]
-const processCards = [['요구사항 분석', '사용자 요구와 서비스 흐름 정의'], ['설계', 'DB · API · UI Flow 설계'], ['개발', 'Backend · Frontend 기능 구현'], ['검증과 개선', 'API 테스트 · 예외 처리 · 사용성 개선']]
+type ProcessIconKind = 'search' | 'layers' | 'code' | 'check'
+
+const processCards: Array<{ title: string; description: string; icon: ProcessIconKind }> = [
+  { title: '요구사항 분석', description: '사용자 요구와 서비스 흐름 정의', icon: 'search' },
+  { title: '설계', description: 'DB · API · UI Flow 설계', icon: 'layers' },
+  { title: '개발', description: 'Backend · Frontend 기능 구현', icon: 'code' },
+  { title: '검증과 개선', description: 'API 테스트 · 예외 처리 · 사용성 개선', icon: 'check' },
+]
+const capabilities = [
+  ['Product Planning', '요구사항 · 서비스 구조'],
+  ['UI / UX', '사용자 흐름 · 화면 상태'],
+  ['Visual Design', '정보 구조 · 시각적 우선순위'],
+  ['Documentation', '설계 · 구현 내용 공유'],
+]
 const reasons = [
   ['기능보다 사용 흐름부터 생각합니다.', '사용자의 언어를 개발 요구사항으로 바꿉니다.'],
   ['설계를 실제 동작까지 연결합니다.', '맡은 기능을 끝까지 구현하고 검증합니다.'],
   ['서로 다른 직무의 언어를 이해합니다.', '기획·디자인·개발 사이를 연결합니다.'],
 ]
+
+function ProcessIcon({ kind }: { kind: ProcessIconKind }) {
+  const paths = {
+    search: <><circle cx="10.5" cy="10.5" r="4.5" /><path d="m14 14 4 4" /><path d="M6 4h9" /></>,
+    layers: <><path d="m4 8 8-4 8 4-8 4-8-4Z" /><path d="m4 12 8 4 8-4" /><path d="m4 16 8 4 8-4" /></>,
+    code: <><path d="m8 7-5 5 5 5" /><path d="m16 7 5 5-5 5" /><path d="m14 4-4 16" /></>,
+    check: <><path d="m5 12 4 4 10-10" /><circle cx="12" cy="12" r="9" /></>,
+  }
+
+  return <svg className={styles.processIcon} viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">{paths[kind]}</svg>
+}
 
 function HomePage() {
   const [projects, setProjects] = useState<ProjectListResponse[]>([])
@@ -70,7 +94,7 @@ function HomePage() {
 
     <section className={`${styles.section} ${styles.selectedWorkSection}`} aria-labelledby="work-title"><div className={styles.sectionHead}><div><p className={styles.kicker}>03 · SELECTED WORK</p><h2 id="work-title">실제로 구현한<br />대표 프로젝트</h2></div><p className={styles.lead}>아이디어가 실제 서비스가 되기까지, 기획부터 설계와 구현까지 연결한 결과물입니다.</p></div>{projectState === 'loading' ? <p className={styles.state}>대표 프로젝트를 불러오는 중입니다...</p> : projectState === 'error' ? <p className={styles.state} role="alert">대표 프로젝트를 불러오지 못했습니다.</p> : projects.length === 0 ? <p className={styles.state}>등록된 대표 프로젝트가 없습니다.</p> : <div className={styles.projectList}>{projects.map((project, index) => { const links = projectLinks[project.projectId] ?? []; const role = project.role ?? project.myRoleTitles.join(' · '); const stack = projectStacks[project.projectId] ?? project.techCategories.join(' · '); return <article key={project.projectId} className={styles.projectWindow}>{index === 0 && <span className={styles.featuredProjectNumber} aria-hidden="true">01</span>}<div className={styles.projectBar}><span className={styles.dots}><i /><i /><i /></span><span>work/{project.slug}</span></div><div className={styles.projectBody}><Link to={`/work/${project.slug}`} className={styles.projectVisual} aria-label={`${project.title} 상세 보기`}>{project.thumbnailUrl ? <ImageWithFallback src={project.thumbnailUrl} alt={`${project.title} 썸네일`} fallbackText="프로젝트 썸네일을 불러올 수 없습니다." height="100%" objectFit="cover" borderRadius="0" /> : <span>등록된 썸네일이 없습니다.</span>}</Link><div className={styles.projectInfo}><p className={styles.projectMeta}>{project.periodText} · {project.projectType}</p><h3><Link to={`/work/${project.slug}`}>{project.title}</Link></h3><p>{project.summary}</p><dl className={styles.projectFacts}>{role && <div><dt>ROLE</dt><dd>{role}</dd></div>}{stack && <div><dt>STACK</dt><dd>{stack}</dd></div>}</dl><Link to={`/work/${project.slug}`} className={styles.projectLink}>상세 보기 →</Link>{links.length > 0 && <div className={styles.projectExternalLinks}>{links.map((link) => <a key={link.projectLinkId} href={link.url} target="_blank" rel="noopener noreferrer" className={styles.projectExternalLink}>{link.linkName} ↗</a>)}</div>}</div></div></article> })}</div>}</section>
 
-    <section className={`${styles.section} ${styles.skills}`} aria-labelledby="skills-title"><div className={styles.sectionHead}><div><p className={styles.kicker}>04 · HOW I BUILD</p><h2 id="skills-title">아이디어를 실제 서비스로 구현하는 방법</h2></div><p className={styles.lead}>사용자의 요구를 이해하는 것에서 시작해 서비스 구조를 설계하고,<br />적절한 기술을 선택해 실제 동작하는 결과물까지 완성합니다.</p></div><div className={styles.howBuildContainer}><article className={styles.howBuildCard}><div className={styles.howBuildIntro}><p className={styles.kicker}>01 · DEVELOPMENT PROCESS</p><h3>이해하고, 설계하고, 구현한 뒤 검증합니다.</h3><p>요구사항을 정리하고 구조를 설계한 뒤,<br />구현과 검증을 반복하며 완성도를 높입니다.</p></div><div className={styles.processGrid}>{processCards.map(([title, description], index) => <article key={title}><span>{String(index + 1).padStart(2, '0')}</span><i aria-hidden="true">→</i><h4>{title}</h4><p>{description}</p></article>)}</div></article><article className={styles.howBuildCard}><div className={styles.howBuildIntro}><p className={styles.kicker}>02 · DEVELOPMENT STACK</p><h3>설계를 구현으로 옮기는 기술</h3><p>각 기술은 독립된 목록이 아니라,<br />서비스의 전체 흐름을 완성하기 위해 사용합니다.</p></div><div className={styles.codeFrame}><div className={styles.codeTop}><span className={styles.dots}><i /><i /><i /></span><span>skills.json — Visual Studio Code</span><span>UTF-8</span></div><div className={styles.codeBody}><div className={styles.skillsGrid}>{skills.map(([category, ...items]) => <article key={category}><h3>{category}</h3><ul>{items.map((item) => <li key={item}>{item}</li>)}</ul></article>)}</div><p className={styles.toolsLabel}>SUPPORTING TOOLS</p><ul className={styles.tools}>{tools.map(([name, description]) => <li key={name}><i /><b>{name}</b><span>{description}</span></li>)}</ul></div></div></article><article className={`${styles.howBuildCard} ${styles.designBuild}`}><div className={styles.howBuildIntro}><p className={styles.kicker}>03 · DESIGN TO DEVELOPMENT</p><h3>디자인 경험을 개발의 강점으로 확장했습니다.</h3><p>기획과 디자인에서 익힌 사용자 관점과 구조화 경험을<br />개발 과정의 강점으로 연결합니다.</p></div><div className={styles.capabilityGrid}>{['Product Planning','UI / UX','Visual Design','Documentation'].map((item) => <span key={item}>{item}</span>)}</div></article></div></section>
+    <section className={`${styles.section} ${styles.skills}`} aria-labelledby="skills-title"><div className={styles.sectionHead}><div><p className={styles.kicker}>04 · HOW I BUILD</p><h2 id="skills-title">아이디어를 실제 서비스로 구현하는 방법</h2></div><p className={styles.lead}>사용자의 요구를 이해하는 것에서 시작해 서비스 구조를 설계하고,<br />적절한 기술을 선택해 실제 동작하는 결과물까지 완성합니다.</p></div><div className={styles.howBuildContainer}><article className={styles.howBuildCard}><div className={styles.howBuildIntro}><p className={styles.kicker}>01 · DEVELOPMENT PROCESS</p><h3>이해하고, 설계하고, 구현한 뒤 검증합니다.</h3><p>요구사항을 정리하고 구조를 설계한 뒤,<br />구현과 검증을 반복하며 완성도를 높입니다.</p></div><div className={styles.processGrid}>{processCards.map(({ title, description, icon }, index) => <article key={title}><span>{String(index + 1).padStart(2, '0')}</span><ProcessIcon kind={icon} /><i aria-hidden="true">→</i><h4>{title}</h4><p>{description}</p></article>)}</div></article><article className={styles.howBuildCard}><div className={styles.howBuildIntro}><p className={styles.kicker}>02 · DEVELOPMENT STACK</p><h3>설계를 구현으로 옮기는 기술</h3><p>각 기술은 독립된 목록이 아니라,<br />서비스의 전체 흐름을 완성하기 위해 사용합니다.</p></div><div className={styles.codeFrame}><div className={styles.codeTop}><span className={styles.dots}><i /><i /><i /></span><span>skills.json — Visual Studio Code</span><span>UTF-8</span></div><div className={styles.codeBody}><div className={styles.skillsGrid}>{skills.map(([category, ...items]) => <article key={category}><h3>{category}</h3><ul>{items.map((item) => <li key={item}>{item}</li>)}</ul></article>)}</div><p className={styles.toolsLabel}>SUPPORTING TOOLS</p><ul className={styles.tools}>{tools.map(([name, description]) => <li key={name}><i /><b>{name}</b><span>{description}</span></li>)}</ul></div></div></article><article className={`${styles.howBuildCard} ${styles.designBuild}`}><div className={styles.howBuildIntro}><p className={styles.kicker}>03 · DESIGN TO DEVELOPMENT</p><h3>디자인 경험을 개발의 강점으로 확장했습니다.</h3><p>기획과 디자인에서 익힌 사용자 관점과 구조화 경험을<br />개발 과정의 강점으로 연결합니다.</p></div><div className={styles.capabilityGrid}>{capabilities.map(([title, description]) => <article key={title}><strong>{title}</strong><p>{description}</p></article>)}</div></article></div></section>
 
     <section className={`${styles.why} ${styles.whyCombined}`} aria-labelledby="why-title"><div className={styles.whyIntro}><p className={styles.kicker}>05 · LET’S WORK TOGETHER</p><h2 id="why-title">결국, 함께 일할<br />사람을 찾는 일이니까.</h2><p>사용자 관점과 구현력을 함께 가진 개발자를 찾고 있다면, 저와 다음 이야기를 시작해 주세요.</p><Link to="/contact" className={styles.lightButton}>이력서 보기 →</Link></div><div className={styles.whyGrid}>{reasons.map(([title, description], index) => <article key={title}><span>{String(index + 1).padStart(2, '0')}</span><h3>{title}</h3><p>{description}</p></article>)}</div></section>
   </div>
