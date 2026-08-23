@@ -85,8 +85,17 @@
 .section { padding: 104px 56px; }
 .section > .kicker,
 .section > .title,
-.section > .empty,
 .section > .list {
+  width: min(100%, 1120px);
+  margin-right: auto;
+  margin-left: auto;
+}
+.section > .empty {
+  width: min(100%, 880px);
+  margin-right: auto;
+  margin-left: auto;
+}
+.list > * {
   width: min(100%, 880px);
   margin-right: auto;
   margin-left: auto;

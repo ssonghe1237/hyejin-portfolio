@@ -382,24 +382,24 @@ Do not scan unrelated repository areas after the shared detail structure is iden
 
 ## 9. Stage 1 Checklist — Common Detail Visual Stabilization
 
-- [ ] Keep one shared template for all projects
-- [ ] Align page/content width with completed Home/Work
-- [ ] Improve typography hierarchy
-- [ ] Improve body readability / line-height
-- [ ] Improve section spacing
-- [ ] Preserve Hero / Basic Info structure
-- [ ] Improve Tech Stack card readability
-- [ ] Improve rich-content heading hierarchy
-- [ ] Stabilize lists and long mixed-language text
-- [ ] Ensure code/pre blocks use internal horizontal scrolling
-- [ ] Ensure rich-content images stay inside content width
-- [ ] Align black Links section with Home/Work
-- [ ] Preserve project API/data/routing
-- [ ] Preserve administrator-authored content/order
-- [ ] No project-specific CSS
-- [ ] `npm run build`
-- [ ] `npm run lint`
-- [ ] no new TypeScript/lint errors
+- [x] Keep one shared template for all projects
+- [x] Align page/content width with completed Home/Work
+- [x] Improve typography hierarchy
+- [x] Improve body readability / line-height
+- [x] Improve section spacing
+- [x] Preserve Hero / Basic Info structure
+- [x] Improve Tech Stack card readability
+- [x] Improve rich-content heading hierarchy
+- [x] Stabilize lists and long mixed-language text
+- [x] Ensure code/pre blocks use internal horizontal scrolling
+- [x] Ensure rich-content images stay inside content width
+- [x] Align black Links section with Home/Work
+- [x] Preserve project API/data/routing
+- [x] Preserve administrator-authored content/order
+- [x] No project-specific CSS
+- [x] npm run build
+- [x] npm run lint
+- [x] no new TypeScript/lint errors
 
 Stop and report after Stage 1.
 
@@ -418,31 +418,31 @@ These are validation examples only, not separate templates.
 
 ### Viewports
 
-- [ ] 1440px
+- [x] 1440px
 - [ ] 980px
-- [ ] 620px
-- [ ] 390px
+- [x] 620px
+- [x] 390px
 
 ### Validate
 
-- [ ] page-level horizontal overflow
-- [ ] hero image clipping
-- [ ] hero carousel / indicators / fallback
-- [ ] basic-info card
-- [ ] tech-stack wrapping
-- [ ] long paragraphs
-- [ ] nested headings
-- [ ] ordered/unordered lists
-- [ ] code/pre internal scrolling
-- [ ] content images
-- [ ] long URLs / English technical strings
-- [ ] project links
-- [ ] Links → Footer connection
-- [ ] loading/error behavior
-- [ ] actual API data
-- [ ] build
-- [ ] lint
-- [ ] no new TypeScript errors
+- [x] page-level horizontal overflow
+- [x] hero image clipping
+- [x] hero carousel / indicators / fallback
+- [x] basic-info card
+- [x] tech-stack wrapping
+- [x] long paragraphs
+- [x] nested headings
+- [x] ordered/unordered lists
+- [x] code/pre internal scrolling
+- [x] content images
+- [x] long URLs / English technical strings
+- [x] project links
+- [x] Links → Footer connection
+- [x] loading/error behavior
+- [x] actual API data
+- [x] build
+- [x] lint
+- [x] no new TypeScript errors
 
 Do not redesign during Stage 2.  
 Only fix actual release defects.
@@ -490,3 +490,23 @@ Report only:
 10. remaining TODO
 
 Do not automatically continue to the next stage.
+
+## Final Release Status
+
+- [x] Stage 1 — Common Detail Visual Stabilization
+- [x] Stage 2 — Responsive / Release QA
+- [x] Post-QA Project Details header alignment
+- [x] COREWORK actual-content rendering verified
+- [x] Developer Portfolio Platform template consistency verified
+- [x] 1440px / 980px / 620px / 390px
+- [x] no page-level horizontal overflow
+- [x] code/pre internal overflow handling
+- [x] rich-content image sizing
+- [x] Hero carousel / indicator / fallback
+- [x] API / data / routing preserved
+- [x] LINKS → Footer connection
+- [x] npm run build
+- [x] npm run lint
+- [x] no release blocker
+
+**Status: COMPLETE — RELEASE READY**
