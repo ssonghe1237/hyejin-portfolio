@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { getResearchList } from '../api/researchApi'
 import type { ResearchListResponse } from '../types/research'
@@ -6,8 +6,35 @@ import styles from './ResearchListPage.module.css'
 
 function ResearchListPage() {
   const [researchPosts, setResearchPosts] = useState<ResearchListResponse[]>([])
+  const [keyword, setKeyword] = useState('')
+  const [selectedCategory, setSelectedCategory] = useState('ALL')
   const [loading, setLoading] = useState(true)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+
+  const categories = useMemo(
+    () => Array.from(new Set(researchPosts.map((research) => research.category))),
+    [researchPosts],
+  )
+
+  const filteredResearchPosts = useMemo(() => {
+    const normalizedKeyword = keyword.trim().toLocaleLowerCase()
+
+    return researchPosts.filter((research) => {
+      const matchesTitle = normalizedKeyword.length === 0
+        || research.title.toLocaleLowerCase().includes(normalizedKeyword)
+      const matchesCategory = selectedCategory === 'ALL'
+        || research.category === selectedCategory
+
+      return matchesTitle && matchesCategory
+    })
+  }, [keyword, researchPosts, selectedCategory])
+
+  const hasActiveFilters = keyword.length > 0 || selectedCategory !== 'ALL'
+
+  function resetFilters() {
+    setKeyword('')
+    setSelectedCategory('ALL')
+  }
 
   useEffect(() => {
     let cancelled = false
@@ -44,6 +71,48 @@ function ResearchListPage() {
         </div>
       </header>
 
+      {!loading && !errorMessage && researchPosts.length > 0 && (
+        <div className={styles.explore} aria-label="Research 검색 및 필터">
+          <div className={styles.searchField}>
+            <label htmlFor="research-title-search" className={styles.visuallyHidden}>
+              Research 제목 검색
+            </label>
+            <input
+              id="research-title-search"
+              type="search"
+              value={keyword}
+              onChange={(event) => setKeyword(event.target.value)}
+              className={styles.searchInput}
+              placeholder="제목으로 검색"
+            />
+          </div>
+          <div className={styles.categoryField}>
+            <label htmlFor="research-category" className={styles.visuallyHidden}>
+              Research 카테고리
+            </label>
+            <select
+              id="research-category"
+              value={selectedCategory}
+              onChange={(event) => setSelectedCategory(event.target.value)}
+              className={styles.categorySelect}
+            >
+              <option value="ALL">전체</option>
+              {categories.map((category) => (
+                <option key={category} value={category}>{category}</option>
+              ))}
+            </select>
+          </div>
+          <button
+            type="button"
+            className={styles.resetButton}
+            onClick={resetFilters}
+            disabled={!hasActiveFilters}
+          >
+            초기화
+          </button>
+        </div>
+      )}
+
       <section className={styles.archive} aria-label="Research archive">
         {loading ? (
           <div className={styles.status}>Research 목록을 불러오는 중입니다...</div>
@@ -51,9 +120,17 @@ function ResearchListPage() {
           <div className={styles.error} role="alert">{errorMessage}</div>
         ) : researchPosts.length === 0 ? (
           <div className={styles.empty}>공개된 Research가 없습니다.</div>
+        ) : filteredResearchPosts.length === 0 ? (
+          <div className={styles.empty} aria-live="polite">
+            <p>검색 결과가 없습니다.</p>
+            <p>검색어 또는 카테고리를 다시 확인해 주세요.</p>
+            <button type="button" className={styles.emptyResetButton} onClick={resetFilters}>
+              필터 초기화
+            </button>
+          </div>
         ) : (
-          <div className={styles.list} aria-label="전체 Research 목록">
-            {researchPosts.map((research) => (
+          <div className={styles.list} aria-label="Research 검색 결과">
+            {filteredResearchPosts.map((research) => (
               <article key={research.researchId} className={styles.item}>
                 <div className={styles.meta}>
                   <time dateTime={research.updatedAt}>
