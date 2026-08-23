@@ -213,12 +213,14 @@
 
 .addButton,
 .submitButton {
-  color: var(--color-background);
-  background-color: var(--color-text-primary);
+  border-color: #e76523;
+  color: #fff;
+  background-color: #e76523;
 }
 
 .removeButton {
-  color: var(--color-text-primary);
+  border-color: #c94b42;
+  color: #a92f28;
   background-color: transparent;
 }
 
@@ -336,7 +338,8 @@
 }
 
 .profileImageRemoveButton {
-  color: var(--color-text-primary);
+  border-color: #c94b42;
+  color: #a92f28;
   background: transparent;
 }
 
@@ -441,7 +444,7 @@
 .skillLogoUploadButton,
 .skillLogoRemoveButton { min-height: 38px; padding: 0 13px; display: inline-flex; align-items: center; border: 1px solid var(--color-text-primary); font: inherit; font-size: 12px; font-weight: 700; cursor: pointer; }
 .skillLogoUploadButton { color: var(--color-background); background: var(--color-text-primary); }
-.skillLogoRemoveButton { color: var(--color-text-primary); background: transparent; }
+.skillLogoRemoveButton { border-color: #c94b42; color: #a92f28; background: transparent; }
 .skillLogoUploadButton:has(input:disabled),.skillLogoRemoveButton:disabled { cursor: not-allowed; opacity: .55; }
 
 @media (max-width: 900px) {

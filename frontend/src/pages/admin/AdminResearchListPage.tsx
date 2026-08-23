@@ -48,6 +48,27 @@ function AdminResearchListPage() {
   const [actionErrorMessage, setActionErrorMessage] =
     useState<string | null>(null)
 
+  const [searchKeyword, setSearchKeyword] = useState('')
+
+  const [categoryFilter, setCategoryFilter] = useState('ALL')
+
+  const categories = Array.from(
+    new Set(researchPosts.map((research) => research.category)),
+  )
+
+  const normalizedKeyword = searchKeyword.trim().toLocaleLowerCase()
+
+  const filteredResearchPosts = researchPosts.filter((research) => {
+    const matchesTitle =
+      normalizedKeyword.length === 0 ||
+      research.title.toLocaleLowerCase().includes(normalizedKeyword)
+
+    const matchesCategory =
+      categoryFilter === 'ALL' || research.category === categoryFilter
+
+    return matchesTitle && matchesCategory
+  })
+
   // ============================================================================
   // 2) 관리자 Research 전체 목록 조회
   // ----------------------------------------------------------------------------
@@ -182,6 +203,11 @@ function AdminResearchListPage() {
     }
   }
 
+  function handleResetFilters() {
+    setSearchKeyword('')
+    setCategoryFilter('ALL')
+  }
+
   // ============================================================================
   // 5) 화면 분기
   // ----------------------------------------------------------------------------
@@ -235,7 +261,53 @@ function AdminResearchListPage() {
           등록된 Research 게시글이 없습니다.
         </div>
       ) : (
-        <div className={styles.tableWrapper}>
+        <>
+          <section className={styles.filterPanel} aria-label="Research 목록 필터">
+            <div className={styles.filterGroup}>
+              <label htmlFor="admin-research-title-search" className={styles.filterLabel}>
+                제목 검색
+              </label>
+
+              <input
+                id="admin-research-title-search"
+                type="search"
+                className={styles.searchInput}
+                value={searchKeyword}
+                onChange={(event) => setSearchKeyword(event.target.value)}
+                placeholder="제목으로 검색"
+              />
+            </div>
+
+            <div className={styles.filterGroup}>
+              <label htmlFor="admin-research-category-filter" className={styles.filterLabel}>
+                카테고리
+              </label>
+
+              <select
+                id="admin-research-category-filter"
+                className={styles.filterSelect}
+                value={categoryFilter}
+                onChange={(event) => setCategoryFilter(event.target.value)}
+              >
+                <option value="ALL">전체</option>
+                {categories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <button
+              type="button"
+              className={styles.resetButton}
+              onClick={handleResetFilters}
+            >
+              초기화
+            </button>
+          </section>
+
+          <div className={styles.tableWrapper}>
           <table className={styles.table}>
             <thead>
               <tr>
@@ -251,7 +323,7 @@ function AdminResearchListPage() {
             </thead>
 
             <tbody>
-              {researchPosts.map((research) => {
+              {filteredResearchPosts.map((research) => {
                 const isChangingPublication =
                   changingPublicationResearchId ===
                   research.researchId
@@ -359,9 +431,25 @@ function AdminResearchListPage() {
                   </tr>
                 )
               })}
+
+              {filteredResearchPosts.length === 0 && (
+                <tr>
+                  <td colSpan={8} className={styles.filteredEmpty}>
+                    <p>조건에 맞는 Research가 없습니다.</p>
+                    <button
+                      type="button"
+                      className={styles.emptyResetButton}
+                      onClick={handleResetFilters}
+                    >
+                      필터 초기화
+                    </button>
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
-        </div>
+          </div>
+        </>
       )}
     </div>
   )

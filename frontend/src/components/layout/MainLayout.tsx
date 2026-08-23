@@ -20,12 +20,6 @@ import styles from './MainLayout.module.css'
 
 function MainLayout() {
   const location = useLocation()
-  const isAdminRoute = location.pathname.startsWith('/admin')
-
-  if (isAdminRoute) {
-    return <div className={styles.layout}><Header /><main className={styles.main}><Outlet /></main><Footer /></div>
-  }
-
   const isHomeRoute = location.pathname === '/'
   const isWorkRoute = location.pathname === '/work'
   const isResearchRoute = location.pathname === '/research'

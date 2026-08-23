@@ -30,6 +30,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import WorkPage from './pages/WorkPage'
 import ProjectDetailPage from './pages/ProjectDetailPage'
 import MainLayout from './components/layout/MainLayout'
+import AdminLayout from './components/admin/AdminLayout'
 
 import AdminProjectDetailPage from './pages/admin/AdminProjectDetailPage'
 import AdminProjectListPage from './pages/admin/AdminProjectListPage'
@@ -70,23 +71,23 @@ function App() {
 
           <Route path='/contact' element={<ContactPage />} />
           
-          {/* 관리자 페이지 */}
-          <Route path="/admin" element={<Navigate to="/admin/projects" replace />} />
-          <Route path="/admin/projects" element={<AdminProjectListPage />} />
-          <Route path="/admin/projects/new" element={<AdminProjectCreatePage />} />
-          <Route path="/admin/projects/:projectId/edit" element={<AdminProjectUpdatePage />} />
-          <Route path="/admin/projects/:projectId" element={<AdminProjectDetailPage />} />
+        </Route>
 
-          <Route path="/admin/research" element={<AdminResearchListPage />}/>
-          <Route path="/admin/research/:researchId" element={<AdminResearchDetailPage />}/>
-          <Route path="/admin/research/new" element={<AdminResearchCreatePage />}/>
-          <Route path="/admin/research/:researchId/edit" element={<AdminResearchUpdatePage />}/>
+        {/* 관리자 페이지 */}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<Navigate to="projects" replace />} />
+          <Route path="projects" element={<AdminProjectListPage />} />
+          <Route path="projects/new" element={<AdminProjectCreatePage />} />
+          <Route path="projects/:projectId/edit" element={<AdminProjectUpdatePage />} />
+          <Route path="projects/:projectId" element={<AdminProjectDetailPage />} />
 
-          <Route path="/admin/about" element={<AdminAboutPage />}/>
-          <Route path="/admin/contact" element={<AdminContactPage />}/>
-          
-          
+          <Route path="research" element={<AdminResearchListPage />}/>
+          <Route path="research/:researchId" element={<AdminResearchDetailPage />}/>
+          <Route path="research/new" element={<AdminResearchCreatePage />}/>
+          <Route path="research/:researchId/edit" element={<AdminResearchUpdatePage />}/>
 
+          <Route path="about" element={<AdminAboutPage />}/>
+          <Route path="contact" element={<AdminContactPage />}/>
         </Route>
       </Routes>
     </BrowserRouter>
