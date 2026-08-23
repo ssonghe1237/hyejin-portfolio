@@ -31,37 +31,41 @@ function ProjectHeroImages({ images }: ProjectHeroImagesProps) {
     [images],
   )
 
-  const [currentIndex, setCurrentIndex] = useState(0)
+  return <ProjectHeroImagesContent key={sortedImages.length} images={sortedImages} />
+}
 
-  useEffect(() => {
-    setCurrentIndex(0)
-  }, [sortedImages.length])
+interface ProjectHeroImagesContentProps {
+  images: ProjectImageResponse[]
+}
+
+function ProjectHeroImagesContent({ images }: ProjectHeroImagesContentProps) {
+  const [currentIndex, setCurrentIndex] = useState(0)
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)',
     ).matches
 
-    if (sortedImages.length <= 1 || prefersReducedMotion) {
+    if (images.length <= 1 || prefersReducedMotion) {
       return
     }
 
     const timerId = window.setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % sortedImages.length)
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length)
     }, 3500)
 
     return () => {
       window.clearInterval(timerId)
     }
-  }, [sortedImages.length])
+  }, [images.length])
 
-  if (sortedImages.length === 0) {
+  if (images.length === 0) {
     return (
       <section className={styles.empty} aria-hidden="true" />
     )
   }
 
-  const currentImage = sortedImages[currentIndex]
+  const currentImage = images[currentIndex]
 
   return (
     <section className={styles.hero}>
@@ -80,9 +84,9 @@ function ProjectHeroImages({ images }: ProjectHeroImagesProps) {
         <p className={styles.heroCaption}>{currentImage.caption}</p>
       )}
 
-      {sortedImages.length > 1 && (
+      {images.length > 1 && (
         <div className={styles.heroIndicators}>
-          {sortedImages.map((image, index) => (
+          {images.map((image, index) => (
             <button
               key={image.projectImageId}
               type="button"

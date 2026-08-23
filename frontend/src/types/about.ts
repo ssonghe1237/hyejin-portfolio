@@ -38,7 +38,7 @@ export interface AdminAboutDetailResponse {
   skillCategories: AdminAboutSkillCategoryResponse[]
 }
 
-export interface AdminAboutCompetencyRequest extends AboutCompetencyResponse {}
+export type AdminAboutCompetencyRequest = AboutCompetencyResponse
 export interface AdminAboutSectionRequest { title: string; contentHtml: string; sectionType: AboutSectionType; displayOrder: number }
 export type AdminAboutEducationRequest = AboutEducationResponse
 export type AdminAboutAwardRequest = AboutAwardResponse
