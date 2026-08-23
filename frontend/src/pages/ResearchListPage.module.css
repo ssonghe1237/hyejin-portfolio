@@ -12,7 +12,7 @@
 .count,.meta { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
 .count { margin: 0 0 4px; color: #8d847e; font-size: 10px; letter-spacing: .08em; }
 .list { border-top: 1px solid #ded8d2; }
-.item { min-height: 184px; padding: 32px 12px; display: grid; grid-template-columns: 150px minmax(0, 1fr) auto; align-items: center; gap: 36px; border-bottom: 1px solid #ded8d2; transition: background-color 160ms ease, transform 160ms ease; }
+.item { padding: 32px 12px; display: grid; grid-template-columns: 150px minmax(0, 1fr) auto; align-items: center; gap: 36px; border-bottom: 1px solid #ded8d2; transition: background-color 160ms ease, transform 160ms ease; }
 .meta { align-self: start; display: flex; flex-direction: column; gap: 9px; color: #9a918b; font-size: 10px; letter-spacing: .05em; }
 .category { color: #e65d00; font-weight: 700; text-transform: uppercase; }
 .content { min-width: 0; }

@@ -140,6 +140,12 @@
 
 .contactLink:hover { color: #ff8530; }
 
+.contactLink:focus-visible,
+.resumeLink:focus-visible {
+  outline: 2px solid #ff8530;
+  outline-offset: 4px;
+}
+
 .resumeSection {
   display: flex;
   align-items: flex-end;

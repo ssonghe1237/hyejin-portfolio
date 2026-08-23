@@ -96,8 +96,14 @@
 
 .content a {
   color: #e55f00;
+  overflow-wrap: anywhere;
   text-decoration: underline;
   text-underline-offset: 4px;
+}
+
+.content a:focus-visible {
+  outline: 2px solid #ff6b00;
+  outline-offset: 3px;
 }
 
 .content strong { font-weight: 800; }
