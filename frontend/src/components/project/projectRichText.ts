@@ -1,3 +1,18 @@
+/**
+ * packageName    : frontend.src.components.project
+ * fileName       : projectRichText.ts
+ * author         : Song
+ * date           : 2026-08-23
+ * description    : 프로젝트 상세 Rich Text 처리 유틸리티
+ *                  - 프로젝트 섹션 본문의 Rich Text 여부 판별
+ *                  - 허용된 HTML 구조 판별 및 레거시 본문 변환
+ *                  - Rich Text 편집기 초기값 정규화
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-08-23        Song       최초 생성
+ */
+
 import type { ProjectSectionType } from '../../types/project'
 
 const RICH_TEXT_SECTION_TYPES = new Set<ProjectSectionType>([

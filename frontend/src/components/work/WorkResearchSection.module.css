@@ -1,3 +1,17 @@
+/**
+ * packageName    : frontend.src.components.work
+ * fileName       : WorkResearchSection.module.css
+ * author         : Song
+ * date           : 2026-08-04
+ * description    : WorkResearchSection 컴포넌트 스타일
+ *                  - Research 목록과 탐색 링크 레이아웃 구성
+ *                  - 반응형 Research 섹션 스타일 제공
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-08-04        Song       최초 생성
+ */
+
 .research {
   width: 100%;
   color: #fff;

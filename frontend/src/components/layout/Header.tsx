@@ -12,6 +12,7 @@
  * 2026-07-02        Song       최초 생성
  * 2026-07-02        Song       CSS Module 스타일 분리
  * 2026-08-03        Song       사용자 페이지 네비게이션 구조 변경
+ * 2026-08-24        Song       Route Active 상태 및 반응형 사용자 메뉴 구조 적용
  */
 
 import { useEffect, useRef, useState } from 'react'

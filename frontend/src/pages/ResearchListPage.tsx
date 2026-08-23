@@ -1,3 +1,18 @@
+/**
+ * packageName    : frontend.src.pages
+ * fileName       : ResearchListPage.tsx
+ * author         : Song
+ * date           : 2026-08-04
+ * description    : Research 목록 페이지
+ *                  - 공개 Research 목록 조회 및 상세 이동 제공
+ *                  - 제목 검색과 카테고리 필터를 통한 목록 탐색 지원
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-08-04        Song       최초 생성
+ * 2026-08-24        Song       검색·카테고리 필터 및 목록 화면 재구성
+ */
+
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { getResearchList } from '../api/researchApi'

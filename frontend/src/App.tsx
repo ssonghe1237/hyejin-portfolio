@@ -24,6 +24,7 @@
  * 2026-08-04        Song       관리자 Research 수정 페이지 라우팅 추가
  * 2026-08-04        Song       사용자 Research 전체 목록 페이지 라우팅 추가
  * 2026-08-05        Song       관리자 About 콘텐츠 편집 페이지 라우팅 추가
+ * 2026-08-24        Song       관리자 공통 Layout 기반 중첩 Route 구조 적용
  */
 
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'

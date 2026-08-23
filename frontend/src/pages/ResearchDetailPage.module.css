@@ -19,3 +19,16 @@
 .state p { margin: 0 0 16px; }
 @media (max-width: 1179px) { .page { padding: 72px 48px 96px; } .title { font-size: 44px; } .state { padding: 64px 48px; } }
 @media (max-width: 767px) { .page { padding: 48px 22px 76px; } .kicker { margin-bottom: 22px; } .meta { margin-top: 18px; } .title { font-size: 36px; line-height: 1.2; } .summary { margin-top: 22px; font-size: 16px; } .divider { margin-top: 40px; margin-bottom: 42px; } .footer { margin-top: 52px; padding-top: 26px; } .postNavigation { gap: 10px; } .postNavigation a,.postNavigation span { font-size: 13px; } .state { min-height: 240px; padding: 48px 22px; } }
+/**
+ * packageName    : frontend.src.pages
+ * fileName       : ResearchDetailPage.module.css
+ * author         : Song
+ * date           : 2026-08-04
+ * description    : ResearchDetailPage 스타일
+ *                  - Research 상세 본문과 게시글 탐색 레이아웃 구성
+ *                  - 반응형 상세 화면 스타일 제공
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-08-04        Song       최초 생성
+ */

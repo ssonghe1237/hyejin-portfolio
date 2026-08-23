@@ -1,3 +1,18 @@
+/**
+ * packageName    : frontend.src.pages
+ * fileName       : HomePage.tsx
+ * author         : Song
+ * date           : 2026-08-04
+ * description    : 포트폴리오 사용자 홈 페이지
+ *                  - 개발자 포지셔닝과 핵심 역량 소개
+ *                  - 공개 프로젝트 및 About 데이터를 활용한 대표 콘텐츠 구성
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-08-04        Song       최초 생성
+ * 2026-08-24        Song       홈 콘텐츠 및 주요 섹션 구조 재구성
+ */
+
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import ImageWithFallback from '../components/common/ImageWithFallback'

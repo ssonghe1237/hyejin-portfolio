@@ -1,3 +1,17 @@
+/**
+ * packageName    : frontend.src.components.common
+ * fileName       : RichTextContent.module.css
+ * author         : Song
+ * date           : 2026-08-23
+ * description    : 공통 Rich Text 콘텐츠 스타일
+ *                  - HTML 콘텐츠의 제목·본문·목록 스타일 제공
+ *                  - 코드·링크·이미지 wrapping 및 overflow 처리
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-08-23        Song       최초 생성
+ */
+
 .content {
   min-width: 0;
   color: inherit;

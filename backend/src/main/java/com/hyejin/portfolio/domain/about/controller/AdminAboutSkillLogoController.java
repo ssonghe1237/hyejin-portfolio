@@ -12,6 +12,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * packageName    : com.hyejin.portfolio.domain.about.controller
+ * fileName       : AdminAboutSkillLogoController
+ * author         : Song
+ * date           : 2026-08-23
+ * description    : 관리자 About 기술 로고 업로드 Controller
+ *                  - 멀티파트 기술 로고 이미지 업로드 요청 처리
+ *                  - 기술 로고 저장 Service 호출 및 업로드 결과 반환
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-08-23        Song               최초 생성
+ */
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/admin/about/skill-logo")

@@ -1,3 +1,17 @@
+/**
+ * packageName    : frontend.src.pages
+ * fileName       : AboutPage.module.css
+ * author         : Song
+ * date           : 2026-08-07
+ * description    : AboutPage 스타일
+ *                  - 프로필·경험·역량·기술 섹션 레이아웃 구성
+ *                  - 반응형 About 화면 스타일 제공
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-08-07        Song       최초 생성
+ */
+
 .page {
   width: 100%;
   /* Keep the public About intro on the same local scale as WorkPage. */

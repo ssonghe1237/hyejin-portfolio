@@ -17,6 +17,7 @@
  * 2026-07-02        Song       섹션 단일 렌더링 컴포넌트 분리
  * 2026-07-02        Song       CSS Module 스타일 분리
  * 2026-07-27        Song       상세 섹션 표시 조건 및 제목 개선
+ * 2026-08-24        Song       프로젝트 상세 섹션 안내 구조 적용
  */
 
 import type { ProjectSectionResponse } from '../../../types/project'

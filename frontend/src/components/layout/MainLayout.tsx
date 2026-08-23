@@ -11,6 +11,7 @@
  * -----------------------------------------------------------
  * 2026-07-02        Song       최초 생성
  * 2026-07-02        Song       CSS Module 스타일 분리
+ * 2026-08-24        Song       사용자 Route별 공통 레이아웃 구조 적용
  */
 
 import { Outlet, useLocation } from 'react-router-dom'

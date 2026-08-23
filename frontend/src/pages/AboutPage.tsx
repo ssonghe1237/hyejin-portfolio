@@ -1,3 +1,18 @@
+/**
+ * packageName    : frontend.src.pages
+ * fileName       : AboutPage.tsx
+ * author         : Song
+ * date           : 2026-08-04
+ * description    : 포트폴리오 사용자 About 페이지
+ *                  - 공개 About API 기반 프로필 및 개발 경험 정보 출력
+ *                  - 역량·기술·경험 콘텐츠와 사용자 연락 CTA 구성
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-08-04        Song       최초 생성
+ * 2026-08-24        Song       프로필·경험·기술 중심 사용자 화면 재구성
+ */
+
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { getAbout } from '../api/aboutApi'

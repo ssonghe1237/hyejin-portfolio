@@ -11,6 +11,7 @@
  * 2026-07-02        Song       최초 생성
  * 2026-07-02        Song       CSS Module 스타일 분리
  * 2026-08-03        Song       사용자 페이지 구조 변경
+ * 2026-08-24        Song       사용자 연락 링크 및 관리자 전용 푸터 구조 적용
  */
 
 import { Link, useLocation } from 'react-router-dom'

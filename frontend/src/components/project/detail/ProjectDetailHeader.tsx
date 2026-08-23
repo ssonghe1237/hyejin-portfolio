@@ -12,6 +12,7 @@
  * 2026-07-02        Song       최초 생성
  * 2026-07-02        Song       Hero 이미지 및 기본 정보 겹침 레이아웃 추가\
  * 2026-07-02        Song       CSS Module 스타일 분리
+ * 2026-08-24        Song       Hero 이미지 및 프로젝트 정보 카드 조립 구조 변경
  */
 
 import type { ProjectDetailResponse } from '../../../types/project'

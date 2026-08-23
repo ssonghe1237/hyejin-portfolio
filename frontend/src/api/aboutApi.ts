@@ -10,6 +10,7 @@
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-08-05        Song               최초 생성
+ * 2026-08-24        Song               확장된 About 공개 응답 구조 연동
  */
 
 import type { AboutCompetencyResponse, AboutResponse } from "../types/about"

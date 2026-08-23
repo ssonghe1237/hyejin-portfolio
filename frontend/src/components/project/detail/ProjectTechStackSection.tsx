@@ -15,6 +15,7 @@ import type { ProjectTechResponse } from '../../../types/project';
  * 2026-07-02        Song       기술스택 목록 출력 추가
  * 2026-07-02        Song       CSS Module 스타일 분리
  * 2026-07-27        Song       기술스택 카테고리별 카드 UI 적용
+ * 2026-08-24        Song       기술 카테고리별 아이콘 및 목록 표현 구조 변경
  */
 
 import styles from './ProjectTechStackSection.module.css'

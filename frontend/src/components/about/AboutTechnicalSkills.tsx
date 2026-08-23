@@ -1,3 +1,18 @@
+/**
+ * packageName    : frontend.src.components.about
+ * fileName       : AboutTechnicalSkills.tsx
+ * author         : Song
+ * date           : 2026-08-23
+ * description    : About 기술 역량 컴포넌트
+ *                  - 기술 카테고리별 보유 기술 목록 출력
+ *                  - 기술 로고와 기술명 및 설명 정보 제공
+ *                  - Supporting Tools 영역 출력
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-08-23        Song       최초 생성
+ */
+
 import { useState } from 'react'
 import type { AboutSectionResponse, AboutSkillCategoryResponse } from '../../types/about'
 import RichTextContent from '../common/RichTextContent'

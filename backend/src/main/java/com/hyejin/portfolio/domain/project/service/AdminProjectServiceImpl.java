@@ -31,12 +31,14 @@ import static org.apache.logging.log4j.util.Strings.trimToNull;
  *                  - 프로젝트 기본 정보 수정
  *                  - 이미지, 섹션, 기술스택, 링크 신규 등록 및 수정
  *                  - 이미지, 섹션, 기술스택, 링크 선택 삭제
+ *                  - 프로젝트 상세 Rich Text 섹션 콘텐츠 정규화 및 안전한 HTML 저장 처리
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-07-03        Song       최초 생성
  * 2026-07-07        Song       프로젝트 등록 기능 추가
  * 2026-07-08        Song       프로젝트 수정 및 하위 데이터 선택 삭제 기능 추가
+ * 2026-08-24        Song       프로젝트 Rich Text 섹션 콘텐츠 정규화 및 HTML Sanitizing 처리 추가
  */
 @Service
 @RequiredArgsConstructor

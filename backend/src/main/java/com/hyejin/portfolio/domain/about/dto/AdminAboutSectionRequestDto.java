@@ -15,10 +15,12 @@ import jakarta.validation.constraints.Size;
  * description    : 관리자 About 섹션 저장 요청 DTO
  *                  - About 섹션 제목과 Tiptap HTML 본문 전달
  *                  - 사용자 화면 표시 순서 전달
+ *                  - About 섹션 역할 유형 전달
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-08-04        Song       최초 생성
+ * 2026-08-24        Song       About 섹션 유형 저장 요청 구조 추가
  */
 public record AdminAboutSectionRequestDto(
 

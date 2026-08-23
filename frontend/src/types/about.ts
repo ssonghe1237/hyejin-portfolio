@@ -1,3 +1,18 @@
+/**
+ * packageName    : frontend.src.types
+ * fileName       : about.ts
+ * author         : Song
+ * date           : 2026-08-07
+ * description    : About 도메인 Frontend 타입 정의
+ *                  - 사용자·관리자 About 응답 타입 제공
+ *                  - 프로필·경력·학력·수상·역량·기술 및 저장 요청 구조 정의
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-08-07        Song       최초 생성
+ * 2026-08-24        Song       프로필·경력·학력·수상·기술 타입 확장
+ */
+
 export type AboutSectionType = 'TECHNICAL_STACK' | 'TROUBLESHOOTING' | 'STORY'
 export type AboutEducationType = 'SCHOOL' | 'TRAINING'
 export type AboutEmploymentType = 'FULL_TIME' | 'FREELANCE' | 'INTERN' | 'CONTRACT'

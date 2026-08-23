@@ -1,3 +1,16 @@
+/**
+ * packageName    : frontend.src.components.admin
+ * fileName       : AdminLayout.module.css
+ * author         : Song
+ * date           : 2026-08-24
+ * description    : AdminLayout 컴포넌트 스타일
+ *                  - 관리자 페이지 공통 콘텐츠 영역과 반응형 레이아웃 구성
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-08-24        Song       최초 생성
+ */
+
 .layout {
   min-width: 0;
   min-height: 100vh;

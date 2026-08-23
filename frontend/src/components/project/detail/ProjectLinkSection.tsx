@@ -14,6 +14,7 @@
  * 2026-07-02        Song       프로젝트 관련 링크 목록 출력 추가
  * 2026-07-02        Song       CSS Module 스타일 분리
  * 2026-07-27        Song       링크 버튼형 CTA UI 적용
+ * 2026-08-24        Song       링크 유형별 아이콘 및 정렬된 링크 표현 구조 적용
  */
 
 import type { ProjectLinkResponse } from '../../../types/project'

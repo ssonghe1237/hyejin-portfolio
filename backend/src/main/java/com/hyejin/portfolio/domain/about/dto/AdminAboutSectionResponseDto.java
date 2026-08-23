@@ -11,10 +11,12 @@ import com.hyejin.portfolio.domain.about.entity.AboutSectionType;
  * description    : 관리자 About 섹션 응답 DTO
  *                  - About 섹션 식별값과 저장된 본문 정보 제공
  *                  - 관리자 About 수정 화면 초기값으로 사용
+ *                  - 저장된 About 섹션 역할 유형 제공
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-08-04        Song       최초 생성
+ * 2026-08-24        Song       About 섹션 유형 관리자 응답 구조 추가
  */
 public record AdminAboutSectionResponseDto(
 

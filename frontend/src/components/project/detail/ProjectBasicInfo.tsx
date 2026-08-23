@@ -17,6 +17,7 @@ import type { ProjectDetailResponse } from '../../../types/project';
  * 2026-07-02        Song       ProjectDetailHeader 내부 조립 구조로 변경
  * 2026-07-02        Song       CSS Module 스타일 분리
  * 2026-07-27        Song       description 하단 MY_ROLE 섹션 제목 출력 추가
+ * 2026-08-24        Song       프로젝트 요약 및 메타 정보 표현 구조 변경
  * 
  */
 import styles from './ProjectBasicInfo.module.css';

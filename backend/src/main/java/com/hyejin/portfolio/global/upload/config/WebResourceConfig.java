@@ -16,12 +16,14 @@ import java.nio.file.Path;
  * description    : 업로드 파일 정적 리소스 매핑 설정
  *                  - /uploads/projects/** 요청을 실제 이미지 업로드 디렉토리와 연결
  *                  - /uploads/resumes/** 요청을 실제 이력서 업로드 디렉토리와 연결
+ *                  - /uploads/profile/** 및 /uploads/skills/** 요청을 About 이미지 디렉토리와 연결
  *                  - 로컬 개발 및 Spring 단독 실행 환경에서 업로드 파일 접근 지원
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-07-28        Song       최초 생성
  * 2026-08-09        Song       이력서 PDF 정적 리소스 매핑 추가
+ * 2026-08-24        Song       About 이미지 업로드 정적 리소스 매핑 확장
  */
 
 // WebMvcComfigurer

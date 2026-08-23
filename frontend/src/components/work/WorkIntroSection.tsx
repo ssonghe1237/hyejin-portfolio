@@ -11,6 +11,7 @@
  * -----------------------------------------------------------
  * 2026-07-02        Song       최초 생성
  * 2026-07-02        Song       CSS Module 스타일 분리
+ * 2026-08-24        Song       Work 소개 콘텐츠 및 대표 이미지 구조 적용
  */
 import styles from './WorkIntroSection.module.css'
 import workPageIntroImage from '../../assets/work/work-page-intro.png'

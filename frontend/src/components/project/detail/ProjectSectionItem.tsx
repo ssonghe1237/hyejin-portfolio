@@ -13,6 +13,7 @@
  * 2026-07-02        Song       최초 생성
  * 2026-07-02        Song       CSS Module 스타일 분리
  * 2026-07-27        Song       MY_ROLE 섹션 강조 스타일 적용
+ * 2026-08-24        Song       섹션 유형별 본문·이미지 및 WORKFLOW 표현 구조 변경
  */
 
 import type { ProjectSectionResponse } from '../../../types/project'

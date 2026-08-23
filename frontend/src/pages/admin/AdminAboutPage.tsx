@@ -9,10 +9,12 @@
  *                  - About 섹션 추가·삭제 및 순서 관리
  *                  - 공통 Tiptap RichTextEditor를 통한 섹션 본문 작성
  *                  - 관리자 About upsert API 연동
+ *                  - 프로필·학력·수상·근무 이력·역량·기술 정보 편집
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-08-05        Song               최초 생성
+ * 2026-08-24        Song               About 프로필·이력·기술 관리자 편집 기능 확장
  */
 
 import { useEffect, useState, type ChangeEvent, type FormEvent } from "react"

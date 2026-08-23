@@ -7,6 +7,20 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+/**
+ * packageName    : com.hyejin.portfolio.domain.about.scheduler
+ * fileName       : ProfileImageOrphanCleanupScheduler
+ * author         : Song
+ * date           : 2026-08-23
+ * description    : 프로필 고아 이미지 정리 스케줄러
+ *                  - 설정된 실행 주기에 따라 프로필 이미지 정리 Service 호출
+ *                  - DB에서 사용되지 않는 오래된 이미지 정리 작업 실행
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-08-23        Song               최초 생성
+ */
+
 @Slf4j
 @Component
 @RequiredArgsConstructor

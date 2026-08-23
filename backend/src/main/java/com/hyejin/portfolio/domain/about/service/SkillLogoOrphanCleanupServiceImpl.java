@@ -12,7 +12,19 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/** About에 참조되지 않는 grace-expired Skill Logo를 정리하는 Service. @author Song */
+/**
+ * packageName    : com.hyejin.portfolio.domain.about.service
+ * fileName       : SkillLogoOrphanCleanupServiceImpl
+ * author         : Song
+ * date           : 2026-08-23
+ * description    : 기술 로고 고아 파일 정리 Service 구현체
+ *                  - 현재 사용 중인 기술 로고 URL 확인
+ *                  - 보존 기간이 지난 미사용 기술 로고 파일 삭제
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-08-23        Song               최초 생성
+ */
 @Slf4j @Service @RequiredArgsConstructor
 public class SkillLogoOrphanCleanupServiceImpl implements SkillLogoOrphanCleanupService {
     private final SkillLogoStorageService storageService;

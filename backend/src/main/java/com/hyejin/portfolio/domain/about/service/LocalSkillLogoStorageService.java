@@ -19,7 +19,19 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-/** PNG/WEBP Skill Logo를 /uploads/skills namespace에 저장하는 Service. @author Song */
+/**
+ * packageName    : com.hyejin.portfolio.domain.about.service
+ * fileName       : LocalSkillLogoStorageService
+ * author         : Song
+ * date           : 2026-08-23
+ * description    : 로컬 기술 로고 저장 Service 구현체
+ *                  - 업로드 이미지 확장자 및 크기 검증
+ *                  - 로컬 기술 로고 파일 저장 및 삭제 처리
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-08-23        Song               최초 생성
+ */
 @Service
 @RequiredArgsConstructor
 public class LocalSkillLogoStorageService implements SkillLogoStorageService {

@@ -1,3 +1,18 @@
+/**
+ * packageName    : frontend.src.components.admin
+ * fileName       : AdminHeader.tsx
+ * author         : Song
+ * date           : 2026-08-24
+ * description    : 관리자 페이지 공통 헤더 컴포넌트
+ *                  - Projects, Research, About, Contact 관리자 네비게이션 제공
+ *                  - 현재 Route 기반 Active 상태 표시
+ *                  - 사용자 사이트 이동 기능 제공
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-08-24        Song       최초 생성
+ */
+
 import { NavLink, Link } from 'react-router-dom'
 import styles from './AdminHeader.module.css'
 

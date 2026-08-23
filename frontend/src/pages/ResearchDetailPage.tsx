@@ -1,3 +1,19 @@
+/**
+ * packageName    : frontend.src.pages
+ * fileName       : ResearchDetailPage.tsx
+ * author         : Song
+ * date           : 2026-08-04
+ * description    : Research 상세 페이지
+ *                  - slug 기반 공개 Research 상세 조회
+ *                  - Research 본문 및 이전·다음 게시글 탐색 제공
+ *                  - 로딩 및 오류 상태 처리
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-08-04        Song       최초 생성
+ * 2026-08-24        Song       상세 본문 및 게시글 탐색 화면 재구성
+ */
+
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { getResearchDetail, getResearchList } from '../api/researchApi'

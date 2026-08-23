@@ -15,6 +15,7 @@
  * 2026-07-02        Song       CSS Module 스타일 분리
  * 2026-08-03        Song       Selected Work 및 More Work 구조 반영
  * 2026-08-03        Song       섹션별 프로젝트 카드 열 개수 처리
+ * 2026-08-24        Song       프로젝트 목록 카드 및 상세 이동 구조 재구성
  */
 
 import { Link } from 'react-router-dom'

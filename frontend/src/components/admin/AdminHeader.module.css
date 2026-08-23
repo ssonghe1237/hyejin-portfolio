@@ -1,3 +1,17 @@
+/**
+ * packageName    : frontend.src.components.admin
+ * fileName       : AdminHeader.module.css
+ * author         : Song
+ * date           : 2026-08-24
+ * description    : AdminHeader 컴포넌트 스타일
+ *                  - 관리자 공통 네비게이션 및 Active 상태 스타일
+ *                  - 반응형 관리자 헤더 레이아웃 제공
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-08-24        Song       최초 생성
+ */
+
 .header {
   border-bottom: 1px solid #e6ded5;
   background: #fffdf9;

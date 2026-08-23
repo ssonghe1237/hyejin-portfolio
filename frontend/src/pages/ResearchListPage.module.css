@@ -43,3 +43,16 @@
 @media (max-width: 767px) { .page { padding: 48px 22px 76px; } .intro { padding-bottom: 48px; } .kicker { margin-bottom: 18px; } .title { font-size: 36px; line-height: 1.12; } .description { margin-top: 20px; font-size: 16px; } .metaRule { margin-top: 24px; padding: 12px 0; font-size: 10px; line-height: 1.7; } .explore { flex-wrap: wrap; } .searchField { min-width: 100%; flex-basis: 100%; } .categoryField { min-width: 0; flex: 1 1 180px; } .archive { padding-top: 0; } .archiveHeader { margin-bottom: 32px; align-items: flex-start; flex-direction: column; gap: 10px; } .sectionTitle { font-size: 28px; } .count { margin: 0; } .item { min-height: 0; padding: 26px 4px 30px; grid-template-columns: minmax(0, 1fr); gap: 16px; } .meta { flex-direction: row; flex-wrap: wrap; gap: 8px 16px; } .itemTitle { font-size: 22px; } .readLink { justify-self: start; padding-left: 0; } }
 @media (max-width: 420px) { .explore { align-items: stretch; flex-direction: column; } .categoryField { flex-basis: auto; } .resetButton { min-height: 40px; align-self: flex-start; padding: 0; } }
 @media (prefers-reduced-motion: reduce) { .item,.readLink span { transition: none; } .item:hover { transform: none; } }
+/**
+ * packageName    : frontend.src.pages
+ * fileName       : ResearchListPage.module.css
+ * author         : Song
+ * date           : 2026-08-04
+ * description    : ResearchListPage 스타일
+ *                  - 검색·카테고리 필터와 Research 목록 레이아웃 구성
+ *                  - 반응형 목록 화면 스타일 제공
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-08-04        Song       최초 생성
+ */

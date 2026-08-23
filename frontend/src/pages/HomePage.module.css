@@ -751,3 +751,16 @@ section[aria-labelledby="work-title"] .projectWindow:nth-child(2) .projectInfo{o
 @media (max-width:620px){
   .whyCombined{margin-top:-24px;padding-top:96px;padding-inline:22px}
 }
+/**
+ * packageName    : frontend.src.pages
+ * fileName       : HomePage.module.css
+ * author         : Song
+ * date           : 2026-08-04
+ * description    : HomePage 스타일
+ *                  - 홈 주요 콘텐츠와 섹션별 레이아웃 구성
+ *                  - 반응형 홈 화면 스타일 제공
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-08-04        Song       최초 생성
+ */

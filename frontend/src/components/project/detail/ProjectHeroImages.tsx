@@ -14,6 +14,7 @@
  * 2026-07-02        Song       대표 이미지 롤링 기능 추가
  * 2026-07-02        Song       이미지 로드 실패 대응 추가
  * 2026-07-02        Song       CSS Module 스타일 분리
+ * 2026-08-24        Song       대표 이미지 indicator·caption 및 빈 이미지 처리 적용
  */
 
 import { useEffect, useMemo, useState } from 'react'

@@ -1,3 +1,17 @@
+/**
+ * packageName    : frontend.src.components.about
+ * fileName       : AboutTechnicalSkills.module.css
+ * author         : Song
+ * date           : 2026-08-23
+ * description    : AboutTechnicalSkills 컴포넌트 스타일
+ *                  - 기술 카테고리 및 기술 카드 레이아웃 구성
+ *                  - Supporting Tools 및 반응형 화면 스타일 제공
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-08-23        Song       최초 생성
+ */
+
 .section {
   padding: 96px 0 104px;
 }

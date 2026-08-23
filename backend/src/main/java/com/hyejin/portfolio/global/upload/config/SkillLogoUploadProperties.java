@@ -3,7 +3,19 @@ package com.hyejin.portfolio.global.upload.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-/** About Skill Logo 전용 저장소와 고아 파일 정리 설정. @author Song */
+/**
+ * packageName    : com.hyejin.portfolio.global.upload.config
+ * fileName       : SkillLogoUploadProperties
+ * author         : Song
+ * date           : 2026-08-23
+ * description    : 기술 로고 업로드 설정 Properties
+ *                  - 기술 로고 저장 경로 및 URL prefix 설정 관리
+ *                  - 파일 크기 및 고아 파일 정리 관련 설정 제공
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-08-23        Song               최초 생성
+ */
 @Component
 @ConfigurationProperties(prefix = "app.skill-logo-upload")
 public class SkillLogoUploadProperties {
