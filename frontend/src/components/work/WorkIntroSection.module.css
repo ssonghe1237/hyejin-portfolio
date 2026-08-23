@@ -1,231 +1,107 @@
-/**
- * packageName    : frontend.src.components.work
- * fileName       : WorkIntroSection.module.css
- * author         : Song
- * date           : 2026-07-02
- * description    : WorkIntroSection 스타일
- *                  - Work 페이지 상단 소개 영역 스타일 관리
- *                  - 소개 문구, 제목, 키워드 태그 스타일 정의
- * ===========================================================
- * DATE              AUTHOR             NOTE
- * -----------------------------------------------------------
- * 2026-07-02        Song       최초 생성
- */
-
 .intro {
-  width: min(1240px, calc(100vw - 64px));
-  padding: 88px 0 48px;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
+  width: 100%;
+  padding: 40px 56px 56px;
+  background: #fff;
 }
 
-.eyebrow {
-  margin: 0 0 var(--spacing-molecule);
-  color: var(--color-accent);
-  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-  font-size: 12px;
-  font-weight: var(--font-weight-heading);
-  letter-spacing: var(--letter-spacing-eyebrow);
-  text-transform: uppercase;
+.introContent {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, .84fr);
+  align-items: center;
+  gap: clamp(36px, 6vw, 72px);
+}
+
+.copy {
+  min-width: 0;
+}
+
+.label {
+  margin: 0 0 18px;
+  color: #ff6b00;
+  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: var(--font-label, 12px);
+  font-weight: 700;
+  letter-spacing: .08em;
+  line-height: 1.2;
 }
 
 .title {
-  max-width: 840px;
-  margin: 0 auto;
-  color: var(--color-text-primary);
-  font-size: clamp(48px, 4.2vw, 56px);
-  font-weight: var(--font-weight-display);
-  line-height: 1.12;
-  letter-spacing: var(--letter-spacing-display);
-  word-break: keep-all;
-  text-align: center;
+  margin: 0;
+  color: #111;
+  font-size: var(--font-section-title, 35px);
+  font-weight: 800;
+  line-height: 1.18;
+  letter-spacing: -.05em;
 }
 
 .description {
-  max-width: 720px;
-  margin: var(--spacing-organism) auto 0;
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-body-large);
-  line-height: var(--line-height-body);
+  max-width: 560px;
+  margin: 20px 0 0;
+  color: #5f5f5b;
+  font-size: var(--font-body, 16px);
+  line-height: 1.7;
+  letter-spacing: -.02em;
   word-break: keep-all;
-  text-align: center;
 }
 
-.keywordList {
-  margin-top: var(--spacing-organism);
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-molecule) 24px;
+.visual {
+  min-width: 0;
 }
 
-.keyword {
-  padding-left: 12px;
-  position: relative;
-  color: var(--color-text-secondary);
-  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-  font-size: 12px;
-  font-weight: var(--font-weight-control);
-  letter-spacing: .03em;
-  text-transform: uppercase;
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
 }
 
-.keyword::before {
-  width: 4px;
-  height: 4px;
-  position: absolute;
-  top: .55em;
-  left: 0;
-  content: "";
-  background: var(--color-accent);
-}
-
-@media (max-width: 1023px) {
+@media (max-width: 980px) {
   .intro {
-    width: min(1240px, calc(100vw - 48px));
-    padding: 72px 0 44px;
+    padding: 32px 32px 48px;
   }
-}
 
-@media (max-width: 767px) {
-  .intro {
-    width: calc(100vw - 40px);
-    padding: 48px 0 36px;
+  .introContent {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
   }
 
   .title {
-    font-size: clamp(36px, 10.5vw, 44px);
-    line-height: 1.12;
-  }
-
-  .title br {
-    display: none;
+    font-size: 31px;
   }
 
   .description {
-    margin-top: 24px;
-    font-size: 18px;
+    font-size: 17px;
   }
 
-  .keywordList {
-    margin-top: 24px;
-    gap: 12px 20px;
+  .visual {
+    width: min(100%, 560px);
   }
 }
 
-/* Home-aligned public Work typography and shell spacing. */
-.intro {
-  width: 100%;
-  padding-right: 68px;
-  padding-left: 68px;
-  left: auto;
-  transform: none;
-}
+@media (max-width: 620px) {
+  .intro {
+    padding: 32px 22px 48px;
+  }
 
-.selectedSection { padding-top: 56px; }
+  .introContent {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
 
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 14px;
-  border-radius: 999px;
-  color: #d85f00;
-  background: #fff0e4;
-  font-size: var(--font-label);
-}
+  .title {
+    font-size: 28px;
+    line-height: 1.22;
+  }
 
-.eyebrow::before {
-  width: 6px;
-  height: 6px;
-  flex: 0 0 auto;
-  border-radius: 50%;
-  content: '';
-  background: #ff6b00;
-}
+  .description {
+    margin-top: 18px;
+    font-size: 16px;
+    line-height: 1.65;
+  }
 
-.title { font-size: var(--font-hero-title); }
-.description {
-  margin-top: 24px;
-  font-size: var(--font-body);
-  line-height: 1.7;
-}
-
-.keywordList {
-  margin-top: 20px;
-  gap: 12px 24px;
-}
-
-.keyword {
-  font-size: var(--font-label);
-  line-height: 1.5;
-}
-
-.introContent { max-width: none; }
-
-.metaRule {
-  margin-top: 32px;
-  padding: 14px 0;
-  border-top: 1px solid rgba(255, 107, 0, .55);
-  border-bottom: 1px solid rgba(255, 107, 0, .55);
-  color: #5f5147;
-  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-  font-size: var(--font-label);
-  font-weight: 700;
-  letter-spacing: .05em;
-  line-height: 1.5;
-  text-align: center;
-  overflow-wrap: anywhere;
-}
-
-.kicker {
-  margin-bottom: 20px;
-}
-
-.techList {
-  margin: 20px 0 0;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  list-style: none;
-}
-
-.techList li {
-  min-height: 36px;
-  padding: 0 14px;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  border: 1px solid #e9e1da;
-  border-radius: 999px;
-  color: #332f2c;
-  background: #fff;
-  font-size: var(--font-ui);
-  font-weight: 650;
-}
-
-.techList li::before {
-  width: 6px;
-  height: 6px;
-  flex: 0 0 auto;
-  border-radius: 50%;
-  content: '';
-  background: #ff6b00;
-}
-
-@media (max-width: 1179px) {
-  .intro { padding-right: 48px; padding-left: 48px; }
-  .selectedSection { padding-top: 48px; }
-  .title { font-size: 44px; }
-  .description { font-size: 17px; }
-}
-
-@media (max-width: 767px) {
-  .intro { width: 100%; padding-right: 22px; padding-left: 22px; }
-  .selectedSection { padding-top: 40px; }
-  .title { font-size: 36px; }
-  .description { margin-top: 20px; font-size: 16px; }
-  .keywordList { margin-top: 18px; gap: 10px 18px; }
-  .metaRule { margin-top: 24px; padding: 12px 0; line-height: 1.7; }
+  .visual {
+    width: min(100%, 460px);
+  }
 }

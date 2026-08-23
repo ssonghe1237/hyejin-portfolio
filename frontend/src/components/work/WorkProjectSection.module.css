@@ -4,6 +4,7 @@
 }
 
 .selectedSection {
+  padding-top: 56px;
   background: #fff;
   color: #111;
 }
@@ -287,11 +288,13 @@
 
 @media (max-width: 980px) {
   .section { padding: 88px 48px; }
+  .selectedSection { padding-top: 48px; }
   .selectedProject { grid-template-columns: minmax(0, 1fr) minmax(250px, .86fr); gap: 40px; }
 }
 
 @media (max-width: 700px) {
   .section { padding: 72px 24px; }
+  .selectedSection { padding-top: 40px; }
   .header { align-items: flex-start; flex-direction: column; gap: 20px; margin-bottom: 36px; }
   .count { padding: 0; }
   .selectedProject { display: flex; flex-direction: column; align-items: stretch; gap: 28px; padding: 32px 0; }
@@ -302,6 +305,7 @@
 
 @media (max-width: 390px) {
   .section { padding: 56px 16px; }
+  .selectedSection { padding-top: 32px; }
   .eyebrow { margin-bottom: 16px; font-size: 10px; }
   .title { font-size: 32px; }
   .description { font-size: 14px; }

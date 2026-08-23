@@ -21,6 +21,7 @@
 import { useEffect, useState } from 'react'
 import { getAllProjects } from '../api/projectApi'
 import { getRecentResearchList } from '../api/researchApi'
+import WorkIntroSection from '../components/work/WorkIntroSection'
 import WorkProjectSection from '../components/work/WorkProjectSection'
 import type { ProjectListResponse } from '../types/project'
 import type { ResearchListResponse } from '../types/research'
@@ -108,6 +109,8 @@ function WorkPage() {
 
   return (
     <div className={styles.page}>
+      <WorkIntroSection />
+
       <WorkProjectSection
         title="Selected Work"
         description="문제 정의부터 구조 설계, 구현과 검증까지 직접 참여한 대표 프로젝트입니다."

@@ -46,23 +46,23 @@ function WorkProjectSection({
 
   return (
     <section className={sectionClassName}>
-      <div className={styles.header}>
-        <div>
-          {isSelected && <p className={styles.eyebrow}>PROJECT</p>}
+      {!isSelected && (
+        <div className={styles.header}>
+          <div>
+            <h2 className={styles.title}>
+              {title}
+            </h2>
 
-          <h2 className={styles.title}>
-            {title}
-          </h2>
+            <p className={styles.description}>
+              {description}
+            </p>
+          </div>
 
-          <p className={styles.description}>
-            {description}
-          </p>
+          <span className={styles.count}>
+            {projects.length} projects
+          </span>
         </div>
-
-        <span className={styles.count}>
-          {projects.length} projects
-        </span>
-      </div>
+      )}
 
       {projects.length === 0 ? (
         <p className={styles.empty}>

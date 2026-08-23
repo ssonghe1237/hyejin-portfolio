@@ -13,29 +13,32 @@
  * 2026-07-02        Song       CSS Module 스타일 분리
  */
 import styles from './WorkIntroSection.module.css'
+import workPageIntroImage from '../../assets/work/work-page-intro.png'
 
 function WorkIntroSection() {
-    const techStack = ['Java', 'Spring Boot', 'JPA', 'PostgreSQL', 'React', 'AI RAG']
-
     return (
         <section className={styles.intro}>
-                    <div className={styles.introContent}>
-                        <h1 className={styles.title}>
-                            문제를 구조화하고,
-                            <br />
-                            동작하는 서비스로 구현합니다.
-                        </h1>
+            <div className={styles.introContent}>
+                <div className={styles.copy}>
+                    <p className={styles.label}>PROJECT</p>
 
-                        <p className={styles.description}>
-                            Java/Spring 기반 백엔드 구현을 중심으로, 데이터 모델링, API 설계,
-                            관리자 기능, AI RAG 검색 흐름까지 실제 프로젝트에서 맡았던 기능을
-                            정리했습니다.
-                        </p>
+                    <h1 className={styles.title}>Selected Work</h1>
 
-                        <div className={styles.metaRule}>
-                            {['Backend Portfolio', ...techStack].join(' | ')}
-                        </div>
-                    </div>
+                    <p className={styles.description}>
+                        Java/Spring 기반 백엔드 구현을 중심으로, 데이터 모델링, API 설계,
+                        관리자 기능, AI RAG 검색 흐름까지 실제 프로젝트에서 맡았던 기능을
+                        정리했습니다.
+                    </p>
+                </div>
+
+                <div className={styles.visual}>
+                    <img
+                        src={workPageIntroImage}
+                        alt="프로젝트 작업을 표현한 일러스트"
+                        className={styles.image}
+                    />
+                </div>
+            </div>
         </section>
     )
 }
