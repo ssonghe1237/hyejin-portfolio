@@ -38,7 +38,11 @@ function ProjectHeroImages({ images }: ProjectHeroImagesProps) {
   }, [sortedImages.length])
 
   useEffect(() => {
-    if (sortedImages.length <= 1) {
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches
+
+    if (sortedImages.length <= 1 || prefersReducedMotion) {
       return
     }
 
@@ -53,9 +57,7 @@ function ProjectHeroImages({ images }: ProjectHeroImagesProps) {
 
   if (sortedImages.length === 0) {
     return (
-      <section className={styles.empty}>
-        대표 이미지가 없습니다.
-      </section>
+      <section className={styles.empty} aria-hidden="true" />
     )
   }
 
@@ -63,26 +65,30 @@ function ProjectHeroImages({ images }: ProjectHeroImagesProps) {
 
   return (
     <section className={styles.hero}>
-      <ImageWithFallback
-        src={currentImage.imageUrl}
-        alt={currentImage.caption ?? '프로젝트 대표 이미지'}
-        fallbackText="대표 이미지를 불러올 수 없습니다."
-        height="360px"
-        objectFit="cover"
-      />
+      <div className={styles.imageViewport}>
+        <ImageWithFallback
+          src={currentImage.imageUrl}
+          alt={currentImage.caption ?? '프로젝트 대표 이미지'}
+          fallbackText="대표 이미지를 불러올 수 없습니다."
+          height="100%"
+          objectFit="cover"
+          borderRadius="0"
+        />
+      </div>
 
       {currentImage.caption && (
-        <p className={styles.caption}>{currentImage.caption}</p>
+        <p className={styles.heroCaption}>{currentImage.caption}</p>
       )}
 
       {sortedImages.length > 1 && (
-        <div className={styles.dots}>
+        <div className={styles.heroIndicators}>
           {sortedImages.map((image, index) => (
             <button
               key={image.projectImageId}
               type="button"
               onClick={() => setCurrentIndex(index)}
               aria-label={`${index + 1}번째 대표 이미지 보기`}
+              aria-current={index === currentIndex ? 'true' : undefined}
               className={
                 index === currentIndex
                   ? `${styles.dot} ${styles.dotActive}`

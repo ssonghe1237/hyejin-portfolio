@@ -4,60 +4,135 @@
  * author         : Song
  * date           : 2026-07-02
  * description    : ProjectHeroImages 스타일
- *                  - 프로젝트 상세 대표 이미지 영역 및 롤링 버튼 스타일 관리
+ *                  - Full Banner 이미지와 Carousel Control 관리
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-07-02        Song       최초 생성
  */
 
-.hero {
-  position: relative;
-  height: 360px;
-  overflow: hidden;
-  border-radius: var(--radius-lg);
+.hero,
+.empty {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
   background-color: var(--color-surface-muted);
+}
+
+.imageViewport {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.imageViewport > :first-child {
+  width: 100%;
+  height: 100% !important;
+  object-fit: cover;
 }
 
 .empty {
-  height: 360px;
-  border-radius: var(--radius-lg);
-  background-color: var(--color-surface-muted);
-  color: var(--color-text-muted);
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 24px;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-small);
+  text-align: center;
 }
 
-.caption {
+.heroCaption {
   position: absolute;
-  left: 24px;
-  bottom: 24px;
+  z-index: 5;
+  top: 24px;
+  right: 28px;
+  max-width: calc(100% - 56px);
   margin: 0;
-  padding: 8px 12px;
-  border-radius: var(--radius-pill);
-  background-color: rgba(0, 0, 0, 0.55);
-  color: #fff;
-  font-size: 14px;
+  padding: 5px 8px;
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.82);
+  background: rgba(17, 17, 17, 0.24);
+  font-size: var(--font-size-caption);
+  line-height: 1.6;
+  text-align: right;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.28);
 }
 
-.dots {
+.heroIndicators {
   position: absolute;
-  right: 24px;
-  bottom: 24px;
+  z-index: 6;
+  left: 50%;
+  bottom: 132px;
+  min-height: var(--interactive-target-min);
   display: flex;
-  gap: 8px;
+  align-items: center;
+  transform: translateX(-50%);
 }
 
 .dot {
-  width: 10px;
-  height: 10px;
+  width: 44px;
+  height: 44px;
   padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 0;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.8);
+  background: transparent;
+  cursor: pointer;
 }
 
-.dotActive {
-  background-color: var(--color-text-primary);
+.dot::before {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.58);
+  content: '';
+  transition:
+    background-color var(--action-transition),
+    transform var(--action-transition);
+}
+
+.dot:hover::before {
+  transform: scale(1.2);
+}
+
+.dotActive::before {
+  background-color: var(--color-accent);
+}
+
+.dot:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: -4px;
+}
+
+@media (max-width: 767px) {
+  .heroCaption {
+    top: 18px;
+    right: 18px;
+    max-width: calc(100% - 36px);
+  }
+
+  .heroIndicators {
+    bottom: 68px;
+    min-height: var(--interactive-target-mobile);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1179px) {
+  .heroIndicators {
+    bottom: 116px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dot::before {
+    transition: none;
+  }
+
+  .dot:hover::before {
+    transform: none;
+  }
 }

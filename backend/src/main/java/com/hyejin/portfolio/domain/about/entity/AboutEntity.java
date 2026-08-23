@@ -5,8 +5,10 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.BatchSize;
 
 import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,6 +80,33 @@ public class AboutEntity {
     )
     private String summary;
 
+    @Column(name = "name_ko", length = 100)
+    private String nameKo;
+
+    @Column(name = "name_en", length = 100)
+    private String nameEn;
+
+    @Column(name = "profile_image_url", columnDefinition = "TEXT")
+    private String profileImageUrl;
+
+    @Column(name = "birth_date")
+    private LocalDate birthDate;
+
+    @Column(name = "position", length = 150)
+    private String position;
+
+    @Column(name = "background", length = 200)
+    private String background;
+
+    @Column(name = "current_focus", length = 200)
+    private String currentFocus;
+
+    @Column(name = "location", length = 200)
+    private String location;
+
+    @Column(name = "interests", length = 500)
+    private String interests;
+
     @Column(
             name = "cta_label",
             nullable = false,
@@ -109,8 +138,7 @@ public class AboutEntity {
             orphanRemoval = true
     )
     @OrderBy("displayOrder ASC, competencyId ASC")
-    private List<AboutCompetencyEntity> competencies =
-            new ArrayList<>();
+    private List<AboutCompetencyEntity> competencies = new ArrayList<>();
 
     // About 섹션
     @OneToMany(
@@ -119,8 +147,24 @@ public class AboutEntity {
             orphanRemoval = true
     )
     @OrderBy("displayOrder ASC, sectionId ASC")
-    private List<AboutSectionEntity> sections =
-            new ArrayList<>();
+    private List<AboutSectionEntity> sections = new ArrayList<>();
+
+    @OneToMany(mappedBy = "about", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("displayOrder ASC, educationId ASC")
+    private List<AboutEducationEntity> educations = new ArrayList<>();
+
+    @OneToMany(mappedBy = "about", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("displayOrder ASC, awardId ASC")
+    private List<AboutAwardEntity> awards = new ArrayList<>();
+
+    @OneToMany(mappedBy = "about", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("displayOrder ASC, experienceId ASC")
+    private List<AboutWorkExperienceEntity> workExperiences = new ArrayList<>();
+
+    @OneToMany(mappedBy = "about", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("displayOrder ASC, skillCategoryId ASC")
+    @BatchSize(size = 10)
+    private List<AboutSkillCategoryEntity> skillCategories = new ArrayList<>();
 
 
 
@@ -177,6 +221,22 @@ public class AboutEntity {
         this.ctaUrl = ctaUrl;
     }
 
+    public void updateProfile(
+            String nameKo, String nameEn, String profileImageUrl, LocalDate birthDate,
+            String position, String background, String currentFocus,
+            String location, String interests
+    ) {
+        this.nameKo = nameKo;
+        this.nameEn = nameEn;
+        this.profileImageUrl = profileImageUrl;
+        this.birthDate = birthDate;
+        this.position = position;
+        this.background = background;
+        this.currentFocus = currentFocus;
+        this.location = location;
+        this.interests = interests;
+    }
+
     // =====================================================================================
     // competencies 관리
     // =====================================================================================
@@ -225,6 +285,42 @@ public class AboutEntity {
 
         // About 연관관계 설정
         section.assignAbout(this);
+    }
+
+    public void replaceEducations(List<AboutEducationEntity> newEducations) {
+        this.educations.clear();
+        newEducations.forEach(education -> {
+            education.assignAbout(this);
+            this.educations.add(education);
+        });
+        touch();
+    }
+
+    public void replaceAwards(List<AboutAwardEntity> newAwards) {
+        this.awards.clear();
+        newAwards.forEach(award -> {
+            award.assignAbout(this);
+            this.awards.add(award);
+        });
+        touch();
+    }
+
+    public void replaceWorkExperiences(List<AboutWorkExperienceEntity> newWorkExperiences) {
+        this.workExperiences.clear();
+        newWorkExperiences.forEach(experience -> {
+            experience.assignAbout(this);
+            this.workExperiences.add(experience);
+        });
+        touch();
+    }
+
+    public void replaceSkillCategories(List<AboutSkillCategoryEntity> newSkillCategories) {
+        this.skillCategories.clear();
+        newSkillCategories.forEach(category -> {
+            category.assignAbout(this);
+            this.skillCategories.add(category);
+        });
+        touch();
     }
 
     // =====================================================================================

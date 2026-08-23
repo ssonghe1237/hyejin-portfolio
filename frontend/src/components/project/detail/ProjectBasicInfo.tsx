@@ -26,64 +26,33 @@ interface projectBasicInfoProps {
 }
 
 function ProjectBasicInfo({project} : projectBasicInfoProps) {
-    
-    const myRoleTitle = project.sections
-        .filter((section) => section.sectionType === 'MY_ROLE')
-        .map((section) => section.title?.trim())
-        .filter((title): title is string => Boolean(title))
-        .filter(
-            (title, index, titles) =>
-                titles.indexOf(title) === index,
-        )
+    const metadataValues = [
+        project.periodText,
+        project.role,
+        project.projectType,
+        project.teamName,
+    ].filter((value): value is string => Boolean(value?.trim()))
 
     return (
         <section className={styles.basicInfo}>
             <h1 className={styles.title}>
                 {project.title}
             </h1>
-            
-            <p className={styles.summary}>
-                {project.summary}
-            </p>
 
-            <div className={styles.meta}>
-                {project.periodText &&
-                    <p>{project.periodText}</p>
-                }
-                
-                {project.teamName &&
-                    <p>{project.teamName}</p>
-                }
-                
-                {project.role &&
-                    <p>{project.role}</p>
-                }
-            </div>
-
-            {project.description && (
-                <p className={styles.description}>
-                    {project.description}
+            {project.summary && (
+                <p className={styles.summary}>
+                    {project.summary}
                 </p>
             )}
 
-            {myRoleTitle.length > 0 && (
-                <div className={styles.myRoleSummary}>
-                    <p className={styles.myRoleSummaryTitle}>
-                        MY ROLE
-                    </p>
-
-                    <div className={styles.myRoleSummaryList}>
-                        {myRoleTitle.map((title) => (
-                            <span
-                                key={title}
-                                className={styles.myRoleSummaryItem}
-                            >
-                                {title}
-                            </span>
-                        ))}
-                    </div>
+            {metadataValues.length > 0 && (
+                <div className={styles.meta}>
+                    {metadataValues.map((value, index) => (
+                        <span key={`${index}-${value}`}>{value}</span>
+                    ))}
                 </div>
             )}
+
         </section>
     )
 }

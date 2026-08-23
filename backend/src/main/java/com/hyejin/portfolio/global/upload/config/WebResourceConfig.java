@@ -34,6 +34,10 @@ public class WebResourceConfig implements WebMvcConfigurer {
     // 이미지 업로드 디렉토리와 연결
     private final UploadProperties uploadProperties;
 
+    private final ProfileUploadProperties profileUploadProperties;
+
+    private final SkillLogoUploadProperties skillLogoUploadProperties;
+
     // 이력서 업로드 디렉토리와 연결
     private final ResumeUploadProperties resumeUploadProperties;
 
@@ -49,6 +53,18 @@ public class WebResourceConfig implements WebMvcConfigurer {
                 registry,
                 uploadProperties.getImageUrlPrefix(),
                 uploadProperties.getImageDirectory()
+        );
+
+        registerResourceHandler(
+                registry,
+                profileUploadProperties.getImageUrlPrefix(),
+                profileUploadProperties.getImageDirectory()
+        );
+
+        registerResourceHandler(
+                registry,
+                skillLogoUploadProperties.getUrlPrefix(),
+                skillLogoUploadProperties.getDirectory()
         );
 
         // 이력서 정적 리소스 매핑

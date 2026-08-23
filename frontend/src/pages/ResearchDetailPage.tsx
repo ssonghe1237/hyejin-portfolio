@@ -1,140 +1,88 @@
-/**
- * packageName    : frontend.src.pages
- * fileName       : ResearchDetailPage.tsx
- * author         : Song
- * date           : 2026-08-04
- * description    : 사용자 Research 상세 페이지
- *                  - URL slug 기준 공개 Research 상세 조회
- *                  - Research 제목, 요약, 카테고리 및 날짜 출력
- *                  - Tiptap으로 작성하고 서버에서 정제한 본문 HTML 출력
- * ===========================================================
- * DATE              AUTHOR             NOTE
- * -----------------------------------------------------------
- * 2026-08-04        Song               최초 생성
- * 2026-08-04        Song               Tiptap 본문 및 코드 블록 스타일 적용
- */
-
-
-import { Link, useParams } from 'react-router-dom'
-import type { ResearchDetailResponse } from '../types/research'
-import { getResearchDetail } from '../api/researchApi'
 import { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
+import { getResearchDetail, getResearchList } from '../api/researchApi'
+import RichTextContent from '../components/common/RichTextContent'
+import type { ResearchDetailResponse, ResearchListResponse } from '../types/research'
 import styles from './ResearchDetailPage.module.css'
 
-
 function ResearchDetailPage() {
-    // ================================================================
-    // hook
-    // ----------------------------------------------------------------
-    const {slug} = useParams<{slug : string}>()
-    const [research, setResearch] = useState<ResearchDetailResponse>()
-    const [loading, setLoading] = useState(true)
-    const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const { slug } = useParams<{ slug: string }>()
+  const [research, setResearch] = useState<ResearchDetailResponse>()
+  const [researchList, setResearchList] = useState<ResearchListResponse[]>([])
+  const [loading, setLoading] = useState(true)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
-    // ================================================================
-    // useEffect
-    // ----------------------------------------------------------------
-    useEffect(() => {
-        async function fetchResearchDetail() {
-            if(!slug) {
-                setErrorMessage(
-                    'Research 게시글 주소가 올바르지 않습니다.'
-                )
-                setLoading(false)
-
-                return
-            }
-
-            try {
-                setLoading(false)
-                setErrorMessage(null)
-
-                const result = await getResearchDetail(slug)
-
-                setResearch(result)
-            } catch(error) {
-                console.error(error)
-
-                setErrorMessage('Research 게시글을 불러오지 못했습니다.')
-            } finally {
-                setLoading(false)
-            }
-        }
-
-        fetchResearchDetail()
-    }, [slug])
-
-    // ================================================================
-    // 화면 분기
-    // ----------------------------------------------------------------
-    if (loading) {
-        return (
-        <div>
-            Research 게시글을 불러오는 중입니다...
-        </div>
-        )
+  useEffect(() => {
+    async function fetchResearchDetail() {
+      if (!slug) {
+        setErrorMessage('Research 게시글 주소가 올바르지 않습니다.')
+        setLoading(false)
+        return
+      }
+      try {
+        setLoading(true)
+        setErrorMessage(null)
+        const result = await getResearchDetail(slug)
+        setResearch(result)
+      } catch (error) {
+        console.error(error)
+        setErrorMessage('Research 게시글을 불러오지 못했습니다.')
+      } finally {
+        setLoading(false)
+      }
     }
+    fetchResearchDetail()
+  }, [slug])
 
-    if (errorMessage || !research) {
-        return (
-        <div>
-            <p>
-            {errorMessage ??
-                'Research 게시글을 찾을 수 없습니다.'}
-            </p>
+  useEffect(() => {
+    getResearchList()
+      .then(setResearchList)
+      .catch((error) => console.error(error))
+  }, [])
 
-            <Link to="/work">
-            Work로 돌아가기
-            </Link>
-        </div>
-        )
-    }
+  if (loading) return <div className={styles.state}>Research 게시글을 불러오는 중입니다...</div>
 
+  if (errorMessage || !research) {
     return (
-        <article className={styles.page}>
-            <header className={styles.header}>
-            <p className={styles.category}>
-                {research.category}
-            </p>
+      <div className={styles.state} role="alert">
+        <p>{errorMessage ?? 'Research 게시글을 찾을 수 없습니다.'}</p>
+        <Link to="/research">Research 목록으로 돌아가기</Link>
+      </div>
+    )
+  }
 
-            <h1 className={styles.title}>
-                {research.title}
-            </h1>
+  return (
+    <article className={styles.page}>
+      <header className={styles.header}>
+        <h1 className={styles.title}>{research.title}</h1>
+        <div className={styles.meta}>
+          <span>{research.category}</span>
+          <time dateTime={research.updatedAt}>UPDATED {research.updatedAt.slice(0, 10).replaceAll('-', '.')}</time>
+        </div>
+      </header>
 
-            <p className={styles.summary}>
-                {research.summary}
-            </p>
+      <div className={styles.divider} />
+      <RichTextContent html={research.contentHtml} className={styles.articleBody} />
 
-            <div className={styles.dateGroup}>
-                <time dateTime={research.publishedAt}>
-                Published {research.publishedAt.slice(0, 10)}
-                </time>
+      <footer className={styles.footer}>
+        <nav className={styles.postNavigation} aria-label="Research 게시글 탐색">
+          {(() => {
+            const currentIndex = researchList.findIndex((post) => post.slug === research.slug)
+            const previous = currentIndex > 0 ? researchList[currentIndex - 1] : undefined
+            const next = currentIndex >= 0 ? researchList[currentIndex + 1] : undefined
 
-                {research.updatedAt !== research.publishedAt && (
-                <time dateTime={research.updatedAt}>
-                    Updated {research.updatedAt.slice(0, 10)}
-                </time>
-                )}
-            </div>
-            </header>
-
-            <div
-            className={styles.content}
-            dangerouslySetInnerHTML={{
-                __html: research.contentHtml,
-            }}
-            />
-
-            <footer className={styles.footer}>
-            <Link
-                to="/work"
-                className={styles.backLink}
-            >
-                Back to Work
-            </Link>
-            </footer>
-        </article>
-    )  
+            return (
+              <>
+                {previous ? <Link to={`/research/${previous.slug}`}>이전글</Link> : <span>이전글</span>}
+                <Link to="/research">목록으로 돌아가기</Link>
+                {next ? <Link to={`/research/${next.slug}`}>이후글</Link> : <span>이후글</span>}
+              </>
+            )
+          })()}
+        </nav>
+      </footer>
+    </article>
+  )
 }
 
 export default ResearchDetailPage

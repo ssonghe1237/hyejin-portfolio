@@ -11,7 +11,7 @@
  * -----------------------------------------------------------
  * 2026-07-02        Song       최초 생성
  * 2026-07-02        Song       CSS Module 스타일 분리
- * 2026-08-03        Song               사용자 페이지 네비게이션 구조 변경
+ * 2026-08-03        Song       사용자 페이지 네비게이션 구조 변경
  */
 
 import { useEffect, useRef, useState } from 'react'
@@ -22,8 +22,8 @@ const navigationItems = [
   { label: 'Home', to: '/', end: true },
   { label: 'Work', to: '/work', end: false },
   { label: 'About', to: '/about', end: false },
-  { label: 'Get in touch', to: '/contact', end: false },
 ]
+const mobileNavigationItems = [...navigationItems, { label: 'Research', to: '/research', end: false }, { label: 'Get in touch', to: '/contact', end: false }]
 
 function Header() {
   const location = useLocation()
@@ -32,10 +32,6 @@ function Header() {
   const menuButtonRef = useRef<HTMLButtonElement>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
   const menuRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    setIsMenuOpen(false)
-  }, [location.pathname])
 
   useEffect(() => {
     if (!isMenuOpen) {
@@ -124,7 +120,7 @@ function Header() {
     <header className={styles.header}>
       <div className={styles.inner}>
         <NavLink to="/" className={styles.brand}>
-          SONG HYEJIN
+          SONG <span>HYEJIN</span>
         </NavLink>
 
         <nav aria-label="주요 메뉴" className={styles.desktopNav}>
@@ -143,6 +139,11 @@ function Header() {
             </NavLink>
           ))}
         </nav>
+
+        <div className={styles.headerActions}>
+          <NavLink to="/research" className={styles.researchLink}>RESEARCH</NavLink>
+          <NavLink to="/contact" className={styles.contactLink}>GET IN TOUCH*</NavLink>
+        </div>
 
         <button
           ref={menuButtonRef}
@@ -184,7 +185,7 @@ function Header() {
           </div>
 
           <nav aria-label="모바일 주요 메뉴" className={styles.mobileNav}>
-            {navigationItems.map((item, index) => (
+            {mobileNavigationItems.map((item, index) => (
               <NavLink
                 key={item.to}
                 to={item.to}

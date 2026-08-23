@@ -1,6 +1,7 @@
 package com.hyejin.portfolio.domain.about.dto;
 
 import com.hyejin.portfolio.domain.about.entity.AboutSectionEntity;
+import com.hyejin.portfolio.domain.about.entity.AboutSectionType;
 
 /**
  * packageName    : com.hyejin.portfolio.domain.about.dto
@@ -23,6 +24,8 @@ public record AdminAboutSectionResponseDto(
 
         String contentHtml,
 
+        AboutSectionType sectionType,
+
         Integer displayOrder
 
 ) {
@@ -34,6 +37,7 @@ public record AdminAboutSectionResponseDto(
                 section.getSectionId(),
                 section.getTitle(),
                 section.getContentHtml(),
+                section.getSectionType(),
                 section.getDisplayOrder()
         );
     }

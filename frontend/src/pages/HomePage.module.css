@@ -1,533 +1,606 @@
-/**
- * packageName    : frontend.src.pages
- * fileName       : HomePage.module.css
- * author         : Song
- * date           : 2026-08-03
- * description    : HomePage 컴포넌트 스타일
- *                  - 홈 Hero 및 공통 섹션 레이아웃
- *                  - 핵심 역량 카드와 성장 배경 영역
- *                  - 연락 유도 CTA 및 반응형 스타일
- * ===========================================================
- * DATE              AUTHOR             NOTE
- * -----------------------------------------------------------
- * 2026-08-03        Song               최초 생성
- */
-
-.page {
-  width: 100%;
+.page{
+    --font-meta:10px;
+    --font-label:12px;
+    --font-ui:14px;
+    --font-card:16px;
+    --font-body:18px;
+    --font-subtitle:22px;
+    --font-section-title:35px;
+    --font-hero-title:50px;
+    --font-title:var(--font-section-title);
+    --orange:#ff6b00;
+    --ink:#111;
+    --muted:#6d6d68;
+    --line:#e9e4de;
+    --soft:#f8f5f0;
+    --mono:"JetBrains Mono","SFMono-Regular",Consolas,monospace;
+    color:var(--ink);
+    background:#fff;
+    overflow:hidden
 }
 
-.section {
-  padding: var(--spacing-section-desktop) 0;
-  border-bottom: 1px solid var(--color-border);
+.page *{box-sizing:border-box}
+
+.heroWrap,.whyTopBand{padding:0 30px;background:#fff}
+.hero{
+    min-height:650px;
+    padding:64px 60px;
+    display:grid;
+    grid-template-columns:1.08fr .92fr;
+    align-items:center;
+    gap:44px;
+    border-radius:30px;
+    background:linear-gradient(115deg,#ff6a00 0%,#ff8c2b 58%,#ffbd73 100%);
+    overflow:hidden
+}
+.eyebrow,.kicker{
+    display:inline-flex;
+    width:max-content;
+    padding:8px 12px;
+    border-radius:999px;
+    font:800 10px/1 var(--mono);
+    letter-spacing:.05em
+}
+.eyebrow{
+    color:#8a3300;
+    background:rgba(255,255,255,.75)
+}
+.hero h1{
+    margin:24px 0 20px;
+    font-size:var(--font-title);
+    font-weight:900;
+    line-height:.98;
+    letter-spacing:-.065em
+}
+.heroDescription{
+    max-width:680px;
+    margin:0;
+    color:rgba(17,17,17,.7);
+    font-size:14px;
+    line-height:1.8
+}
+.heroActions{
+    display:flex;
+    gap:10px;
+    margin-top:30px
 }
 
-.hero {
-  min-height: calc(100svh - 112px);
-  padding-top: 80px;
-  padding-bottom: 112px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+.primaryButton,.lightButton{
+    min-height:46px;
+    padding:0 20px;
+    display:inline-flex;
+    align-items:center;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:800;
+    text-decoration:none
 }
-
-.eyebrow,
-.contactEyebrow {
-  margin: 0 0 var(--spacing-molecule);
-  color: var(--color-accent);
-  font-size: var(--font-size-eyebrow);
-  font-weight: var(--font-weight-heading);
-  line-height: 1.4;
-  letter-spacing: var(--letter-spacing-eyebrow);
-  text-transform: uppercase;
+.primaryButton{color:#fff;background:#111}
+.lightButton{color:#111;background:rgba(255,255,255,.72)}
+.heroVisual{position:relative;min-height:430px}
+.deviceCard{
+    position:absolute;
+    border:1px solid rgba(17,17,17,.12);
+    border-radius:23px;
+    background:rgba(255,255,255,.92);
+    box-shadow:0 30px 60px -30px rgba(80,35,0,.5);
+    overflow:hidden
 }
+.profileDevice{top:10px;left:0;width:min(370px,85%);transform:rotate(-3deg)}
+.opsDevice{right:0;bottom:12px;width:min(315px,78%);transform:rotate(4deg)}
+.deviceTop,.projectBar,.codeTop{height:42px;padding:0 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);font:700 10px/1 var(--mono);color:#6b625b}.deviceBody{padding:25px}.deviceTitle,.opsTitle{font-size:20px;line-height:1.04;letter-spacing:-.05em}.codeBox{margin:20px 0;padding:15px;border-radius:12px;color:#665c56;background:#fff4e8;font:10px/1.65 var(--mono);white-space:pre-wrap}.deviceMeta{font:10px/2 var(--mono);color:#8e8178}.deviceMeta b{float:right;color:#111}.opsTitle{display:block}.chart{height:80px;margin:20px 0;background:linear-gradient(135deg,transparent 48%,var(--orange) 49%,var(--orange) 51%,transparent 52%),linear-gradient(25deg,transparent 46%,#ffb269 47%,#ffb269 49%,transparent 50%);opacity:.75}.statusRow{display:grid;grid-template-columns:1fr 1fr;gap:8px}.statusRow span{padding:10px;border-radius:10px;background:#fff4e8;font:8px var(--mono)}.statusRow b{display:block;margin-top:5px;font-size:12px}.section{padding:110px 68px}.section h2,.contact h2,.why h2{margin:20px 0 0;font-size:var(--font-title);line-height:1.03;letter-spacing:-.06em}.kicker{color:#c64b00;background:#fff0e4}.lead{max-width:680px;margin:22px 0 0;color:var(--muted);font-size:14px;line-height:1.85}.about{display:grid;grid-template-columns:1fr .9fr;align-items:center;gap:70px}.profileCard{max-width:530px;justify-self:end;border:1px solid var(--line);border-radius:25px;background:#fff;box-shadow:0 24px 60px -42px #6d3c16;overflow:hidden}.profileTop{height:54px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);font:700 10px var(--mono)}.profileIcon{width:22px;height:22px;display:grid;place-items:center;border:1px solid var(--orange);color:var(--orange)}.profileBody{padding:28px}.identity{display:flex;align-items:center;gap:24px}.identity img{width:112px;aspect-ratio:3/4;object-fit:cover;border-radius:12px}.identity h3{margin:0;font-size:20px;letter-spacing:-.05em}.identity p{margin:8px 0 0;color:var(--orange);font:700 10px var(--mono);letter-spacing:.2em}.profileDescription{margin:25px 0 0;font-size:14px;line-height:1.8}.profileDetails{margin:0;padding:24px 28px;display:grid;grid-template-columns:1fr 1fr;gap:24px 20px;background:var(--soft)}.profileDetails div{min-width:0}.profileDetails dt{margin-bottom:7px;color:#9a8d83;font:700 10px var(--mono);letter-spacing:.12em}.profileDetails dd{margin:0;font-size:12px;line-height:1.55;overflow-wrap:anywhere}.competencyGrid{margin-top:45px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.competencyCard{min-height:305px;padding:30px;border:1px solid var(--line);border-radius:23px;background:var(--soft)}.number{color:var(--orange);font:800 12px var(--mono)}.competencyCard small{display:block;margin:55px 0 12px;color:#a1968e;font:700 10px var(--mono)}.competencyCard h3{margin:0;font-size:20px;line-height:1.1}.competencyCard p{color:var(--muted);font-size:12px;line-height:1.75}.sectionHead{display:flex;align-items:flex-end;justify-content:space-between;gap:30px}.moreLink,.projectLink{color:#111;font:800 12px var(--mono);text-decoration:none}.moreLink{white-space:nowrap}.projectList{margin-top:45px;display:grid;gap:30px}.projectWindow{border:1px solid var(--line);border-radius:24px;background:#fff;overflow:hidden;box-shadow:0 22px 50px -42px #38200d}.projectBar{justify-content:flex-start;gap:18px;background:#faf8f5}.dots{display:flex;gap:5px}.dots i{width:8px;height:8px;border-radius:50%;background:#ff9b90}.dots i:nth-child(2){background:#ffc981}.dots i:nth-child(3){background:#98dbaa}.projectBody{min-height:360px;display:grid;grid-template-columns:1.25fr .75fr}.projectVisual{min-height:360px;display:grid;place-items:center;color:#8c7e73;background:#f2ece5;font:12px var(--mono);text-decoration:none;overflow:hidden}.projectInfo{padding:44px 38px;display:flex;flex-direction:column;align-items:flex-start}.projectMeta{margin:0;color:#9a8c82;font:10px var(--mono)}.projectInfo h3{margin:25px 0 14px;font-size:20px;line-height:1.05}.projectInfo h3 a{color:inherit;text-decoration:none}.projectInfo>p:not(.projectMeta){margin:0;color:var(--muted);font-size:14px;line-height:1.75}.projectInfo small{margin-top:15px;color:#9b8f87}.projectLink{margin-top:auto;padding-top:25px;color:var(--orange)}.state{margin:45px 0;padding:35px;border:1px solid var(--line);border-radius:18px;color:var(--muted);text-align:center}.skills{background:#fff}.codeFrame{margin-top:45px;border:1px solid #e8e0f2;border-radius:25px;background:#faf8ff;overflow:hidden;box-shadow:0 22px 55px -40px #76658f}.codeTop{background:#f0ebf7}.codeTop>span:nth-child(2){margin-right:auto;margin-left:18px}.codeBody{padding:28px}.skillsGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
 
-.heroTitle {
-  max-width: 1080px;
-  margin: 0;
-  color: var(--color-text-primary);
-  font-size: var(--font-size-display);
-  font-weight: var(--font-weight-display);
-  line-height: var(--line-height-display);
-  letter-spacing: var(--letter-spacing-display);
-  word-break: keep-all;
+.skillsGrid article{
+    padding:22px 20px;
+    border:1px solid #e8e0f2;
+    border-radius:20px;
+    background:#fff
 }
+.skillsGrid h3 {
+  margin: 0 0 16px;
 
-.heroDescription {
-  max-width: 680px;
-  margin: var(--spacing-organism) 0 0;
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-body-large);
-  line-height: var(--line-height-body);
-  word-break: keep-all;
-}
-
-.heroActions {
-  margin-top: 40px;
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: var(--action-gap-md);
-}
+  gap: 7px;
 
-.primaryLink,
-.contactLink {
-  min-height: var(--button-height-default);
-  padding: 0 var(--button-padding-inline);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--action-gap-sm);
-  border: 1px solid var(--button-primary-background);
-  border-radius: var(--button-radius);
-  color: var(--button-primary-text);
-  background-color: var(--button-primary-background);
-  font-size: var(--font-size-small);
-  font-weight: var(--button-font-weight);
+  color: #e85f42;
+  font-family: var(--mono);
+  font-size:14px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+.skillIcon {
+  font-size:16px;
   line-height: 1;
-  text-decoration: none;
-  transition:
-    background-color var(--action-transition),
-    border-color var(--action-transition);
+}
+.skillsGrid ul{margin:0;padding:0;list-style:none}
+.skillsGrid li{padding:5px 0;color:#3d3752;font-size:12px}
+
+.toolsLabel{margin:28px 0 12px;color:#a29baa;font:700 10px var(--mono)}.tools{margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px;list-style:none}.tools li{padding:9px 13px;display:flex;align-items:center;gap:9px;border:1px solid #e8e0f2;border-radius:999px;background:#fff;font-size:10px}.tools i{width:8px;height:8px;border-radius:50%;background:var(--orange)}.tools span{color:#9b93a8;font-size:10px}.whyLowerBand,.contact{background:#111}.why{color:#fff;background:linear-gradient(110deg,#e94d00 0%,#ff6a00 45%,#ff9b49 72%,#ffd0a3 100%)}.whyTop{padding:64px;border-radius:30px 30px 0 0}.whyTop>p:last-child{max-width:660px;color:rgba(255,255,255,.85);font-size:14px}.whyBottom{margin:0 30px;padding:0 64px 55px;border-radius:0 0 30px 30px}.whyGrid{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid rgba(255,255,255,.28)}.whyGrid article{padding:28px 28px 0;border-right:1px solid rgba(255,255,255,.28)}.whyGrid article:first-child{padding-left:0}.whyGrid article:last-child{border:0}.whyGrid span{font:700 10px var(--mono);opacity:.75}.whyGrid h3{font-size:20px;line-height:1.2}.whyGrid p{color:rgba(255,255,255,.8);font-size:12px;line-height:1.7}.contact{padding:70px 68px 50px;color:#fff}.contactTop{padding-bottom:45px;display:grid;grid-template-columns:1fr 1fr;align-items:end;gap:30px;border-bottom:1px solid rgba(255,255,255,.13)}.contactTop>a{justify-self:end;color:#fff;font-size:18px;font-weight:800;text-underline-offset:6px}.contactGrid{display:grid;grid-template-columns:1fr 1fr}.contactGrid article{min-height:180px;padding:34px 28px 0 0;border-right:1px solid rgba(255,255,255,.13)}.contactGrid article+article{padding-left:28px;border:0}.contactGrid small{color:#ff8530;font:800 10px var(--mono)}.contactGrid p{color:#c9c9c9;font-size:14px;line-height:1.7}.contactGrid a{color:#fff;font-size:12px;font-weight:800;text-decoration:none}.contactGrid a::first-letter{color:var(--orange)}
+@media(max-width:980px){.hero{grid-template-columns:1fr;padding:50px 30px}.heroVisual{min-height:390px}.section{padding:85px 30px}.about,.projectBody,.contactTop{grid-template-columns:1fr}.profileCard{justify-self:start;margin-top:10px}.competencyGrid{grid-template-columns:1fr}.projectVisual{min-height:300px}.skillsGrid{grid-template-columns:repeat(2,1fr)}.whyTop{padding:50px 30px}.whyBottom{padding:0 30px 40px}.whyGrid{grid-template-columns:1fr}.whyGrid article,.whyGrid article:first-child{padding:25px 0;border-right:0;border-bottom:1px solid rgba(255,255,255,.28)}.contact{padding:55px 30px}.contactTop>a{justify-self:start}}
+@media(max-width:620px){.heroWrap,.whyTopBand{padding:0}.hero{min-height:auto;padding:42px 22px 28px;border-radius:0}.hero h1{font-size:20px}.heroVisual{min-height:335px}.profileDevice{width:260px}.opsDevice{width:235px}.deviceBody{padding:18px}.deviceTitle{font-size:20px}.section{padding:70px 22px}.section h2,.contact h2,.why h2{font-size:20px}.about{gap:35px}.identity{align-items:flex-start}.identity img{width:95px}.identity h3{font-size:20px}.profileDetails{grid-template-columns:1fr 1fr;padding:22px}.sectionHead{align-items:flex-start;flex-direction:column}.projectBody{display:block}.projectVisual{min-height:240px}.projectInfo{min-height:320px;padding:30px 24px}.skillsGrid{grid-template-columns:1fr}.codeBody{padding:16px}.whyTop,.whyBottom{margin:0;padding-left:22px;padding-right:22px;border-radius:0}.contact{padding:45px 22px}.contactGrid{grid-template-columns:1fr}.contactGrid article,.contactGrid article+article{padding:30px 0;border-right:0;border-bottom:1px solid rgba(255,255,255,.13)}.contactGrid article:last-child{border:0}}
+@media(max-width:390px){.hero h1{font-size:20px}.heroActions{flex-wrap:wrap}.profileDetails{grid-template-columns:1fr}.identity{flex-direction:column}.contactTop>a{font-size:16px}}
+
+/* Editorial typography refinement: v5 layout and visual components remain unchanged. */
+.heroWrap{padding:30px 30px 0}.whyTopBand{padding:0 30px}
+.hero{min-height:610px;padding:62px 64px;gap:50px}
+.hero h1{max-width:680px;margin:22px 0 20px;font-size:var(--font-title);font-weight:800;line-height:1.22;letter-spacing:-.035em}
+.heroTitleLine{display:block}.heroDescription{max-width:600px}
+.section{padding:112px 68px}
+.section h2{margin:18px 0 0;font-size:var(--font-title);font-weight:800;line-height:1.3;letter-spacing:-.035em}
+.identity h3{font-size:20px;font-weight:800;line-height:1.15;letter-spacing:-.035em}
+.competencyGrid{margin-top:42px}.competencyCard small{margin:44px 0 12px}
+.competencyCard h3{font-size:18px;font-weight:750;line-height:1.15;letter-spacing:-.025em}
+.projectList{margin-top:32px;gap:28px}
+.projectInfo h3{margin:18px 0 12px;font-size:var(--font-title);font-weight:800;line-height:1.15;letter-spacing:-.03em}
+.codeFrame{margin-top:30px}
+.why h2{max-width:680px;margin:18px 0 0;font-size:var(--font-title);font-weight:800;line-height:1.18;letter-spacing:-.04em}
+.whyTop{padding:64px 64px 58px}
+.whyBottom{padding:0 64px 56px}
+.whyGrid h3{font-size:18px;line-height:1.3}
+.contact{padding:56px 68px 46px}
+.contact h2{margin:18px 0 0;font-size:var(--font-title);font-weight:800;line-height:1.15;letter-spacing:-.04em}
+
+@media(max-width:980px){
+    .hero{padding:50px 30px}
+    .section{padding:85px 30px}
+    .whyTop{padding:50px 30px}
+    .whyBottom{padding:0 30px 40px}
+    .contact{padding:55px 30px}
 }
 
-.primaryLink:hover,
-.contactLink:hover {
-  border-color: var(--color-accent-hover);
-  background-color: var(--color-accent-hover);
+@media(max-width:620px){
+    .hero{min-height:auto;padding:42px 22px 28px}
+    .hero h1{font-size:var(--font-title);line-height:1.18}
+    .section{padding:70px 22px}
+    .section h2{font-size:20px}
+    .identity h3{font-size:20px}
+    .competencyCard h3{font-size:18px}
+    .projectInfo h3{font-size:20px}
+    .why h2{font-size:20px}
+    .contact{padding:45px 22px}
+    .contact h2{font-size:20px}
+    .whyTop,.whyBottom{padding-left:22px;padding-right:22px}
 }
 
-.tertiaryLink,
-.textLink,
-.projectLink {
-  min-height: var(--interactive-target-min);
-  display: inline-flex;
-  align-items: center;
-  gap: var(--action-gap-sm);
-  color: var(--action-text-color);
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-heading);
-  text-decoration: none;
+@media(max-width:390px){
+    .hero h1{font-size:var(--font-title)}
 }
 
-.linkArrow {
-  color: var(--action-arrow-color);
-  transition: transform var(--action-transition);
+@media(max-width:620px){
+    .heroWrap,.whyTopBand{padding-left:0;padding-right:0}
+    .heroWrap{padding-top:0}
 }
 
-.tertiaryLink:hover .linkArrow,
-.textLink:hover .linkArrow,
-.projectLink:hover .linkArrow,
-.contactLink:hover .linkArrow {
-  transform: translateX(var(--action-arrow-distance));
+/* Home UI third refinement: hierarchy, About band, and competency cards. */
+.eyebrow{
+    align-items:center;
+    gap:9px;
+    padding:10px 16px;
+    color:#21150d;
+    background:rgba(255,247,239,.92);
+    font-family:var(--mono);
+    font-size:10px;font-weight:700;
+    line-height:1;
+    letter-spacing:.045em
 }
-
-.primaryLink:focus-visible,
-.tertiaryLink:focus-visible,
-.textLink:focus-visible,
-.projectVisualLink:focus-visible,
-.projectTitle a:focus-visible,
-.projectLink:focus-visible,
-.contactLink:focus-visible {
-  outline: var(--focus-ring-width) solid var(--focus-ring-color);
-  outline-offset: var(--focus-ring-offset);
+.eyebrow::before{content:'';width:6px;height:6px;flex:0 0 auto;border-radius:50%;background:#ff6b00}
+.heroTitle{
+    margin: 24px 0 20px;
+    max-width: 680px;
+    font-size:var(--font-title);
+    line-height: 1.2;
+    letter-spacing: -0.04em;
 }
-
-.sectionHeader {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: var(--spacing-organism);
+.heroTitle span{display:block}
+.heroTitleMedium{
+    color: #111;
+    font-weight:600;
 }
-
-.sectionTitle {
-  max-width: 760px;
-  margin: 0;
-  color: var(--color-text-primary);
-  font-size: var(--font-size-section-title);
-  font-weight: var(--font-weight-display);
-  line-height: var(--line-height-heading);
-  letter-spacing: var(--letter-spacing-heading);
-  word-break: keep-all;
+.heroTitleBold{
+    color: #fff;
+    font-weight:850;
 }
-
-.sectionDescription {
-  max-width: 680px;
-  margin: 24px 0 0;
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-body-large);
-  line-height: var(--line-height-body);
-  word-break: keep-all;
+.section h2{font-size:var(--font-title);line-height:1.22}
+.why h2,.contact h2{font-size:var(--font-title)}
+.about{padding:96px 68px;background:var(--soft)}
+.profileCard{background:#fff}
+.competencyGrid{margin-top:40px;grid-template-columns:repeat(3,1fr);gap:18px}
+.competencyCard{
+    position:relative;
+    min-height:280px;
+    padding:26px;
+    border:1px solid #e9e4de;
+    border-radius:22px;
+    background:#fff;
+    transition:transform 180ms ease,box-shadow 180ms ease,border-color 180ms ease
 }
+.number{width:46px;height:46px;display:inline-flex;align-items:center;justify-content:center;border-radius:14px;color:#ff6b00;background:#fff3e8;font-family:var(--mono);font-size:12px;font-weight:800}.competencyIcon{position:absolute;top:26px;right:26px;width:34px;height:34px;display:grid;place-items:center;border:1px solid #e9e4de;border-radius:11px;color:#ff6b00;background:#fff;font-size:14px}.competencyCard small{display:block;margin:42px 0 10px;color:#aaa19a;font-family:var(--mono);font-size:8px;font-weight:600}.competencyCard h3{font-size:18px;font-weight:750;line-height:1.12;letter-spacing:-.03em}.competencyCard:hover{transform:translateY(-6px);border-color:rgba(255,107,0,.22);box-shadow:0 18px 36px rgba(50,38,25,.08)}
+@media(max-width:980px){.competencyGrid{grid-template-columns:1fr}}
+@media(max-width:620px){.heroTitle{font-size:var(--font-title)}.about{padding:72px 22px}.competencyCard{min-height:230px}}
+@media(prefers-reduced-motion:reduce){.competencyCard{transition:none}.competencyCard:hover{transform:none}}
 
-.stateMessage {
-  margin: 40px 0 0;
-  padding: 24px 0;
-  border-top: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border);
-  color: var(--color-text-muted);
-  line-height: var(--line-height-body);
-}
-
-.projectList {
-  margin-top: 48px;
-  border-top: 1px solid var(--color-border-strong);
-}
-
-.projectPreview {
-  padding: 32px 0;
-  display: grid;
-  grid-template-columns: 40px minmax(0, 1.25fr) minmax(240px, 0.75fr);
-  align-items: center;
-  gap: 32px;
-  border-bottom: 1px solid var(--color-border);
-}
-
-.projectNumber {
-  align-self: start;
-  padding-top: 4px;
-  color: var(--color-accent);
-  font-size: var(--font-size-caption);
-  font-weight: var(--font-weight-heading);
-  letter-spacing: var(--letter-spacing-eyebrow);
-}
-
-.projectVisualLink {
-  min-width: 0;
-  display: block;
-  overflow: hidden;
-  background-color: var(--color-surface-muted);
-}
-
-.projectVisual {
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-}
-
-.projectVisual img {
-  transition: transform var(--motion-normal) var(--motion-easing);
-}
-
-.projectVisualLink:hover .projectVisual img {
-  transform: scale(1.02);
-}
-
-.projectVisualEmpty {
-  width: 100%;
-  height: 100%;
-  padding: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-text-muted);
-  font-size: var(--font-size-small);
-  text-align: center;
-}
-
-.projectContent {
-  min-width: 0;
-}
-
-.projectMeta {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--action-gap-sm) var(--action-gap-md);
-  color: var(--color-text-muted);
-  font-size: var(--font-size-caption);
-  font-weight: var(--font-weight-supporting);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.projectTitle {
-  margin: var(--spacing-molecule) 0 0;
-  font-size: var(--font-size-h3);
-  line-height: var(--line-height-heading);
-  letter-spacing: var(--letter-spacing-heading);
-}
-
-.projectTitle a {
-  color: var(--color-text-primary);
-  text-decoration: none;
-}
-
-.projectSummary {
-  margin: var(--spacing-molecule) 0 0;
-  display: -webkit-box;
-  overflow: hidden;
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-body);
-  line-height: var(--line-height-body);
-  word-break: keep-all;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-}
-
-.projectSupporting {
-  margin: var(--spacing-molecule) 0 0;
-  overflow: hidden;
-  color: var(--color-text-muted);
-  font-size: var(--font-size-small);
-  line-height: 1.6;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.projectLink {
-  margin-top: var(--spacing-molecule);
-}
-
-.capabilityGrid {
-  margin-top: 48px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
-  gap: 0 32px;
-  border-top: 1px solid var(--color-border-strong);
-}
-
-.capabilityCard {
-  min-width: 0;
-  padding: 32px 0 40px;
-  border-bottom: 1px solid var(--color-border);
-}
-
-.capabilityNumber {
-  display: block;
-  color: var(--color-accent);
-  font-size: var(--font-size-caption);
-  font-weight: var(--font-weight-heading);
-  letter-spacing: var(--letter-spacing-eyebrow);
-}
-
-.capabilityTitle {
-  margin: 48px 0 var(--spacing-molecule);
-  color: var(--color-text-primary);
-  font-size: var(--font-size-h3);
-  font-weight: var(--font-weight-heading);
-  line-height: var(--line-height-heading);
-  letter-spacing: var(--letter-spacing-heading);
-}
-
-.capabilityDescription {
-  max-width: 440px;
-  margin: 0;
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-body);
-  line-height: var(--line-height-body);
-  word-break: keep-all;
-}
-
-.background {
-  display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
-  align-items: start;
-  gap: 80px;
-}
-
-.backgroundContent {
-  padding-top: 32px;
-}
-
-.backgroundContent p {
-  margin: 0 0 var(--spacing-molecule);
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-body-large);
-  line-height: var(--line-height-body);
-  word-break: keep-all;
-}
-
-.backgroundContent .textLink {
-  margin-top: var(--spacing-molecule);
-}
-
-.contactCta {
-  margin: 0;
-  padding: 112px 0 16px;
-}
-
-.contactEyebrow {
-  margin-bottom: 24px;
-}
-
-.contactTitle {
-  max-width: 980px;
-  margin: 0;
-  color: var(--color-text-primary);
-  font-size: var(--font-size-page-title);
-  font-weight: var(--font-weight-display);
-  line-height: 1.08;
-  letter-spacing: var(--letter-spacing-display);
-  word-break: keep-all;
-}
-
-.contactDescription {
-  max-width: 650px;
-  margin: 24px 0 0;
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-body-large);
-  line-height: var(--line-height-body);
-  word-break: keep-all;
-}
-
-.contactLink {
-  margin-top: var(--spacing-organism);
-}
-
-@media (max-width: 1023px) {
-  .section {
-    padding: var(--spacing-section-tablet) 0;
-  }
-
-  .hero {
-    min-height: auto;
-    padding-top: 72px;
-    padding-bottom: 88px;
-  }
-
-  .projectPreview {
-    grid-template-columns: 32px minmax(0, 1fr);
-    gap: 24px;
-  }
-
-  .projectContent {
-    grid-column: 2;
-  }
-
-  .background {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 32px;
-  }
-
-  .backgroundContent {
-    max-width: 760px;
-    padding-top: 0;
-  }
-
-  .contactCta {
-    padding-top: 88px;
-  }
-}
-
-@media (max-width: 767px) {
-  .section {
-    padding: var(--spacing-section-mobile) 0;
-  }
-
-  .hero {
-    padding-top: 48px;
-    padding-bottom: 72px;
-  }
-
-  .heroTitle {
-    font-size: clamp(44px, 14vw, 64px);
-    line-height: 1.02;
-  }
-
-  .heroDescription {
+/* Home UI fourth refinement. */
+.kicker{align-items:center;gap:8px;padding:8px 14px;background:#f3e9df;color:#d85f00;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.05em}.kicker::before{content:'';width:6px;height:6px;flex:0 0 auto;border-radius:50%;background:#ff6b00}.heroWrap{padding-bottom:48px}.about{padding-top:108px}
+.resumeLink{
+    display: inline-flex;
+    align-items: center;
     margin-top: 24px;
-    font-size: 18px;
-  }
 
-  .heroActions {
-    margin-top: 32px;
-    align-items: stretch;
-    flex-direction: column;
-    gap: var(--action-gap-sm);
-  }
+    color: var(--orange);
+    font-size:14px;
+    font-weight: 700;
+    text-decoration: none;
+}
+.resumeLink:hover{
+    text-decoration:underline;
+    text-underline-offset:4px
+}
+.profileDetails{border-top:1px solid #ece6df;background:#fff}
+.heroTitleMedium{color:#111}
+.heroTitleBold{color:#fff}
+.competencyCard h3{display:flex;align-items:flex-start;gap:8px;font-size:20px;font-weight:800;line-height:1.15;letter-spacing:-.03em}
+.competencyEmoji{flex:0 0 auto;font-size:18px;line-height:1}
 
-  .primaryLink {
-    min-height: var(--button-height-mobile);
-  }
+@media(max-width:620px){.heroWrap{padding-bottom:0}.about{padding-top:72px}}
 
-  .tertiaryLink {
-    min-height: var(--interactive-target-mobile);
-    justify-content: center;
-  }
+/* Selected Work external actions. */
+.projectLink{margin-top:16px;padding-top:0}.projectExternalLinks{width:100%;margin-top:auto;padding-top:22px;display:flex;flex-wrap:wrap;gap:8px}.projectExternalLink{min-height:34px;max-width:100%;padding:0 12px;display:inline-flex;align-items:center;justify-content:center;border:1px solid #e9e4de;border-radius:999px;color:#111;background:#fff;font-size:10px;font-weight:700;text-decoration:none;overflow-wrap:anywhere;transition:border-color 160ms ease,color 160ms ease,background 160ms ease}.projectExternalLink:hover{color:#ff6b00;border-color:rgba(255,107,0,.4);background:#fff7f0}
+@media(prefers-reduced-motion:reduce){.projectExternalLink{transition:none}}
 
-  .sectionHeader {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: var(--spacing-molecule);
-  }
+/* Home typography readability refinement. */
+.page{--muted:#5f5f5b}.heroStatement{max-width:620px;margin:28px 0 0;color:#111;font-size:var(--font-title);font-weight:500;line-height:1.38;letter-spacing:-.035em}.heroTitle{margin:12px 0 24px;display:flex;flex-direction:column;align-items:flex-start;font-size:var(--font-title);font-weight:800;line-height:1.02;letter-spacing:-.055em}.heroTitle span{color:#111}.heroTitle strong{color:#fff;font-weight:850}.heroDescription{max-width:650px;margin:0;color:rgba(17,17,17,.72);font-size:16px;font-weight:400;line-height:1.8}.section h2{font-size:var(--font-title);font-weight:800;line-height:1.18;letter-spacing:-.04em}.why h2,.contact h2{font-size:var(--font-title)}.lead{font-size:16px}.profileDescription{font-size:14px}.competencyCard h3{font-size:20px}.competencyCard small{font-size:10px}.competencyCard p{font-size:14px}.projectMeta{font-size:10px}.projectInfo h3{font-size:var(--font-title)}.projectInfo>p:not(.projectMeta){font-size:14px}.projectInfo small{font-size:12px}.projectLink{font-size:12px}.projectExternalLink{font-size:12px}.skillsGrid h3{font-size:14px}.skillsGrid li{font-size:14px}.toolsLabel{font-size:10px}.tools li{font-size:12px}.tools span{font-size:10px}.kicker{font-size:12px}.eyebrow{font-size:10px}.whyGrid p{font-size:14px}.contactGrid p{font-size:14px}
+@media(max-width:620px){.heroStatement{font-size:var(--font-title)}.heroTitle{font-size:var(--font-title)}.section h2{font-size:var(--font-title)}.heroDescription,.lead,.profileDescription,.competencyCard p,.projectInfo>p:not(.projectMeta),.whyGrid p,.contactGrid p{font-size:14px}}
 
-  .sectionDescription {
-    margin-top: var(--spacing-molecule);
-    font-size: 18px;
-  }
+/* Hero identity emphasis and orange project depth. */
+.heroTitle{margin:12px 0 38px;display:block;max-width:none;color:#fff;font-size:var(--font-title);font-weight:850;line-height:1;letter-spacing:-.06em;white-space:nowrap}.projectWindow{box-shadow:0 22px 52px -34px rgba(255,107,0,.42)}
+@media(max-width:620px){.heroTitle{font-size:var(--font-title);white-space:normal}}
 
-  .projectList {
-    margin-top: 32px;
-  }
+/* Final seven-step Home typography system. */
+.eyebrow,.kicker{font-size:var(--font-label)}.heroStatement{font-size:var(--font-subtitle);font-weight:500;line-height:1.5;letter-spacing:-.025em}.heroTitle{font-size:var(--font-title);font-weight:900;line-height:1.25;white-space:normal}.heroDescription{font-size:var(--font-body);line-height:1.7}.primaryButton,.lightButton{font-size:var(--font-ui)}.deviceTop,.projectBar,.codeTop{font-size:var(--font-meta)}.deviceTitle,.opsTitle{font-size:var(--font-subtitle)}.codeBox,.deviceMeta{font-size:var(--font-label)}.statusRow span{font-size:var(--font-meta)}.statusRow b{font-size:var(--font-ui)}.section h2,.why h2,.contact h2{font-size:var(--font-title);font-weight:800;line-height:1.25;letter-spacing:-.03em}.lead,.whyTop>p:last-child{font-size:var(--font-body);line-height:1.7}.identity h3{font-size:var(--font-title)}.identity p,.profileTop{font-size:var(--font-label)}.profileDescription{font-size:var(--font-card);line-height:1.7}.profileDetails dt{font-size:var(--font-meta)}.profileDetails dd,.resumeLink{font-size:var(--font-ui)}.number{font-size:var(--font-label)}.competencyCard small{font-size:var(--font-meta)}.competencyCard h3{font-size:var(--font-subtitle)}.competencyCard p{font-size:var(--font-card)}.projectMeta{font-size:var(--font-meta)}.projectInfo h3{font-size:var(--font-title)}.projectInfo>p:not(.projectMeta){font-size:var(--font-card)}.projectInfo small,.projectLink,.projectExternalLink,.moreLink{font-size:var(--font-ui)}.skillsGrid h3,.skillsGrid li{font-size:var(--font-card)}.toolsLabel{font-size:var(--font-label)}.tools li{font-size:var(--font-ui)}.tools span{font-size:var(--font-label)}.whyGrid span{font-size:var(--font-meta)}.whyGrid h3{font-size:var(--font-subtitle)}.whyGrid p{font-size:var(--font-card)}.contactTop>a{font-size:var(--font-body)}.contactGrid small{font-size:var(--font-label)}.contactGrid p{font-size:var(--font-card)}.contactGrid a{font-size:var(--font-ui)}
 
-  .projectPreview {
-    padding: 32px 0 40px;
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--spacing-molecule);
-  }
+/* Enlarged public typography scale. Layout and component geometry stay unchanged. */
+.eyebrow,.kicker{font-size:var(--font-label)}.heroStatement{font-size:var(--font-subtitle);font-weight:500;line-height:1.45}.heroTitle{font-size:var(--font-hero-title);font-weight:800;line-height:1.05}.heroDescription{font-size:var(--font-body);line-height:1.7}.primaryButton,.lightButton{font-size:var(--font-ui)}.deviceTop,.projectBar,.codeTop{font-size:var(--font-meta)}.deviceTitle,.opsTitle{font-size:var(--font-subtitle)}.codeBox,.deviceMeta{font-size:var(--font-label)}.statusRow span{font-size:var(--font-meta)}.statusRow b{font-size:var(--font-ui)}.section h2{font-size:var(--font-section-title);font-weight:800;line-height:1.2}.lead,.whyTop>p:last-child{font-size:var(--font-body);line-height:1.7}.identity h3{font-size:var(--font-subtitle)}.identity p,.profileTop{font-size:var(--font-label)}.profileDescription{font-size:var(--font-card)}.profileDetails dt{font-size:var(--font-meta)}.profileDetails dd,.resumeLink{font-size:var(--font-ui)}.number{font-size:var(--font-label)}.competencyCard small{font-size:var(--font-meta)}.competencyCard h3{font-size:var(--font-subtitle)}.competencyCard p{font-size:var(--font-card)}.projectMeta{font-size:var(--font-meta)}.projectInfo h3{font-size:var(--font-subtitle)}.projectInfo>p:not(.projectMeta){font-size:var(--font-card)}.projectInfo small,.projectLink,.moreLink{font-size:var(--font-ui)}.projectExternalLink{font-size:var(--font-label)}.skillsGrid h3{font-size:var(--font-card)}.skillsGrid li{font-size:var(--font-ui)}.toolsLabel{font-size:var(--font-label)}.tools li{font-size:var(--font-ui)}.tools span{font-size:var(--font-label)}.why h2{font-size:var(--font-section-title)}.whyGrid span{font-size:var(--font-meta)}.whyGrid h3{font-size:20px}.whyGrid p{font-size:var(--font-card)}.contact h2{font-size:var(--font-section-title)}.contactTop>a{font-size:var(--font-body)}.contactGrid small{font-size:var(--font-label)}.contactGrid p{font-size:var(--font-card)}.contactGrid a{font-size:var(--font-ui)}
+@media(max-width:1179px){.heroTitle{font-size:44px}.heroDescription,.lead{font-size:17px}.section h2,.why h2,.contact h2{font-size:31px}}
+@media(max-width:620px){.heroTitle{font-size:36px}.heroDescription,.lead{font-size:16px}.section h2{font-size:28px}.profileDescription,.competencyCard p,.projectInfo>p:not(.projectMeta),.whyGrid p,.contactGrid p{font-size:16px}.why h2,.contact h2{font-size:28px}}
 
-  .projectNumber,
-  .projectContent {
-    grid-column: 1;
-  }
+/* Reference redesign alignment: keep the existing API-driven markup and
+   tune hierarchy, contrast, and project rhythm to the new visual direction. */
+.heroWrap{padding:30px 30px 72px}
+.hero{min-height:640px;border-radius:30px;box-shadow:0 24px 50px rgba(255,107,0,.16)}
+.heroStatement{display:none}
+.heroTitle{font-size:0;line-height:1;max-width:620px}
+.heroTitle::after{content:"사용자의 경험을\A서비스의 구조로 만드는\A개발자 송혜진입니다.";display:block;white-space:pre;font-size:var(--font-hero-title);line-height:1.12;letter-spacing:-.055em}
+.heroDescription{font-size:0;line-height:1.7}
+.heroDescription::after{content:"백엔드를 중심으로 API와 데이터 구조를 설계하고,\AReact 화면까지 하나의 서비스 흐름으로 구현합니다.";display:block;white-space:pre-line;font-size:var(--font-body);line-height:1.7}
+.primaryButton{font-size:0}.primaryButton::after{content:"대표 프로젝트 보기 ↗";font-size:14px}
+.selectedWork{background:#111;color:#fff;margin-inline:0;padding-top:112px;padding-bottom:120px}
+.selectedWork .kicker{background:#2d1a10;color:#ff7a1a}
+.selectedWork .sectionTitle,.selectedWork .sectionTitle a,.selectedWork .projectInfo h3,.selectedWork .projectInfo h3 a{color:#fff}
+.selectedWork .lead,.selectedWork .projectMeta,.selectedWork .projectSummary,.selectedWork .projectRole{color:#b8b8b8}
+.selectedWork .moreLink,.selectedWork .projectLink{color:#fff}
+.selectedWork .projectWindow{background:#f8f5f0;border-color:rgba(255,255,255,.16)}
+.selectedWork .projectExternalLink{color:#111;background:#fff}
+.selectedWork .projectWindow:first-child .projectBody{grid-template-columns:minmax(0,1.3fr) minmax(260px,.7fr)}
+.selectedWork .projectWindow:nth-child(2) .projectBody{grid-template-columns:minmax(260px,.7fr) minmax(0,1.3fr)}
+.selectedWork .projectWindow:nth-child(2) .projectVisual{order:2}.selectedWork .projectWindow:nth-child(2) .projectInfo{order:1}
+.skills{background:#fff;padding-top:120px}.skills .codeFrame{border-radius:28px;box-shadow:0 18px 38px rgba(31,20,50,.08)}
+.whyTopBand{background:#111;padding-top:0;padding-bottom:0}.whyLowerBand,.contact{background:#111}
+@media(max-width:900px){.heroWrap{padding:20px 20px 56px}.hero{min-height:auto}.heroTitle::after{font-size:clamp(34px,8vw,var(--font-hero-title))}.selectedWork .projectWindow:first-child .projectBody,.selectedWork .projectWindow:nth-child(2) .projectBody{grid-template-columns:1fr}.selectedWork .projectWindow:nth-child(2) .projectVisual,.selectedWork .projectWindow:nth-child(2) .projectInfo{order:initial}}
 
-  .projectVisualLink {
-    grid-row: 2;
-  }
+/* The selected-work section uses the shared section class in JSX. */
+section[aria-labelledby="work-title"]{background:#111;color:#fff;margin-inline:0;padding-top:112px;padding-bottom:120px}
+section[aria-labelledby="work-title"] h2,section[aria-labelledby="work-title"] h3,section[aria-labelledby="work-title"] h3 a{color:#fff}
+section[aria-labelledby="work-title"] .kicker{background:#2d1a10;color:#ff7a1a}
+section[aria-labelledby="work-title"] .lead,section[aria-labelledby="work-title"] .projectMeta,section[aria-labelledby="work-title"] .projectSummary,section[aria-labelledby="work-title"] .projectRole{color:#b8b8b8}
+section[aria-labelledby="work-title"] .moreLink,section[aria-labelledby="work-title"] .projectLink{color:#fff}
+section[aria-labelledby="work-title"] .projectWindow{background:#f8f5f0;border-color:rgba(255,255,255,.16)}
+section[aria-labelledby="work-title"] .projectWindow:first-child .projectBody{grid-template-columns:minmax(0,1.3fr) minmax(260px,.7fr)}
+section[aria-labelledby="work-title"] .projectWindow:nth-child(2) .projectBody{grid-template-columns:minmax(260px,.7fr) minmax(0,1.3fr)}
+section[aria-labelledby="work-title"] .projectWindow:nth-child(2) .projectVisual{order:2}
+section[aria-labelledby="work-title"] .projectWindow:nth-child(2) .projectInfo{order:1}
+@media(max-width:900px){section[aria-labelledby="work-title"] .projectWindow:first-child .projectBody,section[aria-labelledby="work-title"] .projectWindow:nth-child(2) .projectBody{grid-template-columns:1fr}section[aria-labelledby="work-title"] .projectWindow:nth-child(2) .projectVisual,section[aria-labelledby="work-title"] .projectWindow:nth-child(2) .projectInfo{order:initial}}
 
-  .projectContent {
-    grid-row: 3;
-  }
+/* Reference redesign sections. */
+.heroTitle{font-size:var(--font-hero-title);color:#fff;line-height:1.05;white-space:normal}
+.heroTitle::after,.heroDescription::after,.primaryButton::after{content:none;display:none}
+.heroDescription{font-size:var(--font-body)}
+.primaryButton{font-size:var(--font-ui)}
+.buildSection{background:#fff}
+.buildGrid{margin-top:48px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.buildCard{min-height:380px;padding:28px;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:24px;background:#fff}
+.buildCard small{color:var(--orange);font:700 var(--font-label)/1.2 var(--mono);letter-spacing:.08em}
+.buildCard strong{margin-top:34px;color:var(--orange);font:800 34px/1 var(--mono)}
+.buildCard h3{margin:18px 0 14px;font-size:24px;line-height:1.2;letter-spacing:-.04em}
+.buildCard p{margin:0;color:var(--muted);font-size:var(--font-card);line-height:1.7}
+.buildCard footer{margin-top:auto;padding-top:20px;border-top:1px solid var(--line);font:700 var(--font-label)/1.4 var(--mono)}
+.selectedWorkSection{background:#111;color:#fff;margin-inline:0;padding-top:112px;padding-bottom:120px}
+.selectedWorkSection h2,.selectedWorkSection .sectionHead h3{color:#fff}
+.selectedWorkSection .kicker{background:#2d1a10;color:#ff7a1a}
+.selectedWorkSection .lead{color:#b8b8b8}
+.selectedWorkSection .projectWindow{background:#f8f5f0;border-color:rgba(255,255,255,.16)}
+.selectedWorkSection .projectInfo h3,.selectedWorkSection .projectInfo h3 a{color:#111}
+.selectedWorkSection .projectInfo>p:not(.projectMeta),.selectedWorkSection .projectInfo small{color:var(--muted)}
+.selectedWorkSection .projectLink{color:var(--orange)}
+.selectedWorkSection .projectWindow:first-child .projectBody{grid-template-columns:minmax(0,1.3fr) minmax(260px,.7fr)}
+.selectedWorkSection .projectWindow:nth-child(2) .projectBody{grid-template-columns:minmax(260px,.7fr) minmax(0,1.3fr)}
+.selectedWorkSection .projectWindow:nth-child(2) .projectVisual{order:2}.selectedWorkSection .projectWindow:nth-child(2) .projectInfo{order:1}
+.processCard{margin-top:42px;padding:0;border-radius:30px;background:#eee9e4;overflow:hidden}
+.processIntro{padding:54px;background:#fff}
+.processIntro .kicker,.processIntro>h3{text-align:center}
+.processIntro>h3{margin:18px 0 36px;font-size:28px}
+.processGrid{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:22px;overflow:hidden}
+.processGrid article{position:relative;min-height:190px;padding:24px;border-right:1px solid var(--line)}
+.processGrid article:last-child{border-right:0}
+.processGrid span{color:var(--orange);font:800 var(--font-label) var(--mono)}
+.processGrid i{position:absolute;right:-10px;top:50%;z-index:1;width:20px;height:20px;border:1px solid var(--line);border-radius:50%;background:#fff;color:var(--orange);font-style:normal;text-align:center;line-height:18px}
+.processGrid h4{margin:48px 0 8px;font-size:18px}.processGrid p{margin:0;color:var(--muted);font-size:var(--font-label);line-height:1.6}
+.processCard .codeFrame{margin:0;border:0;border-radius:0;box-shadow:none}
+.designBuild{padding:56px;background:linear-gradient(120deg,#f35b14,#ffc185);color:#fff}
+.designBuild .kicker{display:table;background:rgba(255,255,255,.22);color:#fff}
+.designBuild h3{margin:20px 0;font-size:32px;color:#fff}.designBuild>p:not(.kicker){max-width:760px;color:#fff;font-size:var(--font-body);line-height:1.7}
+.capabilityGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:30px}.capabilityGrid span{padding:16px 18px;border-radius:14px;background:#fff7ef;color:#111;font-weight:700}
+.whyCombined{display:grid;grid-template-columns:.9fr 1.1fr;gap:70px;padding:112px 68px;background:#111;color:#fff}
+.whyCombined h2{color:#fff}.whyCombined .kicker{background:#2d1a10;color:#ff7a1a}.whyIntro>p:not(.kicker){color:#b8b8b8;font-size:var(--font-body);line-height:1.7}.whyIntro .lightButton{margin-top:26px}
+.whyCombined .whyGrid{margin:0;display:grid;grid-template-columns:1fr;gap:0}.whyCombined .whyGrid article{padding:22px 0;border-bottom:1px solid rgba(255,255,255,.14)}.whyCombined .whyGrid article:last-child{border-bottom:0}.whyCombined .whyGrid h3{color:#fff}.whyCombined .whyGrid p{color:#a9a9a9}
+@media(max-width:980px){.buildGrid{grid-template-columns:1fr}.processGrid{grid-template-columns:repeat(2,1fr)}.processGrid article:nth-child(2){border-right:0}.processGrid article:nth-child(-n+2){border-bottom:1px solid var(--line)}.whyCombined{grid-template-columns:1fr;gap:48px}}
+@media(max-width:900px){.selectedWorkSection .projectWindow:first-child .projectBody,.selectedWorkSection .projectWindow:nth-child(2) .projectBody{grid-template-columns:1fr}.selectedWorkSection .projectWindow:nth-child(2) .projectVisual,.selectedWorkSection .projectWindow:nth-child(2) .projectInfo{order:initial}}
+@media(max-width:620px){.buildGrid{gap:14px}.buildCard{min-height:300px;padding:24px}.buildCard h3{font-size:22px}.selectedWorkSection{padding-top:70px;padding-bottom:80px}.processIntro,.designBuild{padding:30px 22px}.processIntro>h3{font-size:23px}.processGrid{grid-template-columns:1fr}.processGrid article{border-right:0!important;border-bottom:1px solid var(--line)}.processGrid article:last-child{border-bottom:0}.processGrid i{display:none}.capabilityGrid{grid-template-columns:1fr}.whyCombined{padding:70px 22px}}
 
-  .projectSupporting {
-    white-space: normal;
-  }
+/* Final reference scale: generous type, consistent content width, and section rhythm. */
+.heroWrap{padding:28px 56px 0}
+.hero{min-height:620px;padding:62px 56px;gap:42px}
+.heroCopy{max-width:600px}
+.heroTitle{font-size:50px;line-height:1.08;letter-spacing:-.055em}
+.heroDescription{max-width:560px;font-size:18px;line-height:1.7}
+.heroActions{margin-top:28px;gap:12px}
+.primaryButton,.lightButton{min-height:46px;padding-inline:22px;font-size:14px}
+.section{padding-inline:56px}
+.about{padding-top:108px;padding-bottom:120px;gap:56px}
+.aboutCopy{max-width:570px}
+.section h2{font-size:35px;line-height:1.18;letter-spacing:-.05em}
+.lead{font-size:18px;line-height:1.7}
+.buildSection{padding-top:126px;padding-bottom:120px}
+.buildGrid{margin-top:48px;gap:18px}
+.buildCard{min-height:360px;padding:28px;border-radius:24px}
+.buildCard h3{font-size:22px;line-height:1.25}
+.buildCard p{font-size:16px;line-height:1.7}
+.selectedWorkSection{padding:112px 56px 132px}
+.selectedWorkSection .sectionHead{margin-bottom:54px}
+.selectedWorkSection .sectionHead h2{font-size:35px}
+.projectInfo h3{font-size:22px;line-height:1.25}
+.projectInfo p{font-size:16px;line-height:1.7}
+.skills{padding:128px 56px 112px}
+.skills .sectionHead{margin-bottom:48px}
+.processCard{margin-top:42px}
+.processIntro{padding:54px}
+.processIntro>h3{font-size:28px;line-height:1.25}
+.designBuild{padding:56px}
+.designBuild h3{font-size:32px;line-height:1.2}
+.whyCombined{padding:112px 56px;gap:58px}
+.whyCombined h2{font-size:35px;line-height:1.18}
+.whyIntro>p:not(.kicker){font-size:18px;line-height:1.7}
+.contact{padding:96px 56px 58px}
 
-  .capabilityGrid {
-    margin-top: 32px;
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .capabilityCard {
-    padding: 24px 0 32px;
-  }
-
-  .capabilityTitle {
-    margin-top: 32px;
-  }
-
-  .background {
-    gap: 24px;
-  }
-
-  .backgroundContent p,
-  .contactDescription {
-    font-size: 18px;
-  }
-
-  .contactCta {
-    padding-top: 72px;
-  }
-
-  .contactLink {
-    width: 100%;
-    min-height: var(--button-height-mobile);
-  }
+@media (max-width:980px){
+  .heroWrap{padding:24px 32px 0}
+  .hero{min-height:560px;padding:52px 38px;gap:28px}
+  .heroTitle{font-size:44px}
+  .heroDescription{font-size:17px}
+  .section{padding-inline:32px}
+  .about{padding-top:88px;padding-bottom:96px;gap:40px}
+  .section h2{font-size:31px}
+  .lead{font-size:17px}
+  .buildSection{padding-top:96px;padding-bottom:96px}
+  .selectedWorkSection{padding:88px 32px 104px}
+  .skills{padding:96px 32px 88px}
+  .whyCombined{padding:88px 32px;gap:44px}
+  .contact{padding:80px 32px 48px}
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .primaryLink,
-  .contactLink,
-  .linkArrow,
-  .projectVisual img {
-    transition: none;
-  }
+@media (max-width:620px){
+  .heroWrap{padding:16px 0 48px}
+  .hero{min-height:0;padding:40px 22px 30px;gap:26px}
+  .heroTitle{font-size:34px;line-height:1.12;letter-spacing:-.05em}
+  .heroDescription{font-size:16px;line-height:1.65}
+  .heroActions{margin-top:22px;gap:8px}
+  .primaryButton,.lightButton{min-height:42px;padding-inline:17px;font-size:13px}
+  .section{padding-inline:22px}
+  .about{padding-top:72px;padding-bottom:80px;gap:34px}
+  .section h2{font-size:28px;line-height:1.22}
+  .lead{font-size:16px;line-height:1.65}
+  .buildSection{padding-top:80px;padding-bottom:80px}
+  .buildGrid{margin-top:32px}
+  .buildCard{min-height:300px;padding:24px}
+  .buildCard h3{font-size:20px}
+  .buildCard p{font-size:15px}
+  .selectedWorkSection{padding:70px 22px 80px}
+  .selectedWorkSection .sectionHead{margin-bottom:36px}
+  .selectedWorkSection .sectionHead h2{font-size:28px}
+  .projectInfo h3{font-size:20px}
+  .projectInfo p{font-size:15px}
+  .skills{padding:80px 22px 72px}
+  .skills .sectionHead{margin-bottom:32px}
+  .processIntro,.designBuild{padding:30px 22px}
+  .processIntro>h3{font-size:23px}
+  .designBuild h3{font-size:27px}
+  .whyCombined{padding:70px 22px;gap:36px}
+  .whyCombined h2{font-size:28px}
+  .whyIntro>p:not(.kicker){font-size:16px}
+  .contact{padding:70px 22px 40px}
+}
 
-  .projectVisualLink:hover .projectVisual img,
-  .tertiaryLink:hover .linkArrow,
-  .textLink:hover .linkArrow,
-  .projectLink:hover .linkArrow,
-  .contactLink:hover .linkArrow {
-    transform: none;
-  }
+/* Final Home visual alignment: preserve the existing data-driven structure while
+   matching the approved, more open typography and section rhythm. */
+.page{
+  --font-meta:11px;
+  --font-label:12px;
+  --font-ui:14px;
+  --font-card:18px;
+  --font-body:18px;
+  --font-subtitle:24px;
+  --font-section-title:35px;
+  --font-hero-title:50px;
+  --font-title:var(--font-section-title);
+}
+
+.about{background:#fff}
+.heroWrap{padding:32px 56px 0}
+.hero{min-height:680px;padding:76px 70px;gap:56px;grid-template-columns:1.05fr .95fr}
+.heroCopy{max-width:650px}
+.heroVisual{min-height:500px}
+.profileDevice{width:min(410px,88%)}
+.opsDevice{width:min(350px,80%)}
+.heroTitle{font-size:var(--font-hero-title);line-height:1.08;letter-spacing:-.055em}
+.heroDescription{max-width:600px;font-size:var(--font-body);line-height:1.7;letter-spacing:-.02em}
+.section h2{font-size:var(--font-section-title);line-height:1.18;letter-spacing:-.05em}
+.lead{font-size:var(--font-body);line-height:1.7;letter-spacing:-.02em}
+.buildCard h3,.projectInfo h3{font-size:var(--font-card);line-height:1.3}
+.buildCard p,.projectInfo p{font-size:16px;line-height:1.7}
+
+/* Major section labels are text markers; pills remain on the Hero and actions. */
+.about > div > .kicker,
+.buildSection .sectionHead .kicker,
+.selectedWorkSection .sectionHead .kicker,
+.skills > .sectionHead .kicker,
+.whyCombined .whyIntro > .kicker{
+  display:block;
+  width:max-content;
+  margin:0 0 18px;
+  padding:0;
+  background:transparent;
+  border:0;
+  border-radius:0;
+  color:var(--orange);
+  font-family:var(--mono);
+  font-size:0;
+  font-weight:700;
+  letter-spacing:.08em;
+  line-height:1.2;
+}
+.about > div > .kicker::after{content:'ABOUT ME · 01'}
+.buildSection .sectionHead .kicker::after{content:'WHAT I BUILD · 02'}
+.selectedWorkSection .sectionHead .kicker::after{content:'SELECTED WORK · 03'}
+.skills > .sectionHead .kicker::after{content:'HOW I BUILD · 04'}
+.whyCombined .whyIntro > .kicker::after{content:'LET’S WORK TOGETHER · 05'}
+.about > div > .kicker::after,
+.buildSection .sectionHead .kicker::after,
+.selectedWorkSection .sectionHead .kicker::after,
+.skills > .sectionHead .kicker::after,
+.whyCombined .whyIntro > .kicker::after{
+  font-size:var(--font-label);
+  font-weight:700;
+  letter-spacing:.08em;
+  line-height:1.2;
+}
+
+@media (max-width:980px){
+  .heroWrap{padding:24px 32px 0}
+  .hero{min-height:560px;padding:52px 38px;gap:32px}
+  .heroVisual{min-height:420px}
+  .profileDevice{width:min(360px,88%)}
+  .opsDevice{width:min(300px,76%)}
+  .section{padding-inline:32px}
+  .section h2{font-size:31px}
+}
+
+@media (max-width:620px){
+  .heroWrap{padding:16px 0 48px}
+  .hero{min-height:0;padding:40px 22px 30px;gap:26px;grid-template-columns:1fr}
+  .heroVisual{min-height:335px}
+  .profileDevice{width:260px}
+  .opsDevice{width:235px}
+  .heroTitle{font-size:34px;line-height:1.12}
+  .heroDescription{font-size:16px}
+  .section{padding-inline:22px}
+  .section h2{font-size:28px}
+  .about > div > .kicker,
+  .buildSection .sectionHead .kicker,
+  .selectedWorkSection .sectionHead .kicker,
+  .skills > .sectionHead .kicker,
+  .whyCombined .whyIntro > .kicker{margin-bottom:14px}
+}
+
+/* 2차 typography and visual rhythm */
+.page{
+  --font-meta:11px;
+  --font-label:12px;
+  --font-ui:13px;
+  --font-card:18px;
+  --font-body:16px;
+  --font-subtitle:22px;
+  --font-section-title:32px;
+  --font-hero-title:50px;
+  --font-title:var(--font-section-title);
+}
+.section{padding-top:96px;padding-bottom:96px}
+.sectionHead{margin-bottom:40px}
+.heroDescription,.lead{font-size:16px;line-height:1.7}
+.section h2,.why h2,.contact h2{font-size:32px;line-height:1.18}
+.buildCard h3,.projectInfo h3,.competencyCard h3{font-size:18px;line-height:1.3}
+.buildCard p,.projectInfo>p:not(.projectMeta),.whyGrid p,.contactGrid p,.profileDescription,.competencyCard p{font-size:15px;line-height:1.7}
+.buildCard small,.skillsGrid h3,.toolsLabel{font-size:12px}
+.projectMeta,.projectMeta *,.meta{font-size:11px}
+.projectLink,.projectExternalLink,.projectExternalLinks a{font-size:13px;font-weight:700}
+.about .sectionHead h2,.buildSection .sectionHead h2,.selectedWorkSection .sectionHead h2,.skills .sectionHead h2{font-size:32px}
+.buildSection .sectionHead h2{max-width:5.4em}
+.buildGrid{align-items:stretch}
+.buildCard{min-height:315px}
+.buildCard > footer{margin-top:auto}
+.profileCard{max-width:500px}
+.selectedWorkSection .sectionHead{margin-bottom:44px}
+.projectList{gap:34px}
+.projectInfo{padding:38px 34px}
+.projectInfo h3{margin:18px 0 12px}
+.projectLink{margin-top:16px;padding-top:0}
+.projectExternalLinks{margin-top:auto;padding-top:22px}
+.skills{padding-bottom:0;position:relative;z-index:1}
+.processCard{
+  margin-top:42px;
+  padding:14px;
+  gap:14px;
+  border:1px solid #e6ded8;
+  border-radius:30px;
+  background:#f0ece7;
+  overflow:visible;
+  position:relative;
+  z-index:2;
+}
+.processIntro,.processCard .codeFrame,.designBuild{border-radius:20px}
+.processIntro{padding:52px}
+.processCard .codeFrame{margin:0;border:1px solid #e5def0;border-radius:20px;box-shadow:none}
+.processIntro > h3{text-align:center}
+.processGrid article{text-align:left}
+.designBuild{padding:56px}
+.whyCombined{
+  position:relative;
+  z-index:0;
+  margin-top:-84px;
+  padding:180px 56px 112px;
+}
+.whyCombined h2{font-size:32px}
+
+@media (max-width:980px){
+  .heroTitle{font-size:46px}
+  .section h2,.why h2,.contact h2{font-size:30px}
+  .skills{padding-inline:32px}
+  .whyCombined{margin-top:-56px;padding:150px 32px 96px}
+  .processIntro{padding:40px}
+  .processCard{padding:10px;gap:10px}
+}
+@media (max-width:620px){
+  .heroTitle{font-size:36px}
+  .heroDescription,.lead{font-size:15px}
+  .section h2,.why h2,.contact h2{font-size:28px}
+  .buildSection .sectionHead h2{max-width:none}
+  .buildCard{min-height:0}
+  .skills{padding:80px 22px 0}
+  .processCard{margin-top:28px;padding:8px;gap:8px}
+  .processIntro,.designBuild{padding:30px 22px}
+  .processCard .codeFrame{border-radius:16px}
+  .whyCombined{margin-top:0;padding:72px 22px 80px}
+}
+@media (max-width:390px){
+  .heroTitle{font-size:32px}
+  .section h2,.why h2,.contact h2{font-size:26px}
 }

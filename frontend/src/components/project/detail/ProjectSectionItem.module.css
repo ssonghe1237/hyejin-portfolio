@@ -4,7 +4,7 @@
  * author         : Song
  * date           : 2026-07-02
  * description    : ProjectSectionItem 스타일
- *                  - 프로젝트 상세 섹션 단일 카드 스타일 관리
+ *                  - 번호화된 Editorial Detail Section 관리
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
@@ -12,36 +12,246 @@
  */
 
 .item {
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: 32px;
-  background-color: var(--color-surface);
+  --detail-section-accent: var(--color-accent);
+
+  padding: 56px 0;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .type {
   margin: 0;
   color: var(--color-text-muted);
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-heading);
+  letter-spacing: var(--letter-spacing-eyebrow);
+  text-transform: uppercase;
+}
+
+.item[data-section-type='WORKFLOW'] {
+  padding: 64px clamp(24px, 5vw, 64px);
+  border: 0;
+  background-color: var(--color-background);
+}
+
+.item[data-section-type='WORKFLOW'] .type {
+  color: var(--color-accent);
+}
+
+.item[data-section-type='WORKFLOW'] > div {
+  width: min(100%, 560px);
+  margin-top: 32px;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 24px;
+  overflow-x: hidden;
+  border: 1px solid #ffe2cf;
+  border-radius: 20px;
+  background-color: var(--color-background);
+}
+
+.item[data-section-type='WORKFLOW'] :global(svg) {
+  width: min(100%, 360px) !important;
+  max-width: none !important;
+  height: auto !important;
+  margin: 0 auto;
+  display: block;
+}
+
+.item[data-section-type='WORKFLOW'] :global(.node rect),
+.item[data-section-type='WORKFLOW'] :global(.node polygon),
+.item[data-section-type='WORKFLOW'] :global(.node circle) {
+  fill: #fff0e5 !important;
+  stroke: #ffb37a !important;
+  rx: 12px;
+  ry: 12px;
+}
+
+.item[data-section-type='WORKFLOW'] :global(.node:first-of-type rect),
+.item[data-section-type='WORKFLOW'] :global(.node:first-of-type polygon),
+.item[data-section-type='WORKFLOW'] :global(.node:first-of-type circle) {
+  fill: #ff6f0f !important;
+  stroke: #e85f00 !important;
+}
+
+.item[data-section-type='WORKFLOW'] :global(.node:nth-of-type(4) rect),
+.item[data-section-type='WORKFLOW'] :global(.node:nth-of-type(4) polygon),
+.item[data-section-type='WORKFLOW'] :global(.node:nth-of-type(4) circle) {
+  fill: #ff6f0f !important;
+  stroke: #e85f00 !important;
+}
+
+.item[data-section-type='WORKFLOW'] :global(.node:last-of-type rect),
+.item[data-section-type='WORKFLOW'] :global(.node:last-of-type polygon),
+.item[data-section-type='WORKFLOW'] :global(.node:last-of-type circle) {
+  fill: #f7f7f5 !important;
+  stroke: #c8c8c8 !important;
+  stroke-dasharray: 5 4;
+}
+
+.item[data-section-type='WORKFLOW'] :global(.node:first-of-type .nodeLabel),
+.item[data-section-type='WORKFLOW'] :global(.node:first-of-type span),
+.item[data-section-type='WORKFLOW'] :global(.node:first-of-type p) {
+  color: #ffffff !important;
+}
+
+.item[data-section-type='WORKFLOW'] :global(.node:nth-of-type(4) .nodeLabel),
+.item[data-section-type='WORKFLOW'] :global(.node:nth-of-type(4) span),
+.item[data-section-type='WORKFLOW'] :global(.node:nth-of-type(4) p) {
+  color: #ffffff !important;
+}
+
+.item[data-section-type='WORKFLOW'] :global(.edgePath path),
+.item[data-section-type='WORKFLOW'] :global(.flowchart-link) {
+  stroke: #b8b8b8 !important;
+}
+
+.item[data-section-type='WORKFLOW'] :global(marker path) {
+  fill: #b8b8b8 !important;
+  stroke: #b8b8b8 !important;
+}
+
+.item[data-section-type='RESULT'] {
+  border-top: 4px solid var(--color-accent);
 }
 
 .title {
-  margin: 16px 0 0;
-  font-size: 28px;
-  letter-spacing: -0.04em;
+  max-width: 920px;
+  margin: var(--spacing-molecule) 0 0;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-heading);
+  line-height: var(--line-height-heading);
+  letter-spacing: var(--letter-spacing-heading);
+  word-break: keep-all;
 }
 
 .myRoleItem {
-  border-left: 4px solid #4f46e5;
-  background-color: #f8fafc;
+  padding: 56px clamp(24px, 5vw, 64px);
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 16px clamp(32px, 6vw, 80px);
+  border-left: 0;
+  border-bottom-color: rgba(255, 255, 255, 0.24);
+  background-color: var(--color-accent);
 }
 
 .myRoleItem .type {
-  color: #4f46e5;
-  font-weight: 800;
+  grid-column: 1 / -1;
+  color: rgba(255, 255, 255, 0.78);
 }
 
 .myRoleItem .title {
-  color: #111827;
+  margin-top: 0;
+  color: #ffffff;
+}
+
+.myRoleItem > p:not(.type) {
+  margin-top: 0;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.myRoleItem > div {
+  grid-column: 1 / -1;
+}
+
+.myRoleItem + .myRoleItem {
+  border-top: 1px solid rgba(255, 255, 255, 0.24);
+}
+
+@media (max-width: 767px) {
+  .item {
+    padding: 40px 0;
+  }
+
+  .myRoleItem {
+    padding: 40px 20px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .myRoleItem .type,
+  .myRoleItem > div {
+    grid-column: 1;
+  }
+
+  .item[data-section-type='WORKFLOW'] {
+    padding: 40px 0;
+  }
+
+  .item[data-section-type='WORKFLOW'] > div {
+    margin-top: 24px;
+    padding: 12px;
+  }
+}
+
+.type { font-size: var(--font-meta); }
+.title { font-size: var(--font-subtitle); }
+
+.myRoleItem {
+  margin: 28px 0;
+  border: 0;
+  border-radius: 28px;
+  background: linear-gradient(110deg, #e94d00 0%, #ff6a00 45%, #ff9b49 72%, #ffd0a3 100%);
+  overflow: hidden;
+}
+
+.myRoleItem .type { color: rgba(255,255,255,.78); }
+
+.item[data-section-type='WORKFLOW'] {
+  padding-right: 0;
+  padding-left: 0;
+  background: transparent;
+}
+
+.item[data-section-type='WORKFLOW'] > .workflowWindow {
+  width: 100%;
+  margin-top: 32px;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #e8e0f2;
+  border-radius: 25px;
+  background: #faf8ff;
+  box-shadow: 0 22px 55px -40px #76658f;
+}
+
+.workflowTopBar {
+  min-height: 42px;
+  padding: 0 18px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  border-bottom: 1px solid #e8e0f2;
+  color: #6b625b;
+  background: #f0ebf7;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: var(--font-meta);
+  font-weight: 700;
+}
+
+.workflowTopBar > span:nth-child(2) { overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
+.windowControls { display:flex;gap:6px; }
+.windowControls i { width:8px;height:8px;display:block;border-radius:50%;background:#ff9b90; }
+.windowControls i:nth-child(2) { background:#ffc981; }
+.windowControls i:nth-child(3) { background:#98dbaa; }
+
+.item[data-section-type='WORKFLOW'] .workflowBody {
+  width: 100%;
+  margin: 0;
+  padding: 32px;
+  border: 0;
+  border-radius: 0;
+  background: #faf8ff;
+}
+
+.item[data-section-type='TROUBLESHOOTING'] {
+  padding-top: 64px;
+  padding-bottom: 64px;
+}
+
+@media (max-width: 767px) {
+  .myRoleItem { margin: 20px 0; border-radius: 22px; }
+  .workflowTopBar { padding:0 14px;grid-template-columns:auto minmax(0,1fr); }
+  .workflowTopBar > span:last-child { display:none; }
+  .item[data-section-type='WORKFLOW'] .workflowBody { padding:20px 14px; }
 }

@@ -26,10 +26,16 @@ interface ProjectDetailHeaderProps {
 function ProjectDetailHeader({ project }: ProjectDetailHeaderProps) {
   return (
     <header className={styles.header}>
-      <ProjectHeroImages images={project.heroImages} />
+      <div className={styles.heroStage}>
+        <div className={styles.heroImageArea}>
+          <ProjectHeroImages images={project.heroImages} />
+          <div className={styles.overlay} aria-hidden="true" />
+        </div>
 
-      <div className={styles.infoCard}>
-        <ProjectBasicInfo project={project} />
+        <article className={styles.projectInfoCard}>
+          <p className={styles.eyebrow}>01 / Project</p>
+          <ProjectBasicInfo project={project} />
+        </article>
       </div>
     </header>
   )

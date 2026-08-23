@@ -4,7 +4,7 @@
  * author         : Song
  * date           : 2026-07-02
  * description    : ProjectBasicInfo 스타일
- *                  - 프로젝트 상세 기본 정보 텍스트 스타일 관리
+ *                  - Hero Overlay 내부 프로젝트 정보 관리
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
@@ -12,67 +12,167 @@
  */
 
 .basicInfo {
-  display: block;
+  max-width: 980px;
+  color: var(--color-background);
 }
 
 .title {
   margin: 0;
-  font-size: 44px;
-  line-height: 1.1;
-  letter-spacing: -0.05em;
-}
-
-.summary {
-  margin: 16px 0 0;
-  color: var(--color-text-secondary);
-  font-size: 20px;
-  line-height: 1.6;
+  color: var(--color-background);
+  font-size: clamp(4rem, 8vw, 7rem);
+  font-weight: var(--font-weight-display);
+  line-height: 1.02;
+  letter-spacing: var(--letter-spacing-display);
+  overflow-wrap: break-word;
 }
 
 .meta {
+  margin-top: 24px;
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 20px;
-  color: var(--color-text-muted);
-  font-size: 14px;
-  font-weight: 600;
+  gap: 8px 0;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-supporting);
+  line-height: 1.6;
+}
+
+.meta span {
+  display: inline-flex;
+  align-items: center;
+}
+
+.meta span:not(:last-child)::after {
+  margin: 0 12px;
+  color: rgba(255, 255, 255, 0.38);
+  content: '|';
 }
 
 .description {
+  max-width: 760px;
   margin: 24px 0 0;
-  color: var(--color-text-secondary);
-  font-size: 16px;
-  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: var(--font-size-body-large);
+  line-height: var(--line-height-body);
+  word-break: keep-all;
 }
 
 .myRoleSummary {
-  margin-top: 24px;
+  max-width: 760px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.28);
 }
 
 .myRoleSummaryTitle {
-  margin: 0 0 10px;
-  color: var(--color-text-muted);
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.06em;
+  margin: 0 0 var(--spacing-molecule);
+  color: var(--color-accent);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-heading);
+  letter-spacing: var(--letter-spacing-eyebrow);
   text-transform: uppercase;
 }
 
 .myRoleSummaryList {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 0 32px;
 }
 
 .myRoleSummaryItem {
-  display: inline-flex;
-  align-items: center;
-  min-height: 30px;
-  padding: 0 12px;
-  border-radius: 999px;
-  background-color: #eef2ff;
-  color: #3730a3;
-  font-size: 13px;
-  font-weight: 700;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--color-background);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-control);
+  line-height: 1.6;
+  word-break: keep-all;
+}
+
+@media (max-width: 767px) {
+  .title {
+    font-size: clamp(2.75rem, 14vw, 4rem);
+    line-height: 1.05;
+  }
+
+  .meta {
+    margin-top: 20px;
+  }
+
+  .description {
+    margin-top: 20px;
+    font-size: var(--font-size-body);
+  }
+
+  .myRoleSummary {
+    margin-top: 24px;
+    padding-top: 20px;
+  }
+
+  .myRoleSummaryList {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.title { font-size: var(--font-hero-title); }
+.summary {
+  max-width: 760px;
+  margin: 22px 0 0;
+  color: #fff;
+  font-size: var(--font-subtitle);
+  font-weight: 650;
+  line-height: 1.5;
+  word-break: keep-all;
+}
+.meta { font-size: var(--font-ui); }
+.description { font-size: var(--font-body); line-height: 1.7; }
+.myRoleSummaryTitle { font-size: var(--font-label); }
+.myRoleSummaryItem { font-size: var(--font-ui); }
+
+@media (max-width: 1179px) {
+  .title { font-size: 44px; }
+  .description { font-size: 17px; }
+}
+
+@media (max-width: 767px) {
+  .title { font-size: 36px; }
+  .summary { font-size: 20px; }
+  .description { font-size: 16px; }
+}
+
+/* White overlapping information card palette. */
+.basicInfo {
+  max-width: none;
+  color: #111;
+}
+
+.title {
+  color: #111;
+  overflow-wrap: anywhere;
+}
+
+.summary {
+  color: #39332f;
+  font-size: var(--font-card);
+  font-weight: 500;
+  line-height: 1.7;
+}
+
+.meta {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #eee7df;
+  color: #756b64;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: var(--font-ui);
+}
+
+.meta span:not(:last-child)::after {
+  color: #ff6b00;
+  content: '·';
+}
+
+@media (max-width: 767px) {
+  .summary { font-size: 16px; }
+  .meta { font-size: 14px; }
 }

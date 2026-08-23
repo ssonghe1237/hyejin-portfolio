@@ -13,36 +13,43 @@
  */
 
 .intro {
-  padding: 96px 0 112px;
+  width: min(1240px, calc(100vw - 64px));
+  padding: 88px 0 48px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .eyebrow {
   margin: 0 0 var(--spacing-molecule);
   color: var(--color-accent);
-  font-size: var(--font-size-eyebrow);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 12px;
   font-weight: var(--font-weight-heading);
   letter-spacing: var(--letter-spacing-eyebrow);
   text-transform: uppercase;
 }
 
 .title {
-  max-width: 980px;
-  margin: 0;
+  max-width: 840px;
+  margin: 0 auto;
   color: var(--color-text-primary);
-  font-size: var(--font-size-page-title);
+  font-size: clamp(48px, 4.2vw, 56px);
   font-weight: var(--font-weight-display);
-  line-height: 1.05;
+  line-height: 1.12;
   letter-spacing: var(--letter-spacing-display);
   word-break: keep-all;
+  text-align: center;
 }
 
 .description {
   max-width: 720px;
-  margin: var(--spacing-organism) 0 0;
+  margin: var(--spacing-organism) auto 0;
   color: var(--color-text-secondary);
   font-size: var(--font-size-body-large);
   line-height: var(--line-height-body);
   word-break: keep-all;
+  text-align: center;
 }
 
 .keywordList {
@@ -53,27 +60,42 @@
 }
 
 .keyword {
-  padding-bottom: 4px;
-  border-bottom: 1px solid var(--color-border-strong);
+  padding-left: 12px;
+  position: relative;
   color: var(--color-text-secondary);
-  font-size: var(--font-size-small);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 12px;
   font-weight: var(--font-weight-control);
+  letter-spacing: .03em;
+  text-transform: uppercase;
+}
+
+.keyword::before {
+  width: 4px;
+  height: 4px;
+  position: absolute;
+  top: .55em;
+  left: 0;
+  content: "";
+  background: var(--color-accent);
 }
 
 @media (max-width: 1023px) {
   .intro {
-    padding: 72px 0 88px;
+    width: min(1240px, calc(100vw - 48px));
+    padding: 72px 0 44px;
   }
 }
 
 @media (max-width: 767px) {
   .intro {
-    padding: 48px 0 72px;
+    width: calc(100vw - 40px);
+    padding: 48px 0 36px;
   }
 
   .title {
-    font-size: clamp(2.5rem, 12vw, 3.25rem);
-    line-height: 1.08;
+    font-size: clamp(36px, 10.5vw, 44px);
+    line-height: 1.12;
   }
 
   .title br {
@@ -89,4 +111,121 @@
     margin-top: 24px;
     gap: 12px 20px;
   }
+}
+
+/* Home-aligned public Work typography and shell spacing. */
+.intro {
+  width: 100%;
+  padding-right: 68px;
+  padding-left: 68px;
+  left: auto;
+  transform: none;
+}
+
+.selectedSection { padding-top: 56px; }
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  color: #d85f00;
+  background: #fff0e4;
+  font-size: var(--font-label);
+}
+
+.eyebrow::before {
+  width: 6px;
+  height: 6px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  content: '';
+  background: #ff6b00;
+}
+
+.title { font-size: var(--font-hero-title); }
+.description {
+  margin-top: 24px;
+  font-size: var(--font-body);
+  line-height: 1.7;
+}
+
+.keywordList {
+  margin-top: 20px;
+  gap: 12px 24px;
+}
+
+.keyword {
+  font-size: var(--font-label);
+  line-height: 1.5;
+}
+
+.introContent { max-width: none; }
+
+.metaRule {
+  margin-top: 32px;
+  padding: 14px 0;
+  border-top: 1px solid rgba(255, 107, 0, .55);
+  border-bottom: 1px solid rgba(255, 107, 0, .55);
+  color: #5f5147;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: var(--font-label);
+  font-weight: 700;
+  letter-spacing: .05em;
+  line-height: 1.5;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.kicker {
+  margin-bottom: 20px;
+}
+
+.techList {
+  margin: 20px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  list-style: none;
+}
+
+.techList li {
+  min-height: 36px;
+  padding: 0 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #e9e1da;
+  border-radius: 999px;
+  color: #332f2c;
+  background: #fff;
+  font-size: var(--font-ui);
+  font-weight: 650;
+}
+
+.techList li::before {
+  width: 6px;
+  height: 6px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  content: '';
+  background: #ff6b00;
+}
+
+@media (max-width: 1179px) {
+  .intro { padding-right: 48px; padding-left: 48px; }
+  .selectedSection { padding-top: 48px; }
+  .title { font-size: 44px; }
+  .description { font-size: 17px; }
+}
+
+@media (max-width: 767px) {
+  .intro { width: 100%; padding-right: 22px; padding-left: 22px; }
+  .selectedSection { padding-top: 40px; }
+  .title { font-size: 36px; }
+  .description { margin-top: 20px; font-size: 16px; }
+  .keywordList { margin-top: 18px; gap: 10px 18px; }
+  .metaRule { margin-top: 24px; padding: 12px 0; line-height: 1.7; }
 }

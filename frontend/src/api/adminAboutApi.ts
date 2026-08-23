@@ -26,6 +26,12 @@ interface ApiErrorResponse {
     error?: string
 }
 
+export interface AboutProfileImageUploadResponse {
+    imageUrl: string
+    originalFileName: string
+    storedFileName: string
+}
+
 // 실패한 API 응답에서 서버 오류 메시지를 추출
 async function throwApiError(
     response:Response,
@@ -96,5 +102,33 @@ export async function upsertAdminAbout(
         )
     }
 
+    return response.json()
+}
+
+export async function uploadAdminAboutProfileImage(
+    file: File,
+): Promise<AboutProfileImageUploadResponse> {
+    const formData = new FormData()
+    formData.append('file', file)
+
+    const response = await fetch('/api/admin/about/profile-image/upload', {
+        method: 'POST',
+        body: formData,
+    })
+
+    if (!response.ok) {
+        return throwApiError(response, '프로필 이미지를 업로드하지 못했습니다.')
+    }
+
+    return response.json()
+}
+
+export async function uploadAboutSkillLogo(
+    file: File,
+): Promise<AboutProfileImageUploadResponse> {
+    const formData = new FormData()
+    formData.append('file', file)
+    const response = await fetch('/api/admin/about/skill-logo/upload', { method: 'POST', body: formData })
+    if (!response.ok) return throwApiError(response, '기술 로고를 업로드하지 못했습니다.')
     return response.json()
 }

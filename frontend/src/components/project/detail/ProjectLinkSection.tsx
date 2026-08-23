@@ -16,21 +16,9 @@
  * 2026-07-27        Song       링크 버튼형 CTA UI 적용
  */
 
-import type {
-  ProjectLinkResponse,
-  ProjectLinkType,
-} from '../../../types/project'
+import type { ProjectLinkResponse } from '../../../types/project'
+import { ProjectLinkIcon } from './projectDetailIcons'
 import styles from './ProjectLinkSection.module.css'
-
-const LINK_TYPE_LABEL: Record<ProjectLinkType, string> = {
-  GITHUB: 'GitHub',
-  DEPLOY: 'Live Demo',
-  PDF: 'PDF',
-  NOTION: 'Notion',
-  RESUME: 'Resume',
-  SARAMIN: 'Saramin',
-  ETC: 'Link',
-}
 
 interface ProjectLinkSectionProps {
   links: ProjectLinkResponse[]
@@ -39,8 +27,13 @@ interface ProjectLinkSectionProps {
 function ProjectLinkSection({
   links,
 }: ProjectLinkSectionProps) {
+  const sortedLinks = [...links].sort(
+    (a, b) => a.displayOrder - b.displayOrder,
+  )
+
   return (
     <section className={styles.section}>
+      <p className={styles.kicker}>06 · Links</p>
       <h2 className={styles.title}>
         Links
       </h2>
@@ -51,7 +44,7 @@ function ProjectLinkSection({
         </p>
       ) : (
         <div className={styles.linkList}>
-          {links.map((link) => (
+          {sortedLinks.map((link) => (
             <a
               key={link.projectLinkId}
               href={link.url}
@@ -59,15 +52,18 @@ function ProjectLinkSection({
               rel="noopener noreferrer"
               className={styles.linkButton}
             >
-              <span className={styles.linkType}>
-                {LINK_TYPE_LABEL[link.linkType]}
+              <span className={styles.linkIcon} aria-hidden="true">
+                <ProjectLinkIcon
+                  linkType={link.linkType}
+                  className={styles.linkIconSvg}
+                />
               </span>
 
               <span className={styles.linkName}>
                 {link.linkName}
               </span>
 
-              <span className={styles.linkArrow}>
+              <span className={styles.linkArrow} aria-hidden="true">
                 →
               </span>
             </a>

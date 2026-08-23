@@ -131,6 +131,7 @@ function ContactPage() {
 
   return (
     <main className={styles.page}>
+      <div className={styles.contactInner}>
       {/* Contact Intro */}
       <section
         className={styles.hero}
@@ -190,6 +191,7 @@ function ContactPage() {
             className={
               styles.contactItem
             }
+            id="contact-email"
           >
             <span
               className={
@@ -214,6 +216,7 @@ function ContactPage() {
             className={
               styles.contactItem
             }
+            id="contact-github"
           >
             <span
               className={
@@ -312,6 +315,7 @@ function ContactPage() {
           </a>
         </section>
       )}
+      </div>
     </main>
   )
 }

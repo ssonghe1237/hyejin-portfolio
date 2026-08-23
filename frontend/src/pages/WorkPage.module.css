@@ -13,31 +13,43 @@
  */
 
 .page {
+  --font-meta: 10px;
+  --font-label: 12px;
+  --font-ui: 14px;
+  --font-card: 16px;
+  --font-body: 18px;
+  --font-subtitle: 22px;
+  --font-section-title: 35px;
+  --font-hero-title: 50px;
   display: block;
 }
 
 .status {
-  padding: var(--spacing-section-desktop) 0;
+  padding: var(--spacing-section-desktop) 68px;
   color: var(--color-text-muted);
+  font-size: var(--font-body);
   line-height: var(--line-height-body);
 }
 
 .error {
-  padding: var(--spacing-section-desktop) 0;
+  padding: var(--spacing-section-desktop) 68px;
   color: var(--color-danger);
+  font-size: var(--font-body);
   line-height: var(--line-height-body);
 }
 
 @media (max-width: 1023px) {
   .status,
   .error {
-    padding: var(--spacing-section-tablet) 0;
+    padding: var(--spacing-section-tablet) 48px;
+    font-size: 17px;
   }
 }
 
 @media (max-width: 767px) {
   .status,
   .error {
-    padding: var(--spacing-section-mobile) 0;
+    padding: var(--spacing-section-mobile) 22px;
+    font-size: 16px;
   }
 }

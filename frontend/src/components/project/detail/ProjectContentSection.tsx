@@ -39,6 +39,7 @@ function ProjectContentSection({
 
   return (
     <section className={styles.section}>
+      <p className={styles.kicker}>02 · Project Details</p>
       <h2 className={styles.title}>
         Project Details
       </h2>
@@ -49,10 +50,11 @@ function ProjectContentSection({
         </div>
       ) : (
         <div className={styles.list}>
-          {visibleSections.map((section) => (
+          {visibleSections.map((section, index) => (
             <ProjectSectionItem
               key={section.sectionId}
               section={section}
+              index={index}
             />
           ))}
         </div>

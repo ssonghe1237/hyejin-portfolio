@@ -15,6 +15,11 @@
 
 import type { ProjectSectionType } from '../../../types/project'
 import MermaidRenderer from './MermaidRenderer'
+import RichTextContent from '../../common/RichTextContent'
+import {
+  isProjectRichTextHtml,
+  isRichTextProjectSection,
+} from '../projectRichText'
 import styles from './ProjectSectionBody.module.css'
 
 interface ProjectSectionBodyProps {
@@ -29,6 +34,18 @@ function ProjectSectionBody({ sectionType, content }: ProjectSectionBodyProps) {
 
   if (sectionType === 'WORKFLOW') {
     return <MermaidRenderer chart={content} />
+  }
+
+  if (
+    isRichTextProjectSection(sectionType) &&
+    isProjectRichTextHtml(content)
+  ) {
+    return (
+      <RichTextContent
+        html={content}
+        className={styles.richText}
+      />
+    )
   }
 
   return (

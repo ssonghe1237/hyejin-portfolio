@@ -47,7 +47,7 @@ export async function getAbout():
 Promise<AboutResponse> {
     const response = await fetch("/api/about")
 
-    if(!response) {
+    if(!response.ok) {
         return throwApiError(
             response,
             'About 콘텐츠를 불러오지 못했습니다.'

@@ -13,24 +13,46 @@
  * 2026-07-02        Song       CSS Module 스타일 분리
  */
 
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import Footer from './Footer'
 import Header from './Header'
 import styles from './MainLayout.module.css'
 
 function MainLayout() {
+  const location = useLocation()
+  const isAdminRoute = location.pathname.startsWith('/admin')
+
+  if (isAdminRoute) {
+    return <div className={styles.layout}><Header /><main className={styles.main}><Outlet /></main><Footer /></div>
+  }
+
+  const isHomeRoute = location.pathname === '/'
+  const isWorkRoute = location.pathname === '/work'
+  const isResearchRoute = location.pathname === '/research'
+  const isProjectDetailRoute = location.pathname.startsWith('/work/')
+  const isAboutRoute = location.pathname === '/about'
+  const isContactRoute = location.pathname === '/contact'
+  const publicMainClassName = isHomeRoute
+    ? `${styles.main} ${styles.homeMain}`
+      : isWorkRoute
+        ? `${styles.main} ${styles.workMain}`
+        : isResearchRoute
+          ? `${styles.main} ${styles.researchMain}`
+        : isProjectDetailRoute
+        ? `${styles.main} ${styles.projectDetailMain}`
+        : isAboutRoute
+          ? `${styles.main} ${styles.aboutMain}`
+        : isContactRoute
+          ? `${styles.main} ${styles.contactMain}`
+        : styles.main
+
   return (
-    <div className={styles.layout}>
-      <Header />
-
-      <main className={styles.main}>
-        
-        {/* 주소창(URL)에 입력 된 경로에 따라 알맞은 자식 컴포넌트를 이 자리에 끼워 넣어라 */}
-        <Outlet />
-
-      </main>
-
-      <Footer />
+    <div className={styles.pageBackground}>
+      <div className={styles.siteShell}>
+        <Header />
+        <main className={publicMainClassName}><Outlet /></main>
+        <Footer />
+      </div>
     </div>
   )
 }

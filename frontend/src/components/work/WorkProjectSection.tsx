@@ -42,15 +42,13 @@ function WorkProjectSection({
       ? `${styles.grid} ${styles.singleColumnGrid}`
       : `${styles.grid} ${styles.twoColumnGrid}`
   const isSelected = columns === 1
-  const sectionNumber = isSelected ? '01' : '03'
+  const sectionClassName = `${styles.section} ${isSelected ? styles.selectedSection : styles.moreSection}`
 
   return (
-    <section className={styles.section}>
+    <section className={sectionClassName}>
       <div className={styles.header}>
         <div>
-          <p className={styles.eyebrow}>
-            {sectionNumber} / {title}
-          </p>
+          {isSelected && <p className={styles.eyebrow}>PROJECT</p>}
 
           <h2 className={styles.title}>
             {title}
@@ -72,7 +70,7 @@ function WorkProjectSection({
         </p>
       ) : (
         <div className={gridClassName}>
-          {projects.map((project, index) => (
+          {projects.map((project) => (
             <article
               key={project.projectId}
               className={`${styles.project} ${isSelected ? styles.selectedProject : styles.moreProject}`}
@@ -82,31 +80,31 @@ function WorkProjectSection({
                 className={styles.visualLink}
                 aria-label={`${project.title} 프로젝트 상세 보기`}
               >
-                <div className={styles.visual}>
-                  {project.thumbnailUrl ? (
-                    <ImageWithFallback
-                      src={project.thumbnailUrl}
-                      alt={`${project.title} 썸네일`}
-                      fallbackText="프로젝트 썸네일을 불러올 수 없습니다."
-                      height="100%"
-                      objectFit="cover"
-                      borderRadius="0"
-                    />
-                  ) : (
-                    <div className={styles.emptyThumbnail}>
-                      등록된 썸네일이 없습니다.
-                    </div>
-                  )}
+                <div className={styles.browserFrame}>
+                  <div className={styles.browserBar} aria-hidden="true">
+                    <span className={styles.windowControls}><i /><i /><i /></span>
+                    <span className={styles.browserAddress}>PROJECT / {project.slug.toUpperCase()}</span>
+                  </div>
+                  <div className={styles.visual}>
+                    {project.thumbnailUrl ? (
+                      <ImageWithFallback
+                        src={project.thumbnailUrl}
+                        alt={`${project.title} 썸네일`}
+                        fallbackText="프로젝트 썸네일을 불러올 수 없습니다."
+                        height="100%"
+                        objectFit="cover"
+                        borderRadius="0"
+                      />
+                    ) : (
+                      <div className={styles.emptyThumbnail}>
+                        등록된 썸네일이 없습니다.
+                      </div>
+                    )}
+                  </div>
                 </div>
               </Link>
 
               <div className={styles.projectContent}>
-                {isSelected && (
-                  <span className={styles.projectNumber} aria-hidden="true">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                )}
-
                 <div className={styles.meta}>
                   {project.periodText && <span>{project.periodText}</span>}
                   <span>{project.projectType}</span>

@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.util.List;
+import java.time.LocalDate;
 
 /**
  * packageName    : com.hyejin.portfolio.domain.about.dto
@@ -36,6 +37,16 @@ public record AdminAboutUpsertRequestDto(
                 message = "About 소개 요약은 1000자 이하여야 합니다."
         )
         String summary,
+
+        @Size(max = 100) String nameKo,
+        @Size(max = 100) String nameEn,
+        @Size(max = 2000) String profileImageUrl,
+        LocalDate birthDate,
+        @Size(max = 150) String position,
+        @Size(max = 200) String background,
+        @Size(max = 200) String currentFocus,
+        @Size(max = 200) String location,
+        @Size(max = 500) String interests,
 
         @NotBlank(message = "About CTA 문구는 필수입니다.")
         @Size(
@@ -76,7 +87,19 @@ public record AdminAboutUpsertRequestDto(
         List<
                 @NotNull(message = "About 섹션 정보는 null일 수 없습니다.")
                 @Valid AdminAboutSectionRequestDto
-                > sections
+                > sections,
+
+        @Size(max = 20, message = "교육 이력은 최대 20개까지 등록할 수 있습니다.")
+        List<@NotNull @Valid AdminAboutEducationRequestDto> educations,
+
+        @Size(max = 30, message = "수상 이력은 최대 30개까지 등록할 수 있습니다.")
+        List<@NotNull @Valid AdminAboutAwardRequestDto> awards,
+
+        @Size(max = 30, message = "근무 이력은 최대 30개까지 등록할 수 있습니다.")
+        List<@NotNull @Valid AdminAboutWorkExperienceRequestDto> workExperiences,
+
+        @Size(max = 10, message = "기술 카테고리는 최대 10개까지 등록할 수 있습니다.")
+        List<@NotNull @Valid AdminAboutSkillCategoryRequestDto> skillCategories
 
 ) {
 }

@@ -4,19 +4,24 @@
  * author         : Song
  * date           : 2026-07-02
  * description    : ProjectDetailPage 스타일
- *                  - 프로젝트 상세 페이지 상태 영역 및 콘텐츠 간격 관리
- *                  - 상세 페이지 반응형 여백 관리
+ *                  - 상세 페이지 상태와 최종 Back Link 간격 관리
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-07-02        Song       최초 생성
- * 2026-07-27        Song       상세 페이지 여백 및 상태 영역 스타일 개선
  */
 
 .page {
-  display: grid;
-  gap: 56px;
-  padding-bottom: 80px;
+  --font-meta: 10px;
+  --font-label: 12px;
+  --font-ui: 14px;
+  --font-card: 16px;
+  --font-body: 18px;
+  --font-subtitle: 22px;
+  --font-section-title: 35px;
+  --font-hero-title: 50px;
+  display: block;
+  padding-bottom: 0;
 }
 
 .status {
@@ -32,20 +37,45 @@
 }
 
 .backLink {
+  min-height: var(--interactive-target-min);
+  width: fit-content;
+  margin: 48px 68px 80px;
+  display: inline-flex;
+  align-items: center;
   color: var(--color-text-primary);
-  font-size: 14px;
-  font-weight: 700;
+  font-size: var(--font-ui);
+  font-weight: var(--font-weight-heading);
   text-decoration: none;
 }
 
 .backLink:hover {
-  color: var(--color-text);
-  text-decoration: underline;
+  color: var(--color-accent-hover);
 }
 
-@media (max-width: 768px) {
+.backLink:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.darkEnding {
+  background: #111;
+}
+
+.darkEnding .backLink {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.darkEnding .backLink:hover {
+  color: #ff6b00;
+}
+
+@media (max-width: 767px) {
   .page {
-    gap: 40px;
-    padding-bottom: 56px;
+    padding-bottom: 0;
+  }
+
+  .backLink {
+    min-height: var(--interactive-target-mobile);
+    margin: 40px 22px 56px;
   }
 }

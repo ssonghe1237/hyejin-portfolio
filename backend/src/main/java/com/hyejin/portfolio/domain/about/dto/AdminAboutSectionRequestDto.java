@@ -1,5 +1,7 @@
 package com.hyejin.portfolio.domain.about.dto;
 
+import com.hyejin.portfolio.domain.about.entity.AboutSectionType;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -29,6 +31,9 @@ public record AdminAboutSectionRequestDto(
 
         @NotBlank(message = "About 섹션 본문은 필수입니다.")
         String contentHtml,
+
+        @NotNull(message = "About 섹션 유형은 필수입니다.")
+        AboutSectionType sectionType,
 
         @NotNull(message = "About 섹션 표시 순서는 필수입니다.")
         @PositiveOrZero(

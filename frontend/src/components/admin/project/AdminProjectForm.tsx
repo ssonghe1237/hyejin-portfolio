@@ -38,6 +38,11 @@ import {
   uploadAdminProjectImage,
   deleteTemporaryImage,
  } from '../../../api/adminProjectApi'
+import RichTextEditor from '../editor/RichTextEditor'
+import {
+  getProjectRichTextEditorValue,
+  isRichTextProjectSection,
+} from '../../project/projectRichText'
 
 const SECTION_TYPES: ProjectSectionType[] = [
   'CONTENTS',
@@ -956,7 +961,22 @@ function AdminProjectForm({
       return
     }
 
-    await onSubmit(form)
+    const normalizedForm: AdminProjectFormState = {
+      ...form,
+      sections: form.sections.map((section) => {
+        if (!isRichTextProjectSection(section.sectionType)) {
+          return section
+        }
+
+        return {
+          ...section,
+          content:
+            getProjectRichTextEditorValue(section.content) || null,
+        }
+      }),
+    }
+
+    await onSubmit(normalizedForm)
 
     // onSubmit이 정상 완료되었다면 현재 폼의 업로드 이미지는 정식 이미지가 된다
     temporaryImageUrlRef.current.clear()
@@ -1583,24 +1603,38 @@ function AdminProjectForm({
                   </label>
                 </div>
 
-                <label className={styles.field}>
+                <div className={styles.field}>
                   <span>본문</span>
 
-                  <textarea
-                    rows={6}
-                    value={section.content ?? ''}
-                    onChange={(event) =>
-                      updateSection(
-                        sectionIndex,
-                        {
-                          content:
-                            event.target.value ||
-                            null,
-                        },
-                      )
-                    }
-                  />
-                </label>
+                  {isRichTextProjectSection(section.sectionType) ? (
+                    <RichTextEditor
+                      value={getProjectRichTextEditorValue(section.content)}
+                      onChange={(html) =>
+                        updateSection(sectionIndex, {
+                          content: html || null,
+                        })
+                      }
+                      placeholder="프로젝트 섹션 본문을 입력하세요."
+                      disabled={submitting}
+                      ariaLabel={`${section.sectionType} 섹션 본문 편집기`}
+                    />
+                  ) : (
+                    <textarea
+                      rows={6}
+                      value={section.content ?? ''}
+                      onChange={(event) =>
+                        updateSection(
+                          sectionIndex,
+                          {
+                            content:
+                              event.target.value ||
+                              null,
+                          },
+                        )
+                      }
+                    />
+                  )}
+                </div>
 
                 <div className={styles.sectionHeader}>
                   <strong>섹션 이미지</strong>

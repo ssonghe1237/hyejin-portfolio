@@ -21,7 +21,6 @@
 import { useEffect, useState } from 'react'
 import { getAllProjects } from '../api/projectApi'
 import { getRecentResearchList } from '../api/researchApi'
-import WorkIntroSection from '../components/work/WorkIntroSection'
 import WorkProjectSection from '../components/work/WorkProjectSection'
 import type { ProjectListResponse } from '../types/project'
 import type { ResearchListResponse } from '../types/research'
@@ -65,7 +64,7 @@ function WorkPage() {
     fetchProjects()
   }, [])
 
-  useEffect((() => {
+  useEffect(() => {
     async function fetchResearchPosts() {
       try {
         setResearchLoading(true)
@@ -74,11 +73,11 @@ function WorkPage() {
         const response = await getRecentResearchList()
 
         setResearchPosts(response)
-      }catch(error) {
+      } catch (error) {
         console.error(error)
 
         setResearchErrorMessage(
-          'Researt 목록을 불러오지 못했습니다.'
+          'Research 목록을 불러오지 못했습니다.'
         )
       } finally {
         setResearchLoading(false)
@@ -86,9 +85,9 @@ function WorkPage() {
     }
 
     fetchResearchPosts()
-  }), [])
+  }, [])
 
-  const selectProjects = projects.slice(0,3)
+  const selectedProjects = projects.slice(0,3)
   const moreProjects = projects.slice(3)
 
   if (loading) {
@@ -109,12 +108,10 @@ function WorkPage() {
 
   return (
     <div className={styles.page}>
-      <WorkIntroSection />
-
       <WorkProjectSection
         title="Selected Work"
         description="문제 정의부터 구조 설계, 구현과 검증까지 직접 참여한 대표 프로젝트입니다."
-        projects={selectProjects}
+        projects={selectedProjects}
         emptyMessage="등록된 대표 프로젝트가 없습니다."
         columns={1}
       />

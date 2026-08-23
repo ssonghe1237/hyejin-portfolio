@@ -22,16 +22,34 @@ import styles from './ProjectSectionItem.module.css'
 
 interface ProjectSectionItemProps {
   section: ProjectSectionResponse
+  index: number
 }
 
 function ProjectSectionItem({
   section,
+  index,
 }: ProjectSectionItemProps) {
   const isMyRoleSection =
     section.sectionType === 'MY_ROLE'
+  const isWorkflowSection = section.sectionType === 'WORKFLOW'
+
+  const sectionContent = (
+    <>
+      <ProjectSectionBody
+        sectionType={section.sectionType}
+        content={section.content}
+      />
+
+      <ProjectSectionImages
+        images={section.images}
+        sectionType={section.sectionType}
+      />
+    </>
+  )
 
   return (
     <article
+      data-section-type={section.sectionType}
       className={
         isMyRoleSection
           ? `${styles.item} ${styles.myRoleItem}`
@@ -39,7 +57,7 @@ function ProjectSectionItem({
       }
     >
       <p className={styles.type}>
-        {section.sectionType}
+        {String(index + 1).padStart(2, '0')} / {section.sectionType}
       </p>
 
       {section.title && (
@@ -48,15 +66,20 @@ function ProjectSectionItem({
         </h3>
       )}
 
-      <ProjectSectionImages
-        images={section.images}
-        sectionType={section.sectionType}
-      />
-
-      <ProjectSectionBody
-        sectionType={section.sectionType}
-        content={section.content}
-      />
+      {isWorkflowSection ? (
+        <div className={styles.workflowWindow}>
+          <div className={styles.workflowTopBar}>
+            <span className={styles.windowControls} aria-hidden="true">
+              <i />
+              <i />
+              <i />
+            </span>
+            <span>workflow.json — Visual Studio Code</span>
+            <span>UTF-8</span>
+          </div>
+          <div className={styles.workflowBody}>{sectionContent}</div>
+        </div>
+      ) : sectionContent}
     </article>
   )
 }

@@ -12,38 +12,32 @@
  * 2026-07-02        Song       최초 생성
  * 2026-07-02        Song       CSS Module 스타일 분리
  */
-import styles from './WorkIntroSection.module.css';
+import styles from './WorkIntroSection.module.css'
 
 function WorkIntroSection() {
-    return(
+    const techStack = ['Java', 'Spring Boot', 'JPA', 'PostgreSQL', 'React', 'AI RAG']
+
+    return (
         <section className={styles.intro}>
-            <p className={styles.eyebrow}>
-                Backend Portfolio
-            </p>
+                    <div className={styles.introContent}>
+                        <h1 className={styles.title}>
+                            문제를 구조화하고,
+                            <br />
+                            동작하는 서비스로 구현합니다.
+                        </h1>
 
-            <h1 className={styles.title}>
-                문제를 구조화하고,
-                <br />
-                동작하는 서비스로 구현합니다.
-            </h1>
+                        <p className={styles.description}>
+                            Java/Spring 기반 백엔드 구현을 중심으로, 데이터 모델링, API 설계,
+                            관리자 기능, AI RAG 검색 흐름까지 실제 프로젝트에서 맡았던 기능을
+                            정리했습니다.
+                        </p>
 
-            <p className={styles.description}>
-                Java/Spring 기반 백엔드 구현을 중심으로, 데이터 모델링, API 설계,
-                관리자 기능, AI RAG 검색 흐름까지 실제 프로젝트에서 맡았던 기능을
-                정리했습니다.
-            </p>
-
-            <div className={styles.keywordList}>
-                {['Java', 'Spring Boot', 'JPA', 'PostgreSQL', 'React', 'AI RAG'].map(
-                    (keyword) => (
-                        <span key={keyword} className={styles.keyword}>
-                            {keyword}
-                        </span>
-                    ),
-                )}
-            </div>
+                        <div className={styles.metaRule}>
+                            {['Backend Portfolio', ...techStack].join(' | ')}
+                        </div>
+                    </div>
         </section>
     )
 }
 
-export default WorkIntroSection;
+export default WorkIntroSection

@@ -26,7 +26,7 @@
  * 2026-08-05        Song       관리자 About 콘텐츠 편집 페이지 라우팅 추가
  */
 
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import WorkPage from './pages/WorkPage'
 import ProjectDetailPage from './pages/ProjectDetailPage'
 import MainLayout from './components/layout/MainLayout'
@@ -71,6 +71,7 @@ function App() {
           <Route path='/contact' element={<ContactPage />} />
           
           {/* 관리자 페이지 */}
+          <Route path="/admin" element={<Navigate to="/admin/projects" replace />} />
           <Route path="/admin/projects" element={<AdminProjectListPage />} />
           <Route path="/admin/projects/new" element={<AdminProjectCreatePage />} />
           <Route path="/admin/projects/:projectId/edit" element={<AdminProjectUpdatePage />} />

@@ -3,6 +3,7 @@ package com.hyejin.portfolio.domain.about.dto;
 import com.hyejin.portfolio.domain.about.entity.AboutEntity;
 
 import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -25,6 +26,16 @@ public record AboutResponseDto(
 
         String summary,
 
+        String nameKo,
+        String nameEn,
+        String profileImageUrl,
+        LocalDate birthDate,
+        String position,
+        String background,
+        String currentFocus,
+        String location,
+        String interests,
+
         String ctaLabel,
 
         String ctaUrl,
@@ -33,7 +44,15 @@ public record AboutResponseDto(
 
         List<AboutCompetencyResponseDto> competencies,
 
-        List<AboutSectionResponseDto> sections
+        List<AboutSectionResponseDto> sections,
+
+        List<AboutEducationResponseDto> educations,
+
+        List<AboutAwardResponseDto> awards,
+
+        List<AboutWorkExperienceResponseDto> workExperiences,
+
+        List<AboutSkillCategoryResponseDto> skillCategories
 
 ) {
 
@@ -55,11 +74,24 @@ public record AboutResponseDto(
         return new AboutResponseDto(
                 about.getHeading(),
                 about.getSummary(),
+                about.getNameKo(),
+                about.getNameEn(),
+                about.getProfileImageUrl(),
+                about.getBirthDate(),
+                about.getPosition(),
+                about.getBackground(),
+                about.getCurrentFocus(),
+                about.getLocation(),
+                about.getInterests(),
                 about.getCtaLabel(),
                 about.getCtaUrl(),
                 about.getUpdatedAt(),
                 competencies,
-                sections
+                sections,
+                about.getEducations().stream().map(AboutEducationResponseDto::from).toList(),
+                about.getAwards().stream().map(AboutAwardResponseDto::from).toList(),
+                about.getWorkExperiences().stream().map(AboutWorkExperienceResponseDto::from).toList(),
+                about.getSkillCategories().stream().map(AboutSkillCategoryResponseDto::from).toList()
         );
     }
 }
