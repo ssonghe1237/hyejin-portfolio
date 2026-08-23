@@ -284,18 +284,17 @@ The previous Codex run was stopped after 6+ hours. Treat the current code as WIP
 
 ### Stage 1 — Finish Structure & Content
 
-- [x] WHAT I BUILD final Korean direction/copy substantially applied
-- [ ] Featured Project large `01`
-- [ ] ROLE / STACK for Projects 01/02/03
-- [x] Project 02 text-left / image-right
-- [ ] Project 03 text-left / image-right
-- [ ] HOW I BUILD final main title
-- [ ] HOW I BUILD three independent inner cards
-- [ ] shared `label → title → description` intro pattern
-- [ ] Hobby source verification
-- [ ] remove Home `06 CONTACT`
-- [ ] `npm run build`
-- [ ] `npm run lint` and separate pre-existing issues
+- [x] WHAT I BUILD 최종 구조
+- [x] Featured Project 큰 01
+- [x] Project 01/02/03 ROLE / STACK
+- [x] Project 02/03 text-left / image-right
+- [x] HOW I BUILD 최종 제목
+- [x] HOW I BUILD 세 독립 카드
+- [x] label → title → description
+- [x] Hobby source 확인 및 적용
+- [x] 06 Contact 삭제
+- [x] `npm run build`
+- [x] lint 실행 및 기존 오류 2건 분리 확인
 
 Stop and report after Stage 1.
 

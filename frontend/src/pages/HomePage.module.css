@@ -604,3 +604,40 @@ section[aria-labelledby="work-title"] .projectWindow:nth-child(2) .projectInfo{o
   .heroTitle{font-size:32px}
   .section h2,.why h2,.contact h2{font-size:26px}
 }
+
+/* Stage 1: complete Home structure and data presentation. */
+.projectWindow{position:relative}
+.featuredProjectNumber{position:absolute;top:58px;right:34px;z-index:1;color:rgba(255,107,0,.16);font:900 88px/.8 var(--mono);pointer-events:none}
+.projectFacts{display:grid;gap:10px;margin:20px 0 0}
+.projectFacts div{display:grid;grid-template-columns:54px minmax(0,1fr);gap:12px}
+.projectFacts dt{color:#9a8c82;font:700 10px/1.4 var(--mono);letter-spacing:.08em}
+.projectFacts dd{margin:0;color:#4e4944;font:600 12px/1.55 var(--mono);overflow-wrap:anywhere}
+.selectedWorkSection .projectWindow:nth-child(3) .projectBody{grid-template-columns:minmax(260px,.7fr) minmax(0,1.3fr)}
+.selectedWorkSection .projectWindow:nth-child(3) .projectVisual{order:2}
+.selectedWorkSection .projectWindow:nth-child(3) .projectInfo{order:1}
+
+.howBuildContainer{display:grid;gap:14px;margin-top:42px}
+.howBuildCard{padding:52px;border:1px solid var(--line);border-radius:24px;background:#fff;overflow:hidden}
+.howBuildIntro{max-width:760px;margin:0 auto 38px;text-align:center}
+.howBuildIntro .kicker{display:inline-flex}
+.howBuildIntro h3{margin:18px 0 14px;font-size:28px;line-height:1.25}
+.howBuildIntro p{margin:0;color:var(--muted);font-size:var(--font-body);line-height:1.7}
+.howBuildCard .codeFrame{margin:0}
+.howBuildCard.designBuild{border:0;background:linear-gradient(120deg,#f35b14,#ffc185);color:#fff}
+.howBuildCard.designBuild .howBuildIntro{margin-bottom:30px}
+.howBuildCard.designBuild .howBuildIntro .kicker{background:rgba(255,255,255,.22);color:#fff}
+.howBuildCard.designBuild .howBuildIntro h3,.howBuildCard.designBuild .howBuildIntro p{color:#fff}
+
+@media(max-width:900px){
+  .selectedWorkSection .projectWindow:nth-child(3) .projectBody{grid-template-columns:1fr}
+  .selectedWorkSection .projectWindow:nth-child(3) .projectVisual,.selectedWorkSection .projectWindow:nth-child(3) .projectInfo{order:initial}
+}
+@media(max-width:620px){
+  .featuredProjectNumber{top:54px;right:22px;font-size:64px}
+  .projectFacts{margin-top:16px}
+  .howBuildContainer{margin-top:28px;gap:10px}
+  .howBuildCard{padding:30px 22px;border-radius:18px}
+  .howBuildIntro{margin-bottom:28px}
+  .howBuildIntro h3{font-size:23px}
+  .howBuildIntro p{font-size:15px}
+}
