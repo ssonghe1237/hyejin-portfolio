@@ -499,19 +499,19 @@ Target:
 
 Release gate after Stage 2-C.
 
-- [ ] full desktop visual check
-- [ ] 980px
-- [ ] 620px
-- [ ] 390px
-- [ ] horizontal overflow
-- [ ] project image crop
-- [ ] internal routes
-- [ ] external links
-- [ ] no `href="#"`
-- [ ] loading/error regression
-- [ ] production build
-- [ ] lint reviewed
-- [ ] no new TypeScript errors
+- [x] full desktop visual check
+- [x] 980px
+- [x] 620px
+- [x] 390px
+- [x] horizontal overflow
+- [x] project image crop
+- [x] internal routes
+- [x] external links
+- [x] no `href="#"`
+- [x] loading/error regression
+- [x] production build
+- [x] lint reviewed
+- [x] no new TypeScript errors
 
 ---
 
