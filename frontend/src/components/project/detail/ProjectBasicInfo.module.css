@@ -149,6 +149,9 @@
 .title {
   color: #111;
   overflow-wrap: anywhere;
+  font-weight: 800;
+  line-height: 1.16;
+  letter-spacing: -.045em;
 }
 
 .summary {
@@ -156,6 +159,8 @@
   font-size: var(--font-card);
   font-weight: 500;
   line-height: 1.7;
+  letter-spacing: -.015em;
+  overflow-wrap: anywhere;
 }
 
 .meta {
@@ -165,6 +170,8 @@
   color: #756b64;
   font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
   font-size: var(--font-ui);
+  line-height: 1.6;
+  overflow-wrap: anywhere;
 }
 
 .meta span:not(:last-child)::after {

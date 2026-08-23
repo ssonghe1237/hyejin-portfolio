@@ -159,3 +159,29 @@
   .section { padding: 72px 22px; }
   .title { font-size: 28px; }
 }
+
+/* Shared detail measure: technology cards use the same wide desktop column as Work. */
+.section { padding: 96px 56px; }
+.section > .kicker,
+.section > .title,
+.section > .empty,
+.section > .categoryGrid {
+  width: min(100%, 1120px);
+  margin-right: auto;
+  margin-left: auto;
+}
+.title { font-size: var(--font-section-title); line-height: 1.18; letter-spacing: -.045em; }
+.categoryGrid { gap: 18px; }
+.categoryGroup { min-height: 0; padding: 28px; background: #faf8f5; border-color: #ece5df; }
+.technologyList { margin-top: 26px; gap: 10px 12px; }
+.techName { font-size: var(--font-card); line-height: 1.45; overflow-wrap: anywhere; }
+
+@media (max-width: 1179px) {
+  .section { padding: 88px 32px; }
+}
+
+@media (max-width: 767px) {
+  .section { padding: 72px 22px; }
+  .title { font-size: 28px; }
+  .categoryGroup { min-height: 0; }
+}

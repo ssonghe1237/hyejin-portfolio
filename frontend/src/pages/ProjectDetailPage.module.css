@@ -21,6 +21,7 @@
   --font-section-title: 35px;
   --font-hero-title: 50px;
   display: block;
+  background: #fff;
   padding-bottom: 0;
 }
 
@@ -39,7 +40,7 @@
 .backLink {
   min-height: var(--interactive-target-min);
   width: fit-content;
-  margin: 48px 68px 80px;
+  margin: 48px max(56px, calc((100% - 1120px) / 2)) 80px;
   display: inline-flex;
   align-items: center;
   color: var(--color-text-primary);
@@ -77,5 +78,12 @@
   .backLink {
     min-height: var(--interactive-target-mobile);
     margin: 40px 22px 56px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 980px) {
+  .backLink {
+    margin-right: 32px;
+    margin-left: 32px;
   }
 }

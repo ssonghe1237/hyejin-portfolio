@@ -12,7 +12,8 @@
  */
 
 .images {
-  margin-top: 32px;
+  max-width: 840px;
+  margin-top: 36px;
   display: grid;
   gap: 32px;
 }
@@ -26,7 +27,8 @@
   width: 100%;
   max-width: 100%;
   height: auto;
-  border-radius: 0;
+  object-fit: contain;
+  border-radius: 16px;
 }
 
 .caption {
@@ -36,7 +38,7 @@
   line-height: 1.6;
 }
 
-.caption { font-size: var(--font-meta); }
+.caption { font-size: var(--font-meta); overflow-wrap: anywhere; }
 
 @media (max-width: 767px) {
   .images {

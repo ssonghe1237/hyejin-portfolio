@@ -80,3 +80,25 @@
   .section { padding: 72px 22px; }
   .title { font-size: 28px; }
 }
+
+/* The editorial article remains comfortably readable while its outer shell aligns with Home/Work. */
+.section { padding: 104px 56px; }
+.section > .kicker,
+.section > .title,
+.section > .empty,
+.section > .list {
+  width: min(100%, 880px);
+  margin-right: auto;
+  margin-left: auto;
+}
+.title { font-size: var(--font-section-title); line-height: 1.18; letter-spacing: -.045em; }
+.list { border-top-color: #dcd5ce; }
+
+@media (max-width: 1179px) {
+  .section { padding: 88px 32px; }
+}
+
+@media (max-width: 767px) {
+  .section { padding: 72px 22px; }
+  .title { font-size: 28px; }
+}

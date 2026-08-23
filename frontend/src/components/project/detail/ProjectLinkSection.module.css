@@ -213,3 +213,24 @@
 .linkButton:hover {
   color: #ff6b00;
 }
+
+/* Links stay in the shared black ending and follow the Work-page content measure. */
+.section { padding: 96px 56px 0; }
+.section > .kicker,
+.section > .title,
+.section > .empty,
+.section > .linkList {
+  width: min(100%, 1120px);
+  margin-right: auto;
+  margin-left: auto;
+}
+.title { font-size: var(--font-section-title); line-height: 1.18; letter-spacing: -.045em; }
+
+@media (max-width: 1179px) {
+  .section { padding: 88px 32px 0; }
+}
+
+@media (max-width: 767px) {
+  .section { padding: 72px 22px 0; }
+  .title { font-size: 28px; }
+}
