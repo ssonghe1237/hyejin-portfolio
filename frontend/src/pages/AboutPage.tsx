@@ -290,8 +290,8 @@ function AboutPage() {
                 <p className={styles.storyMeta}>
                   05.{String(index + 1).padStart(2, '0')} / STORY
                 </p>
+                <h3 id={`about-story-${index}`} className={styles.storyTitle}>{section.title}</h3>
                 <div className={styles.storyBody}>
-                  <h3 id={`about-story-${index}`} className={styles.storyTitle}>{section.title}</h3>
                   <RichTextContent html={section.contentHtml} className={styles.storyContent} />
                 </div>
               </article>

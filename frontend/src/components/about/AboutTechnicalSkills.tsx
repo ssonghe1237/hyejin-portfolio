@@ -8,6 +8,13 @@ interface AboutTechnicalSkillsProps {
   fallbackSection: AboutSectionResponse | undefined
 }
 
+const supportingTools = [
+  { name: 'Photoshop', description: '이미지 편집' },
+  { name: 'Illustrator', description: '그래픽 디자인' },
+  { name: 'Figma', description: 'UI/UX' },
+  { name: 'Notion', description: '문서·협업' },
+]
+
 function fallbackLabel(name: string) {
   const compactName = name.replace(/[^a-zA-Z0-9가-힣]/g, '')
   return (compactName || 'SKILL').slice(0, 4).toUpperCase()
@@ -27,6 +34,7 @@ function AboutTechnicalSkills({ skillCategories, fallbackSection }: AboutTechnic
       </header>
 
       {usableCategories.length > 0 ? (
+        <>
         <div className={styles.categoryGrid}>
           {usableCategories.map((category, categoryIndex) => {
             const categoryKey = `${category.displayOrder}-${category.title}`
@@ -64,6 +72,21 @@ function AboutTechnicalSkills({ skillCategories, fallbackSection }: AboutTechnic
             )
           })}
         </div>
+        <section className={styles.supportingTools} aria-labelledby="about-supporting-tools-title">
+          <div className={styles.supportingToolsHeader}>
+            <p>SUPPORTING TOOLS</p>
+            <h3 id="about-supporting-tools-title">개발 과정에 함께 사용하는 도구</h3>
+          </div>
+          <ul className={styles.supportingToolsList}>
+            {supportingTools.map((tool) => (
+              <li key={tool.name}>
+                <strong>{tool.name}</strong>
+                <span>{tool.description}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+        </>
       ) : (
         <RichTextContent html={fallbackSection?.contentHtml ?? ''} className={styles.legacyContent} />
       )}
