@@ -4,7 +4,7 @@
  * author         : Song
  * date           : 2026-07-02
  * description    : ProjectSectionImages 스타일
- *                  - 프로젝트 상세 섹션 이미지 목록 스타일 관리
+ *                  - Optional Section Image와 Caption 관리
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
@@ -12,9 +12,10 @@
  */
 
 .images {
+  max-width: 840px;
+  margin-top: 36px;
   display: grid;
-  gap: 16px;
-  margin-top: 20px;
+  gap: 32px;
 }
 
 .figure {
@@ -22,8 +23,26 @@
   margin: 0;
 }
 
+.figure img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 16px;
+}
+
 .caption {
   margin-top: 8px;
   color: var(--color-text-muted);
-  font-size: 14px;
+  font-size: var(--font-size-caption);
+  line-height: 1.6;
+}
+
+.caption { font-size: var(--font-meta); overflow-wrap: anywhere; }
+
+@media (max-width: 767px) {
+  .images {
+    margin-top: 24px;
+    gap: 24px;
+  }
 }

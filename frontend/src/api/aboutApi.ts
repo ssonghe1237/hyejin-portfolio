@@ -10,6 +10,7 @@
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-08-05        Song               최초 생성
+ * 2026-08-24        Song               확장된 About 공개 응답 구조 연동
  */
 
 import type { AboutCompetencyResponse, AboutResponse } from "../types/about"
@@ -47,7 +48,7 @@ export async function getAbout():
 Promise<AboutResponse> {
     const response = await fetch("/api/about")
 
-    if(!response) {
+    if(!response.ok) {
         return throwApiError(
             response,
             'About 콘텐츠를 불러오지 못했습니다.'

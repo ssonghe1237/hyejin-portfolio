@@ -6,12 +6,14 @@
  * description    : 관리자 About API 요청 모듈
  *                  - 관리자 About 상세 조회
  *                  - 관리자 About 생성·수정
+ *                  - 프로필 이미지 및 기술 로고 업로드
  *                  - About 미등록 상태의 204 응답 처리
  *                  - 백엔드 /api/admin/about 엔드포인트와 연동
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-08-05        Song               최초 생성
+ * 2026-08-24        Song               About 프로필·이력·기술 저장 및 이미지 업로드 연동
  */
 
 import type {
@@ -24,6 +26,12 @@ interface ApiErrorResponse {
     detail?: string
     message?: string
     error?: string
+}
+
+export interface AboutProfileImageUploadResponse {
+    imageUrl: string
+    originalFileName: string
+    storedFileName: string
 }
 
 // 실패한 API 응답에서 서버 오류 메시지를 추출
@@ -96,5 +104,33 @@ export async function upsertAdminAbout(
         )
     }
 
+    return response.json()
+}
+
+export async function uploadAdminAboutProfileImage(
+    file: File,
+): Promise<AboutProfileImageUploadResponse> {
+    const formData = new FormData()
+    formData.append('file', file)
+
+    const response = await fetch('/api/admin/about/profile-image/upload', {
+        method: 'POST',
+        body: formData,
+    })
+
+    if (!response.ok) {
+        return throwApiError(response, '프로필 이미지를 업로드하지 못했습니다.')
+    }
+
+    return response.json()
+}
+
+export async function uploadAboutSkillLogo(
+    file: File,
+): Promise<AboutProfileImageUploadResponse> {
+    const formData = new FormData()
+    formData.append('file', file)
+    const response = await fetch('/api/admin/about/skill-logo/upload', { method: 'POST', body: formData })
+    if (!response.ok) return throwApiError(response, '기술 로고를 업로드하지 못했습니다.')
     return response.json()
 }

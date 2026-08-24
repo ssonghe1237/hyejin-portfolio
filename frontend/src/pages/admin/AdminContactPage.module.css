@@ -171,8 +171,9 @@
 
 .deleteButton {
   padding: 8px 12px;
-  border: 1px solid #b8b8b8;
+  border: 1px solid #c94b42;
   border-radius: 6px;
+  color: #a92f28;
   background: transparent;
   cursor: pointer;
 }
@@ -213,10 +214,12 @@
 
 .submitButton {
   padding: 13px 24px;
-  border: 0;
+  border: 1px solid #e76523;
   border-radius: 8px;
   font: inherit;
   font-weight: 700;
+  color: #fff;
+  background: #e76523;
   cursor: pointer;
 }
 

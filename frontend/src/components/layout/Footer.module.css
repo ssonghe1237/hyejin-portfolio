@@ -1,30 +1,14 @@
+.footer{--font-meta:10px;--font-label:12px;--font-card:14px;--font-title:48px;margin:0;border-top:1px solid rgba(255,255,255,.1);border-radius:0 0 32px 32px;color:#fff;background:#111}.inner{width:100%;max-width:var(--layout-max-width);margin:0 auto;padding:28px var(--spacing-page-x) 36px;display:grid;grid-template-columns:1fr auto;align-items:end;gap:24px}.identity{display:flex;flex-direction:column;gap:4px}.identity p{margin:0;color:rgba(255,255,255,.48);line-height:1.5}.identity p:first-of-type{color:#ff8530;font-size:var(--font-label)}.identity p:last-of-type{font-size:var(--font-meta)}.brand{color:#fff;font-size:var(--font-card);font-weight:900;letter-spacing:-.03em;text-decoration:none}.footerRight{display:flex;flex-direction:column;align-items:flex-end;gap:18px}.thankYou{justify-self:end;margin:0;color:rgba(255,255,255,.15);font-size:var(--font-title);font-weight:900;line-height:.9;letter-spacing:-.06em;text-align:right}.footerNav{display:flex;align-items:center;gap:24px}.footerNav a{color:rgba(255,255,255,.65);font-size:14px;text-decoration:none;transition:color 160ms ease}.footerNav a:hover{color:#ff8530}.adminFooter{margin-top:80px;border-top:1px solid var(--color-border-light)}.adminInner{max-width:var(--layout-max-width);margin:0 auto;padding:32px var(--spacing-page-x);color:var(--color-text-muted);font-size:14px}@media(min-width:768px) and (max-width:1179px){.footer{border-radius:0 0 24px 24px}}@media(max-width:767px){.footer{border-radius:0}}@media(max-width:620px){.inner{padding:24px 22px 30px}.thankYou{font-size:40px}.footerRight{gap:14px}.footerNav{gap:16px}}
 /**
  * packageName    : frontend.src.components.layout
  * fileName       : Footer.module.css
  * author         : Song
  * date           : 2026-07-02
  * description    : Footer 컴포넌트 스타일
- *                  - 공통 푸터 레이아웃
- *                  - 하단 저작권 문구 스타일 관리
+ *                  - 공통 푸터 정보 및 링크 레이아웃 구성
+ *                  - 반응형 푸터 화면 스타일 제공
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-07-02        Song       최초 생성
  */
-
-.footer {
-  margin-top: 80px;
-  border-top: 1px solid var(--color-border-light);
-}
-
-.inner {
-  max-width: var(--layout-max-width);
-  margin: 0 auto;
-  padding: 32px var(--spacing-page-x);
-  color: var(--color-text-muted);
-  font-size: 14px;
-}
-
-.copy {
-  margin: 0;
-}

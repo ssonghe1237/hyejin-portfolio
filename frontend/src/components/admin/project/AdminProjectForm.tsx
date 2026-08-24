@@ -7,6 +7,7 @@
  *                  - 프로젝트 기본 정보 입력
  *                  - 썸네일, Hero 이미지, 기술스택 입력
  *                  - 상세 섹션, 섹션별 이미지, 관련 링크 입력
+ *                  - Rich Text 대상 상세 섹션의 전용 편집기 입력 및 저장값 정규화
  *                  - 기존 하위 데이터 ID 기준 선택 삭제 상태 관리
  *                  - 등록 및 수정 페이지 공통 사용
  *                  - 필수 입력 표시 및 동적 항목 버튼 UI 개선
@@ -17,6 +18,7 @@
  * 2026-07-27        Song       관리자 프로젝트 폼 UX 개선
  * 2026-07-28        Song       관리자 이미지 직접 등록 방식으로 변경
  * 2026-07-30        Song       프로젝트 임시 이미지 정리 API 연결
+ * 2026-08-24        Song       프로젝트 Rich Text 섹션 입력 및 저장 처리 확장
  */
 
 import { useRef, useState } from 'react'
@@ -38,6 +40,11 @@ import {
   uploadAdminProjectImage,
   deleteTemporaryImage,
  } from '../../../api/adminProjectApi'
+import RichTextEditor from '../editor/RichTextEditor'
+import {
+  getProjectRichTextEditorValue,
+  isRichTextProjectSection,
+} from '../../project/projectRichText'
 
 const SECTION_TYPES: ProjectSectionType[] = [
   'CONTENTS',
@@ -956,7 +963,22 @@ function AdminProjectForm({
       return
     }
 
-    await onSubmit(form)
+    const normalizedForm: AdminProjectFormState = {
+      ...form,
+      sections: form.sections.map((section) => {
+        if (!isRichTextProjectSection(section.sectionType)) {
+          return section
+        }
+
+        return {
+          ...section,
+          content:
+            getProjectRichTextEditorValue(section.content) || null,
+        }
+      }),
+    }
+
+    await onSubmit(normalizedForm)
 
     // onSubmit이 정상 완료되었다면 현재 폼의 업로드 이미지는 정식 이미지가 된다
     temporaryImageUrlRef.current.clear()
@@ -1583,24 +1605,38 @@ function AdminProjectForm({
                   </label>
                 </div>
 
-                <label className={styles.field}>
+                <div className={styles.field}>
                   <span>본문</span>
 
-                  <textarea
-                    rows={6}
-                    value={section.content ?? ''}
-                    onChange={(event) =>
-                      updateSection(
-                        sectionIndex,
-                        {
-                          content:
-                            event.target.value ||
-                            null,
-                        },
-                      )
-                    }
-                  />
-                </label>
+                  {isRichTextProjectSection(section.sectionType) ? (
+                    <RichTextEditor
+                      value={getProjectRichTextEditorValue(section.content)}
+                      onChange={(html) =>
+                        updateSection(sectionIndex, {
+                          content: html || null,
+                        })
+                      }
+                      placeholder="프로젝트 섹션 본문을 입력하세요."
+                      disabled={submitting}
+                      ariaLabel={`${section.sectionType} 섹션 본문 편집기`}
+                    />
+                  ) : (
+                    <textarea
+                      rows={6}
+                      value={section.content ?? ''}
+                      onChange={(event) =>
+                        updateSection(
+                          sectionIndex,
+                          {
+                            content:
+                              event.target.value ||
+                              null,
+                          },
+                        )
+                      }
+                    />
+                  )}
+                </div>
 
                 <div className={styles.sectionHeader}>
                   <strong>섹션 이미지</strong>

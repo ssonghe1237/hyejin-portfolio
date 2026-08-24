@@ -4,7 +4,7 @@
  * author         : Song
  * date           : 2026-07-02
  * description    : ProjectLinkSection 스타일
- *                  - 프로젝트 관련 링크 목록 스타일 관리
+ *                  - 프로젝트 외부 링크 Editorial List 관리
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
@@ -12,83 +12,225 @@
  */
 
 .section {
-  display: block;
+  padding: var(--spacing-section-desktop) 0 0;
 }
 
 .title {
-  margin: 0 0 24px;
-  font-size: 40px;
-  letter-spacing: -0.05em;
-}
-
-.empty {
-  color: var(--color-text-muted);
-}
-
-.list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-
-.link {
-  display: inline-flex;
-  padding: 10px 14px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-pill);
+  margin: 0 0 40px;
   color: var(--color-text-primary);
-  font-size: 14px;
-  font-weight: 700;
-  text-decoration: none;
-}
-
-.linkList {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.linkButton {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 44px;
-  padding: 0 16px;
-  border: 1px solid #d1d5db;
-  border-radius: 999px;
-  background-color: #ffffff;
-  color: #111827;
-  font-size: 14px;
-  font-weight: 700;
-  text-decoration: none;
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    transform 0.2s ease;
-}
-
-.linkButton:hover {
-  border-color: #4f46e5;
-  background-color: #eef2ff;
-  transform: translateY(-1px);
-}
-
-.linkType {
-  color: #4f46e5;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.04em;
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-display);
+  line-height: var(--line-height-heading);
+  letter-spacing: var(--letter-spacing-heading);
   text-transform: uppercase;
 }
 
+.empty {
+  margin: 0;
+  padding: 24px 0;
+  border-top: 1px solid var(--color-border-strong);
+  color: var(--color-text-muted);
+}
+
+.linkList {
+  border-top: 1px solid var(--color-border-strong);
+}
+
+.linkButton {
+  min-height: 64px;
+  padding: 8px 0;
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 24px;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  text-decoration: none;
+}
+
+.linkIcon {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-primary);
+  transition: color var(--action-transition);
+}
+
+.linkIconSvg {
+  width: 24px;
+  height: 24px;
+}
+
 .linkName {
-  color: #111827;
+  min-width: 0;
+  font-size: var(--font-size-body-large);
+  font-weight: var(--font-weight-control);
+  line-height: var(--line-height-heading);
+  overflow-wrap: anywhere;
 }
 
 .linkArrow {
-  color: #4f46e5;
-  font-weight: 900;
+  color: var(--action-arrow-color);
+  font-weight: var(--font-weight-heading);
+  transition: transform var(--action-transition);
+}
+
+.linkButton:hover .linkArrow {
+  transform: translateX(var(--action-arrow-distance));
+}
+
+.linkButton:hover .linkIcon {
+  color: var(--color-accent);
+}
+
+.linkButton:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+@media (max-width: 1023px) {
+  .section {
+    padding-top: var(--spacing-section-tablet);
+  }
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding-top: var(--spacing-section-mobile);
+  }
+
+  .title {
+    margin-bottom: 32px;
+  }
+
+  .linkButton {
+    min-height: 72px;
+    grid-template-columns: 28px minmax(0, 1fr) auto;
+    gap: 8px 12px;
+  }
+
+  .linkName {
+    grid-column: 2;
+  }
+
+  .linkArrow {
+    grid-column: 3;
+  }
+
+  .linkIcon {
+    grid-column: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .linkArrow {
+    transition: none;
+  }
+
+  .linkIcon {
+    transition: none;
+  }
+
+  .linkButton:hover .linkArrow {
+    transform: none;
+  }
+}
+
+.section { padding: 96px 68px 0; }
+.kicker {
+  width: fit-content;
+  margin: 0 0 20px;
+  padding: 8px 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 999px;
+  color: #d85f00;
+  background: #fff0e4;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: var(--font-label);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.kicker::before { width:6px;height:6px;flex:0 0 auto;border-radius:50%;content:'';background:#ff6b00; }
+.title { font-size: var(--font-section-title); }
+.linkButton { min-height:80px;padding:16px 0;font-size:var(--font-ui);transition:color 160ms ease,transform 160ms ease; }
+.linkName { font-size: var(--font-body); }
+.linkArrow { font-size: var(--font-subtitle); }
+.linkButton:hover { color:#ff6b00;transform:translateX(4px); }
+
+@media (max-width: 1179px) {
+  .section { padding: 88px 48px 0; }
+  .title { font-size: 31px; }
+}
+
+@media (max-width: 767px) {
+  .section { padding: 72px 22px 0; }
+  .title { font-size: 28px; }
+  .linkName { font-size: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .linkButton { transition:none; }
+  .linkButton:hover { transform:none; }
+}
+
+/* Links and the footer form one continuous dark ending area. */
+.section {
+  color: #fff;
+  background: #111;
+  border-top: 1px solid rgba(255, 255, 255, .1);
+}
+
+.title {
+  color: #fff;
+}
+
+.empty {
+  border-top-color: rgba(255, 255, 255, .16);
+  color: rgba(255, 255, 255, .56);
+}
+
+.linkList {
+  border-top-color: rgba(255, 255, 255, .16);
+}
+
+.linkButton {
+  border-bottom-color: rgba(255, 255, 255, .14);
+  color: rgba(255, 255, 255, .9);
+}
+
+.linkIcon {
+  color: rgba(255, 255, 255, .76);
+}
+
+.linkArrow {
+  color: #ff6b00;
+}
+
+.linkButton:hover {
+  color: #ff6b00;
+}
+
+/* Links stay in the shared black ending and follow the Work-page content measure. */
+.section { padding: 96px 56px 0; }
+.section > .kicker,
+.section > .title,
+.section > .empty,
+.section > .linkList {
+  width: min(100%, 1120px);
+  margin-right: auto;
+  margin-left: auto;
+}
+.title { font-size: var(--font-section-title); line-height: 1.18; letter-spacing: -.045em; }
+
+@media (max-width: 1179px) {
+  .section { padding: 88px 32px 0; }
+}
+
+@media (max-width: 767px) {
+  .section { padding: 72px 22px 0; }
+  .title { font-size: 28px; }
 }

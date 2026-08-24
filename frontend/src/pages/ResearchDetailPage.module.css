@@ -1,198 +1,34 @@
+.page { width: 100%; padding: 88px 68px 112px; color: #111; background: #fff; }
+.header,.divider,.articleBody,.footer { width: min(100%, 820px); margin-right: auto; margin-left: auto; }
+.kicker { width: fit-content; margin: 0 0 28px; padding: 8px 14px; display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; color: #c64b00; background: #fff0e4; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 12px; font-weight: 700; letter-spacing: .06em; }
+.kicker::before { width: 6px; height: 6px; flex: 0 0 auto; border-radius: 50%; content: ''; background: #ff6b00; }
+.meta { margin-top: 24px; display: flex; align-items: center; flex-wrap: wrap; gap: 10px 20px; color: #8d847e; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 10px; letter-spacing: .07em; text-transform: uppercase; }
+.meta span { color: #e65d00; font-weight: 700; }
+.title { margin: 0; font-size: 50px; font-weight: 800; line-height: 1.15; letter-spacing: -.045em; overflow-wrap: anywhere; word-break: keep-all; }
+.summary { margin: 28px 0 0; color: var(--color-text-muted); font-size: 18px; line-height: 1.75; word-break: keep-all; }
+.dateGroup { margin-top: 24px; display: flex; align-items: center; flex-wrap: wrap; gap: 10px 18px; color: #9a918b; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 10px; }
+.divider { margin-top: 52px; margin-bottom: 58px; border-top: 1px solid #ded8d2; }
+.articleBody { line-height: 1.75; }
+.footer { margin-top: 64px; padding-top: 32px; border-top: 1px solid #ded8d2; }
+.postNavigation { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.postNavigation a,.postNavigation span,.state a { min-height: 44px; display: inline-flex; align-items: center; color: #111; font-size: 14px; font-weight: 700; text-decoration: none; }
+.postNavigation span { color: #aaa29c; }
+.postNavigation a:hover,.state a:hover { color: #e65d00; }
+.postNavigation a:focus-visible,.state a:focus-visible { outline: 2px solid #ff6b00; outline-offset: 4px; }
+.state { width: 100%; min-height: 320px; padding: 76px 68px; color: var(--color-text-muted); background: #fff; font-size: 16px; line-height: 1.7; }
+.state p { margin: 0 0 16px; }
+@media (max-width: 1179px) { .page { padding: 72px 48px 96px; } .title { font-size: 44px; } .state { padding: 64px 48px; } }
+@media (max-width: 767px) { .page { padding: 48px 22px 76px; } .kicker { margin-bottom: 22px; } .meta { margin-top: 18px; } .title { font-size: 36px; line-height: 1.2; } .summary { margin-top: 22px; font-size: 16px; } .divider { margin-top: 40px; margin-bottom: 42px; } .footer { margin-top: 52px; padding-top: 26px; } .postNavigation { gap: 10px; } .postNavigation a,.postNavigation span { font-size: 13px; } .state { min-height: 240px; padding: 48px 22px; } }
 /**
  * packageName    : frontend.src.pages
  * fileName       : ResearchDetailPage.module.css
  * author         : Song
  * date           : 2026-08-04
- * description    : 사용자 Research 상세 페이지 기본 스타일
- *                  - Research 제목과 메타 정보 배치
- *                  - Tiptap HTML 본문 요소 렌더링
- *                  - 코드 블록과 인라인 코드 스타일 구분
+ * description    : ResearchDetailPage 스타일
+ *                  - Research 상세 본문과 게시글 탐색 레이아웃 구성
+ *                  - 반응형 상세 화면 스타일 제공
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
- * 2026-08-04        Song               최초 생성
+ * 2026-08-04        Song       최초 생성
  */
-
-.page {
-  width: 100%;
-}
-
-.header {
-  max-width: 860px;
-  margin-bottom: 48px;
-}
-
-.category {
-  margin: 0 0 16px;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-}
-
-.title {
-  margin: 0;
-  font-size: clamp(40px, 6vw, 68px);
-  line-height: 1.1;
-  letter-spacing: -0.045em;
-}
-
-.summary {
-  margin: 24px 0 0;
-  color: var(--color-text-muted);
-  font-size: 19px;
-  line-height: 1.7;
-}
-
-.dateGroup {
-  margin-top: 24px;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 16px;
-  color: var(--color-text-muted);
-  font-size: 14px;
-}
-
-/* ==========================================================================
-   Tiptap HTML 본문
-   ========================================================================== */
-
-.content {
-  max-width: 900px;
-  font-size: 17px;
-  line-height: 1.8;
-  overflow-wrap: anywhere;
-}
-
-.content > *:first-child {
-  margin-top: 0;
-}
-
-.content > *:last-child {
-  margin-bottom: 0;
-}
-
-.content p {
-  margin: 0 0 20px;
-}
-
-.content h2 {
-  margin: 48px 0 18px;
-  font-size: 32px;
-  line-height: 1.3;
-  letter-spacing: -0.03em;
-}
-
-.content h3 {
-  margin: 38px 0 16px;
-  font-size: 25px;
-  line-height: 1.35;
-  letter-spacing: -0.02em;
-}
-
-.content ul,
-.content ol {
-  margin: 20px 0;
-  padding-left: 30px;
-}
-
-.content li + li {
-  margin-top: 8px;
-}
-
-.content blockquote {
-  margin: 28px 0;
-  padding: 5px 0 5px 20px;
-  border-left: 3px solid var(--color-text-primary);
-  color: var(--color-text-muted);
-}
-
-.content hr {
-  margin: 40px 0;
-  border: 0;
-  border-top: 1px solid var(--color-border-light);
-}
-
-/* 코드 블록 */
-.content pre {
-  overflow-x: auto;
-  margin: 28px 0;
-  padding: 20px;
-  border-radius: 6px;
-  background-color: #171717;
-  color: #f5f5f5;
-  font-size: 14px;
-  line-height: 1.7;
-  tab-size: 2;
-  white-space: pre;
-}
-
-/*
- * pre 내부 code에는 별도 배경과 여백을 주지 않는다.
- * 코드 블록의 배경과 여백은 pre가 담당한다.
- */
-.content pre code {
-  padding: 0;
-  border-radius: 0;
-  color: inherit;
-  background-color: transparent;
-  font: inherit;
-  white-space: inherit;
-}
-
-/* 문장 안에서 사용하는 인라인 코드 */
-.content :not(pre) > code {
-  padding: 2px 6px;
-  border-radius: 4px;
-  background-color: rgba(0, 0, 0, 0.07);
-  font-family:
-    'SFMono-Regular',
-    Consolas,
-    'Liberation Mono',
-    monospace;
-  font-size: 0.9em;
-}
-
-.content a {
-  color: inherit;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
-
-.footer {
-  margin-top: 48px;
-}
-
-.backLink {
-  color: var(--color-text-primary);
-  font-weight: 700;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
-
-@media (max-width: 720px) {
-  .header {
-    margin-bottom: 36px;
-  }
-
-  .content {
-    font-size: 16px;
-  }
-
-  .content h2 {
-    margin-top: 40px;
-    font-size: 27px;
-  }
-
-  .content h3 {
-    margin-top: 32px;
-    font-size: 22px;
-  }
-
-  .content pre {
-    margin-right: -12px;
-    margin-left: -12px;
-    padding: 18px;
-    border-radius: 0;
-  }
-}

@@ -4,6 +4,7 @@ import com.hyejin.portfolio.domain.project.dto.*;
 import com.hyejin.portfolio.domain.project.entity.*;
 import com.hyejin.portfolio.domain.project.event.ProjectImageFilesDeleteEvent;
 import com.hyejin.portfolio.domain.project.repository.*;
+import com.hyejin.portfolio.global.security.html.RichTextHtmlSanitizer;
 import com.hyejin.portfolio.global.upload.dto.ImageUploadResponseDto;
 import com.hyejin.portfolio.global.upload.service.ImageStorageService;
 import lombok.RequiredArgsConstructor;
@@ -30,17 +31,30 @@ import static org.apache.logging.log4j.util.Strings.trimToNull;
  *                  - 프로젝트 기본 정보 수정
  *                  - 이미지, 섹션, 기술스택, 링크 신규 등록 및 수정
  *                  - 이미지, 섹션, 기술스택, 링크 선택 삭제
+ *                  - 프로젝트 상세 Rich Text 섹션 콘텐츠 정규화 및 안전한 HTML 저장 처리
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-07-03        Song       최초 생성
  * 2026-07-07        Song       프로젝트 등록 기능 추가
  * 2026-07-08        Song       프로젝트 수정 및 하위 데이터 선택 삭제 기능 추가
+ * 2026-08-24        Song       프로젝트 Rich Text 섹션 콘텐츠 정규화 및 HTML Sanitizing 처리 추가
  */
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class AdminProjectServiceImpl implements AdminProjectService {
+
+    private static final Set<ProjectSectionType> RICH_TEXT_SECTION_TYPES =
+            EnumSet.of(
+                    ProjectSectionType.OVERVIEW,
+                    ProjectSectionType.KEY_FEATURES,
+                    ProjectSectionType.MY_ROLE,
+                    ProjectSectionType.ARCHITECTURE,
+                    ProjectSectionType.DATABASE_ERD,
+                    ProjectSectionType.TROUBLESHOOTING,
+                    ProjectSectionType.RESULT
+            );
 
     private final ProjectRepository projectRepository;
     private final ProjectTechRepository projectTechRepository;
@@ -49,6 +63,7 @@ public class AdminProjectServiceImpl implements AdminProjectService {
     private final ProjectLinkRepository projectLinkRepository;
     private final ImageStorageService imageStorageService;
     private final ApplicationEventPublisher eventPublisher;
+    private final RichTextHtmlSanitizer richTextHtmlSanitizer;
 
 
     // =====================================================================================
@@ -621,7 +636,10 @@ public class AdminProjectServiceImpl implements AdminProjectService {
                             .project(project)
                             .sectionType(request.sectionType())
                             .title(trimToNull(request.title()))
-                            .content(trimToNull(request.content()))
+                            .content(normalizeProjectSectionContent(
+                                    request.sectionType(),
+                                    request.content()
+                            ))
                             .displayOrder(request.displayOrder())
                             .build()
             );
@@ -1183,7 +1201,10 @@ public class AdminProjectServiceImpl implements AdminProjectService {
                                 .project(project)
                                 .sectionType(request.sectionType())
                                 .title(trimToNull(request.title()))
-                                .content(trimToNull(request.content()))
+                                .content(normalizeProjectSectionContent(
+                                        request.sectionType(),
+                                        request.content()
+                                ))
                                 .displayOrder(request.displayOrder())
                                 .build()
                 );
@@ -1198,7 +1219,10 @@ public class AdminProjectServiceImpl implements AdminProjectService {
                 section.updateSectionInfo(
                         request.sectionType(),
                         trimToNull(request.title()),
-                        trimToNull(request.content()),
+                        normalizeProjectSectionContent(
+                                request.sectionType(),
+                                request.content()
+                        ),
                         request.displayOrder()
                 );
             }
@@ -1295,6 +1319,30 @@ public class AdminProjectServiceImpl implements AdminProjectService {
                     request.displayOrder()
             );
         }
+    }
+
+    /**
+     * Sanitizes only section types whose content contract is Rich Text HTML.
+     * WORKFLOW and other structured/plain-text sections retain their existing
+     * source format and continue through the previous trim-to-null policy.
+     */
+    private String normalizeProjectSectionContent(
+            ProjectSectionType sectionType,
+            String content
+    ) {
+        String normalizedContent = trimToNull(content);
+
+        if (normalizedContent == null
+                || !RICH_TEXT_SECTION_TYPES.contains(sectionType)) {
+            return normalizedContent;
+        }
+
+        String sanitizedContent =
+                richTextHtmlSanitizer.sanitize(normalizedContent);
+
+        return richTextHtmlSanitizer.hasVisibleContent(sanitizedContent)
+                ? sanitizedContent
+                : null;
     }
 
     // =====================================================================================

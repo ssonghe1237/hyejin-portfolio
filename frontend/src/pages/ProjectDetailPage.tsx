@@ -93,10 +93,6 @@ function ProjectDetailPage() {
 
     return (
         <div className={styles.page}>
-            <Link to='/work' className={styles.backLink}>
-                ← Work 목록으로 돌아가기
-            </Link>
-
             {/* 프로젝트 기본 정보 =========================== */}
             <ProjectDetailHeader project={project}/>
 
@@ -106,8 +102,14 @@ function ProjectDetailPage() {
             {/* 섹션  =================================== */}
             <ProjectContentSection sections={project.sections} />
 
-            {/* 링크  =================================== */}    
-            <ProjectLinkSection links={project.links} />
+            {/* 링크  =================================== */}
+            <div className={styles.darkEnding}>
+                <ProjectLinkSection links={project.links} />
+
+                <Link to='/work' className={styles.backLink}>
+                    ← Work 목록으로 돌아가기
+                </Link>
+            </div>
         </div>
     )
 }

@@ -1,0 +1,114 @@
+/**
+ * packageName    : frontend.src.components.admin
+ * fileName       : AdminHeader.module.css
+ * author         : Song
+ * date           : 2026-08-24
+ * description    : AdminHeader 컴포넌트 스타일
+ *                  - 관리자 공통 네비게이션 및 Active 상태 스타일
+ *                  - 반응형 관리자 헤더 레이아웃 제공
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-08-24        Song       최초 생성
+ */
+
+.header {
+  border-bottom: 1px solid #e6ded5;
+  background: #fffdf9;
+}
+
+.inner {
+  width: min(1180px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 20px 0 16px;
+}
+
+.brand {
+  display: inline-block;
+  color: #171411;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+}
+
+.brand span {
+  color: #e76523;
+}
+
+.navigationRow,
+.navigation {
+  display: flex;
+  align-items: center;
+}
+
+.navigationRow {
+  justify-content: space-between;
+  gap: 28px;
+  margin-top: 18px;
+}
+
+.navigation {
+  gap: 28px;
+}
+
+.navLink,
+.viewSite {
+  color: #302b27;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.navLink {
+  position: relative;
+  padding: 5px 0 8px;
+}
+
+.navLink::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: #e76523;
+  content: '';
+  opacity: 0;
+}
+
+.navLink.active::after {
+  opacity: 1;
+}
+
+.viewSite {
+  flex: 0 0 auto;
+  padding: 8px 12px;
+  border: 1px solid #cfc5bb;
+  border-radius: 6px;
+}
+
+.brand:focus-visible,
+.navLink:focus-visible,
+.viewSite:focus-visible {
+  outline: 3px solid rgba(231, 101, 35, 0.38);
+  outline-offset: 3px;
+}
+
+@media (max-width: 620px) {
+  .inner {
+    width: min(100% - 32px, 1180px);
+  }
+
+  .navigationRow {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .navigation {
+    width: 100%;
+    gap: 22px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+}

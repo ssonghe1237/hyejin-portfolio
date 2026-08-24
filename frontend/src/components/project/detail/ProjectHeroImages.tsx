@@ -14,6 +14,7 @@
  * 2026-07-02        Song       대표 이미지 롤링 기능 추가
  * 2026-07-02        Song       이미지 로드 실패 대응 추가
  * 2026-07-02        Song       CSS Module 스타일 분리
+ * 2026-08-24        Song       대표 이미지 indicator·caption 및 빈 이미지 처리 적용
  */
 
 import { useEffect, useMemo, useState } from 'react'
@@ -31,58 +32,68 @@ function ProjectHeroImages({ images }: ProjectHeroImagesProps) {
     [images],
   )
 
+  return <ProjectHeroImagesContent key={sortedImages.length} images={sortedImages} />
+}
+
+interface ProjectHeroImagesContentProps {
+  images: ProjectImageResponse[]
+}
+
+function ProjectHeroImagesContent({ images }: ProjectHeroImagesContentProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
 
   useEffect(() => {
-    setCurrentIndex(0)
-  }, [sortedImages.length])
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches
 
-  useEffect(() => {
-    if (sortedImages.length <= 1) {
+    if (images.length <= 1 || prefersReducedMotion) {
       return
     }
 
     const timerId = window.setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % sortedImages.length)
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length)
     }, 3500)
 
     return () => {
       window.clearInterval(timerId)
     }
-  }, [sortedImages.length])
+  }, [images.length])
 
-  if (sortedImages.length === 0) {
+  if (images.length === 0) {
     return (
-      <section className={styles.empty}>
-        대표 이미지가 없습니다.
-      </section>
+      <section className={styles.empty} aria-hidden="true" />
     )
   }
 
-  const currentImage = sortedImages[currentIndex]
+  const currentImage = images[currentIndex]
 
   return (
     <section className={styles.hero}>
-      <ImageWithFallback
-        src={currentImage.imageUrl}
-        alt={currentImage.caption ?? '프로젝트 대표 이미지'}
-        fallbackText="대표 이미지를 불러올 수 없습니다."
-        height="360px"
-        objectFit="cover"
-      />
+      <div className={styles.imageViewport}>
+        <ImageWithFallback
+          src={currentImage.imageUrl}
+          alt={currentImage.caption ?? '프로젝트 대표 이미지'}
+          fallbackText="대표 이미지를 불러올 수 없습니다."
+          height="100%"
+          objectFit="cover"
+          borderRadius="0"
+        />
+      </div>
 
       {currentImage.caption && (
-        <p className={styles.caption}>{currentImage.caption}</p>
+        <p className={styles.heroCaption}>{currentImage.caption}</p>
       )}
 
-      {sortedImages.length > 1 && (
-        <div className={styles.dots}>
-          {sortedImages.map((image, index) => (
+      {images.length > 1 && (
+        <div className={styles.heroIndicators}>
+          {images.map((image, index) => (
             <button
               key={image.projectImageId}
               type="button"
               onClick={() => setCurrentIndex(index)}
               aria-label={`${index + 1}번째 대표 이미지 보기`}
+              aria-current={index === currentIndex ? 'true' : undefined}
               className={
                 index === currentIndex
                   ? `${styles.dot} ${styles.dotActive}`

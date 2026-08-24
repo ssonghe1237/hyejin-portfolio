@@ -52,6 +52,77 @@
   margin-bottom: 20px;
 }
 
+.filterPanel {
+  margin: 24px 0 16px;
+  padding: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+  border: 1px solid var(--color-border-light);
+  border-radius: 12px;
+  background-color: #fff;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filterLabel {
+  color: var(--color-text-primary);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.searchInput,
+.filterSelect,
+.resetButton,
+.emptyResetButton {
+  height: 38px;
+  border-radius: 8px;
+  background-color: #fff;
+  color: var(--color-text-primary);
+  font: inherit;
+  font-size: 14px;
+}
+
+.searchInput,
+.filterSelect {
+  padding: 0 10px;
+  border: 1px solid var(--color-border-light);
+}
+
+.searchInput {
+  width: min(320px, 40vw);
+  min-width: 220px;
+}
+
+.filterSelect {
+  min-width: 160px;
+}
+
+.searchInput:focus,
+.filterSelect:focus {
+  outline: none;
+  border-color: #e76523;
+}
+
+.resetButton,
+.emptyResetButton {
+  padding: 0 14px;
+  border: 1px solid #e76523;
+  color: #c94f16;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.resetButton:hover,
+.emptyResetButton:hover {
+  background-color: #fff7ed;
+}
+
 .tableWrapper {
   overflow-x: auto;
 }
@@ -73,6 +144,16 @@
 .table th {
   font-size: 13px;
   white-space: nowrap;
+}
+
+.filteredEmpty {
+  height: 180px;
+  text-align: center !important;
+}
+
+.filteredEmpty p {
+  margin: 0 0 14px;
+  color: var(--color-text-muted);
 }
 
 .slug {
@@ -121,7 +202,8 @@
 }
 
 .deleteButton {
-  border-color: currentColor;
+  border-color: #c94b42;
+  color: #a92f28;
 }
 
 .actionButton:disabled,
@@ -136,9 +218,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--color-text-primary);
-  color: var(--color-background);
-  background-color: var(--color-text-primary);
+  border: 1px solid #e76523;
+  color: #fff;
+  background-color: #e76523;
   font-size: 14px;
   font-weight: 700;
   white-space: nowrap;
@@ -154,4 +236,49 @@
 .detailLink:hover {
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+@media (max-width: 980px) {
+  .filterPanel {
+    align-items: stretch;
+  }
+
+  .filterGroup:first-child {
+    flex: 1 1 280px;
+  }
+
+  .searchInput {
+    width: 100%;
+  }
+}
+
+@media (max-width: 620px) {
+  .header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .title {
+    font-size: 34px;
+  }
+
+  .createLink {
+    align-self: flex-start;
+  }
+
+  .filterPanel {
+    flex-direction: column;
+  }
+
+  .filterGroup,
+  .searchInput,
+  .filterSelect,
+  .resetButton {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .filterGroup:first-child {
+    flex-basis: auto;
+  }
 }

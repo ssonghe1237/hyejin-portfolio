@@ -4,7 +4,7 @@
  * author         : Song
  * date           : 2026-07-02
  * description    : ProjectSectionBody 스타일
- *                  - 프로젝트 상세 섹션 본문 텍스트 스타일 관리
+ *                  - 상세 본문의 Reading Width와 가독성 관리
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
@@ -12,10 +12,28 @@
  */
 
 .body {
-  margin: 20px 0 0;
+  max-width: 840px;
+  margin: 24px 0 0;
   color: var(--color-text-secondary);
-  font-size: 16px;
+  font-size: var(--font-size-body);
   line-height: 1.8;
   white-space: pre-wrap;
-  word-break: break-word;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+
+.richText {
+  max-width: 840px;
+  margin-top: 24px;
+  color: var(--color-text-secondary);
+}
+
+.body {
+  max-width: 840px;
+  font-size: var(--font-card);
+  line-height: 1.8;
+}
+
+@media (max-width: 767px) {
+  .body { font-size: 16px; }
 }

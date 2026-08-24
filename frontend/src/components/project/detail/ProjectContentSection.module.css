@@ -4,45 +4,110 @@
  * author         : Song
  * date           : 2026-07-02
  * description    : ProjectContentSection 스타일
- *                  - 프로젝트 상세 섹션 목록 스타일 관리
+ *                  - 프로젝트 상세 Editorial Section 흐름 관리
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-07-02        Song       최초 생성
  */
+
 .section {
-  margin-top: 80px;
+  padding: var(--spacing-section-desktop) 0;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .title {
-  margin: 0 0 28px;
-  font-size: 40px;
-  letter-spacing: -0.05em;
+  margin: 0 0 48px;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-display);
+  line-height: var(--line-height-heading);
+  letter-spacing: var(--letter-spacing-heading);
+  text-transform: uppercase;
 }
 
 .empty {
-  border: 1px dashed #ccc;
-  border-radius: 20px;
-  padding: 40px;
+  padding: 24px 0;
+  border-top: 1px solid var(--color-border-strong);
   color: var(--color-text-muted);
-  background-color: #fafafa;
 }
 
 .list {
-  display: grid;
-  gap: 32px;
+  border-top: 1px solid var(--color-border-strong);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1023px) {
   .section {
-    margin-top: 56px;
+    padding: var(--spacing-section-tablet) 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding: var(--spacing-section-mobile) 0;
   }
 
   .title {
-    font-size: 32px;
+    margin-bottom: 32px;
   }
+}
 
-  .empty {
-    padding: 28px;
-  }
+.section { padding: 96px 68px; }
+.kicker {
+  width: fit-content;
+  margin: 0 0 20px;
+  padding: 8px 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 999px;
+  color: #d85f00;
+  background: #fff0e4;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: var(--font-label);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.kicker::before { width:6px;height:6px;flex:0 0 auto;border-radius:50%;content:'';background:#ff6b00; }
+.title { font-size: var(--font-section-title); }
+
+@media (max-width: 1179px) {
+  .section { padding: 88px 48px; }
+  .title { font-size: 31px; }
+}
+
+@media (max-width: 767px) {
+  .section { padding: 72px 22px; }
+  .title { font-size: 28px; }
+}
+
+/* The editorial article remains comfortably readable while its outer shell aligns with Home/Work. */
+.section { padding: 104px 56px; }
+.section > .kicker,
+.section > .title,
+.section > .list {
+  width: min(100%, 1120px);
+  margin-right: auto;
+  margin-left: auto;
+}
+.section > .empty {
+  width: min(100%, 880px);
+  margin-right: auto;
+  margin-left: auto;
+}
+.list > * {
+  width: min(100%, 880px);
+  margin-right: auto;
+  margin-left: auto;
+}
+.title { font-size: var(--font-section-title); line-height: 1.18; letter-spacing: -.045em; }
+.list { border-top-color: #dcd5ce; }
+
+@media (max-width: 1179px) {
+  .section { padding: 88px 32px; }
+}
+
+@media (max-width: 767px) {
+  .section { padding: 72px 22px; }
+  .title { font-size: 28px; }
 }

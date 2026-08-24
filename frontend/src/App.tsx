@@ -24,12 +24,14 @@
  * 2026-08-04        Song       관리자 Research 수정 페이지 라우팅 추가
  * 2026-08-04        Song       사용자 Research 전체 목록 페이지 라우팅 추가
  * 2026-08-05        Song       관리자 About 콘텐츠 편집 페이지 라우팅 추가
+ * 2026-08-24        Song       관리자 공통 Layout 기반 중첩 Route 구조 적용
  */
 
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import WorkPage from './pages/WorkPage'
 import ProjectDetailPage from './pages/ProjectDetailPage'
 import MainLayout from './components/layout/MainLayout'
+import AdminLayout from './components/admin/AdminLayout'
 
 import AdminProjectDetailPage from './pages/admin/AdminProjectDetailPage'
 import AdminProjectListPage from './pages/admin/AdminProjectListPage'
@@ -70,22 +72,23 @@ function App() {
 
           <Route path='/contact' element={<ContactPage />} />
           
-          {/* 관리자 페이지 */}
-          <Route path="/admin/projects" element={<AdminProjectListPage />} />
-          <Route path="/admin/projects/new" element={<AdminProjectCreatePage />} />
-          <Route path="/admin/projects/:projectId/edit" element={<AdminProjectUpdatePage />} />
-          <Route path="/admin/projects/:projectId" element={<AdminProjectDetailPage />} />
+        </Route>
 
-          <Route path="/admin/research" element={<AdminResearchListPage />}/>
-          <Route path="/admin/research/:researchId" element={<AdminResearchDetailPage />}/>
-          <Route path="/admin/research/new" element={<AdminResearchCreatePage />}/>
-          <Route path="/admin/research/:researchId/edit" element={<AdminResearchUpdatePage />}/>
+        {/* 관리자 페이지 */}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<Navigate to="projects" replace />} />
+          <Route path="projects" element={<AdminProjectListPage />} />
+          <Route path="projects/new" element={<AdminProjectCreatePage />} />
+          <Route path="projects/:projectId/edit" element={<AdminProjectUpdatePage />} />
+          <Route path="projects/:projectId" element={<AdminProjectDetailPage />} />
 
-          <Route path="/admin/about" element={<AdminAboutPage />}/>
-          <Route path="/admin/contact" element={<AdminContactPage />}/>
-          
-          
+          <Route path="research" element={<AdminResearchListPage />}/>
+          <Route path="research/:researchId" element={<AdminResearchDetailPage />}/>
+          <Route path="research/new" element={<AdminResearchCreatePage />}/>
+          <Route path="research/:researchId/edit" element={<AdminResearchUpdatePage />}/>
 
+          <Route path="about" element={<AdminAboutPage />}/>
+          <Route path="contact" element={<AdminContactPage />}/>
         </Route>
       </Routes>
     </BrowserRouter>

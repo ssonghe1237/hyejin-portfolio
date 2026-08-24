@@ -4,7 +4,7 @@
  * author         : Song
  * date           : 2026-07-02
  * description    : ProjectDetailHeader 스타일
- *                  - 대표 이미지와 프로젝트 기본 정보 카드 겹침 레이아웃 관리
+ *                  - 프로젝트 Full Hero Banner와 Overlay Intro 관리
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
@@ -12,16 +12,194 @@
  */
 
 .header {
-  display: block;
+  position: relative;
+  left: 50%;
+  width: calc(100vw - 16px);
+  max-width: calc(100vw - 16px);
+  margin-top: -40px;
+  margin-left: calc(-50vw + 8px);
 }
 
-.infoCard {
+.banner {
   position: relative;
+}
+
+.banner {
+  min-height: clamp(560px, 68vh, 720px);
+  display: grid;
+  overflow: hidden;
+  background-color: var(--color-text-primary);
+}
+
+.overlay {
+  position: absolute;
   z-index: 1;
-  max-width: 920px;
-  margin: -72px auto 0;
-  padding: 32px;
-  border-radius: var(--radius-lg);
-  background-color: var(--color-surface);
-  box-shadow: var(--shadow-floating);
+  inset: 0;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(21, 21, 21, 0.82) 0%,
+      rgba(21, 21, 21, 0.62) 52%,
+      rgba(21, 21, 21, 0.3) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255, 111, 15, 0.08) 0%,
+      rgba(21, 21, 21, 0.08) 45%,
+      rgba(21, 21, 21, 0.52) 100%
+    );
+  pointer-events: none;
+}
+
+.intro {
+  position: relative;
+  z-index: 2;
+  width: min(100%, var(--layout-max-width));
+  min-height: inherit;
+  margin: 0 auto;
+  padding: clamp(64px, 8vw, 112px) var(--spacing-page-x);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  pointer-events: none;
+}
+
+.eyebrow {
+  margin: 0 0 var(--spacing-molecule);
+  color: var(--color-accent);
+  font-size: var(--font-size-eyebrow);
+  font-weight: var(--font-weight-heading);
+  letter-spacing: var(--letter-spacing-eyebrow);
+  text-transform: uppercase;
+}
+
+@media (max-width: 1023px) {
+  .banner {
+    min-height: 600px;
+  }
+
+  .intro {
+    padding-top: 72px;
+    padding-bottom: 72px;
+  }
+}
+
+@media (max-width: 767px) {
+  .banner {
+    min-height: 680px;
+  }
+
+  .intro {
+    padding-top: 48px;
+    padding-bottom: 64px;
+    justify-content: flex-start;
+  }
+
+  .overlay {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(21, 21, 21, 0.84) 0%,
+        rgba(21, 21, 21, 0.72) 60%,
+        rgba(21, 21, 21, 0.86) 100%
+      ),
+      rgba(255, 111, 15, 0.08);
+  }
+}
+
+/* Public shell-aligned project hero. */
+.header {
+  left: auto;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+.eyebrow {
+  width: fit-content;
+  padding: 8px 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 999px;
+  color: #d85f00;
+  background: #fff0e4;
+  font-size: var(--font-label);
+}
+
+.eyebrow::before {
+  width: 6px;
+  height: 6px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  content: '';
+  background: #ff6b00;
+}
+
+@media (max-width: 767px) {
+  .banner { min-height: 620px; }
+}
+
+/* STEP 1: image banner and information card are separate flow elements. */
+.header {
+  padding: 32px 56px 96px;
+  background: #fff;
+}
+
+.heroStage {
+  position: relative;
+}
+
+.heroImageArea {
+  position: relative;
+  min-height: clamp(430px, 46vw, 560px);
+  overflow: visible;
+  border-radius: 26px;
+  background: #111;
+}
+
+.heroImageArea .overlay {
+  overflow: hidden;
+  border-radius: inherit;
+  background:
+    linear-gradient(180deg, rgba(17,17,17,.06) 0%, rgba(17,17,17,.14) 65%, rgba(17,17,17,.34) 100%),
+    linear-gradient(90deg, rgba(255,107,0,.08), transparent 55%);
+}
+
+.projectInfoCard {
+  position: relative;
+  z-index: 2;
+  width: min(960px, calc(100% - 112px));
+  margin: -120px auto 0;
+  padding: 36px 40px 40px;
+  border: 1px solid #eee7df;
+  border-radius: 24px;
+  color: #111;
+  background: #fff;
+  box-shadow: 0 26px 58px rgba(255, 107, 0, .14);
+}
+
+.projectInfoCard .eyebrow {
+  margin-bottom: 20px;
+}
+
+@media (max-width: 1179px) {
+  .header { padding: 24px 32px 80px; }
+  .heroImageArea { min-height: 460px; border-radius: 24px; }
+  .projectInfoCard {
+    width: min(820px, calc(100% - 64px));
+    margin-top: -104px;
+    padding: 32px 36px 36px;
+  }
+}
+
+@media (max-width: 767px) {
+  .header { padding: 0 0 64px; }
+  .heroImageArea { min-height: 320px; border-radius: 0; }
+  .projectInfoCard {
+    width: calc(100% - 32px);
+    margin-top: -56px;
+    padding: 26px 22px 28px;
+    border-radius: 22px;
+  }
 }

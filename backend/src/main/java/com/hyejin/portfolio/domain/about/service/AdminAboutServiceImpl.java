@@ -1,12 +1,7 @@
 package com.hyejin.portfolio.domain.about.service;
 
-import com.hyejin.portfolio.domain.about.dto.AdminAboutCompetencyRequestDto;
-import com.hyejin.portfolio.domain.about.dto.AdminAboutDetailResponseDto;
-import com.hyejin.portfolio.domain.about.dto.AdminAboutSectionRequestDto;
-import com.hyejin.portfolio.domain.about.dto.AdminAboutUpsertRequestDto;
-import com.hyejin.portfolio.domain.about.entity.AboutCompetencyEntity;
-import com.hyejin.portfolio.domain.about.entity.AboutEntity;
-import com.hyejin.portfolio.domain.about.entity.AboutSectionEntity;
+import com.hyejin.portfolio.domain.about.dto.*;
+import com.hyejin.portfolio.domain.about.entity.*;
 import com.hyejin.portfolio.domain.about.repository.AboutRepository;
 import com.hyejin.portfolio.global.security.html.RichTextHtmlSanitizer;
 import jakarta.validation.Valid;
@@ -23,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.time.LocalDate;
 
 /**
  * packageName    : com.hyejin.portfolio.domain.about.service
@@ -35,10 +31,13 @@ import java.util.Optional;
  *                  - 전체 섹션 교체 및 고아 섹션 삭제 처리
  *                  - About 섹션 Rich Text HTML 정제
  *                  - CTA 주소의 허용 경로 및 프로토콜 검증
+ *                  - 프로필·이력·기술 저장과 이미지 URL 및 기술 로고 정리 처리
+ *                  - 신규 필드가 생략된 기존 관리자 요청의 데이터 보존 처리
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-08-05        Song       최초 생성
+ * 2026-08-24        Song       About 프로필·이력·기술 저장 및 검증 처리 확장
  */
 
 @Service
@@ -125,6 +124,21 @@ public class AdminAboutServiceImpl implements AdminAboutService {
                 ctaUrl
         );
 
+        // STEP 2 이전 Admin 클라이언트가 신규 프로필 필드를 생략하면 기존 값을 보존한다.
+        if (hasProfilePayload(request)) {
+            about.updateProfile(
+                    trimToNull(request.nameKo()),
+                    trimToNull(request.nameEn()),
+                    trimToNull(request.profileImageUrl()),
+                    request.birthDate(),
+                    trimToNull(request.position()),
+                    trimToNull(request.background()),
+                    trimToNull(request.currentFocus()),
+                    trimToNull(request.location()),
+                    trimToNull(request.interests())
+            );
+        }
+
         if (request.published()) {
             about.publish();
         } else {
@@ -141,6 +155,21 @@ public class AdminAboutServiceImpl implements AdminAboutService {
         about.replaceSections(
                 sections
         );
+
+        // STEP 2 Admin UI 전환 전 요청은 신규 목록을 생략할 수 있다.
+        if (request.educations() != null) {
+            about.replaceEducations(createEducations(request.educations()));
+        }
+        if (request.awards() != null) {
+            about.replaceAwards(createAwards(request.awards()));
+        }
+        if (request.workExperiences() != null) {
+            about.replaceWorkExperiences(createWorkExperiences(request.workExperiences()));
+        }
+        // STEP 4B 이전 Admin 클라이언트가 필드를 생략하면 기존 기술 데이터를 보존한다.
+        if (request.skillCategories() != null) {
+            about.replaceSkillCategories(createSkillCategories(request.skillCategories()));
+        }
 
         AboutEntity savedAbout =
                 aboutRepository.saveAndFlush(
@@ -217,6 +246,20 @@ public class AdminAboutServiceImpl implements AdminAboutService {
 
         List<AboutSectionEntity> sections = new ArrayList<>();
 
+        long technicalStackCount = sectionRequests.stream()
+                .filter(request -> request != null && request.sectionType() == AboutSectionType.TECHNICAL_STACK)
+                .count();
+        long troubleshootingCount = sectionRequests.stream()
+                .filter(request -> request != null && request.sectionType() == AboutSectionType.TROUBLESHOOTING)
+                .count();
+
+        if (technicalStackCount > 1 || troubleshootingCount > 1) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Technical Stack과 Troubleshooting 섹션은 각각 하나만 등록할 수 있습니다."
+            );
+        }
+
         for(int index = 0; index < sectionRequests.size(); index++) {
             AdminAboutSectionRequestDto sectionRequest = sectionRequests.get(index);
 
@@ -245,6 +288,7 @@ public class AdminAboutServiceImpl implements AdminAboutService {
                     AboutSectionEntity.builder()
                             .title(sectionRequest.title().trim())
                             .contentHtml(sanitizedContentHtml)
+                            .sectionType(sectionRequest.sectionType())
                             .displayOrder(sectionRequest.displayOrder())
                             .build();
 
@@ -294,5 +338,147 @@ public class AdminAboutServiceImpl implements AdminAboutService {
         }
 
         return competencies;
+    }
+
+    private List<AboutEducationEntity> createEducations(
+            List<AdminAboutEducationRequestDto> requests
+    ) {
+        List<AboutEducationEntity> result = new ArrayList<>();
+        for (int index = 0; index < requests.size(); index++) {
+            AdminAboutEducationRequestDto request = requests.get(index);
+            validateDateRange(request.startDate(), request.endDate(), "교육 이력", index);
+            result.add(AboutEducationEntity.builder()
+                    .educationType(request.educationType())
+                    .institutionName(request.institutionName().trim())
+                    .courseName(request.courseName().trim())
+                    .startDate(request.startDate())
+                    .endDate(request.endDate())
+                    .status(trimToNull(request.status()))
+                    .description(trimToNull(request.description()))
+                    .displayOrder(request.displayOrder())
+                    .build());
+        }
+        return result;
+    }
+
+    private List<AboutAwardEntity> createAwards(
+            List<AdminAboutAwardRequestDto> requests
+    ) {
+        return requests.stream()
+                .map(request -> AboutAwardEntity.builder()
+                        .title(request.title().trim())
+                        .issuer(request.issuer().trim())
+                        .awardedDate(request.awardedDate())
+                        .description(trimToNull(request.description()))
+                        .displayOrder(request.displayOrder())
+                        .build())
+                .toList();
+    }
+
+    private List<AboutWorkExperienceEntity> createWorkExperiences(
+            List<AdminAboutWorkExperienceRequestDto> requests
+    ) {
+        List<AboutWorkExperienceEntity> result = new ArrayList<>();
+        for (int index = 0; index < requests.size(); index++) {
+            AdminAboutWorkExperienceRequestDto request = requests.get(index);
+            validateDateRange(request.startDate(), request.endDate(), "근무 이력", index);
+            String sanitizedDescription = richTextHtmlSanitizer.sanitize(request.descriptionHtml());
+            if (!richTextHtmlSanitizer.hasVisibleContent(sanitizedDescription)) {
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST,
+                        "근무 이력 " + (index + 1) + "번 설명에는 실제 내용이 포함되어야 합니다."
+                );
+            }
+            result.add(AboutWorkExperienceEntity.builder()
+                    .companyName(request.companyName().trim())
+                    .positionTitle(request.positionTitle().trim())
+                    .employmentType(request.employmentType())
+                    .startDate(request.startDate())
+                    .endDate(request.endDate())
+                    .descriptionHtml(sanitizedDescription)
+                    .displayOrder(request.displayOrder())
+                    .build());
+        }
+        return result;
+    }
+
+    private List<AboutSkillCategoryEntity> createSkillCategories(
+            List<AdminAboutSkillCategoryRequestDto> requests
+    ) {
+        validateUniqueCategoryTitles(requests);
+
+        return requests.stream()
+                .map(category -> {
+                    validateUniqueSkillNames(category);
+                    List<AboutSkillEntity> skills = category.skills().stream()
+                            .map(skill -> AboutSkillEntity.builder()
+                                    .name(skill.name().trim())
+                                    .logoUrl(trimToNull(skill.logoUrl()))
+                                    .description(trimToNull(skill.description()))
+                                    .displayOrder(skill.displayOrder())
+                                    .build())
+                            .toList();
+
+                    return AboutSkillCategoryEntity.builder()
+                            .title(category.title().trim())
+                            .description(trimToNull(category.description()))
+                            .displayOrder(category.displayOrder())
+                            .skills(skills)
+                            .build();
+                })
+                .toList();
+    }
+
+    private void validateUniqueCategoryTitles(List<AdminAboutSkillCategoryRequestDto> requests) {
+        long distinctCount = requests.stream()
+                .map(request -> request.title().trim().toLowerCase(Locale.ROOT))
+                .distinct()
+                .count();
+        if (distinctCount != requests.size()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "기술 카테고리 제목은 중복될 수 없습니다.");
+        }
+    }
+
+    private void validateUniqueSkillNames(AdminAboutSkillCategoryRequestDto category) {
+        long distinctCount = category.skills().stream()
+                .map(skill -> skill.name().trim().toLowerCase(Locale.ROOT))
+                .distinct()
+                .count();
+        if (distinctCount != category.skills().size()) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    category.title().trim() + " 카테고리의 기술명은 중복될 수 없습니다."
+            );
+        }
+    }
+
+    private void validateDateRange(
+            LocalDate startDate, LocalDate endDate, String label, int index
+    ) {
+        if (endDate != null && startDate.isAfter(endDate)) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    label + " " + (index + 1) + "번 시작일은 종료일보다 늦을 수 없습니다."
+            );
+        }
+    }
+
+    private String trimToNull(String value) {
+        if (value == null || value.isBlank()) {
+            return null;
+        }
+        return value.trim();
+    }
+
+    private boolean hasProfilePayload(AdminAboutUpsertRequestDto request) {
+        return request.nameKo() != null
+                || request.nameEn() != null
+                || request.profileImageUrl() != null
+                || request.birthDate() != null
+                || request.position() != null
+                || request.background() != null
+                || request.currentFocus() != null
+                || request.location() != null
+                || request.interests() != null;
     }
 }

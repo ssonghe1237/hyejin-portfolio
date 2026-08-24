@@ -1,3 +1,5 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
+
 /**
  * packageName    : frontend.src.styles
  * fileName       : global.css
@@ -14,42 +16,118 @@
  */
 
 :root {
-  font-family:
-    Inter, Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-family-primary:
+    'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont,
+    system-ui, sans-serif;
+  --font-family-monospace:
+    'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
 
-  color: #111;
-  background-color: #fff;
+  font-family: var(--font-family-primary);
+
+  color: #151515;
+  background-color: #ffffff;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --color-text-primary: #111;
-  --color-text-secondary: #555;
-  --color-text-muted: #777;
+  --color-text-primary: #151515;
+  --color-text-secondary: #4b4b4b;
+  --color-text-muted: #767676;
   --color-text-light: #999;
+  --color-text: var(--color-text-primary);
 
-  --color-background: #fff;
-  --color-surface: #fff;
-  --color-surface-muted: #f7f7f7;
-  --color-border: #e5e5e5;
+  --color-background: #ffffff;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f7f7f5;
+  --color-surface-accent: #fff3eb;
+  --color-border: #e9e9e9;
+  --color-border-strong: #d8d8d8;
   --color-border-light: #eee;
+  --color-accent: #ff6f0f;
+  --color-accent-hover: #e85f00;
 
   --color-danger: #c0392b;
 
+  --container-wide: 1440px;
+  --container-standard: 1200px;
+  --container-reading: 760px;
   --layout-max-width: 1120px;
+
+  --breakpoint-mobile: 768px;
+  --breakpoint-tablet: 1024px;
+  --breakpoint-desktop: 1440px;
+
+  --font-size-display: clamp(2.75rem, 7vw, 7rem);
+  --font-size-page-title: clamp(2.5rem, 5vw, 5rem);
+  --font-size-section-title: clamp(2rem, 4vw, 3.5rem);
+  --font-size-h3: clamp(1.5rem, 2.5vw, 2rem);
+  --font-size-body-large: clamp(1.125rem, 1.5vw, 1.25rem);
+  --font-size-body: 1rem;
+  --font-size-small: 0.875rem;
+  --font-size-caption: 0.8125rem;
+  --font-size-eyebrow: 0.8125rem;
+
+  --font-weight-body: 400;
+  --font-weight-supporting: 500;
+  --font-weight-control: 600;
+  --font-weight-heading: 700;
+  --font-weight-display: 800;
+
+  --line-height-display: 1;
+  --line-height-heading: 1.2;
+  --line-height-body: 1.7;
+  --letter-spacing-display: -0.05em;
+  --letter-spacing-heading: -0.03em;
+  --letter-spacing-eyebrow: 0.08em;
+
+  --spacing-micro: 4px;
+  --spacing-atomic: 8px;
+  --spacing-molecule: 16px;
+  --spacing-organism: 32px;
+  --spacing-section-mobile: 56px;
+  --spacing-section-tablet: 72px;
+  --spacing-section-desktop: 96px;
 
   --radius-sm: 12px;
   --radius-md: 16px;
   --radius-lg: 24px;
   --radius-pill: 999px;
 
+  --button-height-default: 44px;
+  --button-height-mobile: 48px;
+  --button-padding-inline: 20px;
+  --button-radius: var(--radius-sm);
+  --button-font-weight: var(--font-weight-heading);
+  --button-primary-background: var(--color-accent);
+  --button-primary-text: var(--color-text-primary);
+  --button-secondary-background: var(--color-text-primary);
+  --button-secondary-text: var(--color-background);
+
+  --action-gap-sm: var(--spacing-atomic);
+  --action-gap-md: var(--spacing-molecule);
+  --action-text-color: var(--color-text-primary);
+  --action-arrow-color: var(--color-accent);
+  --action-arrow-distance: 4px;
+  --action-transition: var(--motion-fast) var(--motion-easing);
+
+  --interactive-target-min: 44px;
+  --interactive-target-mobile: 48px;
+
   --shadow-card: 0 12px 28px rgba(0, 0, 0, 0.04);
   --shadow-floating: 0 18px 40px rgba(0, 0, 0, 0.12);
 
   --spacing-page-x: 24px;
   --spacing-section-y: 56px;
+
+  --motion-fast: 160ms;
+  --motion-normal: 220ms;
+  --motion-easing: ease;
+
+  --focus-ring-width: 2px;
+  --focus-ring-color: var(--color-accent);
+  --focus-ring-offset: 4px;
 }
 
 * {

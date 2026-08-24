@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-08-04        Song       최초 생성
+ * 2026-08-20        Song       자유 섹션의 역할을 명시적으로 구분하는 AboutSectionType 추가
  */
 
 @Entity
@@ -68,6 +69,10 @@ public class AboutSectionEntity {
     )
     private String contentHtml;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "section_type", length = 30)
+    private AboutSectionType sectionType;
+
     @Column(
             name = "display_order",
             nullable = false
@@ -82,10 +87,12 @@ public class AboutSectionEntity {
     private AboutSectionEntity(
             String title,
             String contentHtml,
+            AboutSectionType sectionType,
             Integer displayOrder
     ) {
         this.title = title;
         this.contentHtml = contentHtml;
+        this.sectionType = sectionType;
         this.displayOrder = displayOrder;
     }
 
@@ -106,10 +113,12 @@ public class AboutSectionEntity {
     public void update(
             String title,
             String contentHtml,
+            AboutSectionType sectionType,
             Integer displayOrder
     ) {
         this.title = title;
         this.contentHtml = contentHtml;
+        this.sectionType = sectionType;
         this.displayOrder = displayOrder;
     }
 }

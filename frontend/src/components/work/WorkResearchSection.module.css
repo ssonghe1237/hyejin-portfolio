@@ -3,154 +3,183 @@
  * fileName       : WorkResearchSection.module.css
  * author         : Song
  * date           : 2026-08-04
- * description    : Work 페이지 Research 섹션 기본 스타일
- *                  - 최근 Research 가로 스크롤 카드 구성
- *                  - scroll-snap 기반 카드 탐색
- *                  - 최종 디자인 적용 전 기능 확인용 레이아웃
+ * description    : WorkResearchSection 컴포넌트 스타일
+ *                  - Research 목록과 탐색 링크 레이아웃 구성
+ *                  - 반응형 Research 섹션 스타일 제공
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
- * 2026-08-04        Song               최초 생성
+ * 2026-08-04        Song       최초 생성
  */
 
-.section {
+.research {
+  width: 100%;
+  color: #fff;
+}
+
+.researchInner {
   width: 100%;
 }
 
+.researchTopBand {
+  padding: 0 30px;
+  background: #fff;
+}
+
+.researchLowerBand {
+  padding: 0 30px 84px;
+  background: #111;
+}
+
+.researchCard {
+  width: min(1140px, 100%);
+  margin: 0 auto;
+  padding-right: 52px;
+  padding-left: 52px;
+  background: linear-gradient(110deg, #f55d08 0%, #ff771a 48%, #ffc78f 100%);
+}
+
+.researchCardTop {
+  padding-top: 68px;
+  padding-bottom: 42px;
+  border-radius: 28px 28px 0 0;
+}
+
+.researchCardBottom {
+  padding-top: 0;
+  padding-bottom: 62px;
+  border-radius: 0 0 28px 28px;
+}
+
+.researchCardTop .eyebrow {
+  display: none;
+}
+
 .header {
-  margin-bottom: 28px;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 24px;
+  gap: 32px;
 }
 
-.eyebrow {
-  margin: 0 0 8px;
-  color: var(--color-text-muted);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
+.researchHeading { min-width: 0; }
 
 .title {
   margin: 0;
-  font-size: 36px;
-  line-height: 1.2;
+  color: #fff;
+  font-size: clamp(34px, 3.3vw, 48px);
+  line-height: 1.05;
+  letter-spacing: -.04em;
 }
 
 .description {
-  max-width: 620px;
-  margin: 12px 0 0;
-  color: var(--color-text-muted);
-  line-height: 1.65;
+  margin: 18px 0 0;
+  color: rgba(255, 255, 255, .9);
+  font-size: 16px;
+  line-height: 1.6;
 }
 
-.viewAllLink {
-  flex-shrink: 0;
-  color: var(--color-text-primary);
-  font-size: 14px;
-  font-weight: 700;
+.viewAllLink,
+.readLink {
+  flex: 0 0 auto;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
   text-decoration: none;
+  white-space: nowrap;
 }
 
-.viewAllLink:hover {
-  text-decoration: underline;
-  text-underline-offset: 4px;
+.arrow { margin-left: 6px; }
+
+.researchList {
+  border-top: 1px solid rgba(255, 255, 255, .38);
 }
 
-.cardScroller {
-  padding-bottom: 14px;
-  display: flex;
-  gap: 18px;
-  overflow-x: auto;
-  overscroll-behavior-inline: contain;
-  scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: thin;
+.researchRow {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr) 150px;
+  gap: 28px;
+  align-items: center;
+  min-height: 142px;
+  padding: 28px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, .38);
 }
 
-.card {
-  min-width: min(360px, 82vw);
-  flex: 0 0 min(360px, 82vw);
-  min-height: 280px;
-  padding: 24px;
+.researchMeta {
+  align-self: start;
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--color-border-light);
-  scroll-snap-align: start;
+  gap: 8px;
+  color: rgba(255, 255, 255, .8);
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
 }
 
-.cardMeta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  color: var(--color-text-muted);
-  font-size: 12px;
-}
+.researchCategory { color: #fff; font-weight: 800; }
+.researchDate { color: rgba(255, 255, 255, .7); }
 
-.category {
-  font-weight: 700;
-  letter-spacing: 0.06em;
-}
+.researchContent { min-width: 0; }
 
-.cardTitle {
-  margin: 26px 0 14px;
-  font-size: 23px;
-  line-height: 1.35;
-}
-
-.cardLink {
-  color: var(--color-text-primary);
-  text-decoration: none;
-}
-
-.cardLink:hover {
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
-
-.summary {
+.researchTitle {
   margin: 0;
-  color: var(--color-text-muted);
-  line-height: 1.7;
+  color: #fff;
+  font-size: clamp(20px, 1.9vw, 28px);
+  line-height: 1.2;
+  letter-spacing: -.025em;
 }
 
-.readLink {
-  margin-top: auto;
-  padding-top: 28px;
-  color: var(--color-text-primary);
-  font-size: 14px;
-  font-weight: 700;
+.researchTitle a {
+  color: inherit;
   text-decoration: none;
 }
 
-.readLink:hover {
-  text-decoration: underline;
-  text-underline-offset: 4px;
+.researchSummary {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 12px 0 0;
+  color: rgba(255, 255, 255, .87);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
+
+.readLink { justify-self: end; }
 
 .status,
-.error {
-  padding: 24px;
-  border: 1px solid var(--color-border-light);
+.error,
+.empty {
+  margin: 0;
+  padding: 32px 0;
+  color: rgba(255, 255, 255, .9);
+  font-size: 15px;
 }
 
-@media (max-width: 720px) {
-  .header {
-    align-items: flex-start;
-    flex-direction: column;
-  }
+.error { color: #fff; }
 
-  .title {
-    font-size: 30px;
-  }
+@media (max-width: 980px) {
+  .researchCard { padding-right: 38px; padding-left: 38px; }
+  .researchRow { grid-template-columns: 120px minmax(0, 1fr) 132px; gap: 20px; }
+}
 
-  .card {
-    min-width: 82vw;
-    flex-basis: 82vw;
-    padding: 20px;
-  }
+@media (max-width: 700px) {
+  .researchTopBand,
+  .researchLowerBand { padding-right: 18px; padding-left: 18px; }
+  .researchLowerBand { padding-bottom: 56px; }
+  .researchCard { padding-right: 24px; padding-left: 24px; }
+  .researchCardTop { padding-top: 52px; padding-bottom: 32px; }
+  .researchCardBottom { padding-bottom: 38px; }
+  .header { align-items: flex-start; flex-direction: column; gap: 22px; }
+  .researchRow { grid-template-columns: 1fr; gap: 14px; padding: 24px 0; }
+  .researchMeta { flex-direction: row; align-items: center; gap: 12px; }
+  .readLink { justify-self: start; }
+}
+
+@media (max-width: 390px) {
+  .researchTopBand,
+  .researchLowerBand { padding-right: 10px; padding-left: 10px; }
+  .researchCard { padding-right: 18px; padding-left: 18px; }
+  .title { font-size: 34px; }
+  .description { font-size: 14px; }
 }

@@ -3,144 +3,187 @@
  * fileName       : ContactPage.module.css
  * author         : Song
  * date           : 2026-08-10
- * description    : 포트폴리오 사용자 Contact 페이지 스타일
+ * description    : ContactPage 스타일
+ *                  - 연락 정보와 외부 링크 화면 레이아웃 구성
+ *                  - 반응형 Contact 화면 스타일 제공
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
- * 2026-08-10        Song               최초 생성
+ * 2026-08-10        Song       최초 생성
  */
 
 .page {
-  width: min(1200px, calc(100% - 48px));
-  margin: 0 auto;
-  padding: 80px 0 120px;
+  --font-label: 12px;
+  --font-ui: 14px;
+  --font-body: 18px;
+  --font-section-title: 35px;
+  --font-hero-title: 50px;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  color: #fff;
+  background: #111;
 }
 
-/* ==========================================================================
-   공통
-   ========================================================================== */
+.contactInner {
+  width: 100%;
+  max-width: var(--layout-max-width);
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 66px var(--spacing-page-x) 0;
+}
 
 .eyebrow {
-  margin: 0 0 16px;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 18px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  color: #ff8530;
+  background: #3a1e12;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: var(--font-label);
+  font-weight: 800;
+  letter-spacing: .08em;
+  line-height: 1;
   text-transform: uppercase;
 }
 
-.sectionTitle {
-  margin: 0;
-  font-size: 32px;
-  line-height: 1.25;
-  letter-spacing: -0.03em;
+.eyebrow::before {
+  width: 6px;
+  height: 6px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #ff6b00;
+  content: '';
 }
 
-/* ==========================================================================
-   Hero
-   ========================================================================== */
-
 .hero {
-  max-width: 900px;
-  padding: 48px 0 96px;
+  padding: 0 0 46px;
+  border-bottom: 0;
 }
 
 .heroTitle {
+  max-width: 680px;
   margin: 0;
-  font-size: clamp(
-    48px,
-    7vw,
-    96px
-  );
-  line-height: 1.05;
-  letter-spacing: -0.05em;
+  color: #fff;
+  font-size: clamp(42px, 6vw, 58px);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -.045em;
 }
 
 .heroDescription {
-  max-width: 680px;
-  margin: 32px 0 0;
-  font-size: 18px;
-  line-height: 1.8;
+  max-width: 720px;
+  margin: 24px 0 0;
+  color: #9d9a95;
+  font-size: 16px;
+  line-height: 1.65;
 }
-
-/* ==========================================================================
-   Contact
-   ========================================================================== */
 
 .contactSection {
-  display: grid;
-  grid-template-columns:
-    minmax(180px, 0.7fr)
-    minmax(0, 1.5fr);
-  gap: 64px;
-  padding: 64px 0;
-  border-top: 1px solid #d8d8d8;
+  display: block;
+  padding: 0;
 }
 
-.sectionHeading {
-  min-width: 0;
+.sectionHeading { display: none; }
+
+.sectionTitle {
+  margin: 0;
+  color: #fff;
+  font-size: var(--font-section-title);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -.04em;
 }
 
-.contactList {
-  display: grid;
-}
+.contactList { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 
 .contactItem {
   display: grid;
-  grid-template-columns:
-    120px minmax(0, 1fr);
-  gap: 24px;
+  grid-template-columns: 46px minmax(0, 1fr);
+  grid-template-areas: 'icon label' 'icon link';
+  gap: 8px 14px;
   align-items: start;
-  padding: 24px 0;
-  border-bottom: 1px solid #e4e4e4;
+  min-width: 0;
+  padding: 22px 24px;
+  border: 1px solid rgba(255, 255, 255, .13);
+  border-radius: 18px;
+  background: #191816;
 }
 
-.contactItem:first-child {
-  padding-top: 0;
+.contactItem::before {
+  display: grid;
+  grid-area: icon;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border-radius: 13px;
+  color: #ff6b00;
+  background: #422419;
+  font-size: 18px;
+  content: '↗';
 }
+
+.contactItem:first-child::before { content: '✉'; }
 
 .contactLabel {
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
+  grid-area: label;
+  color: #ff8530;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: var(--font-label);
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
 }
 
 .contactLink {
+  grid-area: link;
   min-width: 0;
-  color: inherit;
-  font-size: 18px;
-  line-height: 1.5;
-  text-decoration: none;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.4;
   overflow-wrap: anywhere;
+  text-decoration: none;
+  transition: color 160ms ease;
 }
 
-.contactLink:hover {
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
+.contactLink:hover { color: #ff8530; }
 
-/* ==========================================================================
-   Resume
-   ========================================================================== */
+.contactLink:focus-visible,
+.resumeLink:focus-visible {
+  outline: 2px solid #ff8530;
+  outline-offset: 4px;
+}
 
 .resumeSection {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
   gap: 48px;
-  margin-top: 32px;
-  padding: 80px 0;
-  border-top: 1px solid #d8d8d8;
+  margin-top: 56px;
+  padding: 44px 48px;
+  border: 0;
+  border-radius: 24px;
+  background: linear-gradient(110deg, #ff703c 0%, #e7441c 100%);
 }
 
 .resumeTitle {
   margin: 0;
-  font-size: clamp(
-    32px,
-    4vw,
-    56px
-  );
-  line-height: 1.15;
-  letter-spacing: -0.04em;
+  color: #fff;
+  font-size: clamp(30px, 4vw, 46px);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -.045em;
+}
+
+.resumeSection .eyebrow {
+  color: #fff;
+  background: rgba(80, 24, 8, .28);
 }
 
 .resumeLink {
@@ -148,89 +191,47 @@
   align-items: center;
   justify-content: space-between;
   gap: 36px;
-  min-width: 220px;
-  padding: 18px 0;
-  border-bottom: 1px solid currentColor;
-  color: inherit;
-  font-size: 16px;
-  font-weight: 700;
+  min-width: 164px;
+  padding: 16px 26px;
+  border: 0;
+  border-radius: 999px;
+  color: #e7441c;
+  background: #fff;
+  font-size: var(--font-ui);
+  font-weight: 800;
   text-decoration: none;
+  transition: color 160ms ease, border-color 160ms ease;
 }
 
-.resumeArrow {
-  font-size: 18px;
-}
+.resumeLink:hover { color: #e7441c; background: #fff7f0; }
+.resumeArrow { color: currentColor; font-size: 18px; }
 
-.resumeLink:hover {
-  opacity: 0.65;
-}
-
-/* ==========================================================================
-   상태 화면
-   ========================================================================== */
-
-.stateSection {
-  padding: 96px 0;
-}
+.stateSection { padding: 96px var(--spacing-page-x) 120px; }
 
 .stateTitle {
   max-width: 720px;
   margin: 0;
-  font-size: clamp(
-    36px,
-    5vw,
-    64px
-  );
+  color: #fff;
+  font-size: clamp(36px, 5vw, 64px);
   line-height: 1.15;
-  letter-spacing: -0.04em;
+  letter-spacing: -.04em;
 }
 
 .stateMessage {
-  padding: 80px 0;
+  margin: 0;
+  padding: 96px var(--spacing-page-x) 120px;
+  color: rgba(255, 255, 255, .72);
+  font-size: var(--font-body);
 }
 
-/* ==========================================================================
-   Responsive
-   ========================================================================== */
-
 @media (max-width: 760px) {
-  .page {
-    width: min(
-      100% - 32px,
-      1200px
-    );
-    padding: 48px 0 80px;
-  }
-
-  .hero {
-    padding: 32px 0 64px;
-  }
-
-  .heroDescription {
-    margin-top: 24px;
-    font-size: 16px;
-  }
-
-  .contactSection {
-    grid-template-columns: 1fr;
-    gap: 36px;
-    padding: 48px 0;
-  }
-
-  .contactItem {
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
-
-  .resumeSection {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 40px;
-    padding: 56px 0;
-  }
-
-  .resumeLink {
-    width: 100%;
-    box-sizing: border-box;
-  }
+  .contactInner { padding: 45px 22px 0; }
+  .hero { padding-bottom: 40px; }
+  .heroTitle { font-size: clamp(34px, 10vw, 44px); }
+  .heroDescription { margin-top: 20px; font-size: 16px; }
+  .contactList { grid-template-columns: 1fr; gap: 12px; }
+  .sectionTitle { font-size: 30px; }
+  .contactItem { padding: 18px; }
+  .resumeSection { flex-direction: column; align-items: stretch; gap: 30px; margin-top: 36px; padding: 34px 24px; }
+  .resumeLink { width: 100%; box-sizing: border-box; }
 }
