@@ -94,6 +94,17 @@
             <version>20260313.1</version>
         </dependency>
 
+        <!-- =========================================================
+             [8] Spring Security
+             - 관리자 로그인 인증
+             - 관리자 API 접근 권한 제어
+             - Session 기반 인증 처리
+        ========================================================= -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa-test</artifactId>
