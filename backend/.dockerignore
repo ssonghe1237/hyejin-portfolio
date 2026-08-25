@@ -1,0 +1,45 @@
+# ============================================================
+# Backend Docker Build Context 제외 설정
+#
+# .gitignore와 .dockerignore는 역할이 다르다.
+#
+# .gitignore
+#   → Git에 올라가지 않게 함
+#
+# .dockerignore
+#   → Docker build context에 들어가지 않게 함
+# ============================================================
+
+
+# Maven build 결과
+target/
+
+
+# 로컬 업로드 파일
+uploads/
+
+
+# Git 관련 파일
+.git/
+.gitignore
+
+
+# IDE
+.idea/
+.vscode/
+
+
+# 로그
+*.log
+
+
+# 로컬 환경 설정
+#
+# 실제 DB 비밀번호가 들어 있기 때문에
+# Docker Image 내부로 절대 복사하지 않는다.
+src/main/resources/application-local.yml
+
+
+# 환경변수 / Secret
+.env
+.env.*

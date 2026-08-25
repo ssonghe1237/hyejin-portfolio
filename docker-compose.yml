@@ -1,0 +1,233 @@
+# ============================================================
+# Portfolio Docker Compose
+#
+# services
+#
+# db       : PostgreSQL
+# backend  : Spring Boot
+# frontend : React + Nginx
+#
+# 여러 개의 Docker 컨테이너를 하나의 문서(YAML 파일)에 정의하고, 명령어 한줄로 동시에 실행, 관리
+#
+# Compose는 별도로 network를 선언하지 않아도
+# 기본 network를 자동으로 생성한다.
+#
+# 같은 Compose Network에 있는 Container끼리는
+# service 이름으로 통신할 수 있다.
+# ============================================================
+
+
+services:
+
+  # ----------------------------------------------------------
+  # PostgreSQL
+  # ----------------------------------------------------------
+
+  db:
+
+    # PostgreSQL 17 사용
+    image: postgres:17-alpine
+
+    restart: unless-stopped
+
+    environment:
+
+      # 실제 값은 루트 .env에서 가져온다.
+      # Docker Compose 프로그램 자체에 .env 파이릉ㄹ 자동으로 탐색하고 변수를 치환해주는 내장 기능이 있어서 가능
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+
+    # PostgreSQL이 실제 요청을 받을 준비가 되었는지 확인
+    healthcheck:
+
+      # $$를 사용하는 이유:
+      #
+      # $POSTGRES_USER를 Compose가 먼저 치환하지 않고
+      # Container 내부 환경변수로 처리하기 위함
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"
+        ]
+
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+
+    # PostgreSQL 데이터 영속화
+    #
+    # Container를 삭제해도
+    # DB 데이터는 named volume에 남는다.
+    # [호스트 영역] : [컨테이너 내부 영역]
+    volumes:
+      - portfolio_postgres_data:/var/lib/postgresql/data
+
+
+
+  # ----------------------------------------------------------
+  # Spring Boot Backend
+  # ----------------------------------------------------------
+
+  backend:
+
+    build:
+
+      # Backend Dockerfile의 build context
+      context: ./backend      # 빌드 할 때 참조할 소스코드의 최상위 루트 디렉터리
+
+      dockerfile: Dockerfile  # 사용할 Dockerfile 파일명
+
+
+    restart: unless-stopped
+
+
+    # DB가 단순히 "실행"된 상태가 아니라
+    # 실제 healthcheck까지 통과한 이후 Backend를 시작한다.
+    depends_on:
+
+      db:
+
+        condition: service_healthy
+
+
+    environment:
+
+      # -----------------------------------------------
+      # Spring Profile
+      # -----------------------------------------------
+
+      # application.yml profiles_active 기본값은 local이지만
+      # Docker에서는 prod로 override한다.
+      SPRING_PROFILES_ACTIVE: prod
+
+
+      # -----------------------------------------------
+      # PostgreSQL
+      # -----------------------------------------------
+
+      # 중요:
+      #
+      # Docker 안에서 localhost는 Backend 자신이다.
+      #
+      # PostgreSQL service 이름이 db이므로
+      # jdbc host도 db가 된다.
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${POSTGRES_DB}
+
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+
+
+      # Production에서는 Hibernate SQL 전체 출력 비활성화
+      SPRING_JPA_SHOW_SQL: "false"
+
+
+      # 현재 프로젝트 첫 배포에서는 기존 정책 유지
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+
+
+      # -----------------------------------------------
+      # Project Images
+      # -----------------------------------------------
+
+      IMAGE_UPLOAD_DIR: /app/uploads/projects
+      IMAGE_URL_PREFIX: /uploads/projects
+
+
+      # -----------------------------------------------
+      # Resume
+      # -----------------------------------------------
+
+      RESUME_UPLOAD_DIR: /app/uploads/resumes
+      RESUME_UPLOAD_PREFIX: /uploads/resumes
+
+
+      # -----------------------------------------------
+      # About Profile Image
+      # -----------------------------------------------
+
+      PROFILE_IMAGE_UPLOAD_DIR: /app/uploads/profile
+      PROFILE_IMAGE_URL_PREFIX: /uploads/profile
+
+
+      # -----------------------------------------------
+      # Skill Logo
+      # -----------------------------------------------
+
+      SKILL_LOGO_UPLOAD_DIR: /app/uploads/skills
+      SKILL_LOGO_URL_PREFIX: /uploads/skills
+
+
+    # 실제 파일은 Host에 저장 => Host Bind Mount 설정
+    #
+    # Container 내부:
+    # /app/uploads
+    #
+    # Host:
+    # ./uploads
+    #
+    # Container를 삭제해도 실제 파일은 Host에 남는다.
+    volumes:
+
+      - ${UPLOADS_HOST_PATH:-./uploads}:/app/uploads
+
+
+    # Backend는 외부 PC에 직접 공개하지 않는다.
+    #
+    # Nginx가 Docker Network 안에서
+    # backend:8081로 접근한다.
+    #
+    # 따라서 ports: 8081:8081은 일부러 작성하지 않는다.
+    expose:
+
+      - "8081"
+
+
+
+  # ----------------------------------------------------------
+  # React + Nginx
+  # ----------------------------------------------------------
+
+  frontend:
+
+    build:
+
+      context: ./frontend
+
+      dockerfile: Dockerfile
+
+
+    restart: unless-stopped
+
+
+    # backend 컨테이너가 켜진 상태면 실행
+    depends_on:
+
+      - backend
+
+
+    # 브라우저가 접근하는 유일한 공개 Port
+    #
+    # Local:
+    # http://localhost:8080
+    #
+    # Production에서는 FRONTEND_PORT=80으로 변경 가능
+    ports:
+
+      - "${FRONTEND_PORT:-8080}:80"
+
+
+
+# ------------------------------------------------------------
+# Named Volumes
+# ------------------------------------------------------------
+
+# PostgreSQL 데이터 저장
+#
+# 실제 DB 데이터 파일을 프로젝트 폴더에서 직접 관리하지 않고
+# Docker가 관리한다.
+volumes:
+
+  portfolio_postgres_data:
