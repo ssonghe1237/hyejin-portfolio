@@ -79,67 +79,27 @@ function App() {
             
           </Route>
 
-          {/* 관리자 페이지 */}
-
           {/* 관리자 로그인 */}
           <Route path="/admin/login" element={<AdminLoginPage />}/>
 
+          {/* 관리자 페이지 */}
           <Route element={<ProtectedAdminRoute />}>
             <Route path="/admin" element={<AdminLayout />}>
-              <Route index element={<Navigate to="projects" replace />}/>
+              <Route index element={<Navigate to="projects" replace />} />
+              <Route path="projects" element={<AdminProjectListPage />} />
+              <Route path="projects/new" element={<AdminProjectCreatePage />} />
+              <Route path="projects/:projectId/edit" element={<AdminProjectUpdatePage />} />
+              <Route path="projects/:projectId" element={<AdminProjectDetailPage />} />
 
-              <Route
-                path="projects"
-                element={<AdminProjectListPage />}
-              />
+              <Route path="research" element={<AdminResearchListPage />}/>
+              <Route path="research/:researchId" element={<AdminResearchDetailPage />}/>
+              <Route path="research/new" element={<AdminResearchCreatePage />}/>
+              <Route path="research/:researchId/edit" element={<AdminResearchUpdatePage />}/>
 
-              <Route
-                path="projects/new"
-                element={<AdminProjectCreatePage />}
-              />
-
-              <Route
-                path="projects/:projectId/edit"
-                element={<AdminProjectUpdatePage />}
-              />
-
-              <Route
-                path="projects/:projectId"
-                element={<AdminProjectDetailPage />}
-              />
-
-              <Route
-                path="research"
-                element={<AdminResearchListPage />}
-              />
-
-              <Route
-                path="research/:researchId"
-                element={<AdminResearchDetailPage />}
-              />
-
-              <Route
-                path="research/new"
-                element={<AdminResearchCreatePage />}
-              />
-
-              <Route
-                path="research/:researchId/edit"
-                element={<AdminResearchUpdatePage />}
-              />
-
-              <Route
-                path="about"
-                element={<AdminAboutPage />}
-              />
-
-              <Route
-                path="contact"
-                element={<AdminContactPage />}
-              />
+              <Route path="about" element={<AdminAboutPage />}/>
+              <Route path="contact" element={<AdminContactPage />}/>
             </Route>
           </Route>
-
         </Routes>
       </AuthProvider>
     </BrowserRouter>
