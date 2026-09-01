@@ -17,12 +17,36 @@ export type AboutSectionType = 'TECHNICAL_STACK' | 'TROUBLESHOOTING' | 'STORY'
 export type AboutEducationType = 'SCHOOL' | 'TRAINING'
 export type AboutEmploymentType = 'FULL_TIME' | 'FREELANCE' | 'INTERN' | 'CONTRACT'
 
-export interface AboutCompetencyResponse { title: string; description: string; displayOrder: number }
-export interface AboutSectionResponse { title: string; contentHtml: string; sectionType: AboutSectionType | null; displayOrder: number }
-export interface AboutEducationResponse { educationType: AboutEducationType; institutionName: string; courseName: string; startDate: string; endDate: string | null; status: string | null; description: string | null; displayOrder: number }
+export interface AboutCompetencyResponse {
+  title: string;
+  description: string;
+  displayOrder: number
+}
+
+export interface AboutSectionResponse { 
+  title: string;
+  contentHtml: string;
+  sectionType: AboutSectionType | null;
+  displayOrder: number
+}
+
+export interface AboutEducationResponse {
+  educationType: AboutEducationType;
+  institutionName: string;
+  courseName: string;
+  startDate: string;
+  endDate: string | null;
+  status: string | null;
+  description: string | null;
+  displayOrder: number
+}
+
 export interface AboutAwardResponse { title: string; issuer: string; awardedDate: string; description: string | null; displayOrder: number }
+
 export interface AboutWorkExperienceResponse { companyName: string; positionTitle: string; employmentType: AboutEmploymentType; startDate: string; endDate: string | null; descriptionHtml: string; displayOrder: number }
+
 export interface AboutSkillResponse { name: string; logoUrl: string | null; description: string | null; displayOrder: number }
+
 export interface AboutSkillCategoryResponse { title: string; description: string | null; displayOrder: number; skills: AboutSkillResponse[] }
 
 export interface AboutResponse {

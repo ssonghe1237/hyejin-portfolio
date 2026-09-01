@@ -84,3 +84,8 @@ app:
     orphan-cleanup-cron: "${SKILL_LOGO_ORPHAN_CLEANUP_CRON:0 50 3 * * *}"
     orphan-cleanup-zone: ${SKILL_LOGO_ORPHAN_CLEANUP_ZONE:Asia/Seoul}
 
+  admin:
+    bootstrap:
+      username: ${ADMIN_BOOTSTRAP_USERNAME:}
+      password: ${ADMIN_BOOTSTRAP_PASSWORD:}
+

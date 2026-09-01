@@ -36,7 +36,7 @@ export async function getProjects(
     return response.json()
 }
 
-// 전체 공ㄱ애 프로젝트 목록 조회
+// 전체 공개 프로젝트 목록 조회
 export async function getAllProjects() {
     const [teamProjects, personalProjects] = await Promise.all([
         getProjects('TEAM'),

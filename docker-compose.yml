@@ -159,6 +159,12 @@ services:
       SKILL_LOGO_UPLOAD_DIR: /app/uploads/skills
       SKILL_LOGO_URL_PREFIX: /uploads/skills
 
+      # -----------------------------------------------
+      # 관리자 페이지 초기 로그인 정보
+      # -----------------------------------------------
+      ADMIN_BOOTSTRAP_USERNAME: ${ADMIN_BOOTSTRAP_USERNAME:-}
+      ADMIN_BOOTSTRAP_PASSWORD: ${ADMIN_BOOTSTRAP_PASSWORD:-}
+
 
     # 실제 파일은 Host에 저장 => Host Bind Mount 설정
     #
@@ -172,6 +178,7 @@ services:
     volumes:
 
       - ${UPLOADS_HOST_PATH:-./uploads}:/app/uploads
+
 
 
     # Backend는 외부 PC에 직접 공개하지 않는다.

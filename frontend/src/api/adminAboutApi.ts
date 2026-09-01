@@ -22,6 +22,8 @@ import type {
 
  } from "../types/about"
 
+import { apiFetch } from './apiClient' 
+
 interface ApiErrorResponse {
     detail?: string
     message?: string
@@ -86,7 +88,7 @@ Promise<AdminAboutDetailResponse | null> {
 export async function upsertAdminAbout(
     request:AdminAboutUpsertRequest
 ): Promise<AdminAboutDetailResponse> {
-    const response = await fetch(
+    const response = await apiFetch(
         "/api/admin/about",
         {
             method: 'PUT',
@@ -111,12 +113,16 @@ export async function uploadAdminAboutProfileImage(
     file: File,
 ): Promise<AboutProfileImageUploadResponse> {
     const formData = new FormData()
+
     formData.append('file', file)
 
-    const response = await fetch('/api/admin/about/profile-image/upload', {
-        method: 'POST',
-        body: formData,
-    })
+    const response = await apiFetch(
+        '/api/admin/about/profile-image/upload',
+        {
+            method: 'POST',
+            body: formData,
+        }
+    )
 
     if (!response.ok) {
         return throwApiError(response, '프로필 이미지를 업로드하지 못했습니다.')
@@ -129,8 +135,21 @@ export async function uploadAboutSkillLogo(
     file: File,
 ): Promise<AboutProfileImageUploadResponse> {
     const formData = new FormData()
+
     formData.append('file', file)
-    const response = await fetch('/api/admin/about/skill-logo/upload', { method: 'POST', body: formData })
-    if (!response.ok) return throwApiError(response, '기술 로고를 업로드하지 못했습니다.')
+
+    const response = await apiFetch(
+        '/api/admin/about/skill-logo/upload',
+        { 
+          method: 'POST',
+          body: formData
+        }
+    )
+
+    if (!response.ok) return throwApiError(
+        response,
+        '기술 로고를 업로드하지 못했습니다.'
+    )
+
     return response.json()
 }

@@ -20,7 +20,7 @@ export default defineConfig({
         changeOrigin: true,
       },
       '/uploads' : {
-        target: 'http://localhost:8081',
+        target: 'http://localhost:8081',  
         changeOrigin: true,
       }
     },

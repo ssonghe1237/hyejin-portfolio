@@ -24,12 +24,13 @@ import {
   getAdminContact,
   uploadContactResume,
   upsertAdminContact,
-} from '../../api/AdminContactApi'
+} from '../../api/adminContactApi'
 
 import type {
   AdminContactDetailResponse,
   AdminContactUpsertRequest,
 } from '../../types/contact'
+
 import styles from './AdminContactPage.module.css'
 
 interface ContactFormState {

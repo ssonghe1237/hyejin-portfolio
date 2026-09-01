@@ -3,11 +3,17 @@ package com.hyejin.portfolio.global.security;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.session.ChangeSessionIdAuthenticationStrategy;
+import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.context.SecurityContextRepository;
 
 /**
  * packageName    : com.hyejin.portfolio.global.security
@@ -28,7 +34,10 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(
+            HttpSecurity http,
+            SecurityContextRepository securityContextRepository
+    ) throws Exception {
 
         http
                 // 관리자 로그인은 Session 기반 -> 인증 정보가 필요할 시에만 session 생성
@@ -83,6 +92,14 @@ public class SecurityConfig {
                                         HttpServletResponse.SC_FORBIDDEN
                                 )
                         )
+                )
+
+                // Spring Security 체인에서 인증정보(securityContext)를 세선에 어떻게 저장할 것인가를 세부 정의하는 설정 코드
+                // securityContext = userDetail 정보를 담은 Authentication을 담은 상자
+                .securityContext(securityContext ->
+                        securityContext
+                                .securityContextRepository(securityContextRepository) // 사용자가 인증에 성공하면 이 저장소를 사용해서 세션에 인증정보를 저장하거나 불러와
+                                .requireExplicitSave(true)
                 );
 
 
@@ -90,8 +107,40 @@ public class SecurityConfig {
 
     }
 
+    // 사용자에게 입력 받은 비밀번호를 해싱하여 DB 값과 똑같은지 검증
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    // 사용자 조회 등 로그인 작업 전체를 지휘하는 최종 인증 처리기(아이디/ 비밀번호 검증)
+    // UserDetails가 들어있는 Authentication 객체를 만들어 리턴
+    @Bean
+    public AuthenticationManager authenticationManager (
+            AuthenticationConfiguration authenticationConfiguration
+    ) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
+
+    // 인증 완료된 SecurityContext를 Http 세션에 안전하게 보관하고
+    // 다음 요청 시 자동으로 불러오도록 저장소(Repository)를 빈으로 등록
+    @Bean
+    public SecurityContextRepository securityContextRepository() {
+        return new HttpSessionSecurityContextRepository();
+    }
+
+    // Session Fixation 방어
+    /* 로그인 전
+
+    JSESSIONID = ABC123
+        ↓
+    로그인 성공
+        ↓
+    Session ID 교체
+        ↓
+    JSESSIONID = XYZ789 */
+    @Bean
+    public SessionAuthenticationStrategy sessionAuthenticationStrategy() {
+        return new ChangeSessionIdAuthenticationStrategy();
     }
 }
