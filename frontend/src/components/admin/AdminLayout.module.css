@@ -20,8 +20,10 @@
 
 .main {
   width: min(1180px, calc(100% - 48px));
+  min-width: 0;
   margin: 0 auto;
   padding: 48px 0 88px;
+  box-sizing: border-box;
 }
 
 @media (max-width: 980px) {
