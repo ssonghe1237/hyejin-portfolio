@@ -76,7 +76,7 @@ function App() {
             <Route path='/about' element={<AboutPage />}/>
 
             <Route path='/contact' element={<ContactPage />} />
-            
+
           </Route>
 
           {/* 관리자 로그인 */}

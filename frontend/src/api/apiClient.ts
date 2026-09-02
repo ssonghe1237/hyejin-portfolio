@@ -34,7 +34,7 @@ function requiresCsrf(method?: string): boolean {
 export async function getCsrfToken(
     forceRefresh = false
 ): Promise<CsrfTokenResponse> {
-    
+
     if(!forceRefresh && cachedCsrfToken) {
         return cachedCsrfToken
     }
@@ -53,11 +53,11 @@ export async function getCsrfToken(
     const csrfToken =
         (await response.json()) as CsrfTokenResponse
 
-    
+
     cachedCsrfToken = csrfToken
 
     return csrfToken
-    
+
 }
 
 

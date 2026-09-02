@@ -22,7 +22,7 @@ import type {
 
  } from "../types/about"
 
-import { apiFetch } from './apiClient' 
+import { apiFetch } from './apiClient'
 
 interface ApiErrorResponse {
     detail?: string
@@ -140,7 +140,7 @@ export async function uploadAboutSkillLogo(
 
     const response = await apiFetch(
         '/api/admin/about/skill-logo/upload',
-        { 
+        {
           method: 'POST',
           body: formData
         }
