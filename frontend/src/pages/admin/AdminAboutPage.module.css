@@ -15,6 +15,7 @@
 
 .page {
   width: 100%;
+  min-width: 0;
 }
 
 .header {
@@ -92,12 +93,14 @@
 
 .form {
   display: flex;
+  min-width: 0;
   flex-direction: column;
   gap: 28px;
 }
 
 .panel,
 .sectionCard {
+  min-width: 0;
   padding: 28px;
   border: 1px solid var(--color-border-light);
 }
@@ -189,6 +192,7 @@
 
 .sectionsArea {
   width: 100%;
+  min-width: 0;
 }
 
 .sectionsHeader {
@@ -233,6 +237,7 @@
 
 .sectionList {
   display: flex;
+  min-width: 0;
   flex-direction: column;
   gap: 22px;
 }

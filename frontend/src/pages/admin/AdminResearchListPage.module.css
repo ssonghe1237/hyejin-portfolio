@@ -17,6 +17,7 @@
 
 .page {
   width: 100%;
+  min-width: 0;
 }
 
 .header {
@@ -124,7 +125,11 @@
 }
 
 .tableWrapper {
+  width: 100%;
+  min-width: 0;
   overflow-x: auto;
+  border: 1px solid var(--color-border-light);
+  scrollbar-width: thin;
 }
 
 .table {

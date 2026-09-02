@@ -14,6 +14,8 @@
 
 .page {
   display: grid;
+  width: 100%;
+  min-width: 0;
   gap: 32px;
 }
 
@@ -25,6 +27,7 @@
 }
 
 .card {
+  min-width: 0;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   padding: 32px;
@@ -33,12 +36,17 @@
 
 .title {
   margin: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
   font-size: 40px;
   letter-spacing: -0.05em;
 }
 
 .summary {
   margin: 16px 0 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
   color: var(--color-text-secondary);
   font-size: 18px;
   line-height: 1.7;
@@ -53,6 +61,7 @@
 
 .metaItem {
   display: grid;
+  min-width: 0;
   gap: 6px;
 }
 
@@ -63,6 +72,9 @@
 }
 
 .value {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
   color: var(--color-text-primary);
   font-size: 15px;
   font-weight: 600;
@@ -70,11 +82,15 @@
 
 .section {
   display: grid;
+  min-width: 0;
   gap: 16px;
 }
 
 .sectionTitle {
   margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
   font-size: 28px;
   letter-spacing: -0.04em;
 }
@@ -88,10 +104,13 @@
 }
 
 .listItem {
+  min-width: 0;
   border: 1px solid var(--color-border-light);
   border-radius: var(--radius-md);
   padding: 16px;
   background-color: #fafafa;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .status {
@@ -106,6 +125,8 @@
 
 .actionBar {
   display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
   justify-content: flex-end;
   align-items: center;
   gap: 12px;
@@ -210,4 +231,36 @@
   color: #be123c;
   font-size: 14px;
   font-weight: 600;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+@media (max-width: 620px) {
+  .page {
+    gap: 24px;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  .title {
+    font-size: 34px;
+  }
+
+  .metaGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .actionBar {
+    align-items: stretch;
+    margin-top: 8px;
+  }
+
+  .publicationButton,
+  .editButton,
+  .deleteButton {
+    flex: 1 1 100%;
+    width: 100%;
+  }
 }
