@@ -22,6 +22,7 @@ import {
 } from 'react-router-dom'
 
 import useAuth from '../../auth/useAuth'
+import styles from './AdminLoginPage.module.css'
 
 
 interface LoginLocationState {
@@ -108,20 +109,29 @@ function AdminLoginPage() {
 
 
   return (
-    <main>
-      <section>
-        <p>SONG HYEJIN / ADMIN</p>
+    <main className={styles.page}>
+      <section className={styles.card}>
+        <p className={styles.brand}>
+          SONG HYEJIN <span>/ ADMIN</span>
+        </p>
 
-        <h1>Admin Login</h1>
+        <h1 className={styles.title}>Admin Login</h1>
 
-        <form onSubmit={handleSubmit}>
+        <form
+          className={styles.form}
+          onSubmit={handleSubmit}
+        >
 
-          <div>
-            <label htmlFor="admin-username">
+          <div className={styles.field}>
+            <label
+              className={styles.label}
+              htmlFor="admin-username"
+            >
               ID
             </label>
 
             <input
+              className={styles.input}
               id="admin-username"
               type="text"
               value={username}
@@ -133,12 +143,16 @@ function AdminLoginPage() {
           </div>
 
 
-          <div>
-            <label htmlFor="admin-password">
+          <div className={styles.field}>
+            <label
+              className={styles.label}
+              htmlFor="admin-password"
+            >
               PASSWORD
             </label>
 
             <input
+              className={styles.input}
               id="admin-password"
               type="password"
               value={password}
@@ -151,13 +165,17 @@ function AdminLoginPage() {
 
 
           {errorMessage && (
-            <p role="alert">
+            <p
+              className={styles.error}
+              role="alert"
+            >
               {errorMessage}
             </p>
           )}
 
 
           <button
+            className={styles.submitButton}
             type="submit"
             disabled={submitting}
           >
