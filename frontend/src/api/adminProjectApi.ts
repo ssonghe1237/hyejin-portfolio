@@ -29,6 +29,8 @@ import type {
   ImageUploadResponse,
 } from '../types/project'
 
+import { apiFetch } from './apiClient'
+
 // 프로젝트 목록 전체 조회
 export async function getAdminProjects() 
 : Promise<AdminProjectListResponse[]> {
@@ -61,7 +63,7 @@ export async function getAdminProjectDetail (projectId: number)
 export async function createAdminProject(
     request:AdminProjectCreateRequest,
 ): Promise<AdminProjectDetailResponse> {
-    const response = await fetch('/api/admin/projects', {
+    const response = await apiFetch('/api/admin/projects', {
         method: 'POST',
         headers: {
             'Content-type' : 'application/json'
@@ -95,7 +97,7 @@ export async function updateAdminProject(
   projectId: number,
   request: AdminProjectUpdateRequest,
 ): Promise<AdminProjectDetailResponse> {
-  const response = await fetch(`/api/admin/projects/${projectId}`,
+  const response = await apiFetch(`/api/admin/projects/${projectId}`,
     {
       method: 'PUT',
       headers: {
@@ -128,7 +130,7 @@ export async function updateAdminProjectPublication(
   projectId:number,
   published: boolean,
 ): Promise<AdminProjectDetailResponse> {
-  const response = await fetch(`/api/admin/projects/${projectId}/publication`,
+  const response = await apiFetch(`/api/admin/projects/${projectId}/publication`,
       {
         method: 'PATCH',
         headers: {
@@ -161,7 +163,7 @@ export async function updateAdminProjectPublication(
 export async function deleteAdminProject(
   projectId: number,
 ): Promise<void> {
-  const response = await fetch(
+  const response = await apiFetch(
     `/api/admin/projects/${projectId}`,
     {
       method: 'DELETE',
@@ -192,7 +194,7 @@ export async function uploadAdminProjectImage(
 
   formData.append('file', file)
 
-  const response = await fetch(
+  const response = await apiFetch(
     '/api/admin/project-images/upload',
     {
       method: 'POST',
@@ -225,7 +227,7 @@ export async function deleteTemporaryImage(
     imageUrl,
   })
 
-  const response = await fetch(
+  const response = await apiFetch(
     `/api/admin/project-images/temp?${params.toString()}`,
     {
       method: 'DELETE'

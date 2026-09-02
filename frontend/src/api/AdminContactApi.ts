@@ -18,6 +18,8 @@ import type {
     AdminContactUpsertRequest
 } from '../types/contact';
 
+import { apiFetch } from './apiClient'
+
 interface ApiErrorResponse {
     message?: string
     detail?: string
@@ -70,7 +72,7 @@ Promise<AdminContactDetailResponse | null> {
 export async function upsertAdminContact(
   request: AdminContactUpsertRequest,
 ): Promise<AdminContactDetailResponse> {
-  const response = await fetch(
+  const response = await apiFetch(
     '/api/admin/contact',
     {
       method: 'PUT',
@@ -102,7 +104,7 @@ export async function uploadContactResume(
     file
   )
 
-  const response = await fetch(
+  const response = await apiFetch(
     '/api/admin/contact/resume',
     {
       method: 'POST',
@@ -122,7 +124,7 @@ export async function uploadContactResume(
 
 // 관리자 이력서 PDF 삭제
 export async function deleteContactResume():Promise<void> {
-  const response = await fetch(
+  const response = await apiFetch(
     '/api/admin/contact/resume',
     {
       method: 'DELETE'

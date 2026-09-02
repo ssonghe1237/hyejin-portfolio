@@ -1,11 +1,3 @@
-import type {
-  AdminResearchCreateRequest,
-  AdminResearchDetailResponse,
-  AdminResearchListResponse,
-  AdminResearchPublicationUpdateRequest,
-  AdminResearchUpdateRequest,
-} from '../types/research'
-
 /**
  * packageName    : frontend.src.api
  * fileName       : adminResearchApi.ts
@@ -22,6 +14,17 @@ import type {
  * -----------------------------------------------------------
  * 2026-08-04        Song               최초 생성
  */
+
+import type {
+  AdminResearchCreateRequest,
+  AdminResearchDetailResponse,
+  AdminResearchListResponse,
+  AdminResearchPublicationUpdateRequest,
+  AdminResearchUpdateRequest,
+} from '../types/research'
+
+import { apiFetch } from './apiClient'
+
 
 interface ApiErrorResponse {
   detail?: string
@@ -105,7 +108,7 @@ export async function getAdminResearchDetail(
 export async function createAdminResearch(
   request: AdminResearchCreateRequest,
 ): Promise<AdminResearchDetailResponse> {
-  const response = await fetch(
+  const response = await apiFetch(
     '/api/admin/research',
     {
       method: 'POST',
@@ -135,7 +138,7 @@ export async function updateAdminResearch(
   researchId: number,
   request: AdminResearchUpdateRequest,
 ): Promise<AdminResearchDetailResponse> {
-  const response = await fetch(
+  const response = await apiFetch(
     `/api/admin/research/${researchId}`,
     {
       method: 'PUT',
@@ -169,7 +172,7 @@ export async function updateAdminResearchPublication(
     published,
   }
 
-  const response = await fetch(
+  const response = await apiFetch(
     `/api/admin/research/${researchId}/publication`,
     {
       method: 'PATCH',
@@ -198,7 +201,7 @@ export async function updateAdminResearchPublication(
 export async function deleteAdminResearch(
   researchId: number,
 ): Promise<void> {
-  const response = await fetch(
+  const response = await apiFetch(
     `/api/admin/research/${researchId}`,
     {
       method: 'DELETE',

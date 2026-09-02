@@ -51,46 +51,57 @@ import AboutPage from './pages/AboutPage'
 import ResearchListPage from './pages/ResearchListPage'
 import ResearchDetailPage from './pages/ResearchDetailPage'
 
+import AuthProvider from './auth/AuthProvider'
+import ProtectedAdminRoute from './components/admin/ProtectedAdminRoute'
+import AdminLoginPage from './pages/admin/AdminLoginPage'
+
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        {/* React Router Outlet 기반 하위 페이지 렌더링 */}
-        <Route element={<MainLayout />}>
-          {/* 진입 페이지 */}
-          <Route path="/" element={<HomePage />} />
+      <AuthProvider>
+        <Routes>
+          {/* React Router Outlet 기반 하위 페이지 렌더링 */}
+          <Route element={<MainLayout />}>
+            {/* 진입 페이지 */}
+            <Route path="/" element={<HomePage />} />
 
-          {/* 사용자 페이지 */}
-          <Route path="/work" element={<WorkPage />} />
+            {/* 사용자 페이지 */}
+            <Route path="/work" element={<WorkPage />} />
 
-          <Route path="/work/:slug" element={<ProjectDetailPage />} />
+            <Route path="/work/:slug" element={<ProjectDetailPage />} />
 
-          <Route path="/research/:slug" element={<ResearchDetailPage />} />
-          <Route path="/research" element={<ResearchListPage />}/>
+            <Route path="/research/:slug" element={<ResearchDetailPage />} />
+            <Route path="/research" element={<ResearchListPage />}/>
 
-          <Route path='/about' element={<AboutPage />}/>
+            <Route path='/about' element={<AboutPage />}/>
 
-          <Route path='/contact' element={<ContactPage />} />
-          
-        </Route>
+            <Route path='/contact' element={<ContactPage />} />
 
-        {/* 관리자 페이지 */}
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<Navigate to="projects" replace />} />
-          <Route path="projects" element={<AdminProjectListPage />} />
-          <Route path="projects/new" element={<AdminProjectCreatePage />} />
-          <Route path="projects/:projectId/edit" element={<AdminProjectUpdatePage />} />
-          <Route path="projects/:projectId" element={<AdminProjectDetailPage />} />
+          </Route>
 
-          <Route path="research" element={<AdminResearchListPage />}/>
-          <Route path="research/:researchId" element={<AdminResearchDetailPage />}/>
-          <Route path="research/new" element={<AdminResearchCreatePage />}/>
-          <Route path="research/:researchId/edit" element={<AdminResearchUpdatePage />}/>
+          {/* 관리자 로그인 */}
+          <Route path="/admin/login" element={<AdminLoginPage />}/>
 
-          <Route path="about" element={<AdminAboutPage />}/>
-          <Route path="contact" element={<AdminContactPage />}/>
-        </Route>
-      </Routes>
+          {/* 관리자 페이지 */}
+          <Route element={<ProtectedAdminRoute />}>
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<Navigate to="projects" replace />} />
+              <Route path="projects" element={<AdminProjectListPage />} />
+              <Route path="projects/new" element={<AdminProjectCreatePage />} />
+              <Route path="projects/:projectId/edit" element={<AdminProjectUpdatePage />} />
+              <Route path="projects/:projectId" element={<AdminProjectDetailPage />} />
+
+              <Route path="research" element={<AdminResearchListPage />}/>
+              <Route path="research/:researchId" element={<AdminResearchDetailPage />}/>
+              <Route path="research/new" element={<AdminResearchCreatePage />}/>
+              <Route path="research/:researchId/edit" element={<AdminResearchUpdatePage />}/>
+
+              <Route path="about" element={<AdminAboutPage />}/>
+              <Route path="contact" element={<AdminContactPage />}/>
+            </Route>
+          </Route>
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   )
 }

@@ -87,6 +87,24 @@
   border-radius: 6px;
 }
 
+.adminActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.adminUser {
+  color: #302b27;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.logoutButton {
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
+}
+
 .brand:focus-visible,
 .navLink:focus-visible,
 .viewSite:focus-visible {
@@ -110,5 +128,9 @@
     gap: 22px;
     overflow-x: auto;
     padding-bottom: 4px;
+  }
+
+  .adminActions {
+    flex-wrap: wrap;
   }
 }

@@ -13,7 +13,8 @@
  * 2026-08-24        Song       최초 생성
  */
 
-import { NavLink, Link } from 'react-router-dom'
+import { NavLink, Link, useNavigate } from 'react-router-dom'
+import useAuth from '../../auth/useAuth'
 import styles from './AdminHeader.module.css'
 
 const adminNavigation = [
@@ -24,6 +25,20 @@ const adminNavigation = [
 ]
 
 function AdminHeader() {
+  const { admin, logout } = useAuth()
+  const navigate = useNavigate()
+
+  async function handleLogout() {
+    try {
+      await logout()
+      navigate('/admin/login', {
+        replace: true,
+      })
+    } catch (error) {
+      console.error('관리자 로그아웃 실패', error)
+    }
+  }
+
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
@@ -46,9 +61,28 @@ function AdminHeader() {
             ))}
           </nav>
 
-          <Link to="/" className={styles.viewSite}>
-            View Site <span aria-hidden="true">↗</span>
-          </Link>
+          <div className={styles.adminActions}>
+            {admin && (
+              <span className={styles.adminUser}>
+                {admin.username}
+              </span>
+            )}
+
+            <Link
+              to="/"
+              className={styles.viewSite}
+            >
+              View Site <span aria-hidden="true">↗</span>
+            </Link>
+
+            <button
+              type="button"
+              className={`${styles.viewSite} ${styles.logoutButton}`}
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
+          </div>
         </div>
       </div>
     </header>
