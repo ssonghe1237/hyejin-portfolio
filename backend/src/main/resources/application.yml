@@ -38,6 +38,7 @@ spring:
       hibernate:
         format_sql: true
 
+# 배포를 고려한 변수명 규정(app)
 app:
   upload:
     # 실제 운영 서버/ Docker/ Kubermetes에서 특정 디렉토리를 가리켜야 할 때 환경 변수를 기준으로 등록하여 수정이 용이
