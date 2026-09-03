@@ -33,3 +33,6 @@ uploads/
 
 # Local backend config
 backend/src/main/resources/application-local.yml
+
+# SSH
+*.pem
