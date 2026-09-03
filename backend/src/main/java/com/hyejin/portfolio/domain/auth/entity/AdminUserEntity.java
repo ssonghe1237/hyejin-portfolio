@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-08-26        Song               최초 생성
+ * 2026-09-03        Song               신규 관리자 계정 활성 상태 초기화
  */
 
 @Entity
@@ -94,6 +95,7 @@ public class AdminUserEntity {
         this.username = username;
         this.passwordHash = passwordHash;
         this.role = role;
+        this.enabled = true;
     }
 
     // Entity 최초 저장 전 실행
