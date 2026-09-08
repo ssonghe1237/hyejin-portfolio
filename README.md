@@ -1,909 +1,375 @@
-# 포트폴리오 사이트 페이지 구조 및 빠른 배포 계획
+# Song Hye Jin Portfolio
 
-> 사용자 페이지와 관리자 페이지의 구성, 콘텐츠 관리 범위, 구현 우선순위를 정의한 문서  
-> 목표: **빠른 제작 → 빠른 배포 → 배포 후 단계적 고도화**
+> 기획과 디자인 경험을 바탕으로 사용자 화면, 백엔드 API, 데이터 구조와 운영 환경까지 연결한 콘텐츠형 포트폴리오 사이트
 
----
+[![Website](https://img.shields.io/badge/Website-songhyejin.dev-EF5B20?style=flat-square)](https://songhyejin.dev)
+[![Java](https://img.shields.io/badge/Java-17-007396?style=flat-square&logo=openjdk&logoColor=white)](https://openjdk.org/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-Backend-6DB33F?style=flat-square&logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
+[![React](https://img.shields.io/badge/React-TypeScript-61DAFB?style=flat-square&logo=react&logoColor=111111)](https://react.dev/)
+[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=flat-square&logo=docker&logoColor=white)](https://www.docker.com/)
 
-## 1. 프로젝트 방향
+## 1. 프로젝트 소개
 
-이 사이트는 단순한 정적 포트폴리오가 아니라, 프로젝트·기술 연구 기록·About 콘텐츠를 관리자 화면에서 직접 관리할 수 있는 콘텐츠형 포트폴리오를 목표로 한다.
+Song Hye Jin Portfolio는 프로젝트 결과물만 나열하는 정적 페이지가 아니라, 관리자가 프로젝트·기술 연구 기록·About·Contact 콘텐츠를 직접 관리할 수 있도록 만든 풀스택 웹 애플리케이션입니다.
 
-빠른 배포가 우선이므로 모든 기능을 CMS로 확장하지 않고, 현재 필요한 범위만 구현한다.
+마케팅·기획·디자인 업무에서 쌓은 요구사항 분석과 사용자 관점의 경험을 개발 역량으로 확장하고, 다음 과정을 하나의 서비스 안에서 구현했습니다.
 
-### 핵심 원칙
+- 사용자 관점의 정보 구조와 반응형 UI 설계
+- Spring Boot 기반 REST API와 도메인 구조 구현
+- PostgreSQL 기반 콘텐츠 데이터 관리
+- Session 인증과 CSRF 보호가 적용된 관리자 기능
+- 이미지·이력서 파일의 저장 및 생명주기 관리
+- Docker Compose, Nginx, HTTPS를 이용한 실제 운영 배포
 
-- 기존 프로젝트 관리 기능을 최대한 재사용한다.
-- Home, Work, About, Get in touch를 우선 완성한다.
-- Projects, Research, About은 관리자에서 관리할 수 있도록 한다.
-- Get in touch와 이력서 PDF는 초기에는 정적 파일로 관리한다.
-- Markdown 대신 WYSIWYG 편집기를 사용한다.
-- React + TypeScript + Vite 구조와의 호환성을 위해 Summernote보다 Tiptap을 우선 사용한다.
-- 이미지 업로드, 검색, 댓글, 자동 저장 등은 배포 이후로 미룬다.
+### 운영 사이트
 
----
+- 사용자 사이트: [https://songhyejin.dev](https://songhyejin.dev)
+- 관리자 페이지는 운영 데이터 보호를 위해 인증된 관리자만 접근할 수 있습니다.
 
-## 2. 전체 사이트 구조
+## 2. 주요 기능
 
-```text
-Home
-├── Work
-│   ├── Selected Work
-│   ├── Research
-│   └── More Work
-├── About
-└── Get in touch
+### 사용자 페이지
 
-Admin
-├── Projects
-├── Research
-└── About
-```
+| 페이지 | 주요 내용 |
+| --- | --- |
+| Home | 개발자 포지셔닝, 핵심 역량, 대표 프로젝트, 개발 과정과 Contact CTA |
+| Work | Selected Work, Research, More Project 구성의 프로젝트 목록 |
+| Project Detail | 프로젝트 개요, 담당 역할, 기술 스택, 문제 해결 과정, 이미지와 관련 링크 |
+| Research | 공개된 기술 연구 기록 목록과 상세 콘텐츠 |
+| About | 프로필, 경력 전환 배경, 역량, 경력, 교육, 기술과 수상 이력 |
+| Contact | 이메일, GitHub, 이력서 등 연락 및 지원 정보 |
 
-### 전역 내비게이션
+### 관리자 페이지
 
-```text
-Home
-Work
-About
-Get in touch
-```
+| 기능 | 주요 내용 |
+| --- | --- |
+| 관리자 인증 | Session 로그인·로그아웃, 인증 상태 조회, 보호된 관리자 Route |
+| CSRF 보호 | CSRF Token 발급 및 변경 요청 검증 |
+| Projects | 프로젝트 목록·검색·정렬·등록·조회·수정·삭제·공개 상태 관리 |
+| Project Images | 대표·Hero·상세 이미지 업로드 및 파일 참조 관리 |
+| Research | 기술 기록 등록·조회·수정·삭제·공개 상태 관리 |
+| Rich Text Editor | React·TypeScript 환경에 맞춘 공통 Tiptap 편집기 |
+| About | 프로필·역량·경력·교육·기술·수상 정보 관리 |
+| Contact | 연락처, 링크와 Resume 정보 관리 |
 
-Research는 전역 메뉴로 분리하지 않고 Work 페이지 내부 섹션으로 구성한다. 게시물이 충분히 쌓인 이후 별도 목록 페이지를 추가한다.
+## 3. 핵심 구현 경험
 
----
+### 3.1 Session 인증과 CSRF 보호
 
-# 3. 사용자 페이지
+관리자 API를 공개 CRUD 상태로 두지 않고 Spring Security 기반 Session 인증 구조로 변경했습니다.
 
-## 3.1 Home
+- 로그인·로그아웃·현재 인증 상태 API 구현
+- 관리자 API와 관리자 화면 Route 보호
+- Frontend 요청에 Cookie와 CSRF Token 전달
+- 인증되지 않은 요청은 `401 Unauthorized`로 처리
+- 상태를 변경하는 요청은 CSRF Token으로 검증
+- 초기 관리자 계정은 외부 환경변수로 최초 1회만 생성
 
-Home은 방문자가 짧은 시간 안에 개발자 정체성, 대표 프로젝트, 핵심 역량, 성장 배경, 연락 방법을 파악할 수 있도록 구성한다.
+### 3.2 이미지 생명주기 관리
 
-### 페이지 구성
+파일 업로드와 DB 저장 시점이 분리되면서 발생할 수 있는 미참조 파일 누적 문제를 고려했습니다.
 
-```text
-01 Hero
-02 Selected Work
-03 Core Capabilities
-04 Background Summary
-05 Contact CTA
-```
+- 업로드 파일을 애플리케이션 외부 디렉터리에 저장
+- 확장자와 저장 경로 검증
+- UUID와 연월 디렉터리를 이용한 파일명 충돌 방지
+- DB에서 참조 중인 이미지와 실제 파일 비교
+- 트랜잭션 완료 시점에 맞춘 파일 삭제
+- Scheduler를 이용한 고아 이미지 정리
+- Docker 컨테이너 재생성 후에도 파일이 유지되는 Bind Mount 구성
 
-### Hero
+### 3.3 관리자 중심 콘텐츠 관리
 
-개발자 포지셔닝과 핵심 메시지를 보여준다.
+페이지 전체 HTML을 하나의 문자열로 저장하지 않고, 화면 레이아웃은 Frontend가 담당하고 콘텐츠 데이터는 도메인별로 분리했습니다.
 
-```text
-기획과 디자인 경험을 바탕으로
-사용자 화면부터 백엔드와 운영 구조까지 연결하는 웹 개발자
-```
+이 구조를 통해 다음 항목을 일관되게 관리합니다.
 
-주요 CTA:
+- 항목별 정렬 순서
+- 공개·비공개 상태
+- 프로젝트 이미지와 링크
+- 기술 카테고리와 담당 역할
+- About의 반복 콘텐츠
+- 사용자 페이지와 Home에서의 데이터 재사용
 
-```text
-View my work
-Get in touch
-```
+### 3.4 실제 운영 배포와 데이터 이전
 
-### Selected Work
+로컬 개발 환경의 소스 코드뿐 아니라 PostgreSQL 데이터와 업로드 파일까지 운영 서버로 이전했습니다.
 
-대표 프로젝트 3개를 노출한다.
+- PostgreSQL Custom Format Dump 및 Restore
+- 운영 관리자 계정을 유지한 콘텐츠 데이터 마이그레이션
+- 프로젝트 이미지·프로필·Skill 로고·Resume 파일 이전
+- SHA-256을 이용한 전송 파일 무결성 확인
+- DB Sequence 확인 및 신규 프로젝트 등록 검증
+- HTTPS 환경에서 사용자 페이지·관리자 기능·파일 응답 확인
 
-```text
-displayOrder 1~3
-→ Home 및 Work의 Selected Work
+## 4. 기술 스택
 
-displayOrder 4 이후
-→ Work의 More Work
-```
+### Backend
 
-초기 배포에서는 별도의 `featured` 컬럼을 추가하지 않는다.
-
-### Core Capabilities
-
-기술명만 나열하지 않고 실제로 맡을 수 있는 업무를 중심으로 표현한다.
-
-```text
-Backend Engineering
-- Spring Boot, JPA, PostgreSQL 기반 API와 데이터 구조 설계
-
-Product Development
-- 기획과 디자인 경험을 활용한 사용자 중심 웹 기능 구현
-
-Deployment & Operations
-- Docker 기반 배포와 파일·데이터 생명주기를 고려한 운영 구조
-```
-
-### Background Summary
-
-About 페이지로 연결되는 짧은 성장 배경을 제공한다.
-
-### Contact CTA
-
-Get in touch 페이지로 연결한다.
-
----
-
-## 3.2 Work
-
-Work는 프로젝트와 기술 연구 기록을 함께 보여주는 핵심 페이지다.
-
-```text
-Work Hero
-├── Selected Work
-├── Research
-└── More Work
-```
-
-### Work Hero
-
-Work가 단순 직장 경력이 아니라 프로젝트와 기술 연구 기록을 의미한다는 점을 명확히 한다.
-
-```text
-Projects, technical research, and experiments
-
-직접 설계하고 구현한 프로젝트와
-기술 문제를 분석하고 정리한 기록
-```
-
-### Selected Work
-
-대표 프로젝트 3개를 큰 카드 또는 세로형 섹션으로 노출한다.
-
-표시 정보:
-
-```text
-프로젝트명
-한 줄 문제 정의
-팀 또는 개인 프로젝트 표시
-담당 역할
-핵심 기술
-대표 이미지
-상세보기
-```
-
-팀/개인 여부는 분류 기준이 아니라 보조 정보로만 사용한다.
-
-### Research
-
-Research는 단순 메모장이 아니라 공개 가능한 기술 학습 기록과 프로젝트 문제 해결 기록을 관리한다.
-
-예시 주제:
-
-```text
-JPA 트랜잭션 커밋 이후 파일을 삭제해야 하는 이유
-임시 이미지와 DB 이미지의 생명주기 설계
-Spring Scheduler를 이용한 고아 파일 정리
-쿠키와 세션의 저장 위치 및 인증 흐름
-JVM 메모리 구조와 GC
-Docker 볼륨이 필요한 이유
-```
-
-Research 카드 정보:
-
-```text
-카테고리
-제목
-한 줄 요약
-작성일
-태그
-Read article
-```
-
-초기 라우팅:
-
-```text
-/work
-→ Research 카드 일부 노출
-
-/research/{slug}
-→ Research 상세
-```
-
-### More Work
-
-Selected Work에 포함되지 않은 나머지 프로젝트를 작은 카드로 보여준다.
-
-```text
-프로젝트명
-연도
-한 줄 설명
-핵심 기술
-상세보기
-```
-
----
-
-## 3.3 Project Detail
-
-프로젝트 상세는 기능 나열보다 문제 해결 과정이 드러나도록 구성한다.
-
-```text
-01 프로젝트 개요
-02 문제 정의
-03 담당 범위
-04 핵심 기능
-05 시스템 또는 데이터 구조
-06 기술적 의사결정
-07 문제 상황과 해결 과정
-08 테스트 및 검증
-09 결과 및 개선점
-10 관련 링크
-```
-
-좋지 않은 예:
-
-```text
-이미지 업로드 기능 구현
-```
-
-권장 예:
-
-```text
-업로드 시점과 DB 저장 시점이 분리되면서 발생하는 임시 파일 누적 문제를 해결하기 위해
-프론트 임시 파일 추적, DB 참조 검사, AFTER_COMMIT 삭제,
-고아 파일 Scheduler를 결합한 이미지 생명주기 관리 구조를 설계
-```
-
----
-
-## 3.4 Research Detail
-
-Research 상세는 블로그처럼 읽을 수 있지만 기술 문서의 구조를 유지한다.
-
-```text
-Back to Work
-
-카테고리 · 작성일 · 읽는 시간
-제목
-요약
-
-본문
-- 제목
-- 문단
-- 목록
-- 인용
-- 코드 블록
-- 링크
-
-태그
-관련 프로젝트
-참고 링크
-```
-
-### 초기 지원 범위
-
-```text
-허용
-- 제목 2, 제목 3
-- 본문
-- 굵게, 기울임, 취소선
-- 글머리 목록, 번호 목록
-- 인용
-- 코드 블록
-- 링크
-
-제외
-- 이미지 업로드
-- 동영상
-- iframe
-- 파일 첨부
-- HTML 직접 편집
-```
-
----
-
-## 3.5 About
-
-About은 관리자에서 직접 수정할 수 있도록 구성한다.
-
-### 사용자 페이지 구성
-
-```text
-01 Profile Summary
-02 My Background
-03 Current Focus
-04 Skills
-05 Education
-06 Certifications
-```
-
-### Profile Summary
-
-```text
-Based in
-Seoul, Korea
-
-Currently
-Java · Spring 기반 웹 개발 및 포트폴리오 프로젝트 진행
-
-Focus
-Backend, Full-stack, Product Development
-```
-
-### My Background
-
-마케팅, 기획, 디자인 경험에서 개발로 확장된 흐름을 설명한다.
-
-```text
-요구사항 이해
-정보 구조 설계
-사용자 관점 UI 검토
-업무 일정 및 이해관계자 커뮤니케이션
-백엔드 구조와 데이터 흐름 구현
-```
-
-### Current Focus
-
-```text
-Spring Boot와 JPA 기반 백엔드 구조 심화
-React와 TypeScript를 활용한 관리자 기능 구현
-Docker 기반 배포 환경 준비
-프로젝트 문제 해결 과정을 기술 문서로 정리
-```
-
-### Skills
-
-```text
-Languages
-- Java
-- JavaScript
-- TypeScript
-- SQL
-- Python
-
-Frontend
-- React
-- Vite
-- HTML
-- CSS
-
-Backend
+- Java 17
 - Spring Boot
 - Spring MVC
-- JPA
-- MyBatis
+- Spring Data JPA
+- Spring Security
+- Bean Validation
+- Maven
 
-Database
-- PostgreSQL
-- Oracle
+### Frontend
 
-Tools & Delivery
+- React
+- TypeScript
+- Vite
+- React Router
+- CSS Modules
+- Tiptap
+
+### Database
+
+- PostgreSQL 17
+
+### Infrastructure & Operations
+
+- AWS Lightsail
+- Ubuntu 24.04 LTS
+- Docker
+- Docker Compose
+- Nginx
+- Cloudflare DNS
+- Let's Encrypt
+- Certbot
+
+### Development Tools
+
 - Git
 - GitHub
-- Docker
 - IntelliJ IDEA
 - Visual Studio Code
+- Git Bash
+
+## 5. 시스템 구조
+
+```mermaid
+flowchart TD
+    A["Browser"] --> B["Cloudflare DNS"]
+    B --> C["Host Nginx<br/>HTTP · HTTPS"]
+    C --> D["Frontend Container<br/>React · Nginx"]
+    D --> E["Backend Container<br/>Spring Boot"]
+    E --> F["Database Container<br/>PostgreSQL"]
+    E --> G["Host Bind Mount<br/>Uploads"]
 ```
 
-### Education
+### 네트워크 구성
 
-개발 교육 과정과 학습 이력을 관리한다.
+| 구성 요소 | 연결 | 공개 범위 |
+| --- | --- | --- |
+| Host Nginx | `80`, `443` | 외부 공개 |
+| Frontend | `127.0.0.1:8080 → 80` | 서버 내부 Loopback |
+| Backend | `8081` | Docker Network 내부 |
+| PostgreSQL | `5432` | Docker Network 내부 |
 
-### Certifications
+호스트 Nginx가 외부 HTTP·HTTPS 요청을 처리하고 Frontend 컨테이너로 전달합니다. Backend와 PostgreSQL은 호스트에 직접 포트를 공개하지 않고, Docker Compose Network에서 서비스 이름으로 통신합니다.
+
+## 6. 데이터 저장 구조
+
+```mermaid
+flowchart LR
+    A["PostgreSQL Data"] --> B["Docker Named Volume"]
+    C["Images · Resume"] --> D["Host Bind Mount"]
+```
+
+- PostgreSQL 데이터는 Docker Named Volume에 저장합니다.
+- 프로젝트 이미지, 프로필 이미지, Skill 로고와 Resume는 Host Bind Mount에 저장합니다.
+- 컨테이너가 재생성되어도 DB와 업로드 파일이 유지되도록 실행 환경과 영속 데이터를 분리했습니다.
+- `.env`, DB Dump, 업로드 파일과 SSH 개인키는 Git으로 추적하지 않습니다.
+
+## 7. 프로젝트 구조
 
 ```text
-자격증명
-발급 기관
-취득 연도
-인증 링크 또는 인증 번호
+.
+├── backend/
+│   ├── src/main/java/
+│   ├── src/main/resources/
+│   ├── Dockerfile
+│   └── pom.xml
+├── frontend/
+│   ├── src/
+│   ├── Dockerfile
+│   └── nginx.conf
+├── docs/
+│   ├── frontend/
+│   ├── md/
+│   └── operations/
+├── .env.example
+├── docker-compose.yml
+└── README.md
 ```
 
----
+## 8. 로컬 실행
 
-## 3.6 Get in touch
+### 사전 준비
 
-초기 버전에서는 메시지 전송 폼을 구현하지 않는다.
+- Docker
+- Docker Compose
+- Git
 
-```text
-이메일
-GitHub
-LinkedIn
-지역
-Résumé PDF
-```
-
-주요 버튼:
-
-```text
-Send an email
-View GitHub
-View résumé
-```
-
-이력서 PDF는 Vite 정적 파일로 관리한다.
-
-```text
-frontend/public/files/song-hyejin-resume.pdf
-```
-
-접근 URL:
-
-```text
-/files/song-hyejin-resume.pdf
-```
-
----
-
-# 4. 관리자 페이지
-
-## 4.1 Projects
-
-기존 프로젝트 관리 기능을 유지한다.
-
-```text
-Admin Projects
-├── 목록
-├── 등록
-├── 상세
-├── 수정
-└── 삭제
-```
-
-관리 대상:
-
-```text
-프로젝트 기본 정보
-대표 이미지
-Hero 이미지
-상세 섹션
-기술 스택
-관련 링크
-공개 여부
-노출 순서
-```
-
----
-
-## 4.2 Research
-
-```text
-Admin Research
-├── 목록
-├── 등록
-├── 수정
-└── 삭제
-```
-
-최소 관리 필드:
-
-```text
-제목
-slug
-요약
-카테고리
-태그
-본문 HTML
-공개 여부
-노출 순서
-작성일
-수정일
-공개일
-```
-
-초기 제외 기능:
-
-```text
-이미지 업로드
-댓글
-검색
-조회수
-좋아요
-자동 저장
-버전 관리
-다중 작성자
-SEO 전용 입력
-페이지네이션
-```
-
----
-
-## 4.3 About
-
-```text
-Admin About
-├── 기본 프로필 수정
-├── 소개 수정
-├── 경력 전환 배경 수정
-├── 현재 집중 분야 수정
-├── 기술 항목 관리
-├── 교육 항목 관리
-└── 자격증 항목 관리
-```
-
-About 전체를 하나의 HTML로 저장하지 않는다.
-
-페이지 레이아웃은 프론트 코드로 고정하고, 각 영역의 데이터만 관리자에서 수정한다.
-
-이유:
-
-- 관리자 입력으로 레이아웃이 깨지는 것을 방지
-- 기술, 교육, 자격증을 카드 UI로 출력 가능
-- 항목별 정렬과 공개 여부 관리 가능
-- 일부 데이터를 Home에서 재사용 가능
-- 모바일 반응형 구조 유지 가능
-
----
-
-# 5. 콘텐츠 편집기 결정
-
-## Markdown 제외 이유
-
-```text
-미리보기 전환 필요
-링크와 목록 문법 기억 필요
-제목 문법 기억 필요
-작성 결과를 즉시 확인하기 어려움
-```
-
-따라서 Research와 About의 긴 본문은 WYSIWYG 편집기로 작성한다.
-
-## Summernote 검토
-
-Summernote는 빠르게 사용할 수 있지만 현재 React + TypeScript + Vite 구조에서는 우선 적용하지 않는다.
-
-장점:
-
-```text
-사용법이 직관적
-기본 툴바 제공
-HTML 출력 가능
-빠른 초기 적용 가능
-```
-
-위험:
-
-```text
-jQuery 의존
-React 외부에서 DOM 직접 조작
-useEffect 초기화 및 destroy 관리 필요
-React state와 편집기 HTML 동기화 문제
-라우팅 전환 시 중복 초기화 위험
-TypeScript 타입 보강 필요
-```
-
-## Tiptap 권장
-
-```text
-React 공식 연동 패키지 제공
-TypeScript 호환성이 좋음
-필요한 기능만 제한 가능
-About과 Research에서 공통 컴포넌트 재사용 가능
-React 상태와 편집기 상태 동기화가 명확함
-```
-
-설치 예정:
+### 저장소 복제
 
 ```bash
-npm install @tiptap/react @tiptap/pm @tiptap/starter-kit
+git clone https://github.com/ssonghe1237/hyejin-portfolio.git
+cd hyejin-portfolio
 ```
 
-공통 컴포넌트:
+### 환경변수 설정
+
+루트의 예제 파일을 기준으로 로컬 `.env`를 작성합니다.
+
+```bash
+cp .env.example .env
+```
+
+다음 항목을 실제 로컬 값으로 설정합니다.
 
 ```text
-frontend/src/components/admin/editor/RichTextEditor.tsx
+POSTGRES_DB
+POSTGRES_USER
+POSTGRES_PASSWORD
+ADMIN_BOOTSTRAP_USERNAME
+ADMIN_BOOTSTRAP_PASSWORD
+UPLOADS_HOST_PATH
+FRONTEND_PORT
 ```
 
-사용 위치:
+실제 `.env`는 Git에 Commit하지 않습니다.
+
+### Docker Compose 실행
+
+```bash
+docker compose config --quiet
+docker compose up -d --build
+docker compose ps
+```
+
+기본 Frontend 포트를 사용하면 다음 주소로 접속합니다.
 
 ```text
-AdminResearchForm
-AdminAboutPage
+http://localhost:8080
 ```
 
-초기 툴바:
+환경에서 `FRONTEND_PORT`를 다르게 설정했다면 해당 포트로 접속합니다.
+
+### 로그 확인
+
+```bash
+docker compose logs --tail=150 backend frontend db
+```
+
+### 종료
+
+```bash
+docker compose down
+```
+
+DB 데이터를 유지해야 할 때는 Volume을 삭제하는 `docker compose down -v`를 사용하지 않습니다.
+
+## 9. 보안 및 운영 원칙
+
+- 운영 환경변수는 Git 저장소 외부에서 관리
+- SSH는 개인키 인증 사용
+- HTTP 요청을 HTTPS로 리다이렉트
+- `www.songhyejin.dev` 요청을 대표 도메인 `songhyejin.dev`로 리다이렉트
+- Backend와 PostgreSQL 포트 외부 비공개
+- 관리자 API Session 인증 적용
+- 변경 요청 CSRF 검증
+- 관리자 초기 비밀번호는 계정 생성 후 운영 환경변수에서 제거
+- Docker 로그 크기 제한
+- PostgreSQL과 uploads를 함께 백업
+- 운영 데이터 삭제 전 사전 백업 수행
+
+## 10. 배포 구성
+
+본 프로젝트는 AWS Lightsail Ubuntu 인스턴스에서 운영합니다.
+
+- DNS: Cloudflare
+- Reverse Proxy: Host Nginx
+- TLS Certificate: Let's Encrypt
+- Certificate Renewal: Certbot Timer
+- Application Runtime: Docker Compose
+- Persistent Database: Docker Named Volume
+- Persistent Files: Host Bind Mount
+
+### 배포 검증 결과
+
+- PostgreSQL 컨테이너 Health Check 통과
+- Backend 정상 실행 및 재시작 횟수 0회
+- Frontend 정상 실행
+- 홈페이지 및 공개 API `HTTP 200`
+- 관리자 로그인·로그아웃 정상
+- 관리자 인증 상태 `401 → 200 → 401` 흐름 확인
+- 관리자 프로젝트 등록·수정·삭제 확인
+- CSRF Token 발급과 변경 요청 검증
+- 기존 PostgreSQL 콘텐츠 데이터 이전
+- 프로젝트 이미지·프로필·Skill 로고·Resume 파일 이전
+- 신규 프로젝트와 파일 업로드 확인
+- Nginx 설정 검사 통과
+- HTTPS 인증서 발급 및 자동 갱신 Dry Run 통과
+
+운영 서버 경로, 갱신 절차와 장애 확인 방법은 [운영 배포 문서](docs/operations/DEPLOYMENT.md)에서 확인할 수 있습니다.
+
+## 11. 테스트 및 검증
+
+### Backend
+
+```bash
+cd backend
+./mvnw test
+```
+
+검증 결과:
 
 ```text
-본문
-제목 2
-제목 3
-굵게
-기울임
-취소선
-인용
-글머리 목록
-번호 목록
-코드 블록
-링크
-실행 취소
-다시 실행
+Tests run: 14, Failures: 0, Errors: 0, Skipped: 0
+BUILD SUCCESS
 ```
 
----
+### Frontend
 
-# 6. 콘텐츠 저장 형식 및 보안
-
-초기 버전에서는 Tiptap의 결과를 HTML 문자열로 저장한다.
-
-```text
-research_posts.content_html
-about_pages.introduction_html
-about_pages.background_html
-about_pages.current_focus_html
-about_entries.description_html
+```bash
+cd frontend
+npm ci
+npm run build
 ```
 
-PostgreSQL 타입:
+Frontend Production Build가 정상적으로 완료되는 것을 확인했습니다.
 
-```sql
-TEXT
-```
+## 12. 주요 기술적 의사결정
 
-### 저장 흐름
+| 주제 | 선택 | 이유 |
+| --- | --- | --- |
+| 관리자 인증 | Session | 단일 관리자 중심 서비스에서 서버가 인증 상태를 통제하기 용이 |
+| 요청 보호 | CSRF Token | Cookie 기반 Session 인증의 변경 요청 보호 |
+| 콘텐츠 편집기 | Tiptap | React·TypeScript 호환성과 필요한 기능만 제한하는 구성에 적합 |
+| DB 저장 | PostgreSQL Named Volume | 컨테이너 재생성과 데이터 생명주기 분리 |
+| 파일 저장 | Host Bind Mount | 이미지·PDF 영속성과 운영 백업 경로 명확화 |
+| Frontend 공개 | Loopback Binding | 컨테이너 포트 직접 노출을 막고 Host Nginx를 단일 진입점으로 사용 |
+| HTTPS | Nginx + Certbot | 도메인 인증서 발급, HTTP 리다이렉트와 자동 갱신 구성 |
+| 운영 설정 | 외부 `.env` | 소스 코드와 Secret 분리 |
 
-```text
-관리자 에디터 입력
-→ React 요청
-→ Spring Boot에서 허용 태그 기준 HTML 정제
-→ DB 저장
-→ 사용자 조회
-→ 프론트에서 추가 Sanitization
-→ 사용자 화면 렌더링
-```
+## 13. 프로젝트를 통해 배운 점
 
-허용 태그 예시:
+- 화면 구현뿐 아니라 인증, 데이터, 파일과 배포가 하나의 서비스 흐름으로 연결된다는 점
+- DB 데이터와 업로드 파일은 서로 다른 저장소이므로 함께 백업·복원해야 한다는 점
+- Docker 컨테이너의 실행 상태와 데이터 영속성은 별도로 설계해야 한다는 점
+- Cookie 기반 인증에서는 로그인 구현뿐 아니라 CSRF와 Frontend 요청 설정이 함께 필요하다는 점
+- 실제 배포에서는 도메인, DNS, 방화벽, Reverse Proxy와 TLS까지 점검해야 한다는 점
+- 오류 메시지만 보는 것이 아니라 DB 상태, 컨테이너 로그, Network 응답을 함께 확인해야 원인을 좁힐 수 있다는 점
 
-```text
-p, br, h2, h3, strong, em, s,
-blockquote, ul, ol, li, pre, code, a
-```
+## 14. 관련 문서
 
-제거 대상:
+- [운영 배포 및 관리 절차](docs/operations/DEPLOYMENT.md)
+- [`AGENTS.md`](AGENTS.md)
 
-```text
-script, iframe, style, object, embed,
-form, input, onclick, onerror, javascript:
-```
+## 15. Author
 
----
+**Song Hye Jin**
 
-# 7. 데이터 구조 초안
-
-## Research
-
-```text
-research_posts
-- research_id
-- title
-- slug
-- summary
-- content_html
-- category
-- tags
-- published
-- display_order
-- created_at
-- updated_at
-- published_at
-```
-
-## About 기본 정보
-
-```text
-about_pages
-- about_id
-- headline
-- sub_headline
-- introduction_html
-- background_html
-- current_focus_html
-- profile_image_url
-- published
-- created_at
-- updated_at
-```
-
-About 페이지는 하나만 사용하므로 단일 행 데이터로 관리한다.
-
-## About 반복 항목
-
-```text
-about_entries
-- entry_id
-- about_id
-- entry_type
-- title
-- subtitle
-- period
-- description_html
-- link_url
-- display_order
-- published
-- created_at
-- updated_at
-```
-
-```text
-entry_type
-- SKILL
-- EDUCATION
-- CERTIFICATION
-```
-
----
-
-# 8. 이미지 정책
-
-현재 프로젝트 이미지 저장소와 고아 이미지 Scheduler는 프로젝트 이미지 생명주기를 기준으로 설계되어 있다.
-
-Research 또는 About 이미지가 같은 저장 경로에 업로드되면 `project_images`에 참조되지 않은 파일이 고아 이미지로 오판될 위험이 있다.
-
-### 초기 정책
-
-```text
-Research 본문 이미지 업로드 제외
-About 본문 이미지 업로드 제외
-Base64 이미지 저장 금지
-프로필 이미지는 정적 파일 또는 별도 경로 사용
-```
-
-### 배포 이후 검토
-
-```text
-/uploads/content 전용 경로
-content_assets 테이블
-Research 및 About 이미지 참조 관리
-임시 이미지 정리
-본문에서 제거된 이미지 삭제
-콘텐츠 고아 이미지 Scheduler
-공통 media_assets 구조
-```
-
----
-
-# 9. 빠른 배포 범위
-
-## MVP 포함
-
-```text
-Home
-Work
-Selected Work
-Research 카드
-More Work
-Project Detail
-Research Detail
-About
-Get in touch
-이력서 PDF 연결
-Admin Projects
-Admin Research
-Admin About
-Tiptap 공통 편집기
-HTML Sanitization
-```
-
-## 배포 이후
-
-```text
-Research 이미지 업로드
-About 이미지 업로드
-메시지 전송 폼
-댓글
-검색
-태그 필터
-페이지네이션
-조회수
-좋아요
-다중 작성자
-자동 저장
-콘텐츠 버전 관리
-이력서 관리자 업로드
-Home 관리자 편집
-Get in touch 관리자 편집
-공통 미디어 자산 관리
-```
-
----
-
-# 10. 구현 순서
-
-## 1단계: 사용자 페이지 구조
-
-```text
-브랜치 예시
-feature/user-site-pages
-```
-
-```text
-전역 내비게이션 정리
-Home 제작
-Work 구조 변경
-About 사용자 페이지 제작
-Get in touch 제작
-이력서 PDF 연결
-기존 프로젝트 API 재사용
-```
-
-## 2단계: 공통 Rich Text Editor
-
-```text
-브랜치 예시
-feature/admin-rich-text-editor
-```
-
-```text
-Tiptap 설치
-RichTextEditor 공통 컴포넌트
-툴바 구성
-HTML 값 연동
-기본 에디터 스타일
-허용 기능 제한
-```
-
-## 3단계: Research
-
-```text
-브랜치 예시
-feature/admin-research
-```
-
-```text
-Research Entity
-Repository
-DTO
-Service
-Controller
-관리자 목록·등록·수정·삭제
-사용자 Research 상세
-Work 페이지 Research 연동
-```
-
-## 4단계: About 관리자
-
-```text
-브랜치 예시
-feature/admin-about
-```
-
-```text
-About 기본 정보 Entity
-About 반복 항목 Entity
-Repository
-DTO
-Service
-Controller
-관리자 About 수정
-기술·교육·자격증 항목 관리
-사용자 About API 연동
-```
-
-## 5단계: 배포
-
-```text
-브랜치 예시
-feature/docker-deployment
-```
-
-```text
-Dockerfile
-docker-compose.yml
-운영 환경변수
-PostgreSQL 연결
-업로드 볼륨
-Nginx 라우팅
-운영 프로파일
-이력서 PDF 제공
-이미지 영속성 검증
-Scheduler 운영 검증
-```
-
----
-
-# 11. 최종 결정 요약
-
-| 항목 | 결정 |
-|---|---|
-| Home | 신규 제작 |
-| Work | Selected Work / Research / More Work |
-| Research | 관리자 CRUD 및 사용자 상세 제공 |
-| About | 관리자에서 직접 수정 가능 |
-| Get in touch | 정적 연락처 및 이력서 PDF 연결 |
-| Markdown | 사용하지 않음 |
-| Summernote | React 구조와의 부조화로 우선 제외 |
-| Tiptap | 공통 WYSIWYG 편집기로 사용 |
-| 저장 형식 | Sanitization된 HTML |
-| Research/About 이미지 | 1차 배포에서 제외 |
-| Home 관리자 기능 | 배포 이후 검토 |
-| Contact 관리자 기능 | 배포 이후 검토 |
-| 핵심 목표 | 빠른 제작과 빠른 배포 |
+- Portfolio: [https://songhyejin.dev](https://songhyejin.dev)
+- GitHub: [https://github.com/ssonghe1237](https://github.com/ssonghe1237)
