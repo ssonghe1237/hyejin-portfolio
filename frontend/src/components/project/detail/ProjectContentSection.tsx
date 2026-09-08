@@ -1,7 +1,3 @@
-import type { ProjectSectionResponse } from "../../../types/project";
-import ImageWithFallback from "../../common/ImageWithFallback";
-import MermaidRenderer from "./MermaidRenderer";
-
 /**
  * packageName    : frontend.src.components.project.detail
  * fileName       : ProjectContentSection.tsx
@@ -9,8 +5,8 @@ import MermaidRenderer from "./MermaidRenderer";
  * date           : 2026-07-02
  * description    : 프로젝트 상세 섹션 컴포넌트
  *                  - 프로젝트 상세 섹션 목록 출력
- *                  - 섹션 별 이미지 목록 출력
- *                  - WORKFLOW 섹션의 Mermaid 차트 렌더링 처리
+ *                  - 섹션 단일 렌더링은 ProjectSectionItem에 위임
+ *                  - 빈 섹션 데이터 출력 방지
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
@@ -18,74 +14,54 @@ import MermaidRenderer from "./MermaidRenderer";
  * 2026-07-02        Song       상세 섹션 목록 출력 추가
  * 2026-07-02        Song       WORKFLOW 섹션 Mermaid 렌더링 추가
  * 2026-07-02        Song       섹션 별 이미지 출력 구조 반영
+ * 2026-07-02        Song       섹션 단일 렌더링 컴포넌트 분리
+ * 2026-07-02        Song       CSS Module 스타일 분리
+ * 2026-07-27        Song       상세 섹션 표시 조건 및 제목 개선
+ * 2026-08-24        Song       프로젝트 상세 섹션 안내 구조 적용
  */
 
+import type { ProjectSectionResponse } from '../../../types/project'
+import ProjectSectionItem from './ProjectSectionItem'
+import styles from './ProjectContentSection.module.css'
+
 interface ProjectContentSectionProps {
-    sections : ProjectSectionResponse[]
+  sections: ProjectSectionResponse[]
 }
 
-function ProjectContentSection({ sections } : ProjectContentSectionProps) {
-    return(
-        <section style={{ marginTop: '40px' }}>
-            <h2>Section</h2>
+function ProjectContentSection({
+  sections,
+}: ProjectContentSectionProps) {
+  const visibleSections = sections.filter(
+    (section) =>
+      Boolean(section.title?.trim()) ||
+      Boolean(section.content?.trim()) ||
+      section.images.length > 0,
+  )
 
-            {sections.length === 0 ? (
-                <p>등록된 상세 섹션이 없습니다.</p>
-            ) : (
-                <div style={{ display: 'grid', gap: '24px' }}>
-                    {sections.map((section) => (
-                        <article
-                            key={section.sectionId}
-                            style={{
-                                border: '1px solid #ddd',
-                                borderRadius: '12px',
-                                padding: '20px',
-                            }}
-                        >
-                            <p>{section.sectionType}</p>
+  return (
+    <section className={styles.section}>
+      <p className={styles.kicker}>02 · Project Details</p>
+      <h2 className={styles.title}>
+        Project Details
+      </h2>
 
-                            {section.images.length > 0 && (
-                                <div style={{ display: "grid", gap: "12px" }}>
-                                    {section.images.map((image) => (
-                                        <figure key={image.projectImageId} style={{ margin: 0 }}>
-                                            <ImageWithFallback
-                                                src={image.imageUrl}
-                                                alt={image.caption ?? section.sectionType}
-                                                fallbackText={`${section.sectionType} 이미지를 불러올 수 없습니다.`}
-                                                maxWidth="720px"
-                                                objectFit="contain"
-                                            />
-                                            {image.caption && (
-                                                <figcaption>{image.caption}</figcaption>
-                                            )}
-                                        </figure>
-                                    ))}
-                                </div>
-                            )}
-
-                            {section.title && <h3>{section.title}</h3>}
-
-                            {section.content && (
-                                section.sectionType === 'WORKFLOW' ? (
-                                    <MermaidRenderer chart={section.content} />
-                                ) : (
-                                    <pre
-                                        style={{
-                                        whiteSpace: 'pre-wrap',
-                                        wordBreak: 'break-word',
-                                        }}
-                                    >
-                                        {section.content}
-                                    </pre>
-                                )
-                            )}
-                        </article>
-                    ))}
-                </div>
-            )}
-        </section>
-    )
-
+      {visibleSections.length === 0 ? (
+        <div className={styles.empty}>
+          등록된 상세 섹션이 없습니다.
+        </div>
+      ) : (
+        <div className={styles.list}>
+          {visibleSections.map((section, index) => (
+            <ProjectSectionItem
+              key={section.sectionId}
+              section={section}
+              index={index}
+            />
+          ))}
+        </div>
+      )}
+    </section>
+  )
 }
 
 export default ProjectContentSection

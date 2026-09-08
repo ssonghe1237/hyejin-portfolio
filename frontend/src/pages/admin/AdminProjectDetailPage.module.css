@@ -1,0 +1,266 @@
+/**
+ * packageName    : frontend.src.pages.admin
+ * fileName       : AdminProjectDetailPage.module.css
+ * author         : Song
+ * date           : 2026-07-02
+ * description    : AdminProjectDetailPage 스타일
+ *                  - 관리자 프로젝트 상세 페이지 레이아웃
+ *                  - 프로젝트 상세 관리 정보 스타일 정의
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-07-02        Song       최초 생성
+ */
+
+.page {
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  gap: 32px;
+}
+
+.backLink {
+  color: var(--color-text-primary);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.card {
+  min-width: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  background-color: var(--color-surface);
+}
+
+.title {
+  margin: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  font-size: 40px;
+  letter-spacing: -0.05em;
+}
+
+.summary {
+  margin: 16px 0 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  color: var(--color-text-secondary);
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.metaGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.metaItem {
+  display: grid;
+  min-width: 0;
+  gap: 6px;
+}
+
+.label {
+  color: var(--color-text-muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.value {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  color: var(--color-text-primary);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.section {
+  display: grid;
+  min-width: 0;
+  gap: 16px;
+}
+
+.sectionTitle {
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  font-size: 28px;
+  letter-spacing: -0.04em;
+}
+
+.list {
+  display: grid;
+  gap: 12px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.listItem {
+  min-width: 0;
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  background-color: #fafafa;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.status {
+  padding: 80px 0;
+  color: var(--color-text-muted);
+}
+
+.error {
+  padding: 80px 0;
+  color: var(--color-danger);
+}
+
+.actionBar {
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  margin: 24px 0 16px;
+}
+
+.editButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 18px;
+  border-radius: 8px;
+  background-color: #111827;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.editButton:hover {
+  background-color: #374151;
+  transform: translateY(-1px);
+}
+
+.editButton:focus-visible {
+  outline: 3px solid rgba(17, 24, 39, 0.25);
+  outline-offset: 3px;
+}
+
+.deleteButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 18px;
+  border: 1px solid var(--color-danger);
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: var(--color-danger);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.deleteButton:hover {
+  background-color: var(--color-danger);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.deleteButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
+}
+
+.publicationButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 18px;
+  border: 1px solid #2563eb;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #2563eb;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.publicationButton:hover {
+  background-color: #2563eb;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.publicationButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
+}
+
+.actionError {
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border: 1px solid #fecdd3;
+  border-radius: 8px;
+  background-color: #fff1f2;
+  color: #be123c;
+  font-size: 14px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+@media (max-width: 620px) {
+  .page {
+    gap: 24px;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  .title {
+    font-size: 34px;
+  }
+
+  .metaGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .actionBar {
+    align-items: stretch;
+    margin-top: 8px;
+  }
+
+  .publicationButton,
+  .editButton,
+  .deleteButton {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+}

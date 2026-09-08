@@ -1,0 +1,47 @@
+/**
+ * packageName    : frontend.src.components.layout
+ * fileName       : MainLayout.module.css
+ * author         : Song
+ * date           : 2026-07-02
+ * description    : MainLayout 컴포넌트 스타일
+ *                  - 공통 페이지 레이아웃
+ *                  - Header, main, Footer 구조의 본문 영역 스타일 관리
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-07-02        Song       최초 생성
+ */
+
+.layout {
+  min-height: 100vh;
+  color: var(--color-text-primary);
+  background-color: var(--color-background);
+}
+
+.main {
+  width: 100%;
+  max-width: var(--layout-max-width);
+  margin: 0 auto;
+  padding: 40px var(--spacing-page-x) 0;
+}
+
+.pageBackground { min-height: 100vh; padding: 36px 28px; background: #e9e7e4; }
+.siteShell { width: min(1260px, 100%); min-height: calc(100vh - 72px); margin: 0 auto; border-radius: 32px; background: #fff; box-shadow: 0 24px 70px rgba(44, 32, 20, .12); overflow: visible; }
+.homeMain { max-width: none; padding: 0; }
+.workMain { max-width: none; padding: 0; }
+.researchMain { max-width: none; padding: 0; }
+.projectDetailMain { max-width: none; padding: 0; }
+.aboutMain { max-width: none; padding: 40px 0 0; }
+.contactMain { max-width: none; padding: 0; }
+
+@media (max-width: 1179px) {
+  .pageBackground { padding: 20px 12px; }
+  .siteShell { min-height: calc(100vh - 40px); border-radius: 24px; }
+  .aboutMain { padding-top: 32px; }
+}
+
+@media (max-width: 767px) {
+  .pageBackground { padding: 0; background: #fff; }
+  .siteShell { min-height: 100vh; border-radius: 0; box-shadow: none; }
+  .aboutMain { padding-top: 24px; }
+}

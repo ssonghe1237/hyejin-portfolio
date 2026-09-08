@@ -1,7 +1,3 @@
-import type { ProjectDetailResponse } from '../../../types/project'
-import ProjectBasicInfo from './ProjectBasicInfo'
-import ProjectHeroImages from './ProjectHeroImages'
-
 /**
  * packageName    : frontend.src.components.project.detail
  * fileName       : ProjectDetailHeader.tsx
@@ -14,8 +10,15 @@ import ProjectHeroImages from './ProjectHeroImages'
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-07-02        Song       최초 생성
- * 2026-07-02        Song       Hero 이미지 및 기본 정보 겹침 레이아웃 추가
+ * 2026-07-02        Song       Hero 이미지 및 기본 정보 겹침 레이아웃 추가\
+ * 2026-07-02        Song       CSS Module 스타일 분리
+ * 2026-08-24        Song       Hero 이미지 및 프로젝트 정보 카드 조립 구조 변경
  */
+
+import type { ProjectDetailResponse } from '../../../types/project'
+import ProjectBasicInfo from './ProjectBasicInfo'
+import ProjectHeroImages from './ProjectHeroImages'
+import styles from './ProjectDetailHeader.module.css';
 
 interface ProjectDetailHeaderProps {
   project: ProjectDetailResponse
@@ -23,22 +26,17 @@ interface ProjectDetailHeaderProps {
 
 function ProjectDetailHeader({ project }: ProjectDetailHeaderProps) {
   return (
-    <header>
-      <ProjectHeroImages images={project.heroImages} />
+    <header className={styles.header}>
+      <div className={styles.heroStage}>
+        <div className={styles.heroImageArea}>
+          <ProjectHeroImages images={project.heroImages} />
+          <div className={styles.overlay} aria-hidden="true" />
+        </div>
 
-      <div
-        style={{
-          position: 'relative',
-          zIndex: 1,
-          maxWidth: '920px',
-          margin: '-72px auto 0', // 겹치는 디자인 담당 부분 (-00 숫자가 작아질 수록 덜 겹침)
-          padding: '32px',
-          borderRadius: '24px',
-          backgroundColor: '#fff',
-          boxShadow: '0 18px 40px rgba(0, 0, 0, 0.12)',
-        }}
-      >
-        <ProjectBasicInfo project={project} />
+        <article className={styles.projectInfoCard}>
+          <p className={styles.eyebrow}>01 / Project</p>
+          <ProjectBasicInfo project={project} />
+        </article>
       </div>
     </header>
   )

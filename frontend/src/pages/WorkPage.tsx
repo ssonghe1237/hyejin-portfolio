@@ -1,16 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import type { ProjectListResponse } from '../types/project';
-import { getProjects } from '../api/projectApi';
-import ProjectCard from '../components/project/ProjectCard';
-
 /**
  * packageName    : frontend.src.pages
  * fileName       : WorkPage.tsx
  * author         : Song
  * date           : 2026-07-02
  * description    : 프로젝트 목록 페이지
- *                  - 팀 프로젝트 목록 조회
- *                  - 개인 프로젝트 목록 조회
+ *                  - 전체 공개 프로젝트 목록 조회
+ *                  - Selected Work 및 More Work 구분
  *                  - 프로젝트 카드 컴포넌트를 통한 목록 출력
  * ===========================================================
  * DATE              AUTHOR             NOTE
@@ -18,100 +13,127 @@ import ProjectCard from '../components/project/ProjectCard';
  * 2026-07-02        Song       최초 생성
  * 2026-07-02        Song       프로젝트 유형별 목록 API 연동
  * 2026-07-02        Song       ProjectCard 컴포넌트 분리 적용
+ * 2026-07-02        Song       Work 페이지 소개 및 섹션 레이아웃 정리
+ * 2026-07-02        Song       CSS Module 스타일 분리
+ * 2026-08-03        Song       Selected Work 및 More Work 구조로 변경
  */
 
+import { useEffect, useState } from 'react'
+import { getAllProjects } from '../api/projectApi'
+import { getRecentResearchList } from '../api/researchApi'
+import WorkIntroSection from '../components/work/WorkIntroSection'
+import WorkProjectSection from '../components/work/WorkProjectSection'
+import type { ProjectListResponse } from '../types/project'
+import type { ResearchListResponse } from '../types/research'
+import styles from './WorkPage.module.css'
+import WorkResearchSection from '../components/work/WorkResearchSection'
+
 function WorkPage() {
-    const [teamProjects, setTeamProjects] = useState<ProjectListResponse[]>([])
-    const [personalProjects, setPersonalProjects] = useState<ProjectListResponse[]>([])
-    const [loading, setLoading] = useState(true);
-    const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
-    useEffect(() => {
-        async function fetchProjects() {
-            try {
-                setLoading(true)
+  // ================================================================
+  // hook
+  // ----------------------------------------------------------------
+  const [projects, setProjects] = useState<ProjectListResponse[]>([])
+  const [loading, setLoading] = useState(true)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
-                const [teamResult, personalResult] = await Promise.all([
-                    getProjects('TEAM'),
-                    getProjects('PERSONAL'),
-                ])
+  const [researchPosts, setResearchPosts] = useState<ResearchListResponse[]>([])
+  const [researchLoading, setResearchLoading] = useState(true)
+  const [researchErrorMessage, setResearchErrorMessage] = useState<string | null>(null)
 
-                setTeamProjects(teamResult)
-                setPersonalProjects(personalResult)
-            } catch(error) {
-                console.error(error)
-                setErrorMessage(`프로젝트 데이터를 불러오지 못했습니다.`)
 
-            } finally {
-                setLoading(false);
-            }
-        }
+  // ================================================================
+  // useEffect
+  // ----------------------------------------------------------------
+  useEffect(() => {
+    async function fetchProjects() {
+      try {
+        setLoading(true)
+        setErrorMessage(null)
 
-        fetchProjects()
-    }, []);
+        const result = await getAllProjects()
 
-    if(loading) {
-        return <main style={{ padding: '40px' }}>Loading...</main>
+        setProjects(result)
+      } catch (error) {
+        console.error(error)
+        setErrorMessage('프로젝트 목록을 불러오지 못했습니다.')
+      } finally {
+        setLoading(false)
+      }
     }
 
-    if(errorMessage) {
-        return <main style={{ padding: '40px' }}>{errorMessage}</main>
+    fetchProjects()
+  }, [])
+
+  useEffect(() => {
+    async function fetchResearchPosts() {
+      try {
+        setResearchLoading(true)
+        setResearchErrorMessage(null)
+
+        const response = await getRecentResearchList()
+
+        setResearchPosts(response)
+      } catch (error) {
+        console.error(error)
+
+        setResearchErrorMessage(
+          'Research 목록을 불러오지 못했습니다.'
+        )
+      } finally {
+        setResearchLoading(false)
+      }
     }
+
+    fetchResearchPosts()
+  }, [])
+
+  const selectedProjects = projects.slice(0,3)
+  const moreProjects = projects.slice(3)
+
+  if (loading) {
+    return (
+      <div className={styles.status}>
+        프로젝트 목록을 불러오는 중입니다...
+      </div>
+    )
+  }
+
+  if (errorMessage) {
+    return (
+      <div className={styles.error}>
+        {errorMessage}
+      </div>
+    )
+  }
 
   return (
-    <main style={{ padding: '40px' }}>
-        <h1>Work</h1>
+    <div className={styles.page}>
+      <WorkIntroSection />
 
-        {/* ========================================================================= */}
-        {/* 팀 프로젝트 */}
-        <ProjectSection
-            title="Team Project"
-            emptyMessage="등록된 팀 프로젝트가 없습니다."
-            projects={teamProjects}
-        />
+      <WorkProjectSection
+        title="Selected Work"
+        description="문제 정의부터 구조 설계, 구현과 검증까지 직접 참여한 대표 프로젝트입니다."
+        projects={selectedProjects}
+        emptyMessage="등록된 대표 프로젝트가 없습니다."
+        columns={1}
+      />
 
+      <WorkResearchSection
+        researchPosts={researchPosts}
+        loading={researchLoading}
+        errorMessage={researchErrorMessage}
+      />
 
-
-        {/* ========================================================================= */}
-        {/* 개인 프로젝트 */}
-        <ProjectSection
-            title="More stuff I made"
-            emptyMessage="등록된 개인 프로젝트가 없습니다."
-            projects={personalProjects}
-        />
-    </main>
-  );
-}
-
-interface ProjectSectionProps {
-    title: string
-    emptyMessage: string
-    projects: ProjectListResponse[]
-}
-
-function ProjectSection({
-    title,
-    emptyMessage,
-    projects,
-}: ProjectSectionProps) {
-    return (
-        <section style={{ margin: '40px' }}>
-            <h2>{title}</h2>
-
-            {projects.length === 0 ? (
-                <p>{emptyMessage}</p>
-            ) : (
-                <div style={{ display: 'grid', gap: '16px' }}>
-                    {projects.map((project) => (
-                        <ProjectCard 
-                            key={project.projectId}
-                            project={project}
-                        />
-                    ))}
-                </div>
-            )}
-        </section>
-    )
+      <WorkProjectSection
+        title="More Work"
+        description="그 외 개인 프로젝트와 팀 프로젝트, 학습 과정에서 구현한 작업을 소개합니다."
+        projects={moreProjects}
+        emptyMessage="등록된 추가 프로젝트가 없습니다."
+        columns={2}
+      />
+    </div>
+  )
 }
 
 export default WorkPage

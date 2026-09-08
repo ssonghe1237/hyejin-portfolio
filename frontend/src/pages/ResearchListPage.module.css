@@ -1,0 +1,58 @@
+.page { width: 100%; --font-label: 12px; --font-body: 18px; --font-section-title: 35px; --font-hero-title: 50px; padding: 88px 68px 112px; color: #111; background: #fff; }
+.intro { max-width: none; padding-bottom: 72px; text-align: center; }
+.kicker { width: fit-content; margin: 0 0 22px; padding: 8px 14px; display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; color: #c64b00; background: #fff0e4; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: var(--font-label); font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.intro .kicker { margin-right: auto; margin-left: auto; }
+.kicker::before { width: 6px; height: 6px; flex: 0 0 auto; border-radius: 50%; content: ''; background: #ff6b00; }
+.title { max-width: 840px; margin: 0 auto; color: var(--color-text-primary); font-size: var(--font-hero-title); font-weight: var(--font-weight-display); line-height: 1.12; letter-spacing: var(--letter-spacing-display); word-break: keep-all; }
+.description { max-width: 720px; margin: 24px auto 0; color: var(--color-text-secondary); font-size: var(--font-body); line-height: 1.7; word-break: keep-all; }
+.metaRule { max-width: 100%; margin-top: 32px; padding: 14px 0; border-top: 1px solid rgba(255, 107, 0, .55); border-bottom: 1px solid rgba(255, 107, 0, .55); color: #5f5147; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: var(--font-label); font-weight: 700; letter-spacing: .05em; line-height: 1.5; text-align: center; white-space: nowrap; }
+.explore { margin-bottom: 32px; display: flex; align-items: stretch; gap: 12px; }
+.searchField { min-width: 260px; flex: 1 1 480px; }
+.categoryField { flex: 0 1 200px; }
+.searchInput,.categorySelect { width: 100%; height: 48px; padding: 0 16px; border: 1px solid #d8d1cb; border-radius: 4px; color: var(--color-text-primary); background: #fff; font: inherit; font-size: 15px; transition: border-color 160ms ease, box-shadow 160ms ease; }
+.searchInput::placeholder { color: #9a918b; }
+.searchInput:focus,.categorySelect:focus { border-color: #ff6b00; box-shadow: 0 0 0 2px rgba(255, 107, 0, .14); outline: none; }
+.categorySelect { min-width: 0; cursor: pointer; }
+.resetButton,.emptyResetButton { border: 0; color: #c64b00; background: transparent; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; }
+.resetButton { min-width: 72px; padding: 0 10px; }
+.resetButton:disabled { color: #aaa19b; cursor: default; }
+.resetButton:focus-visible,.emptyResetButton:focus-visible { outline: 2px solid #ff6b00; outline-offset: 3px; }
+.visuallyHidden { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.archive { padding-top: 0; border-top: 0; }
+.archiveHeader { margin-bottom: 44px; display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; }
+.sectionTitle { margin: 0; font-size: 35px; line-height: 1.2; letter-spacing: -.035em; }
+.count,.meta { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+.count { margin: 0 0 4px; color: #8d847e; font-size: 10px; letter-spacing: .08em; }
+.list { border-top: 1px solid #ded8d2; }
+.item { padding: 32px 12px; display: grid; grid-template-columns: 150px minmax(0, 1fr) auto; align-items: center; gap: 36px; border-bottom: 1px solid #ded8d2; transition: background-color 160ms ease, transform 160ms ease; }
+.meta { align-self: start; display: flex; flex-direction: column; gap: 9px; color: #9a918b; font-size: 10px; letter-spacing: .05em; }
+.category { color: #e65d00; font-weight: 700; text-transform: uppercase; }
+.content { min-width: 0; }
+.itemTitle { margin: 0; font-size: 22px; line-height: 1.35; letter-spacing: -.025em; overflow-wrap: anywhere; }
+.itemTitle a { color: inherit; text-decoration: none; }
+.summary { max-width: 720px; margin: 14px 0 0; color: var(--color-text-muted); font-size: 16px; line-height: 1.7; word-break: keep-all; }
+.readLink { min-height: 44px; padding-left: 20px; display: inline-flex; align-items: center; gap: 8px; color: #111; font-size: 14px; font-weight: 700; text-decoration: none; white-space: nowrap; }
+.readLink span { color: #ff6b00; transition: transform 160ms ease; }
+.itemTitle a:focus-visible,.readLink:focus-visible { outline: 2px solid #ff6b00; outline-offset: 4px; }
+.status,.error,.empty { padding: 32px 12px; border-top: 1px solid #ded8d2; border-bottom: 1px solid #ded8d2; color: var(--color-text-muted); font-size: 16px; line-height: 1.7; }
+.empty p { margin: 0; }
+.emptyResetButton { margin-top: 16px; padding: 0; }
+.error { color: var(--color-danger); }
+@media (hover: hover) { .item:hover { transform: translateX(4px); background: rgba(255, 107, 0, .035); } .item:hover .readLink span { transform: translateX(4px); } }
+@media (max-width: 1179px) { .page { padding: 72px 48px 96px; } .intro { padding-bottom: 64px; } .title { font-size: 44px; } .archive { padding-top: 0; } .sectionTitle { font-size: 31px; } .item { grid-template-columns: 120px minmax(0, 1fr) auto; gap: 24px; } }
+@media (max-width: 767px) { .page { padding: 48px 22px 76px; } .intro { padding-bottom: 48px; } .kicker { margin-bottom: 18px; } .title { font-size: 36px; line-height: 1.12; } .description { margin-top: 20px; font-size: 16px; } .metaRule { margin-top: 24px; padding: 12px 0; font-size: 10px; line-height: 1.7; } .explore { flex-wrap: wrap; } .searchField { min-width: 100%; flex-basis: 100%; } .categoryField { min-width: 0; flex: 1 1 180px; } .archive { padding-top: 0; } .archiveHeader { margin-bottom: 32px; align-items: flex-start; flex-direction: column; gap: 10px; } .sectionTitle { font-size: 28px; } .count { margin: 0; } .item { min-height: 0; padding: 26px 4px 30px; grid-template-columns: minmax(0, 1fr); gap: 16px; } .meta { flex-direction: row; flex-wrap: wrap; gap: 8px 16px; } .itemTitle { font-size: 22px; } .readLink { justify-self: start; padding-left: 0; } }
+@media (max-width: 420px) { .explore { align-items: stretch; flex-direction: column; } .categoryField { flex-basis: auto; } .resetButton { min-height: 40px; align-self: flex-start; padding: 0; } }
+@media (prefers-reduced-motion: reduce) { .item,.readLink span { transition: none; } .item:hover { transform: none; } }
+/**
+ * packageName    : frontend.src.pages
+ * fileName       : ResearchListPage.module.css
+ * author         : Song
+ * date           : 2026-08-04
+ * description    : ResearchListPage 스타일
+ *                  - 검색·카테고리 필터와 Research 목록 레이아웃 구성
+ *                  - 반응형 목록 화면 스타일 제공
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-08-04        Song       최초 생성
+ */

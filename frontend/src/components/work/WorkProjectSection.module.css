@@ -1,0 +1,329 @@
+/**
+ * packageName    : frontend.src.components.work
+ * fileName       : WorkProjectSection.module.css
+ * author         : Song
+ * date           : 2026-07-03
+ * description    : WorkProjectSection 컴포넌트 스타일
+ *                  - 프로젝트 목록과 카드 레이아웃 구성
+ *                  - 반응형 프로젝트 섹션 스타일 제공
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-07-03        Song       최초 생성
+ */
+
+.section {
+  width: 100%;
+  padding: 112px 68px;
+}
+
+.selectedSection {
+  padding-top: 56px;
+  background: #fff;
+  color: #111;
+}
+
+.moreSection {
+  background: #111;
+  color: #fff;
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  margin: 0 auto 56px;
+}
+
+.header > div {
+  min-width: 0;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  margin: 0 0 20px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: #fff1e8;
+  color: #f56616;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(32px, 3vw, 46px);
+  line-height: 1.08;
+  letter-spacing: -.045em;
+}
+
+.description {
+  max-width: 680px;
+  margin: 18px 0 0;
+  color: #6f6b68;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.count {
+  flex: 0 0 auto;
+  padding-bottom: 5px;
+  color: #817b77;
+  font-size: 11px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.grid {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.singleColumnGrid {
+  display: block;
+}
+
+.twoColumnGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.project {
+  min-width: 0;
+}
+
+.selectedProject {
+  display: grid;
+  grid-template-columns: minmax(0, 1.18fr) minmax(280px, .82fr);
+  gap: clamp(40px, 6vw, 88px);
+  align-items: center;
+  padding: 42px 0;
+}
+
+.selectedProject + .selectedProject {
+  border-top: 1px solid #ebe6e0;
+}
+
+.moreProject {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 100%;
+  border-radius: 20px;
+  background: #fff;
+  color: #111;
+  box-shadow: 0 16px 30px rgba(0, 0, 0, .13);
+}
+
+.visualLink {
+  display: block;
+  min-width: 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+.browserFrame {
+  overflow: hidden;
+  border: 1px solid #ded8d2;
+  border-radius: 18px;
+  background: #f5f2ee;
+  box-shadow: 0 14px 26px rgba(31, 20, 10, .08);
+}
+
+.browserBar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 38px;
+  padding: 0 14px;
+  border-bottom: 1px solid #dfdad4;
+  background: #faf9f7;
+}
+
+.windowControls {
+  display: inline-flex;
+  gap: 5px;
+  flex: 0 0 auto;
+}
+
+.windowControls i {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff9b83;
+}
+
+.windowControls i:nth-child(2) { background: #f3c876; }
+.windowControls i:nth-child(3) { background: #9bd7a6; }
+
+.browserAddress {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #857d75;
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.visual {
+  aspect-ratio: 16 / 9;
+  min-height: 0;
+  background: #f0ede9;
+}
+
+.visual :global(img) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.emptyThumbnail {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  place-items: center;
+  padding: 20px;
+  color: #958d85;
+  font-size: 13px;
+  text-align: center;
+}
+
+.projectContent {
+  min-width: 0;
+}
+
+.selectedProject .projectContent {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 0;
+}
+
+.moreProject .browserFrame {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.moreProject .projectContent {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 26px 28px 30px;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin: 0 0 16px;
+  color: #89817a;
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.projectTitle {
+  margin: 0;
+  font-size: clamp(24px, 2.1vw, 32px);
+  line-height: 1.15;
+  letter-spacing: -.035em;
+}
+
+.projectTitle a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.summary {
+  max-width: 520px;
+  margin: 18px 0 0;
+  color: #5f5a56;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.supporting {
+  margin: 22px 0 0;
+  color: #807871;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.detailLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  width: fit-content;
+  margin-top: 28px;
+  color: #f56616;
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.moreProject .detailLink {
+  margin-top: auto;
+  padding-top: 28px;
+}
+
+.arrow {
+  transition: transform 160ms ease;
+}
+
+.detailLink:hover .arrow {
+  transform: translateX(3px);
+}
+
+.moreSection .description { color: #a9a3a0; }
+.moreSection .count { color: #a9a3a0; }
+.moreSection .meta { color: #8f8985; }
+.moreSection .summary { color: #5f5a56; }
+
+.empty {
+  margin: 0;
+  padding: 28px 0;
+  border-top: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  color: #8f8985;
+  font-size: 15px;
+}
+
+@media (max-width: 980px) {
+  .section { padding: 88px 48px; }
+  .selectedSection { padding-top: 48px; }
+  .selectedProject { grid-template-columns: minmax(0, 1fr) minmax(250px, .86fr); gap: 40px; }
+}
+
+@media (max-width: 700px) {
+  .section { padding: 72px 24px; }
+  .selectedSection { padding-top: 40px; }
+  .header { align-items: flex-start; flex-direction: column; gap: 20px; margin-bottom: 36px; }
+  .count { padding: 0; }
+  .selectedProject { display: flex; flex-direction: column; align-items: stretch; gap: 28px; padding: 32px 0; }
+  .selectedProject .projectContent { padding: 0; }
+  .twoColumnGrid { grid-template-columns: 1fr; gap: 18px; }
+  .projectTitle { font-size: 26px; }
+}
+
+@media (max-width: 390px) {
+  .section { padding: 56px 16px; }
+  .selectedSection { padding-top: 32px; }
+  .eyebrow { margin-bottom: 16px; font-size: 10px; }
+  .title { font-size: 32px; }
+  .description { font-size: 14px; }
+  .browserBar { height: 34px; padding: 0 10px; }
+  .browserAddress { font-size: 9px; }
+  .moreProject .projectContent { padding: 22px 20px 24px; }
+}

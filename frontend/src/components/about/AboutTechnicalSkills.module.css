@@ -1,0 +1,239 @@
+/**
+ * packageName    : frontend.src.components.about
+ * fileName       : AboutTechnicalSkills.module.css
+ * author         : Song
+ * date           : 2026-08-23
+ * description    : AboutTechnicalSkills 컴포넌트 스타일
+ *                  - 기술 카테고리 및 기술 카드 레이아웃 구성
+ *                  - Supporting Tools 및 반응형 화면 스타일 제공
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-08-23        Song       최초 생성
+ */
+
+.section {
+  padding: 96px 0 104px;
+}
+
+.header {
+  margin-bottom: 48px;
+}
+
+.kicker {
+  width: fit-content;
+  margin: 0 0 22px;
+  padding: 8px 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 999px;
+  color: #c64b00;
+  background: #fff0e4;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.kicker::before {
+  width: 6px;
+  height: 6px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  content: '';
+  background: #ff6b00;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 35px;
+  line-height: 1.2;
+  letter-spacing: -.035em;
+}
+
+.categoryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 22px;
+  align-items: stretch;
+}
+
+.categoryCard {
+  min-width: 0;
+  padding: 34px;
+  border: 1px solid #e7e0eb;
+  border-radius: 24px;
+  background: #f8f5fb;
+  box-shadow: 0 14px 34px rgba(56, 39, 68, .04);
+}
+
+.categoryNumber {
+  display: block;
+  color: #e65d00;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .08em;
+}
+
+.categoryCard > h3 {
+  margin: 20px 0 0;
+  font-size: 22px;
+  line-height: 1.3;
+  letter-spacing: -.025em;
+  overflow-wrap: anywhere;
+}
+
+.categoryDescription {
+  margin: 14px 0 0;
+  color: var(--color-text-muted);
+  font-size: 15px;
+  line-height: 1.65;
+  word-break: keep-all;
+}
+
+.skillGrid {
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(126px, 1fr));
+  gap: 12px;
+}
+
+.skillTile {
+  min-width: 0;
+  padding: 18px 14px;
+  border: 1px solid #e9e4de;
+  border-radius: 18px;
+  background: #fff;
+  transition: border-color 160ms ease, transform 160ms ease;
+}
+
+.skillTile:hover {
+  border-color: rgba(255, 107, 0, .42);
+  transform: translateY(-2px);
+}
+
+.logoHolder {
+  width: 68px;
+  height: 68px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #eee8e2;
+  border-radius: 16px;
+  color: #a14810;
+  background: #fffaf6;
+}
+
+.logoHolder img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+}
+
+.logoHolder span {
+  max-width: 100%;
+  overflow: hidden;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .03em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.skillTile h4 {
+  margin: 16px 0 0;
+  font-size: 15px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.skillTile > p {
+  margin: 8px 0 0;
+  color: var(--color-text-muted);
+  font-size: 13px;
+  line-height: 1.55;
+  word-break: keep-all;
+}
+
+.legacyContent {
+  padding: 42px 46px;
+  border: 1px solid #e3dce9;
+  border-radius: 26px;
+  background: #f7f4fb;
+  columns: 2 320px;
+  column-gap: 72px;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.legacyContent h3 {
+  margin: 0 0 14px;
+  break-after: avoid;
+  color: #e65d00;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 14px;
+  letter-spacing: .06em;
+}
+
+.legacyContent h3:not(:first-child) { margin-top: 32px; }
+.legacyContent ul,
+.legacyContent ol { margin: 0 0 28px; break-inside: avoid; }
+.legacyContent p { break-inside: avoid; }
+
+.supportingTools { margin-top:32px; padding:28px 32px; display:grid; grid-template-columns:minmax(210px,.72fr) minmax(0,1.28fr); gap:28px 48px; align-items:center; border-top:1px solid #ded8d2; border-bottom:1px solid #ded8d2; }
+.supportingToolsHeader p { margin:0; color:#e65d00; font-family:ui-monospace, SFMono-Regular, Consolas, monospace; font-size:11px; font-weight:700; letter-spacing:.08em; }
+.supportingToolsHeader h3 { margin:12px 0 0; font-size:18px; line-height:1.4; letter-spacing:-.025em; }
+.supportingToolsList { min-width:0; margin:0; padding:0; display:grid; grid-template-columns:repeat(auto-fit,minmax(132px,1fr)); gap:12px; list-style:none; }
+.supportingToolsList li { min-width:0; padding:14px 16px; border-radius:14px; background:#fff7ef; }
+.supportingToolsList strong,.supportingToolsList span { display:block; overflow-wrap:anywhere; }
+.supportingToolsList strong { font-size:14px; line-height:1.35; }
+.supportingToolsList span { margin-top:6px; color:#725d50; font-size:13px; line-height:1.5; word-break:keep-all; }
+
+@media (max-width: 1179px) {
+  .section { padding: 80px 0 88px; }
+  .header h2 { font-size: 31px; }
+  .categoryCard { padding: 30px; }
+  .skillGrid { grid-template-columns: repeat(auto-fit, minmax(118px, 1fr)); }
+}
+
+@media (max-width: 900px) {
+  .categoryGrid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
+  .skillGrid { grid-template-columns: repeat(auto-fit, minmax(132px, 1fr)); }
+  .supportingTools { grid-template-columns:minmax(0,1fr); gap:20px; }
+}
+
+@media (max-width: 767px) {
+  .section { padding: 64px 0 72px; }
+  .header { margin-bottom: 34px; }
+  .header h2 { font-size: 28px; }
+  .categoryCard { padding: 26px 22px; border-radius: 20px; }
+  .categoryCard > h3 { font-size: 20px; }
+  .skillGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .skillTile { padding: 16px 12px; }
+  .logoHolder { width: 60px; height: 60px; }
+  .legacyContent { padding: 30px 24px; columns: auto; border-radius: 20px; }
+  .supportingTools { margin-top:24px; padding:24px 0; }
+  .supportingToolsList { grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); }
+}
+
+@media (max-width: 620px) {
+  .categoryGrid { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+}
+
+@media (max-width: 430px) {
+  .skillGrid { grid-template-columns: minmax(0, 1fr); }
+  .skillTile { display: grid; grid-template-columns: 60px minmax(0, 1fr); column-gap: 14px; align-items: center; }
+  .skillTile h4 { margin: 0; }
+  .skillTile > p { grid-column: 2; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skillTile { transition: none; }
+  .skillTile:hover { transform: none; }
+}

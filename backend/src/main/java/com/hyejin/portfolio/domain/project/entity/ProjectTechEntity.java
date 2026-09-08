@@ -1,6 +1,7 @@
 package com.hyejin.portfolio.domain.project.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -49,17 +50,31 @@ public class ProjectTechEntity{
     private String techCategory;
 
     // 기술스택 표시 순서
+    @NotNull
     @Column(name = "display_order", nullable = false)
-    private int displayOrder;
+    private Integer displayOrder;
 
     @Builder
     public ProjectTechEntity(
             ProjectEntity project,
             String techName,
             String techCategory,
-            int displayOrder
+            Integer displayOrder
     ) {
         this.project = project;
+        this.techName = techName;
+        this.techCategory = techCategory;
+        this.displayOrder = displayOrder;
+    }
+
+    // ======================================================
+    // 업데이트를 위한 메서드
+    // ------------------------------------------------------
+    public void updateTechInfo(
+            String techName,
+            String techCategory,
+            int displayOrder
+    ) {
         this.techName = techName;
         this.techCategory = techCategory;
         this.displayOrder = displayOrder;

@@ -4,6 +4,7 @@ import com.hyejin.portfolio.domain.project.entity.ProjectEntity;
 import com.hyejin.portfolio.domain.project.entity.ProjectType;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * packageName    : com.hyejin.portfolio.domain.project.dto
@@ -16,6 +17,7 @@ import java.time.LocalDate;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-06-30        Song       최초 생성
+ * 2026-07-27        Song       기술스택 카테고리 및 MY_ROLE 섹션 제목 출력 추가
  */
 public record ProjectListResponseDto(
         // [3] 2번에서 받은 값을 json 형태로 
@@ -32,7 +34,9 @@ public record ProjectListResponseDto(
         String teamName,
         String role,
         String thumbnailUrl, // 가공된 썸네일 이미지 경로
-        int displayOrde
+        int displayOrder,
+        List<String> techCategories,
+        List<String> myRoleTitles
 
 ) {
     // [1] 서비스에서 이 메서드 호출
@@ -40,11 +44,13 @@ public record ProjectListResponseDto(
     // ProjectListResponseDto dto = ProjectListResponseDto.from(projectEntity, url, text);
 
     // 정적 팩토리 메서드 : DB에서 긁어온 복잡한 'ProjectEntity' 객체와 추가 데이터들을 조합하여
-    // 프론트엔드가 쓰기 좋은 DTO로 변환해주는 전용 세탁기 역활
+    // 프론트엔드가 쓰기 좋은 DTO로 변환해주는 전용 세탁기 역할
     public static ProjectListResponseDto from(
             ProjectEntity project,
             String thumbnailUrl,
-            String periodText
+            String periodText,
+            List<String> techCategories,
+            List<String> myRoleTitles
     ) {
         // [2] service를 돌아서 반환 받은 값을 포장
         return new ProjectListResponseDto(
@@ -59,8 +65,9 @@ public record ProjectListResponseDto(
                 project.getTeamName(),
                 project.getRole(),
                 thumbnailUrl,
-                project.getDisplayOrder()
-
+                project.getDisplayOrder(),
+                techCategories == null ? List.of() : techCategories,
+                myRoleTitles == null ? List.of() : myRoleTitles
         );
 
     }

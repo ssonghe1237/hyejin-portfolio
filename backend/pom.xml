@@ -86,16 +86,37 @@
             <optional>true</optional>
         </dependency>
 
+        <!-- [7] OWASP Java HTML Sanitizer -->
+        <!-- Tiptap 등 에디터에서 전달된 HTML을 허용 목록 기반으로 정제하여 XSS를 방지하기 위한 의존성 -->
+        <dependency>
+            <groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
+            <artifactId>owasp-java-html-sanitizer</artifactId>
+            <version>20260313.1</version>
+        </dependency>
+
+        <!-- =========================================================
+             [8] Spring Security
+             - 관리자 로그인 인증
+             - 관리자 API 접근 권한 제어
+             - Session 기반 인증 처리
+        ========================================================= -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa-test</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation-test</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webmvc-test</artifactId>

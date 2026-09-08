@@ -12,72 +12,66 @@
  * -----------------------------------------------------------
  * 2026-07-02        Song       최초 생성
  * 2026-07-02        Song       이미지 로드 실패 fallback 처리 추가
+ * 2026-07-02        Song       CSS Module 스타일 분리
  */
 
-import { useState } from "react"
+import { useState } from 'react'
+import type { CSSProperties } from 'react'
+import styles from './ImageWithFallback.module.css'
 
-// 참고) ?가 붙는 애들은 필수 값이 아닌거, 없으면 필수 값
 interface ImageWithFallbackProps {
-    src: string
-    alt: string
-    fallbackText?: string
-    height?: string
-    maxWidth?: string
-    objectFit?: 'cover' | 'contain'
+  src: string
+  alt: string
+  fallbackText?: string
+  height?: string
+  maxWidth?: string
+  objectFit?: 'cover' | 'contain'
+  borderRadius?: string
+}
 
+type ImageStyleVariables = CSSProperties & {
+  '--image-height': string
+  '--image-max-width': string
+  '--image-object-fit': string
+  '--image-border-radius': string
 }
 
 function ImageWithFallback({
-    src,
-    alt,
-    fallbackText = '이미지를 불러올 수 없습니다.',
-    height = 'auto',
-    maxWidth = '100%',
-    objectFit = 'cover',
-} : ImageWithFallbackProps) {
-    const [hasError, setHasError] = useState(false)
+  src,
+  alt,
+  fallbackText = '이미지를 불러올 수 없습니다.',
+  height = 'auto',
+  maxWidth = '100%',
+  objectFit = 'cover',
+  borderRadius = '16px',
+}: ImageWithFallbackProps) {
+  const [hasError, setHasError] = useState(false)
 
-    if(hasError) {
-        return(
-            <div
-                style={{
-                    width: '100%',
-                    maxWidth,
-                    height,
-                    minHeight: height === 'auto' ? '180px' : undefined,
-                    border: '1px dashed #bbb',
-                    borderRadius: '16px',
-                    backgroundColor: '#f7f7f7',
-                    color: '#666',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: '24px',
-                    textAlign: 'center',
-                }} 
-            >
-                <p>{fallbackText}</p>
-                <p style={{ fontSize: '12px', wordBreak: 'break-all' }}>{src}</p>
-            </div>
-        )
-    }
+  const imageStyleVariables: ImageStyleVariables = {
+    '--image-height': height,
+    '--image-max-width': maxWidth,
+    '--image-object-fit': objectFit,
+    '--image-border-radius': borderRadius,
+  }
 
-    return(
-        <img 
-            src={src}
-            alt={alt}
-            onError={() => setHasError(true)}
-            style={{
-                width: '100%',
-                maxWidth,
-                height,
-                objectFit,
-                borderRadius: '16px',
-                display: 'block',
-            }}
-        />
+  if (hasError) {
+    return (
+      <div className={styles.fallback} style={imageStyleVariables}>
+        <p className={styles.message}>{fallbackText}</p>
+        <p className={styles.path}>{src}</p>
+      </div>
     )
+  }
+
+  return (
+    <img
+      src={src}
+      alt={alt}
+      onError={() => setHasError(true)}
+      className={styles.image}
+      style={imageStyleVariables}
+    />
+  )
 }
 
 export default ImageWithFallback

@@ -1,6 +1,7 @@
 package com.hyejin.portfolio.domain.project.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 /**
@@ -45,7 +46,11 @@ public class ProjectImageEntity {
     private ProjectImageType imageType;
 
     // 이미지 URL
-    @Column(name = "image_url", nullable = false, columnDefinition = "TEXT")
+    @Column(
+            name = "image_url",
+            nullable = false,
+            columnDefinition = "TEXT"
+    )
     private String imageUrl;
 
     // 이미지 설명
@@ -53,8 +58,9 @@ public class ProjectImageEntity {
     private String caption;
 
     // 이미지 표시 순서
+    @NotNull
     @Column(name = "display_order", nullable = false)
-    private int displayOrder;
+    private Integer displayOrder;
 
     @Builder
     public ProjectImageEntity(
@@ -63,7 +69,7 @@ public class ProjectImageEntity {
             ProjectImageType imageType,
             String imageUrl,
             String caption,
-            int displayOrder
+            Integer displayOrder
     ) {
         this.project = project;
         this.section = section;
@@ -73,4 +79,14 @@ public class ProjectImageEntity {
         this.displayOrder = displayOrder;
     }
 
+    // 이미지 정보 수정
+    public void updateImageInfo(
+            String imageUrl,
+            String caption,
+            int displayOrder
+    ) {
+        this.imageUrl = imageUrl;
+        this.caption = caption;
+        this.displayOrder = displayOrder;
+    }
 }

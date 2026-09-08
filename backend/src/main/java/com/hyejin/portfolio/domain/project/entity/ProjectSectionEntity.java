@@ -1,6 +1,7 @@
 package com.hyejin.portfolio.domain.project.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
@@ -51,8 +52,9 @@ public class ProjectSectionEntity {
     private String content;
 
     // 섹션 표시 순서
+    @NotNull
     @Column(name = "display_order", nullable = false)
-    private int displayOrder;
+    private Integer displayOrder;
 
     @Builder
     public ProjectSectionEntity(
@@ -60,7 +62,7 @@ public class ProjectSectionEntity {
             ProjectSectionType sectionType,
             String title,
             String content,
-            int displayOrder
+            Integer displayOrder
     ) {
         this.project = project;
         this.sectionType = sectionType;
@@ -68,5 +70,21 @@ public class ProjectSectionEntity {
         this.content = content;
         this.displayOrder = displayOrder;
     }
+
+    // ======================================================
+    // 업데이트를 위한 메서드
+    // ------------------------------------------------------
+    public void updateSectionInfo(
+            ProjectSectionType sectionType,
+            String title,
+            String content,
+            int displayOrder
+    ) {
+        this.sectionType = sectionType;
+        this.title = title;
+        this.content = content;
+        this.displayOrder = displayOrder;
+    }
+
 
 }

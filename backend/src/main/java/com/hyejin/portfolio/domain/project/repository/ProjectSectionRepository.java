@@ -4,6 +4,7 @@ import com.hyejin.portfolio.domain.project.entity.ProjectSectionEntity;
 import com.hyejin.portfolio.domain.project.entity.ProjectSectionType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,7 +38,18 @@ public interface ProjectSectionRepository extends JpaRepository<ProjectSectionEn
             ProjectSectionType sectionType
     );
 
-    // 프로젝트 ID 기준 섹션 전체 삭제
-    void deleteByProject_ProjectId(Long projectProjectId);
+    // ===========================================================
+    // 수정용 메서드
+    // -----------------------------------------------------------
+    Optional<ProjectSectionEntity>
+    findBySectionIdAndProject_ProjectId(
+            Long sectionId,
+            Long projectId
+    );
 
+    List<ProjectSectionEntity>
+    findAllByProject_ProjectIdAndSectionIdIn(
+            Long projectId,
+            Collection<Long> sectionIds
+    );
 }

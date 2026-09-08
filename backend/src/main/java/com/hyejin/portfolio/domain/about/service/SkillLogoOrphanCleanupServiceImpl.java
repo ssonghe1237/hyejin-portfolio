@@ -1,0 +1,51 @@
+package com.hyejin.portfolio.domain.about.service;
+
+import com.hyejin.portfolio.domain.about.entity.AboutEntity;
+import com.hyejin.portfolio.domain.about.repository.AboutRepository;
+import com.hyejin.portfolio.global.upload.config.SkillLogoUploadProperties;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+/**
+ * packageName    : com.hyejin.portfolio.domain.about.service
+ * fileName       : SkillLogoOrphanCleanupServiceImpl
+ * author         : Song
+ * date           : 2026-08-23
+ * description    : 기술 로고 고아 파일 정리 Service 구현체
+ *                  - 현재 사용 중인 기술 로고 URL 확인
+ *                  - 보존 기간이 지난 미사용 기술 로고 파일 삭제
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-08-23        Song               최초 생성
+ */
+@Slf4j @Service @RequiredArgsConstructor
+public class SkillLogoOrphanCleanupServiceImpl implements SkillLogoOrphanCleanupService {
+    private final SkillLogoStorageService storageService;
+    private final AboutRepository aboutRepository;
+    private final SkillLogoUploadProperties properties;
+    @Override public void cleanupOrphanLogos() {
+        if (properties.getOrphanRetentionHours() <= 0) throw new IllegalStateException("기술 로고 보관 시간은 1시간 이상이어야 합니다.");
+        List<String> candidates = storageService.findLogoUrlsModifiedBefore(
+                Instant.now().minus(Duration.ofHours(properties.getOrphanRetentionHours())));
+        Set<String> referenced = new HashSet<>();
+        aboutRepository.findBySingletonKey(AboutEntity.SINGLETON_KEY).ifPresent(about ->
+                about.getSkillCategories().forEach(category -> category.getSkills().forEach(skill -> {
+                    String url = skill.getLogoUrl();
+                    if (url != null && url.startsWith(properties.getUrlPrefix() + "/")) referenced.add(url);
+                })));
+        int deleted = 0, failed = 0;
+        for (String candidate : candidates) {
+            if (referenced.contains(candidate)) continue;
+            try { if (storageService.delete(candidate)) deleted++; }
+            catch (RuntimeException exception) { failed++; log.error("기술 고아 로고 삭제 실패. logoUrl={}", candidate, exception); }
+        }
+        log.info("기술 고아 로고 정리 완료. candidateCount={}, referencedCount={}, deletedCount={}, failedCount={}", candidates.size(), referenced.size(), deleted, failed);
+    }
+}

@@ -1,0 +1,34 @@
+.page { width: 100%; padding: 88px 68px 112px; color: #111; background: #fff; }
+.header,.divider,.articleBody,.footer { width: min(100%, 820px); margin-right: auto; margin-left: auto; }
+.kicker { width: fit-content; margin: 0 0 28px; padding: 8px 14px; display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; color: #c64b00; background: #fff0e4; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 12px; font-weight: 700; letter-spacing: .06em; }
+.kicker::before { width: 6px; height: 6px; flex: 0 0 auto; border-radius: 50%; content: ''; background: #ff6b00; }
+.meta { margin-top: 24px; display: flex; align-items: center; flex-wrap: wrap; gap: 10px 20px; color: #8d847e; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 10px; letter-spacing: .07em; text-transform: uppercase; }
+.meta span { color: #e65d00; font-weight: 700; }
+.title { margin: 0; font-size: 50px; font-weight: 800; line-height: 1.15; letter-spacing: -.045em; overflow-wrap: anywhere; word-break: keep-all; }
+.summary { margin: 28px 0 0; color: var(--color-text-muted); font-size: 18px; line-height: 1.75; word-break: keep-all; }
+.dateGroup { margin-top: 24px; display: flex; align-items: center; flex-wrap: wrap; gap: 10px 18px; color: #9a918b; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 10px; }
+.divider { margin-top: 52px; margin-bottom: 58px; border-top: 1px solid #ded8d2; }
+.articleBody { line-height: 1.75; }
+.footer { margin-top: 64px; padding-top: 32px; border-top: 1px solid #ded8d2; }
+.postNavigation { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.postNavigation a,.postNavigation span,.state a { min-height: 44px; display: inline-flex; align-items: center; color: #111; font-size: 14px; font-weight: 700; text-decoration: none; }
+.postNavigation span { color: #aaa29c; }
+.postNavigation a:hover,.state a:hover { color: #e65d00; }
+.postNavigation a:focus-visible,.state a:focus-visible { outline: 2px solid #ff6b00; outline-offset: 4px; }
+.state { width: 100%; min-height: 320px; padding: 76px 68px; color: var(--color-text-muted); background: #fff; font-size: 16px; line-height: 1.7; }
+.state p { margin: 0 0 16px; }
+@media (max-width: 1179px) { .page { padding: 72px 48px 96px; } .title { font-size: 44px; } .state { padding: 64px 48px; } }
+@media (max-width: 767px) { .page { padding: 48px 22px 76px; } .kicker { margin-bottom: 22px; } .meta { margin-top: 18px; } .title { font-size: 36px; line-height: 1.2; } .summary { margin-top: 22px; font-size: 16px; } .divider { margin-top: 40px; margin-bottom: 42px; } .footer { margin-top: 52px; padding-top: 26px; } .postNavigation { gap: 10px; } .postNavigation a,.postNavigation span { font-size: 13px; } .state { min-height: 240px; padding: 48px 22px; } }
+/**
+ * packageName    : frontend.src.pages
+ * fileName       : ResearchDetailPage.module.css
+ * author         : Song
+ * date           : 2026-08-04
+ * description    : ResearchDetailPage 스타일
+ *                  - Research 상세 본문과 게시글 탐색 레이아웃 구성
+ *                  - 반응형 상세 화면 스타일 제공
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-08-04        Song       최초 생성
+ */

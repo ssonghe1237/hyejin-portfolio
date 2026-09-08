@@ -7,6 +7,8 @@
 # DATE              AUTHOR             NOTE
 # -----------------------------------------------------------
 # 2026-06-25        Song               최초 생성
+# 2026-07-28        Song               multipart 용량 지정
+# 2026-07-31        Song               고아 이미지 정리 환경변수 오타 수정
 #/
 
 server:
@@ -22,6 +24,11 @@ spring:
   config:
     import: optional:classpath:application-local.yml
 
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -30,3 +37,55 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+# 배포를 고려한 변수명 규정(app)
+app:
+  upload:
+    # 실제 운영 서버/ Docker/ Kubermetes에서 특정 디렉토리를 가리켜야 할 때 환경 변수를 기준으로 등록하여 수정이 용이
+    image-directory: ${IMAGE_UPLOAD_DIR:./uploads/projects}
+    image-url-prefix: ${IMAGE_URL_PREFIX:/uploads/projects}
+    max-image-size: 10485760
+
+    # DB에서 참조하지 않는 오래된 이미지 파일 정리
+    orphan-cleanup-enabled: ${IMAGE_ORPHAN_CLEANUP_ENABLED:true}
+    orphan-retention-hours: ${IMAGE_ORPHAN_RETENTION_HOURS:24}
+    #orphan-retention-hours: ${IMAGE_ORPHAN_RETENTION_HOURS:1}
+    orphan-cleanup-cron: "${IMAGE_ORPHAN_CLEANUP_CRON:0 30 3 * * *}"
+    #orphan-cleanup-cron: "${IMAGE_ORPHAN_CLEANUP_CRON:0/10 * * * * *}"
+    orphan-cleanup-zone: ${IMAGE_ORPHAN_CLEANUP_ZONE:Asia/Seoul}
+    #요청 URL:
+    #  /uploads/projects/2026/07/uuid.png
+    #
+    #실제 파일:
+    #  /프로젝트실행경로/uploads/projects/2026/07/uuid.png
+
+  resume-upload:
+    directory: ${RESUME_UPLOAD_DIR:./uploads/resumes}
+    url-prefix: ${RESUME_UPLOAD_PREFIX:/uploads/resumes}
+    max-size: 10485760
+    # 10485760 = 10MB
+    # 10485760 = 10MB // 20971520 = 20MB
+
+  profile-upload:
+    image-directory: ${PROFILE_IMAGE_UPLOAD_DIR:./uploads/profile}
+    image-url-prefix: ${PROFILE_IMAGE_URL_PREFIX:/uploads/profile}
+    max-image-size: ${PROFILE_IMAGE_MAX_SIZE:10485760}
+    orphan-cleanup-enabled: ${PROFILE_IMAGE_ORPHAN_CLEANUP_ENABLED:true}
+    orphan-retention-hours: ${PROFILE_IMAGE_ORPHAN_RETENTION_HOURS:24}
+    orphan-cleanup-cron: "${PROFILE_IMAGE_ORPHAN_CLEANUP_CRON:0 45 3 * * *}"
+    orphan-cleanup-zone: ${PROFILE_IMAGE_ORPHAN_CLEANUP_ZONE:Asia/Seoul}
+
+  skill-logo-upload:
+    directory: ${SKILL_LOGO_UPLOAD_DIR:./uploads/skills}
+    url-prefix: ${SKILL_LOGO_URL_PREFIX:/uploads/skills}
+    max-size: ${SKILL_LOGO_MAX_SIZE:10485760}
+    orphan-cleanup-enabled: ${SKILL_LOGO_ORPHAN_CLEANUP_ENABLED:true}
+    orphan-retention-hours: ${SKILL_LOGO_ORPHAN_RETENTION_HOURS:24}
+    orphan-cleanup-cron: "${SKILL_LOGO_ORPHAN_CLEANUP_CRON:0 50 3 * * *}"
+    orphan-cleanup-zone: ${SKILL_LOGO_ORPHAN_CLEANUP_ZONE:Asia/Seoul}
+
+  admin:
+    bootstrap:
+      username: ${ADMIN_BOOTSTRAP_USERNAME:}
+      password: ${ADMIN_BOOTSTRAP_PASSWORD:}
+

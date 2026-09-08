@@ -1,0 +1,463 @@
+/**
+ * packageName    : frontend.src.pages.admin
+ * fileName       : AdminAboutPage.module.css
+ * author         : Song
+ * date           : 2026-08-05
+ * description    : 관리자 About 콘텐츠 편집 페이지 기본 스타일
+ *                  - About 기본 정보 및 반복 섹션 폼 배치
+ *                  - Tiptap 편집기와 섹션 관리 버튼 구성
+ *                  - 최종 디자인 적용 전 기능 확인용 스타일
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-08-05        Song               최초 생성
+ */
+
+.page {
+  width: 100%;
+  min-width: 0;
+}
+
+.header {
+  margin-bottom: 32px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.eyebrow,
+.sectionNumber {
+  margin: 0 0 8px;
+  color: var(--color-text-muted);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 0;
+  font-size: 36px;
+  line-height: 1.2;
+}
+
+.description,
+.sectionDescription {
+  margin: 12px 0 0;
+  color: var(--color-text-muted);
+  line-height: 1.65;
+}
+
+.previewLink {
+  min-height: 42px;
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-text-primary);
+  color: var(--color-text-primary);
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.initialNotice,
+.success,
+.error,
+.status,
+.empty {
+  margin-bottom: 22px;
+  padding: 18px;
+  border: 1px solid var(--color-border-light);
+}
+
+.success {
+  border-color: var(--color-text-primary);
+}
+
+.error {
+  border-color: currentColor;
+}
+
+.metadata {
+  margin-bottom: 22px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  color: var(--color-text-muted);
+  font-size: 13px;
+}
+
+.form {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.panel,
+.sectionCard {
+  min-width: 0;
+  padding: 28px;
+  border: 1px solid var(--color-border-light);
+}
+
+.panelTitle {
+  margin: 0;
+  font-size: 23px;
+  line-height: 1.3;
+}
+
+.panel > .panelTitle {
+  margin-bottom: 24px;
+}
+
+.field {
+  min-width: 0;
+}
+
+.field + .field {
+  margin-top: 22px;
+}
+
+.fieldRow {
+  margin-top: 22px;
+  display: grid;
+  grid-template-columns:
+    minmax(180px, 0.45fr)
+    minmax(0, 1fr)
+    minmax(180px, 0.45fr);
+  gap: 20px;
+}
+
+.fieldRow .field + .field {
+  margin-top: 0;
+}
+
+.orderField {
+  min-width: 0;
+}
+
+.label {
+  margin-bottom: 8px;
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  border: 1px solid var(--color-border-light);
+  border-radius: 4px;
+  color: var(--color-text-primary);
+  background-color: var(--color-background);
+  font: inherit;
+}
+
+.input {
+  min-height: 46px;
+  padding: 0 12px;
+}
+
+.textarea {
+  padding: 12px;
+  line-height: 1.65;
+  resize: vertical;
+}
+
+.input:focus,
+.textarea:focus {
+  border-color: var(--color-text-primary);
+  outline: none;
+}
+
+.helpText,
+.sectionId {
+  margin: 7px 0 0;
+  color: var(--color-text-muted);
+  font-size: 13px;
+}
+
+.checkboxLabel {
+  margin-top: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+}
+
+.sectionsArea {
+  width: 100%;
+  min-width: 0;
+}
+
+.sectionsHeader {
+  margin-bottom: 22px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.addButton,
+.removeButton,
+.submitButton {
+  min-height: 42px;
+  padding: 0 16px;
+  border: 1px solid var(--color-text-primary);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.addButton,
+.submitButton {
+  border-color: #e76523;
+  color: #fff;
+  background-color: #e76523;
+}
+
+.removeButton {
+  border-color: #c94b42;
+  color: #a92f28;
+  background-color: transparent;
+}
+
+.addButton:disabled,
+.removeButton:disabled,
+.submitButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.sectionList {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.sectionCardHeader {
+  margin-bottom: 24px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.sectionCardTitle {
+  margin: 0;
+  font-size: 20px;
+}
+
+.editorField {
+  margin-top: 24px;
+}
+
+.actions {
+  padding-bottom: 40px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.submitButton {
+  min-width: 180px;
+  min-height: 48px;
+}
+
+@media (max-width: 720px) {
+  .header,
+  .sectionsHeader,
+  .sectionCardHeader {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .panel,
+  .sectionCard {
+    padding: 20px;
+  }
+
+  .fieldRow {
+    grid-template-columns: 1fr;
+  }
+
+  .fieldRow .field + .field {
+    margin-top: 0;
+  }
+
+  .previewLink,
+  .addButton,
+  .removeButton,
+  .submitButton {
+    width: 100%;
+  }
+
+  .actions {
+    align-items: stretch;
+  }
+}
+
+.profilePreview {
+  width: 104px;
+  height: 130px;
+  margin-top: 20px;
+  display: block;
+  border: 1px solid var(--color-border-light);
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.profileImageField {
+  margin-top: 22px;
+}
+
+.profileImageControls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.profileImageUploadButton,
+.profileImageRemoveButton {
+  min-height: 42px;
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-text-primary);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.profileImageUploadButton {
+  color: var(--color-background);
+  background: var(--color-text-primary);
+}
+
+.profileImageRemoveButton {
+  border-color: #c94b42;
+  color: #a92f28;
+  background: transparent;
+}
+
+.profileImageUploadButton:has(input:disabled),
+.profileImageRemoveButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.profileImageError {
+  margin: 8px 0 0;
+  color: #b42318;
+  font-size: 13px;
+}
+
+.skillCategoryCard {
+  background: #fcfaf8;
+}
+
+.skillHeader {
+  margin: 30px 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.skillHeader h4 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.skillList {
+  display: grid;
+  gap: 14px;
+}
+
+.skillCard {
+  padding: 20px;
+  border: 1px solid var(--color-border-light);
+  background: var(--color-background);
+}
+
+.skillCardHeader {
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 13px;
+}
+
+.skillRemoveButton {
+  border: 0;
+  color: var(--color-text-muted);
+  background: transparent;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.skillGrid {
+  display: grid;
+  grid-template-columns: minmax(160px, .7fr) minmax(240px, 1.3fr) minmax(100px, .35fr);
+  gap: 16px;
+}
+
+.skillGrid .field + .field { margin-top: 0; }
+
+.skillLogoArea {
+  margin-top: 18px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.skillLogoArea img,
+.skillLogoPlaceholder {
+  width: 76px;
+  height: 76px;
+  flex: 0 0 76px;
+  border: 1px solid var(--color-border-light);
+  border-radius: 10px;
+  background: #fff;
+}
+
+.skillLogoArea img { padding: 8px; object-fit: contain; }
+.skillLogoPlaceholder { display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 11px; }
+.skillLogoActions { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; }
+.skillLogoUploadButton,
+.skillLogoRemoveButton { min-height: 38px; padding: 0 13px; display: inline-flex; align-items: center; border: 1px solid var(--color-text-primary); font: inherit; font-size: 12px; font-weight: 700; cursor: pointer; }
+.skillLogoUploadButton { color: var(--color-background); background: var(--color-text-primary); }
+.skillLogoRemoveButton { border-color: #c94b42; color: #a92f28; background: transparent; }
+.skillLogoUploadButton:has(input:disabled),.skillLogoRemoveButton:disabled { cursor: not-allowed; opacity: .55; }
+
+@media (max-width: 900px) {
+  .skillGrid { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 720px) {
+  .skillHeader,.skillCardHeader,.skillLogoArea { align-items: stretch; flex-direction: column; }
+  .skillLogoActions { align-items: stretch; flex-direction: column; }
+  .skillLogoUploadButton,.skillLogoRemoveButton { width: 100%; justify-content: center; }
+}

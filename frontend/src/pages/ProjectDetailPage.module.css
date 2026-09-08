@@ -1,0 +1,89 @@
+/**
+ * packageName    : frontend.src.pages
+ * fileName       : ProjectDetailPage.module.css
+ * author         : Song
+ * date           : 2026-07-02
+ * description    : ProjectDetailPage 스타일
+ *                  - 상세 페이지 상태와 최종 Back Link 간격 관리
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-07-02        Song       최초 생성
+ */
+
+.page {
+  --font-meta: 10px;
+  --font-label: 12px;
+  --font-ui: 14px;
+  --font-card: 16px;
+  --font-body: 18px;
+  --font-subtitle: 22px;
+  --font-section-title: 35px;
+  --font-hero-title: 50px;
+  display: block;
+  background: #fff;
+  padding-bottom: 0;
+}
+
+.status {
+  padding: 80px 0;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.error {
+  padding: 80px 0;
+  color: var(--color-danger);
+  text-align: center;
+}
+
+.backLink {
+  min-height: var(--interactive-target-min);
+  width: fit-content;
+  margin: 48px max(56px, calc((100% - 1120px) / 2)) 80px;
+  display: inline-flex;
+  align-items: center;
+  color: var(--color-text-primary);
+  font-size: var(--font-ui);
+  font-weight: var(--font-weight-heading);
+  text-decoration: none;
+}
+
+.backLink:hover {
+  color: var(--color-accent-hover);
+}
+
+.backLink:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.darkEnding {
+  background: #111;
+}
+
+.darkEnding .backLink {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.darkEnding .backLink:hover {
+  color: #ff6b00;
+}
+
+@media (max-width: 767px) {
+  .page {
+    padding-bottom: 0;
+  }
+
+  .backLink {
+    min-height: var(--interactive-target-mobile);
+    margin: 40px 22px 56px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 980px) {
+  .backLink {
+    margin-right: 32px;
+    margin-left: 32px;
+  }
+}

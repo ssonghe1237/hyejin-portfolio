@@ -1,0 +1,138 @@
+/**
+ * packageName    : frontend.src.components.project.detail
+ * fileName       : ProjectHeroImages.module.css
+ * author         : Song
+ * date           : 2026-07-02
+ * description    : ProjectHeroImages 스타일
+ *                  - Full Banner 이미지와 Carousel Control 관리
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-07-02        Song       최초 생성
+ */
+
+.hero,
+.empty {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background-color: var(--color-surface-muted);
+}
+
+.imageViewport {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.imageViewport > :first-child {
+  width: 100%;
+  height: 100% !important;
+  object-fit: cover;
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-small);
+  text-align: center;
+}
+
+.heroCaption {
+  position: absolute;
+  z-index: 5;
+  top: 24px;
+  right: 28px;
+  max-width: calc(100% - 56px);
+  margin: 0;
+  padding: 5px 8px;
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.82);
+  background: rgba(17, 17, 17, 0.24);
+  font-size: var(--font-size-caption);
+  line-height: 1.6;
+  text-align: right;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.28);
+}
+
+.heroIndicators {
+  position: absolute;
+  z-index: 6;
+  left: 50%;
+  bottom: 132px;
+  min-height: var(--interactive-target-min);
+  display: flex;
+  align-items: center;
+  transform: translateX(-50%);
+}
+
+.dot {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.dot::before {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.58);
+  content: '';
+  transition:
+    background-color var(--action-transition),
+    transform var(--action-transition);
+}
+
+.dot:hover::before {
+  transform: scale(1.2);
+}
+
+.dotActive::before {
+  background-color: var(--color-accent);
+}
+
+.dot:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: -4px;
+}
+
+@media (max-width: 767px) {
+  .heroCaption {
+    top: 18px;
+    right: 18px;
+    max-width: calc(100% - 36px);
+  }
+
+  .heroIndicators {
+    bottom: 68px;
+    min-height: var(--interactive-target-mobile);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1179px) {
+  .heroIndicators {
+    bottom: 116px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dot::before {
+    transition: none;
+  }
+
+  .dot:hover::before {
+    transform: none;
+  }
+}

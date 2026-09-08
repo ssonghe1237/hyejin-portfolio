@@ -1,0 +1,187 @@
+/**
+ * packageName    : frontend.src.components.project.detail
+ * fileName       : ProjectTechStackSection.module.css
+ * author         : Song
+ * date           : 2026-07-02
+ * description    : ProjectTechStackSection 스타일
+ *                  - Dark Category Card와 Technology Logo Grid 관리
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2026-07-02        Song       최초 생성
+ */
+
+.section {
+  padding: var(--spacing-section-desktop) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.title {
+  margin: 0 0 48px;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-display);
+  line-height: var(--line-height-heading);
+  letter-spacing: var(--letter-spacing-heading);
+  text-transform: uppercase;
+}
+
+.empty {
+  margin: 0;
+  padding: 24px 0;
+  border-top: 1px solid var(--color-border-strong);
+  color: var(--color-text-muted);
+}
+
+.categoryGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 24px;
+}
+
+.categoryGroup {
+  min-width: 0;
+  min-height: 208px;
+  padding: 28px;
+  border: 1px solid rgba(255, 111, 15, 0.12);
+  border-radius: 22px;
+  background-color: #fff0e5;
+}
+
+.categoryTitle {
+  width: fit-content;
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background-color: var(--color-accent);
+  color: var(--color-background);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-heading);
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.categoryHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.categoryIcon {
+  width: 26px;
+  height: 26px;
+  flex: 0 0 auto;
+  color: var(--color-accent);
+}
+
+.technologyList {
+  margin-top: 32px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+}
+
+.techName {
+  max-width: 100%;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-body-large);
+  font-weight: var(--font-weight-heading);
+  line-height: var(--line-height-heading);
+  overflow-wrap: anywhere;
+}
+
+.techName:not(:last-child)::after {
+  color: var(--color-accent);
+  content: ',';
+}
+
+@media (max-width: 1023px) {
+  .section {
+    padding: var(--spacing-section-tablet) 0;
+  }
+
+  .categoryGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding: var(--spacing-section-mobile) 0;
+  }
+
+  .title {
+    margin-bottom: 32px;
+  }
+
+  .categoryGrid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .categoryGroup {
+    padding: 24px;
+    min-height: 176px;
+    border-radius: 20px;
+  }
+}
+
+.section { padding: 96px 68px; }
+.kicker {
+  width: fit-content;
+  margin: 0 0 20px;
+  padding: 8px 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 999px;
+  color: #d85f00;
+  background: #fff0e4;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: var(--font-label);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.kicker::before { width:6px;height:6px;flex:0 0 auto;border-radius:50%;content:'';background:#ff6b00; }
+.title { font-size: var(--font-section-title); }
+.categoryGroup { background: #faf8f5; border-color: #ece5df; }
+.categoryTitle { color:#d85f00; background:#fff0e4; font-size:var(--font-label); }
+.techName { font-size: var(--font-card); }
+
+@media (max-width: 1179px) {
+  .section { padding: 88px 48px; }
+  .title { font-size: 31px; }
+}
+
+@media (max-width: 767px) {
+  .section { padding: 72px 22px; }
+  .title { font-size: 28px; }
+}
+
+/* Shared detail measure: technology cards use the same wide desktop column as Work. */
+.section { padding: 96px 56px; }
+.section > .kicker,
+.section > .title,
+.section > .empty,
+.section > .categoryGrid {
+  width: min(100%, 1120px);
+  margin-right: auto;
+  margin-left: auto;
+}
+.title { font-size: var(--font-section-title); line-height: 1.18; letter-spacing: -.045em; }
+.categoryGrid { gap: 18px; }
+.categoryGroup { min-height: 0; padding: 28px; background: #faf8f5; border-color: #ece5df; }
+.technologyList { margin-top: 26px; gap: 10px 12px; }
+.techName { font-size: var(--font-card); line-height: 1.45; overflow-wrap: anywhere; }
+
+@media (max-width: 1179px) {
+  .section { padding: 88px 32px; }
+}
+
+@media (max-width: 767px) {
+  .section { padding: 72px 22px; }
+  .title { font-size: 28px; }
+  .categoryGroup { min-height: 0; }
+}

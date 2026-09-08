@@ -1,0 +1,33 @@
+# ============================================================
+# Frontend Docker Build Context 제외 설정
+# ============================================================
+
+
+# dependency
+# 개발자 로컬 PC(Window)와 Docker(Linux) 내부 OS 불일치를 막기 위해
+node_modules/
+
+
+# 기존 로컬 build 결과
+dist/
+
+
+# Git
+.git/
+.gitignore
+
+
+# IDE
+.idea/
+.vscode/
+
+
+# 환경변수
+.env
+.env.*
+
+
+# 로그
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
